@@ -43,4 +43,8 @@ class App < Sinatra::Base
   get "/visits" do
     erb :visits
   end
+
+  get "/trust" do
+    erb :trust
+  end
 end
