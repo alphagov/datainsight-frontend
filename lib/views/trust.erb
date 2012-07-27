@@ -1,64 +1,118 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <head>
+  <script src="/javascripts/jquery-1.7.js"></script>
+  <script src="/javascripts/d3.v2.js"></script>
+  <script src="/javascripts/trust.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      var govukdata = [5,5,10,65,15];
+      trust_barchart("govukchart", govukdata);
+      var directgovdata = [2,3,35,45,15];
+      trust_barchart("directgovchart", directgovdata);
+      var businesslinkdata = [33,23,27,12,5];
+      trust_barchart("businesslinkchart", businesslinkdata);
+
+      trust_circle("govukcircle", govukdata, "GOV.UK");
+      trust_circle("directgovcircle", directgovdata, "Direct.Gov");
+      trust_circle("businesslinkcircle", businesslinkdata, "Business Link");
+    })
+  </script>
+
   <style>
 
+    #trust{
+      margin-left: 41px;
+      margin-right: 41px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
 
+    .row {
+      width: 100%;
+      float: left;
+    }
+
+    .trustheader {
+      height: 120px;
+      width: 260px;
+    }
+
+    .trustcircle .trustcharts {
+      height: 150px;
+    }
+
+    .trustcharts {
+      text-align: left;
+    }
+
+    .empty {
+      float: left;
+      height: 42px;
+    }
+
+
+    .halfwidth {
+      width: 462px;
+      height: 462px;
+    }
+
+    .tinyinfo {
+      color: #2975BC;
+      font-family: "NTA-Light", Helvetica, Arial, sans-serif;
+    }
+
+    .circleblock  {
+      width: 100px;
+      height: 150px;
+      margin-right: 40px;
+      float: left;
+    }
+
+    .chartblock  {
+      width: 100px;
+      height: 150px;
+      margin-right: 40px;
+      float: left;
+    }
+
+    .label {
+      font-size: 12px;
+    }
   </style>
 </head>
 <body>
-<script src="/javascripts/jquery-1.7.js"></script>
-<script src="/javascripts/d3.v2.js"></script>
 
-<script>
+<div class="container">
+  <div class="row">
+    <div id="trust" class="halfwidth">
 
-  var govukdata = [5,5,10,65,15];
-  var directgovdata = [2,3,35,45,15];
-  var businesslinkdata = [33,23,27,12,5];
+      <div class="trustheader">
+        <span>"How much do you trust the information on this site?"</span>
+        <br/>
+        <span class="tinyinfo">(1 is not at all, 5 is completely)</span>
+      </div>
 
-  var margin = {top:40,right:41,bottom:40,left:41};
-  var width = 462, height = 400;
+      <div class="trustcircle">
+        <p>Average</p>
+        <div id="govukcircle" class="circleblock"></div>
+        <div id="directgovcircle" class="circleblock"></div>
+        <div id="businesslinkcircle" class="circleblock"></div>
+      </div>
 
 
-  var blockwidth=100, blockheight=120;
-  var blockpadding = 42;
+      <div class="empty"/>
 
-  var barwidth = 15;
+      <div class="trustcharts">
+        <p>Detail</p>
+        <div id="govukchart" class="chartblock"></div>
+        <div id="directgovchart" class="chartblock"></div>
+        <div id="businesslinkchart" class="chartblock"></div>
+      </div>
 
-  var x = d3.scale.linear()
-    .domain([0, govukdata.length])
-    .rangeRound([0, blockwidth]);
-
-  var y = d3.scale.linear()
-    .domain([0, d3.max(govukdata)])
-    .rangeRound([0,blockheight]);
-
-  var svg = d3.select("body")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-  svg.selectAll(".govukbar")
-    .data(govukdata)
-    .enter().append("rect")
-    .attr("class", "govukbar")
-    .attr("x", function(datum, index) {return x(index);})
-    .attr("y", function(datum) {return height - y(datum) - margin.bottom;})
-    .attr("width", barwidth)
-    .attr("height", function(datum) {return y(datum);});
-
-  svg.selectAll("text")
-    .data(govukdata)
-    .enter().append("svg:text")
-    .attr("x", function(datum, index) { if (index == 0 || index == (govukdata.length - 1)) return x(index) + barwidth;})
-    .attr("y", function(datum) {return height - margin.bottom;})
-    .attr("dx", -barwidth/2)
-    .attr("dy", "1.2em")
-    .attr("text-anchor", "middle")
-    .text(function(datum, index) { if (index == 0 || index == (govukdata.length - 1)) return index + 1;});
-
-</script>
-
+    </div>
+  </div>
+</div>
 </body>
 
 </html>
