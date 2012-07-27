@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <style>
+
+
+  </style>
+</head>
+<body>
+<script src="/javascripts/jquery-1.7.js"></script>
+<script src="/javascripts/d3.v2.js"></script>
+
+<script>
+
+  var govukdata = [5,5,10,65,15];
+  var directgovdata = [2,3,35,45,15];
+  var businesslinkdata = [33,23,27,12,5];
+
+  var margin = {top:40,right:41,bottom:40,left:41};
+  var width = 462, height = 400;
+
+
+  var blockwidth=100, blockheight=120;
+  var blockpadding = 42;
+
+  var barwidth = 15;
+
+  var x = d3.scale.linear()
+    .domain([0, govukdata.length])
+    .rangeRound([0, blockwidth]);
+
+  var y = d3.scale.linear()
+    .domain([0, d3.max(govukdata)])
+    .rangeRound([0,blockheight]);
+
+  var svg = d3.select("body")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  svg.selectAll(".govukbar")
+    .data(govukdata)
+    .enter().append("rect")
+    .attr("class", "govukbar")
+    .attr("x", function(datum, index) {return x(index);})
+    .attr("y", function(datum) {return height - y(datum) - margin.bottom;})
+    .attr("width", barwidth)
+    .attr("height", function(datum) {return y(datum);});
+
+  svg.selectAll("text")
+    .data(govukdata)
+    .enter().append("svg:text")
+    .attr("x", function(datum, index) { if (index == 0 || index == (govukdata.length - 1)) return x(index) + barwidth;})
+    .attr("y", function(datum) {return height - margin.bottom;})
+    .attr("dx", -barwidth/2)
+    .attr("dy", "1.2em")
+    .attr("text-anchor", "middle")
+    .text(function(datum, index) { if (index == 0 || index == (govukdata.length - 1)) return index + 1;});
+
+</script>
+
+</body>
+
+</html>
+
+
+
