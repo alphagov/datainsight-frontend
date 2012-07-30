@@ -6,3 +6,66 @@
     font-weight: normal;
     font-style: normal;
 }
+
+body {
+    font-family: nta, arial, sans-serif;
+    font-size: 19px;
+}
+
+.info {
+    background: #fff url('/images/information.png') no-repeat left;
+    width: 32px;
+    height: 27px;
+    float: left;
+}
+
+/* Layout */
+.module {
+    width: 100%;
+    margin: 0;
+    position: relative;
+}
+
+.row {
+    margin-top: 36px;
+}
+
+/* Typography */
+.small-text {
+    font-size: 14px;
+}
+
+.medium-text {
+    font-size: 19px;
+}
+
+.large-text {
+    font-size: 60px;
+}
+
+strong {
+    color: #c61c71;
+    font-weight: normal;
+}
+
+/* todo: consider removing */
+.live-at {
+    color: #2975bc;
+    font-weight: bold;
+}
+
+
+/* Module Specific */
+#narrative {
+    padding: 36px;
+    background-color: #E1E8E7;
+    font-weight: bold;
+}
+
+#narrative .green {
+    color: #a0c184;
+}
+
+#narrative .red {
+    color: #C76674;
+}
