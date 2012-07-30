@@ -4,7 +4,7 @@ gem "sinatra", "1.3.2", :require => "sinatra/base"
 gem "rack", "1.4.1"
 gem "json"
 gem "unicorn"
-#gem 'sinatra-content-for', '0.1'
+gem 'sinatra-content-for', '0.1'
 
 group :test do
   #gem "rack-test"

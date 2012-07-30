@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="/stylesheets/main.css"/>
+<% content_for :head do %>
   <style type="text/css">
-    body {
-      font-family: NTA;
-      font-size: 14px;
-    }
-    #visits {
-      margin-left: 500px;
-    }
     path {
       fill: none;
     }
@@ -32,8 +22,6 @@
     }
 
   </style>
-  <script type="text/javascript" src="/javascripts/jquery-1.7.2.js"></script>
-  <script type="text/javascript" src="/javascripts/d3.v2.js"></script>
   <script type="text/javascript">
     $(function() {
       d3.json("/visits.json", function(data){
@@ -120,8 +108,8 @@
       });
     });
   </script>
-</head>
-<body>
+<% end %>
+
 <svg style="width: 0; height: 0">
 <defs>
   <linearGradient id="spike-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -132,8 +120,4 @@
   </linearGradient>
 </defs>
 </svg>
-<div id="visits">
-
-</div>
-</body>
-</html>
+<div id="visits"></div>

@@ -1,9 +1,9 @@
 require "bundler"
 Bundler.require
-#require 'sinatra/content_for'
+require 'sinatra/content_for'
 
 class App < Sinatra::Base
-  #helpers Sinatra::ContentFor
+  helpers Sinatra::ContentFor
 
   configure :development do
   end

@@ -48,6 +48,10 @@ strong {
     font-weight: normal;
 }
 
+svg {
+    font-size: 14px;
+}
+
 /* todo: consider removing */
 .live-at {
     color: #2975bc;
