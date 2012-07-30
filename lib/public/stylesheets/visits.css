@@ -1,0 +1,20 @@
+path {
+    fill: none;
+}
+path.govuk {
+    stroke: url(#spike-gradient);
+    stroke-width: 5;
+}
+
+path.directgov {
+    stroke: #8b5d3b;
+    stroke-width: 2;
+    stroke-dasharray: 2, 1;
+}
+
+path.businesslink {
+    stroke: #662d91;
+    stroke-width: 2;
+    stroke-dasharray: 2, 1;
+
+}
