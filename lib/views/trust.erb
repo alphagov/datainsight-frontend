@@ -6,6 +6,7 @@
   <script src="/javascripts/trust.js"></script>
   <script type="text/javascript">
     $(function() {
+      trust_legend("trustlegend");
       var govukdata = [5,5,10,65,15];
       trust_barchart("govukchart", govukdata);
       var directgovdata = [2,3,35,45,15];
@@ -35,11 +36,22 @@
 
     .trustheader {
       height: 120px;
+      width: 380px;
+    }
+
+    .left {
       width: 260px;
+    }
+
+    .right {
+      height: 120px;
+      width: 120px;
+      float: right;
     }
 
     .trustcircle .trustcharts {
       height: 150px;
+      float: left;
     }
 
     .trustcharts {
@@ -88,10 +100,15 @@
     <div id="trust" class="halfwidth">
 
       <div class="trustheader">
-        <span>"How much do you trust the information on this site?"</span>
-        <br/>
-        <span class="tinyinfo">(1 is not at all, 5 is completely)</span>
+        <div id="trustlegend" class="right"></div>
+        <span class="left">
+          <span>"How much do you trust the information on this site?"</span>
+          <br/>
+          <span class="tinyinfo">(1 is not at all, 5 is completely)</span>
+        </span>
+
       </div>
+
 
       <div class="trustcircle">
         <p>Average</p>
