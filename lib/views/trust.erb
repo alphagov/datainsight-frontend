@@ -22,35 +22,35 @@
 
   <style>
 
-    #trust{
-      margin-left: 41px;
-      margin-right: 41px;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
+    /*#trust{*/
+      /*margin-left: 41px;*/
+      /*margin-right: 41px;*/
+      /*margin-top: 20px;*/
+      /*margin-bottom: 20px;*/
+    /*}*/
 
-    .row {
-      width: 100%;
-      float: left;
-    }
+    /*.row {*/
+      /*width: 100%;*/
+      /*float: left;*/
+    /*}*/
 
     .trustheader {
-      height: 120px;
+      height: 60px;
       width: 380px;
     }
 
-    .left {
+    .innerleft {
       width: 260px;
     }
 
-    .right {
+    .innerright {
       height: 120px;
       width: 120px;
       float: right;
     }
 
     .trustcircle .trustcharts {
-      height: 150px;
+      height: 100px;
       float: left;
     }
 
@@ -64,10 +64,10 @@
     }
 
 
-    .halfwidth {
-      width: 462px;
-      height: 462px;
-    }
+    /*.halfwidth {*/
+      /*width: 462px;*/
+      /*height: 462px;*/
+    /*}*/
 
     .tinyinfo {
       color: #2975BC;
@@ -76,32 +76,31 @@
 
     .circleblock  {
       width: 100px;
-      height: 150px;
+      height: 100px;
       margin-right: 40px;
       float: left;
     }
 
     .chartblock  {
       width: 100px;
-      height: 150px;
+      height: 100px;
       margin-right: 40px;
       float: left;
     }
 
-    .label {
-      font-size: 12px;
-    }
+    /*.label {*/
+      /*font-size: 12px;*/
+    /*}*/
   </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="row">
-    <div id="trust" class="halfwidth">
+<div class="module" style="min-height: 400px">
+  <div id="trust">
 
       <div class="trustheader">
-        <div id="trustlegend" class="right"></div>
-        <span class="left">
+        <div id="trustlegend" class="innerright"></div>
+        <span class="innerleft">
           <span>"How much do you trust the information on this site?"</span>
           <br/>
           <span class="tinyinfo">(1 is not at all, 5 is completely)</span>
@@ -110,22 +109,21 @@
       </div>
 
 
-      <div class="trustcircle">
-        <p>Average</p>
+      <!--<div class="trustcircle">-->
+    <div class="empty"/>
+        <div class="small-text">Average</div>
         <div id="govukcircle" class="circleblock"></div>
         <div id="directgovcircle" class="circleblock"></div>
         <div id="businesslinkcircle" class="circleblock"></div>
-      </div>
+      <!--</div>-->
 
 
       <div class="empty"/>
 
-      <div class="trustcharts">
-        <p>Detail</p>
+        <div class="small-text">Detail</div>
         <div id="govukchart" class="chartblock"></div>
         <div id="directgovchart" class="chartblock"></div>
         <div id="businesslinkchart" class="chartblock"></div>
-      </div>
 
     </div>
   </div>
