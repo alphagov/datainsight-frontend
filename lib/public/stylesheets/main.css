@@ -56,6 +56,18 @@ svg {
     color: #2975bc;
 }
 
+.module-header {
+    margin:0;
+}
+
+.module-header > div {
+    float: left;
+    margin-top: 8px;
+}
+
+.module-header .info {
+    margin-top: 0;
+}
 
 /* Module Specific */
 #narrative {
