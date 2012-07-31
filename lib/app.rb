@@ -47,4 +47,10 @@ class App < Sinatra::Base
   get "/trust" do
     erb :trust
   end
+
+  get "/reach" do
+    erb :reach
+  end
+
+
 end

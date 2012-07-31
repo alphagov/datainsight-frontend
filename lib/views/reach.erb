@@ -1,3 +1,20 @@
+<% content_for :head do %>
+  <script src="/javascripts/reach.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      var unique_visitors = [7500, 8730, 6705, 3200, 5490, 4567, 6108, 3780, 5670, 17565, 11234, 10237, 6700, 8700, 3400, 11002, 6321];
+      plot_traffic("reach", unique_visitors);
+    })
+  </script>
+
+  <style>
+    #reach {
+      width: 960px;
+      height: 300px;
+    }
+  </style>
+<% end %>
+
 <div class="module" style="min-height: 300px">
   <div class="info"></div>
   <div class="left">
