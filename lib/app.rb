@@ -37,7 +37,7 @@ class App < Sinatra::Base
       end
     end
     content_type :json
-    type = (params[:type] || :before).to_sym
+    type = (params[:type] || :after).to_sym
     start_date = Date.today.prev_month(6)
     end_date   = Date.today
     maker = Maker.new(start_date, end_date)
@@ -52,9 +52,17 @@ class App < Sinatra::Base
       response[:directgov] = maker.make {|i| i < 26 ? 2000000 + (rand * 2000000).to_i : 0 }
       response[:businesslink] = maker.make {|i| i < 26 ? 100000 + (rand * 300000).to_i : 0}
     when :after
-      response[:govuk] = maker.make { 3000000 + (rand * 2000000).to_i }
-      response[:directgov] = maker.make { 0 }
-      response[:businesslink] = maker.make { 0 }
+      response[:govuk] = maker.make do |i|
+        if i < 15
+          500 + (rand * 1000).to_i
+        elsif i == 22
+          2500000
+        else
+          4000000 + (rand * 1000000).to_i
+        end
+      end
+      response[:directgov] = maker.make {|i| i < 15 ? 2000000 + (rand * 2000000).to_i : 0 }
+      response[:businesslink] = maker.make {|i| i < 15 ? 100000 + (rand * 300000).to_i : 0}
     end
 
     response.to_json
