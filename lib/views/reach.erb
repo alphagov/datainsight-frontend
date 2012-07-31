@@ -3,7 +3,10 @@
   <script type="text/javascript">
     $(function() {
       var unique_visitors = [7500, 8730, 6705, 3200, 5490, 4567, 6108, 3780, 5670, 17565, 11234, 10237, 6700, 8700, 3400, 11002, 6321];
-      plot_traffic("reach", unique_visitors);
+      var yesterdays_data=[7500, 8730, 6705, 3200, 5490, 4567, 6108, 3780, 5670, 17565, 11234, 10237, 6700, 8700, 3400, 11002, 6321,
+        8999, 3456, 5000, 5345, 7000, 7600, 4500, 6500];
+      plot_traffic("reach", unique_visitors, yesterdays_data);
+      plot_legend("yesterday");
     })
   </script>
 
@@ -20,6 +23,15 @@
   </style>
 <% end %>
 
+<svg style="width: 0; height: 0">
+<defs>
+  <linearGradient id="gradient_for_yesterday" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#CCCCCC;stop-opacity:1" />
+    <stop offset="100%" style="stop-color:white;stop-opacity:1" />
+  </linearGradient>
+</defs>
+  <svg style="width: 0; height: 0">
+
 <div class="module" style="min-height: 300px">
   <div class="info"></div>
   <div class="left">
@@ -28,7 +40,14 @@
   </div>
   <div class="right small-text">
     <span class="blue-text">LIVE AT</span> Tuesday 24th July, 16:30
+    <div>
+      <div class="right" id="yesterday" style="width: 13px; height: 13px; margin-left: 8px;margin-top: 8px;">
+
+      </div>
+      <div class="small-text right" style="margin-top: 8px;">Yesterday</div>
+    </div>
   </div>
+
   <div style="clear: both"></div>
   <div id="reach"></div>
 </div>
