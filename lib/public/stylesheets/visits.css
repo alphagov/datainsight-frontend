@@ -2,7 +2,7 @@ path {
     fill: none;
 }
 path.govuk {
-    stroke: url(#spike-gradient);
+    stroke: url(#spike-gradient) #c4c4c4;
     stroke-width: 5;
 }
 
