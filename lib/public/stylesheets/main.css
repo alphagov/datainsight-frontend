@@ -56,6 +56,17 @@ svg {
     color: #2975bc;
 }
 
+.purple-text {
+    color: #662d91;
+    fill: #662d91;
+}
+
+.brown-text {
+    color: #8b5d3b;
+    fill: #8b5d3b;
+}
+
+
 .module-header {
     margin:0;
 }

@@ -23,20 +23,40 @@ class App < Sinatra::Base
   end
 
   get "/visits.json" do
+
+    class Maker
+      def initialize(start_date, end_date)
+        @start_date = start_date
+        @end_date = end_date
+      end
+
+      def make(&code)
+        (@start_date..@end_date).step(7).each_with_index.map do |date, i|
+          {:date => date, :visits => code.call(i, date)}
+        end
+      end
+    end
     content_type :json
+    type = (params[:type] || :before).to_sym
     start_date = Date.today.prev_month(6)
-    #start_date = Date.new(start_date.year, start_date.month, 1)
     end_date   = Date.today
+    maker = Maker.new(start_date, end_date)
     response = {}
-    response["govuk"] = (start_date..end_date).step(7).map do |date|
-      {"date" => date, "visits" => 1000000 + (rand * 4000000).to_i }
+    case type
+    when :before
+      response[:govuk] = maker.make { 500 + (rand * 1000).to_i }
+      response[:directgov] = maker.make { 2000000 + (rand * 2000000).to_i }
+      response[:businesslink] = maker.make { 100000 + (rand * 300000).to_i }
+    when :during
+      response[:govuk] = maker.make {|i| i < 26 ? 500 + (rand * 1000).to_i : 3000000 + (rand * 2000000).to_i}
+      response[:directgov] = maker.make {|i| i < 26 ? 2000000 + (rand * 2000000).to_i : 0 }
+      response[:businesslink] = maker.make {|i| i < 26 ? 100000 + (rand * 300000).to_i : 0}
+    when :after
+      response[:govuk] = maker.make { 3000000 + (rand * 2000000).to_i }
+      response[:directgov] = maker.make { 0 }
+      response[:businesslink] = maker.make { 0 }
     end
-    response["directgov"] = (start_date..end_date).step(7).map do |date|
-      {"date" => date, "visits" => 500000 + (rand * 2500000).to_i }
-    end
-    response["businesslink"] = (start_date..end_date).step(7).map do |date|
-      {"date" => date, "visits" => 300000 + (rand * 700000).to_i }
-    end
+
     response.to_json
   end
 
