@@ -56,6 +56,20 @@ svg {
     color: #2975bc;
 }
 
+.purple-text {
+    color: #662d91;
+    fill: #662d91;
+}
+
+.brown-text {
+    color: #8b5d3b;
+    fill: #8b5d3b;
+}
+
+.gray-text {
+    color: #808285;
+}
+
 .module-header {
     margin:0;
 }
@@ -82,4 +96,34 @@ svg {
 
 #narrative .red {
     color: #C76674;
+}
+
+.module-inner-left {
+    width: 260px;
+    float: left;
+}
+
+.module-inner-right {
+    height: 60px;
+    width: 100px;
+    float: right;
+    margin-right: 55px;
+}
+
+.graph-section-block {
+    width: 100px;
+    height: 100px;
+    margin-right: 40px;
+    text-align: center;
+    float: left;
+}
+
+.graph-section-title {
+    height: 42px;
+    position: relative;
+}
+
+.graph-section-title * {
+    bottom: 2px;
+    position: absolute;
 }
