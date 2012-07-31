@@ -5,128 +5,89 @@
   <script src="/javascripts/d3.v2.js"></script>
   <script src="/javascripts/trust.js"></script>
   <script type="text/javascript">
-    $(function() {
-      trust_legend("trustlegend");
-      var govukdata = [5,5,10,65,15];
-      trust_barchart("govukchart", govukdata);
-      var directgovdata = [2,3,35,45,15];
-      trust_barchart("directgovchart", directgovdata);
-      var businesslinkdata = [33,23,27,12,5];
-      trust_barchart("businesslinkchart", businesslinkdata);
+      $(function () {
+          var govukdata = [25, 10, 15, 35, 15];
+          trust_barchart("govukchart", govukdata);
+          var directgovdata = [20, 5, 35, 25, 15];
+          trust_barchart("directgovchart", directgovdata);
+          var businesslinkdata = [33, 23, 27, 12, 5];
+          trust_barchart("businesslinkchart", businesslinkdata);
 
-      trust_circle("govukcircle", govukdata, "GOV.UK");
-      trust_circle("directgovcircle", directgovdata, "Direct.Gov");
-      trust_circle("businesslinkcircle", businesslinkdata, "Business Link");
-    })
+          trust_circle("govukcircle", govukdata, "GOV.UK");
+          trust_circle("directgovcircle", directgovdata, "Direct.Gov");
+          trust_circle("businesslinkcircle", businesslinkdata, "Business Link");
+      })
   </script>
 
   <style>
 
-    /*#trust{*/
-      /*margin-left: 41px;*/
-      /*margin-right: 41px;*/
-      /*margin-top: 20px;*/
-      /*margin-bottom: 20px;*/
-    /*}*/
-
-    /*.row {*/
-      /*width: 100%;*/
-      /*float: left;*/
-    /*}*/
-
-    .trustheader {
-      height: 60px;
-      width: 380px;
-    }
-
-    .innerleft {
-      width: 260px;
-    }
-
-    .innerright {
-      height: 120px;
-      width: 120px;
-      float: right;
-    }
-
-    .trustcircle .trustcharts {
-      height: 100px;
-      float: left;
-    }
-
-    .trustcharts {
-      text-align: left;
-    }
-
-    .empty {
-      float: left;
-      height: 42px;
-    }
-
-
-    /*.halfwidth {*/
-      /*width: 462px;*/
-      /*height: 462px;*/
-    /*}*/
-
-    .tinyinfo {
-      color: #2975BC;
-      font-family: "NTA-Light", Helvetica, Arial, sans-serif;
-    }
-
-    .circleblock  {
-      width: 100px;
-      height: 100px;
-      margin-right: 40px;
-      float: left;
-    }
-
-    .chartblock  {
-      width: 100px;
-      height: 100px;
-      margin-right: 40px;
-      float: left;
-    }
-
-    /*.label {*/
-      /*font-size: 12px;*/
-    /*}*/
   </style>
 </head>
 <body>
 
-<div class="module" style="min-height: 400px">
+<div class="module" style="min-height: 300px">
   <div id="trust">
+    <div class="info"></div>
+    <div class="left" style="margin-top: 13px">
+      <div class="small-text">Trust</div>
+    </div>
+    <br style="clear: both"/>
 
-      <div class="trustheader">
-        <div id="trustlegend" class="innerright"></div>
-        <span class="innerleft">
+    <div style="margin-left: 32px; margin-top: 2px">
+      <div>
+        <div class="module-inner-left">
           <span>"How much do you trust the information on this site?"</span>
           <br/>
-          <span class="tinyinfo">(1 is not at all, 5 is completely)</span>
-        </span>
-
+          <span class="small-text blue-text">(1 is not at all, 5 is completely)</span>
+        </div>
+        <div id="trustlegend" class="module-inner-right">
+          <div>
+            <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #74B74A"></div>
+            <div class="small-text right">More</div>
+          </div>
+          <br style="clear: both" />
+          <div>
+            <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #BF1E2D"></div>
+            <div class="small-text right">Less</div>
+          </div>
+        </div>
       </div>
 
+      <br style="clear: both"/>
 
-      <!--<div class="trustcircle">-->
-    <div class="empty"/>
-        <div class="small-text">Average</div>
-        <div id="govukcircle" class="circleblock"></div>
-        <div id="directgovcircle" class="circleblock"></div>
-        <div id="businesslinkcircle" class="circleblock"></div>
-      <!--</div>-->
+      <div class="small-text gray-text graph-section-title">
+        <div>Average</div>
+      </div>
+      <div>
+        <div class="graph-section-block">
+          <div id="govukcircle"></div>
+          <div class="small-text">GOV.UK</div>
+        </div>
+        <div class="graph-section-block">
+          <div id="directgovcircle"></div>
+          <div class="small-text">Direct.Gov</div>
+        </div>
+        <div class="graph-section-block">
+          <div id="businesslinkcircle"></div>
+          <div class="small-text">Business Link</div>
+        </div>
+      </div>
 
+      <br style="clear: both"/>
 
-      <div class="empty"/>
+      <div class="small-text gray-text graph-section-title">
+        <div>Detail</div>
+      </div>
 
-        <div class="small-text">Detail</div>
-        <div id="govukchart" class="chartblock"></div>
-        <div id="directgovchart" class="chartblock"></div>
-        <div id="businesslinkchart" class="chartblock"></div>
-
+      <div>
+        <div id="govukchart" class="graph-section-block"></div>
+        <div id="directgovchart" class="graph-section-block"></div>
+        <div id="businesslinkchart" class="graph-section-block"></div>
+      </div>
+      <br style="clear: both"/>
     </div>
   </div>
+</div>
 </div>
 </body>
 
