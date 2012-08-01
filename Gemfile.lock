@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/songkick/transport.git
+  revision: 01c4c220288ca88a608998941eeae499e30dc997
+  specs:
+    songkick-transport (0.1.1)
+      multipart-post (>= 1.1.0)
+      yajl-ruby (>= 1.1.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -7,6 +15,7 @@ GEM
       ffi (~> 1.0.6)
     ci_reporter (1.7.0)
       builder (>= 2.1.2)
+    curb (0.8.1)
     diff-lcs (1.1.3)
     ffi (1.0.11)
     jasmine (1.1.2)
@@ -20,6 +29,7 @@ GEM
     libwebsocket (0.1.3)
       addressable
     multi_json (1.3.6)
+    multipart-post (1.1.5)
     nokogiri (1.5.5)
     rack (1.4.1)
     rack-protection (1.2.0)
@@ -51,12 +61,14 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   ci_reporter
+  curb
   jasmine
   json
   nokogiri
@@ -65,4 +77,5 @@ DEPENDENCIES
   rspec (= 2.10.0)
   sinatra (= 1.3.2)
   sinatra-content-for (= 0.1)
+  songkick-transport!
   unicorn

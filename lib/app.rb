@@ -1,9 +1,13 @@
 require "bundler"
 Bundler.require
 require 'sinatra/content_for'
+require_relative "helpers"
+require_relative "api"
 
 class App < Sinatra::Base
   helpers Sinatra::ContentFor
+  helpers Insight::Helpers
+  include Insight::API
 
   configure :development do
   end
@@ -14,36 +18,23 @@ class App < Sinatra::Base
   configure :test do
   end
 
-  helpers do
-    def narrative
-      text = '<narrative>"Response time is <green>20% better</green> than last year but influencer..." sentiment is <red>down 24%</red>..."</narrative>'
-      Nokogiri::XML(text).xpath("./*").children.map { |e|
-        case e.node_name
-        when "red"
-          "<span class='red'>#{e.text}</span>" 
-        when "green"
-          "<span class='green'>#{e.text}</span>" 
-        else
-          e.text
-        end
-      }.join
-    end
-  end
-
   get "/" do
     redirect to "/engagement"
   end
 
   get "/engagement" do
+    @narrative = api.narrative["content"]
+
     erb :engagement
   end
 
   get "/narrative" do
+    @narrative = api.narrative["content"]
+
     erb :narrative
   end
 
   get "/visits.json" do
-
     class Maker
       def initialize(start_date, end_date)
         @start_date = start_date
