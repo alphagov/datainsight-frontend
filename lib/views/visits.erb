@@ -1,6 +1,29 @@
 <% content_for :head do %>
-  <link rel="stylesheet" href="/stylesheets/visits.css">
   <script type="text/javascript" src="/javascripts/visits.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      var graph = GOVUK.Insights.sixMonthTimeSeries("/visits.json", "#visits", {
+          "series": {
+            "govuk": {
+              "lineClass": "main-line",
+              "legendClass": "",
+              "legend": "GOV.UK"
+            },
+            "directgov": {
+              "lineClass": "dashed-line brown",
+              "legendClass": "brown-text",
+              "legend": "Directgov"
+            },
+            "businesslink": {
+              "lineClass": "dashed-line purple",
+              "legendClass": "purple-text",
+              "legend": "BusinessLink"
+            }
+          }
+        });
+      graph.render();
+    });
+  </script>
 <% end %>
 
 <svg style="width: 0; height: 0">

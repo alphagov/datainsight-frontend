@@ -30,6 +30,19 @@ body {
     margin-top: 36px;
 }
 
+.module-header {
+    margin:0;
+}
+
+.module-header > div {
+    float: left;
+    margin-top: 8px;
+}
+
+.module-header .info {
+    margin-top: 0;
+}
+
 /* Typography */
 .small-text {
     font-size: 14px;
@@ -70,17 +83,27 @@ svg {
     color: #808285;
 }
 
-.module-header {
-    margin:0;
+/* Graphs */
+path {
+    fill: none;
+}
+path.dashed-line {
+    stroke-width: 2;
+    stroke-dasharray: 2, 1;
 }
 
-.module-header > div {
-    float: left;
-    margin-top: 8px;
+/* main focus line for a time series */
+path.main-line {
+    stroke: url(#spike-gradient) #c4c4c4;
+    stroke-width: 5;
 }
 
-.module-header .info {
-    margin-top: 0;
+path.brown {
+    stroke: #8b5d3b;
+}
+
+path.purple {
+    stroke: #662d91;
 }
 
 /* Module Specific */

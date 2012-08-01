@@ -32,7 +32,7 @@ class App < Sinatra::Base
 
       def make(&code)
         (@start_date..@end_date).step(7).each_with_index.map do |date, i|
-          {:date => date, :visits => code.call(i, date)}
+          {:date => date, :value => code.call(i, date)}
         end
       end
     end
