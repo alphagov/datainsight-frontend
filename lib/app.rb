@@ -65,8 +65,8 @@ class App < Sinatra::Base
       response[:businesslink] = maker.make {|i| i < 15 ? 100000 + (rand * 300000).to_i : 0}
     end
 
-    response[:highlight_spikes] = false
-    response[:highlight_troughs] = true
+    response[:highlight_spikes] = true
+    response[:highlight_troughs] = false
     response.to_json
   end
 
