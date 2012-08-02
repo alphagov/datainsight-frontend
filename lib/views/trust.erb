@@ -6,16 +6,10 @@
   <script src="/javascripts/trust.js"></script>
   <script type="text/javascript">
       $(function () {
-          var govukdata = [25, 60, 5, 5, 5];
-          trust_barchart("govukchart", govukdata);
-          var directgovdata = [5, 5, 5, 65, 25];
-          trust_barchart("directgovchart", directgovdata);
-          var businesslinkdata = [33, 23, 27, 12, 5];
-          trust_barchart("businesslinkchart", businesslinkdata);
-
-          trust_circle("govukcircle", govukdata);
-          trust_circle("directgovcircle", directgovdata);
-          trust_circle("businesslinkcircle", businesslinkdata);
+          <% @trust.keys.each do |site| %>
+            trust_barchart("<%= "#{site}chart" %>", <%= @trust[site]["votes"] %>);
+            trust_circle("<%= "#{site}circle" %>", <%= @trust[site]["trustLevel"] %>);
+          <% end %>
       })
   </script>
 

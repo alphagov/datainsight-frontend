@@ -24,13 +24,13 @@ class App < Sinatra::Base
 
   get "/engagement" do
     @narrative = api.narrative["content"]
+    @trust = api.user_trust
 
     erb :engagement
   end
 
   get "/narrative" do
     @narrative = api.narrative["content"]
-
     erb :narrative
   end
 
@@ -95,6 +95,8 @@ class App < Sinatra::Base
   end
 
   get "/trust" do
+    @trust = api.user_trust
+
     erb :trust
   end
 
