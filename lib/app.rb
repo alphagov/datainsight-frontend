@@ -85,13 +85,13 @@ class App < Sinatra::Base
     erb :visits
   end
 
-  get "/unique-users.json" do
+  get "/unique-visitors.json" do
     content_type :json
-    api.unique_users.to_json
+    api.unique_visitors.to_json
   end
 
-  get "/unique-users" do
-    erb :unique_users
+  get "/unique-visitors" do
+    erb :unique_visitors
   end
 
   get "/trust" do
