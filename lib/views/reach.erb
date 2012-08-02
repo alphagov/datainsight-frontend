@@ -5,7 +5,9 @@
       var unique_visitors = [7500, 8730, 6705, 3200, 5490, 4567, 6108, 3780, 5670, 17565, 11234, 10237, 6700, 8700, 3400, 11002, 6321];
       var yesterdays_data=[7500, 8730, 6705, 3200, 5490, 4567, 6108, 3780, 5670, 17565, 11234, 10237, 6700, 8700, 3400, 11002, 6321,
         8999, 3456, 5000, 5345, 7000, 7600, 4500, 6500];
-      plot_traffic("reach", unique_visitors, yesterdays_data);
+      var monthly_average=[7500, 8730, 6705, 3200, 2300, 4567, 6108, 3780, 5670, 8000, 11234, 10237, 6700, 8700, 3400, 11002, 6321,
+        8999, 3456, 5000, 5345, 7000, 7600, 4500, 6500];
+      plot_traffic("reach", unique_visitors, yesterdays_data, monthly_average);
       plot_legend("yesterday");
     })
   </script>
@@ -15,11 +17,6 @@
       width: 960px;
       height: 300px;
     }
-
-    path {
-      fill: none;
-    }
-
   </style>
 <% end %>
 
@@ -41,10 +38,19 @@
   <div class="right small-text">
     <span class="blue-text">LIVE AT</span> <%= display_todays_date %>
     <div>
-      <div class="right" id="yesterday" style="width: 13px; height: 13px; margin-left: 8px;margin-top: 8px;">
-
+      <div style="margin-top:8px;">
+        <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #74B74A"></div>
+        <div class="small-text right">Increase</div>
       </div>
+      <br style="clear: both" />
+      <div>
+        <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #BF1E2D"></div>
+        <div class="small-text right">Decrease</div>
+      </div>
+      <br style="clear: both" />
+      <div class="right" id="yesterday" style="width: 13px; height: 13px; margin-left: 8px;margin-top: 8px;"></div>
       <div class="small-text right" style="margin-top: 8px;">Yesterday</div>
+      <br style="clear: both" />
     </div>
   </div>
 
