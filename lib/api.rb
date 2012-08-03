@@ -1,6 +1,6 @@
 require "songkick/transport"
 
-Transport = Songkick::Transport::Curb
+Transport = Songkick::Transport::HttParty
 
 module Insight
   module API

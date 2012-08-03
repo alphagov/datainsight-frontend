@@ -7,7 +7,7 @@ gem "unicorn"
 gem 'sinatra-content-for', '0.1'
 gem 'nokogiri'
 gem "songkick-transport", :git => "git://github.com/songkick/transport.git"
-gem "curb"
+gem "httparty"
 
 group :test do
   #gem "rack-test"
