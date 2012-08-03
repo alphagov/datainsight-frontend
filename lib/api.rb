@@ -31,7 +31,7 @@ module Insight
       end
 
       def narrative
-        transport("http://localhost:8081").get("/leader").data
+        transport("http://localhost:8081").get("/narrative").data
       end
 
       def weekly_visits
