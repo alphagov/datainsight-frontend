@@ -8,6 +8,10 @@ if [ -z "$VERSION" ]; then
   exit 1
 fi
 
+if [ $VERSION = '-p' ]; then
+  VERSION=$(./package.sh | tail -n 1 | tr -d '\n')
+fi
+
 #HOST="deploy@datainsight"
 HOST="deploy@datainsight.alphagov.co.uk"
 
