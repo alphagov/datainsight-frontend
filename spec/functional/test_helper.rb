@@ -3,7 +3,6 @@ require_relative "../test_helper"
 require "capybara"
 require "capybara/dsl"
 require "capybara/poltergeist"
-require "capybara/webkit"
 
 require "rspec/core/shared_context"
 
