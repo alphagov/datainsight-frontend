@@ -4,6 +4,10 @@ require 'sinatra/content_for'
 require_relative "helpers"
 require_relative "api"
 
+unless defined?(USE_STUB_DATA)
+  USE_STUB_DATA = false
+end
+
 class App < Sinatra::Base
   helpers Sinatra::ContentFor
   helpers Insight::Helpers
@@ -49,6 +53,11 @@ class App < Sinatra::Base
 
   get "/unique-visitors" do
     erb :unique_visitors
+  end
+
+  get "/trust.json" do
+    content_type :json
+    api.user_trust.to_json
   end
 
   get "/trust" do

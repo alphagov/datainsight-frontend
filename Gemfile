@@ -13,6 +13,11 @@ group :test do
   #gem "rack-test"
   gem "rspec", "2.10.0"
   gem "ci_reporter"
+
+  gem "jasmine", "1.2.0"
+  gem "jasmine-phantom"
+
+  gem "capybara", "~> 1.1.2"
+  gem "poltergeist"
 end
 
-gem "jasmine"
