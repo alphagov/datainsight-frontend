@@ -94,7 +94,7 @@ path.dashed-line {
 
 /* main focus line for a time series */
 path.main-line {
-    stroke: url(#spike-gradient) #c4c4c4;
+    stroke: #c4c4c4;
     stroke-width: 5;
 }
 
