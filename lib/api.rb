@@ -16,15 +16,15 @@ module Insight
       def user_trust
         {
             "govuk" => {
-                "values" => [25, 60, 5, 5, 5],
+                "votes" => [25, 60, 5, 5, 5],
                 "trustLevel" => 10
             },
             "directgov" => {
-                "values" => [5, 5, 5, 65, 25],
+                "votes" => [5, 5, 5, 65, 25],
                 "trustLevel" => 90
             },
             "businesslink" => {
-                "values" => [33, 23, 27, 12, 5],
+                "votes" => [33, 23, 27, 12, 5],
                 "trustLevel" => 17
             }
         }
