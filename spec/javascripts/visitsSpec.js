@@ -2,10 +2,10 @@ describe("visits", function() {
     describe("months_range", function() {
         it("should produce correct range for mid month", function() {
             var start = new Date(2011, 1, 10),
-                end   = new Date(2011, 7, 10),
+                end   = new Date(2011, 7, 15),
                 step  = 2;
             expect(GOVUK.Insights.months_range(start, end, step)).toEqual(
-                [new Date(2011, 1, 10), new Date(2011, 3, 10), new Date(2011, 5, 10), new Date(2011, 7, 10)]
+                [new Date(2011, 1, 15), new Date(2011, 3, 15), new Date(2011, 5, 15), new Date(2011, 7, 15)]
             );
         });
 
