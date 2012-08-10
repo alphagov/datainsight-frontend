@@ -18,6 +18,7 @@ group :test do
   gem "jasmine-phantom"
 
   gem "capybara", "~> 1.1.2"
+  gem "eventmachine", "1.0.0.rc.4" # Ubuntu precise bugfix, needed for poltergeist, see: https://github.com/eventmachine/eventmachine/commit/9473a1b181ed1997e3156d960b2bb2783f508191
   gem "poltergeist"
 end
 
