@@ -66,8 +66,12 @@ class App < Sinatra::Base
     erb :trust
   end
 
-  get "/reach" do
-    erb :reach
+  get "/todays-activity.json" do
+    content_type :json
+    api.todays_activity.to_json
+  end
+  get "/todays-activity" do
+    erb :todays_activity
   end
 
 

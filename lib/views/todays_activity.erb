@@ -2,14 +2,15 @@
   <script src="/javascripts/reach.js"></script>
   <script type="text/javascript">
     $(function() {
-      var unique_visitors = [7500, 8730, 6705, 3200, 5490, 4567, 6108, 3780, 5670, 17565, 11234, 10237, 6700, 8700, 3400, 11002, 6321];
-      var yesterdays_data=[7500, 8730, 6705, 3200, 5490, 4567, 6108, 3780, 5670, 17565, 11234, 10237, 6700, 8700, 3400, 11002, 6321,
-        8999, 3456, 5000, 5345, 0, 0, 0];
-      var monthly_average=[500, 8730, 6705, 3200, 4000, 4567, 6108, 3780, 5670, 8000, 11234, 10237, 9000, 8700, 3400, 11002, 6321,
-        8999, 3456, 5000, 5345, 7000, 7600, 4500];
-      plot_traffic("reach", unique_visitors, yesterdays_data, monthly_average);
-      plot_legend("yesterday");
-    })
+      d3.json("/todays-activity.json", function(data) {
+        var visitors_today = $(data).map(function(index, item) { return item.visitors.today; }),
+            visitors_yesterday = $(data).map(function(index, item) { return item.visitors.yesterday; }),
+            monthly_average = $(data).map(function(index, item) { return item.visitors.monthly_average; });
+        plot_traffic("reach", visitors_today, visitors_yesterday, monthly_average);
+        plot_legend("yesterday");
+
+      });
+    });
   </script>
 
   <style>

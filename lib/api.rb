@@ -38,6 +38,10 @@ module Insight
         transport("http://localhost:8082").get("/weekly_visits").data
       end
 
+      def todays_activity
+        transport("http://localhost:8083").get("/todays-activity").data
+      end
+
       private
       def transport(host, args={})
         Transport.new(host, :user_agent => "Data Insight Web", :timeout => args[:timeout] || 5)
