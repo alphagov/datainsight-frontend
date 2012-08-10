@@ -2,3 +2,4 @@
 *.zip
 vendor
 .jhw-cache
+spec/reports
