@@ -35,7 +35,7 @@ module Insight
       end
 
       def weekly_visits
-        transport("http://localhost:8082").get("/weekly_visits").data
+        transport("http://localhost:8082").get("/weekly-visits").data
       end
 
       def todays_activity
