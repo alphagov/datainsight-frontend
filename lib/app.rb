@@ -48,7 +48,7 @@ class App < Sinatra::Base
 
   get "/unique-visitors.json" do
     content_type :json
-    api.unique_visitors.to_json
+    api.weekly_visitors.to_json
   end
 
   get "/unique-visitors" do
