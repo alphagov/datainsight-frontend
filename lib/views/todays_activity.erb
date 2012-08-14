@@ -3,12 +3,13 @@
   <script type="text/javascript">
     $(function() {
       d3.json("/todays-activity.json", function(data) {
-        var visitors_today = $(data).map(function(index, item) { return item.visitors.today; }),
-            visitors_yesterday = $(data).map(function(index, item) { return item.visitors.yesterday; }),
-            monthly_average = $(data).map(function(index, item) { return item.visitors.monthly_average; });
+        var visitors_today = $(data.values).map(function(index, item) { return item.visitors.today; }),
+            visitors_yesterday = $(data.values).map(function(index, item) { return item.visitors.yesterday; }),
+            monthly_average = $(data.values).map(function(index, item) { return item.visitors.monthly_average; });
         plot_traffic("reach", visitors_today, visitors_yesterday, monthly_average);
         plot_legend("yesterday");
-
+        var date = new Date(data.live_at);
+        $("#live_at").text(date.toString("dddd ddXX MMMM, H:mmtt").replace("XX", date.getOrdinal()))
       });
     });
   </script>
@@ -37,7 +38,7 @@
     <div>Hourly GOV.UK traffic today <br/> compared with yesterday and <strong>monthly average</strong></div>
   </div>
   <div class="right small-text">
-    <span class="blue-text">LIVE AT</span> <%= display_todays_date %>
+    <span class="blue-text">LIVE AT</span>&nbsp;<span id="live_at"></span>
     <div>
       <div style="margin-top:8px;">
         <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #74B74A"></div>
