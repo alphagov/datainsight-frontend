@@ -38,12 +38,12 @@ module Insight
         transport("http://localhost:8082").get("/weekly-visits").data
       end
 
-      def todays_activity
-        transport("http://localhost:8083").get("/todays-activity").data
+      def weekly_visitors
+        transport("http://localhost:8082").get("/weekly-visitors").data
       end
 
-      def weekly_visitors
-        transport("http://localhost:8084").get("/weekly-visitors").data
+      def todays_activity
+        transport("http://localhost:8083").get("/todays-activity").data
       end
 
       private
