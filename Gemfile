@@ -9,6 +9,7 @@ gem 'sinatra-content-for', '0.1'
 gem 'nokogiri'
 gem "songkick-transport", :git => "git://github.com/songkick/transport.git"
 gem "httparty"
+gem "whenever"
 
 group :test do
   #gem "rack-test"

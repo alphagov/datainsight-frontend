@@ -11,6 +11,7 @@ end
 class App < Sinatra::Base
   helpers Sinatra::ContentFor
   helpers Insight::Helpers
+  GRAPHS_IMAGES_DIR = "/var/tmp"
 
   configure :development do
     if USE_STUB_DATA
@@ -57,6 +58,11 @@ class App < Sinatra::Base
     erb :visits
   end
 
+  get "/visits.png" do
+    content_type "image/png"
+    open("#{GRAPHS_IMAGES_DIR}/visits.png")
+  end
+
   get "/unique-visitors.json" do
     content_type :json
     api_result_to_json(api.weekly_visitors)
@@ -64,6 +70,11 @@ class App < Sinatra::Base
 
   get "/unique-visitors" do
     erb :unique_visitors
+  end
+
+  get "/unique-visitors.png" do
+    content_type "image/png"
+    open("#{GRAPHS_IMAGES_DIR}/unique-visitors.png")
   end
 
   get "/trust.json" do
@@ -81,7 +92,13 @@ class App < Sinatra::Base
     content_type :json
     api_result_to_json(api.todays_activity)
   end
+
   get "/todays-activity" do
     erb :todays_activity
+  end
+
+  get "/todays-activity.png" do
+    content_type "image/png"
+    open("#{GRAPHS_IMAGES_DIR}/todays-activity.png")
   end
 end
