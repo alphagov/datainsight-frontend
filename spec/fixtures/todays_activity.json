@@ -125,21 +125,21 @@
       "hour_of_day":16,
       "visitors":{
         "yesterday":6321,
-        "monthly_average":6321
+        "monthly_average":106321
       }
     },
     {
       "hour_of_day":17,
       "visitors":{
         "yesterday":8999,
-        "monthly_average":8999
+        "monthly_average":108999
       }
     },
     {
       "hour_of_day":18,
       "visitors":{
         "yesterday":3456,
-        "monthly_average":3456
+        "monthly_average":103456
       }
     },
     {
