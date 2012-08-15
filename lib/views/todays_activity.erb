@@ -9,7 +9,7 @@
         plot_traffic("reach", visitors_today.toArray(), visitors_yesterday.toArray(), monthly_average.toArray());
         plot_legend("yesterday");
         var date = new Date(data.live_at);
-        $("#live_at").text(date.toString("dddd ddXX MMMM, H:mmtt").replace("XX", date.getOrdinal()))
+        $("#live_at").text(date.toString("dddd ddXX MMMM, H:mm").replace("XX", date.getOrdinal()))
       });
     });
   </script>
