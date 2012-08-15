@@ -18,15 +18,19 @@ describe("reach", function() {
     })
 
     describe("Y-Axis formatting", function(){
-        it("should return the same number as string if max value is below one thousand", function(){
+        it("should return the same number as string if tick step is below one thousand", function(){
             expect(format_tick_label(100, 800)).toEqual("100");
         })
 
-        it("should return value in thousands if max value is between one thousand and one million", function(){
+        it("should return the same number as string if tick step is 1000/6", function(){
+            expect(format_tick_label(400, 1000/6)).toEqual("400");
+        })
+
+        it("should return value in thousands if tick step is between one thousand and one million", function(){
             expect(format_tick_label(10000, 80000)).toEqual("10k");
         })
 
-        it("should return value in millions if max value is above one million", function(){
+        it("should return value in millions if tick step is above one million", function(){
             expect(format_tick_label(1000000, 8000000)).toEqual("1m");
         })
     })
