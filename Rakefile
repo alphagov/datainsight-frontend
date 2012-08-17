@@ -13,13 +13,13 @@ end
 
 namespace :spec do
   desc "Run RSpec unit code examples"
-  task :unit do |task|
+  RSpec::Core::RakeTask.new (:unit) do |task|
     task.pattern    = "spec/unit/*_spec.rb"
     task.rspec_opts = ["--format documentation"]
   end
 
   desc "Run RSpec functional code examples"
-  task :functional do |task|
+  RSpec::Core::RakeTask.new(:functional)  do |task|
     task.pattern = "spec/functional/*_spec.rb"
     task.rspec_opts = ["--format documentation"]
   end
