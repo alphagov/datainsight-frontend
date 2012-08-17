@@ -3,10 +3,7 @@
   <script type="text/javascript">
     $(function() {
       d3.json("/todays-activity.json", function(data) {
-        var visitors_today = $(data.values).map(function(index, item) { return item.visitors.today;}),
-            visitors_yesterday = $(data.values).map(function(index, item) { return item.visitors.yesterday; }),
-            monthly_average = $(data.values).map(function(index, item) { return item.visitors.monthly_average; });
-        plot_traffic("reach", visitors_today.toArray(), visitors_yesterday.toArray(), monthly_average.toArray());
+        plot_traffic("reach", data.values);
         plot_legend("yesterday");
         var date = new Date(data.live_at);
         $("#live_at").text(date.toString("dddd ddXX MMMM, H:mm").replace("XX", date.getOrdinal()))
