@@ -1,31 +1,44 @@
 <% content_for :head do %>
-  <script src="/javascripts/reach.js"></script>
-  <script type="text/javascript">
-    $(function() {
-      d3.json("/todays-activity.json", function(data) {
-        plot_traffic("reach", data.values);
-        plot_legend("yesterday");
-        var date = new Date(data.live_at);
-        $("#live_at").text(date.toString("dddd ddXX MMMM, H:mm").replace("XX", date.getOrdinal()))
-      });
-    });
-  </script>
+    <script src="/javascripts/reach.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            d3.json("/todays-activity.json", function (data) {
+                if (data == null) {
+                    $("#reach").append('<%= error_div %>')
+                    return;
+                }
+                var visitors_today = $(data.values).map(function (index, item) {
+                            return item.visitors.today;
+                        }),
+                        visitors_yesterday = $(data.values).map(function (index, item) {
+                            return item.visitors.yesterday;
+                        }),
+                        monthly_average = $(data.values).map(function (index, item) {
+                            return item.visitors.monthly_average;
+                        });
+                plot_traffic("reach", visitors_today, visitors_yesterday, monthly_average);
+                plot_legend("yesterday");
+                var date = new Date(data.live_at);
+                $("#live_at").text(date.toString("dddd ddXX MMMM, H:mm").replace("XX", date.getOrdinal()))
+            });
+        });
+    </script>
 
-  <style>
-    #reach {
-      width: 960px;
-      height: 300px;
-    }
-  </style>
+    <style>
+        #reach {
+            width: 960px;
+            height: 300px;
+        }
+    </style>
 <% end %>
 
 <svg style="width: 0; height: 0">
-<defs>
-  <linearGradient id="gradient_for_yesterday" x1="0%" y1="0%" x2="0%" y2="100%">
-    <stop offset="0%" style="stop-color:#CCCCCC;stop-opacity:1" />
-    <stop offset="100%" style="stop-color:white;stop-opacity:1" />
-  </linearGradient>
-</defs>
+  <defs>
+    <linearGradient id="gradient_for_yesterday" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#CCCCCC;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:white;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
 </svg>
 
 <div class="module" style="min-height: 300px">
@@ -36,20 +49,23 @@
   </div>
   <div class="right small-text">
     <span class="blue-text">LIVE AT</span>&nbsp;<span id="live_at"></span>
+
     <div>
       <div style="margin-top:8px;">
         <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #74B74A"></div>
         <div class="small-text right">Increase</div>
       </div>
-      <br style="clear: both" />
+      <br style="clear: both"/>
+
       <div>
         <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #BF1E2D"></div>
         <div class="small-text right">Decrease</div>
       </div>
-      <br style="clear: both" />
+      <br style="clear: both"/>
+
       <div class="right" id="yesterday" style="width: 13px; height: 13px; margin-left: 8px;margin-top: 8px;"></div>
       <div class="small-text right" style="margin-top: 8px;">Yesterday</div>
-      <br style="clear: both" />
+      <br style="clear: both"/>
     </div>
   </div>
 

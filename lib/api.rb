@@ -30,20 +30,28 @@ module Insight
         }
       end
 
+      def get_json(&block)
+        begin
+          block.yield.data
+        rescue Songkick::Transport::UpstreamError
+          :error
+        end
+      end
+
       def narrative
-        transport("http://localhost:8081").get("/narrative").data
+        get_json { transport("http://localhost:8081").get("/narrative")["content"] }
       end
 
       def weekly_visits
-        transport("http://localhost:8082").get("/weekly-visits").data
+        get_json { transport("http://localhost:8082").get("/weekly-visits") }
       end
 
       def weekly_visitors
-        transport("http://localhost:8082").get("/weekly-visitors").data
+        get_json { transport("http://localhost:8082").get("/weekly-visitors") }
       end
 
       def todays_activity
-        transport("http://localhost:8083").get("/todays-activity").data
+        get_json { transport("http://localhost:8083").get("/todays-activity") }
       end
 
       private

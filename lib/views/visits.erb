@@ -21,7 +21,7 @@
               "legend": "Business Link"
             }
           }
-        });
+        }, function () { $("#visits").append('<%= error_div %>') });
       graph.render();
     });
   </script>

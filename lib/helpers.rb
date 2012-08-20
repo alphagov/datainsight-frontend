@@ -35,5 +35,9 @@ module Insight
       date = Time.now
       date.strftime("%A %-d#{date.day_ordinal_suffix} %B, %H:%M%P")
     end
+
+    def error_div
+      '<div style="color: red">Sorry, there has been an error.</div>'
+    end
   end
 end

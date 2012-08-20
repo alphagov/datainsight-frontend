@@ -27,19 +27,23 @@ class App < Sinatra::Base
   end
 
   get "/engagement" do
-    @narrative = api.narrative["content"]
+    @narrative = api.narrative
     @trust = api.user_trust
 
     erb :engagement
   end
 
   get "/narrative" do
-    @narrative = api.narrative["content"]
+    @narrative = api.narrative
     erb :narrative
   end
 
   get "/visits.json" do
-    api.weekly_visits.to_json
+    if api.todays_activity == :error
+      500
+    else
+      api.weekly_visits.to_json
+    end
   end
 
   get "/visits" do
@@ -48,7 +52,11 @@ class App < Sinatra::Base
 
   get "/unique-visitors.json" do
     content_type :json
-    api.weekly_visitors.to_json
+    if api.todays_activity == :error
+      500
+    else
+      api.weekly_visitors.to_json
+    end
   end
 
   get "/unique-visitors" do
@@ -68,11 +76,13 @@ class App < Sinatra::Base
 
   get "/todays-activity.json" do
     content_type :json
-    api.todays_activity.to_json
+    if api.todays_activity == :error
+      500
+    else
+      api.todays_activity.to_json
+    end
   end
   get "/todays-activity" do
     erb :todays_activity
   end
-
-
 end

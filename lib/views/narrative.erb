@@ -1,4 +1,7 @@
-<div id="narrative" class="large-text module">
-  <%= narrative(@narrative) %>
-</div>
-
+<% if @narrative == :error %>
+    <%= error_div %>
+<% else %>
+    <div id="narrative" class="large-text module">
+      <%= narrative(@narrative) %>
+    </div>
+<% end %>
