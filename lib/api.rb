@@ -68,9 +68,14 @@ module Insight
 
       private
       def fixture(name)
-        JSON.parse(
+        json = JSON.parse(
             File.open(File.join(File.dirname(__FILE__), "../spec/fixtures/#{name}.json")).read
         )
+        if (name == :narrative)
+          json["content"]
+        else
+          json
+        end
       end
     end
   end
