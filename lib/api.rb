@@ -4,11 +4,16 @@ Transport = Songkick::Transport::HttParty
 
 module Insight
   module API
-    def api()
-      if USE_STUB_DATA
-        ClientStub.new
-      else
-        ClientAPI.new
+
+    module StubApiMethod
+      def api
+        @api ||= ClientStub.new
+      end
+    end
+
+    module ApiMethod
+      def api
+        @api ||= ClientAPI.new
       end
     end
 

@@ -11,15 +11,21 @@ end
 class App < Sinatra::Base
   helpers Sinatra::ContentFor
   helpers Insight::Helpers
-  include Insight::API
 
   configure :development do
+    if USE_STUB_DATA
+      include Insight::API::StubApiMethod
+    else
+      include Insight::API::ApiMethod
+    end
   end
 
   configure :production do
+    include Insight::API::ApiMethod
   end
 
   configure :test do
+    include Insight::API::StubApiMethod
   end
 
   def api_result_to_json(result)
