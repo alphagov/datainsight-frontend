@@ -39,7 +39,8 @@ module Insight
       end
 
       def narrative
-        get_json { transport("http://localhost:8081").get("/narrative")["content"] }
+        result = get_json { transport("http://localhost:8081").get("/narrative") }
+        result == :error ? result : result["content"]
       end
 
       def weekly_visits
