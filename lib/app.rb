@@ -22,6 +22,10 @@ class App < Sinatra::Base
   configure :test do
   end
 
+  def api_result_to_json(result)
+    result == :error ? 500 : result.to_json
+  end
+
   get "/" do
     redirect to "/engagement"
   end
@@ -39,11 +43,8 @@ class App < Sinatra::Base
   end
 
   get "/visits.json" do
-    if api.todays_activity == :error
-      500
-    else
-      api.weekly_visits.to_json
-    end
+    content_type :json
+    api_result_to_json(api.weekly_visits)
   end
 
   get "/visits" do
@@ -52,11 +53,7 @@ class App < Sinatra::Base
 
   get "/unique-visitors.json" do
     content_type :json
-    if api.todays_activity == :error
-      500
-    else
-      api.weekly_visitors.to_json
-    end
+    api_result_to_json(api.weekly_visitors)
   end
 
   get "/unique-visitors" do
@@ -76,11 +73,7 @@ class App < Sinatra::Base
 
   get "/todays-activity.json" do
     content_type :json
-    if api.todays_activity == :error
-      500
-    else
-      api.todays_activity.to_json
-    end
+    api_result_to_json(api.todays_activity)
   end
   get "/todays-activity" do
     erb :todays_activity
