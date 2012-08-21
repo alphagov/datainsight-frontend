@@ -92,20 +92,19 @@ module Insight
       def fixture(name)
         fixture_file = File.join(File.dirname(__FILE__), "../spec/fixtures/#{name}.json")
 
-        json_string = if File.exist?(fixture_file)
-                        File.read(fixture_file)
-                      else
-                        last_sunday = Date.today - Date.today.wday
-                        start_date = last_sunday << 6
-
-                        dates = (start_date..last_sunday).to_a.reverse
-                        ERB.new(File.read(fixture_file + ".erb")).result(binding)
-                      end
-        json = JSON.parse(json_string)
-        if (name == :narrative)
+        json = JSON.parse(load_fixture(fixture_file))
+        if name == :narrative
           json["content"]
         else
           json
+        end
+      end
+
+      def load_fixture(fixture_file)
+        if File.exist?(fixture_file)
+          File.read(fixture_file)
+        else
+          ERB.new(File.read(fixture_file + ".erb")).result(binding)
         end
       end
     end
