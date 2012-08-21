@@ -67,15 +67,41 @@ module Insight
     end
 
     class ClientStub
-      def method_missing(method, *args, &block)
-        fixture(method)
+
+      def user_trust
+        fixture :user_trust
+      end
+
+      def narrative
+        fixture :narrative
+      end
+
+      def weekly_visits
+        fixture :weekly_visits
+      end
+
+      def weekly_visitors
+        fixture :weekly_visitors
+      end
+
+      def todays_activity
+        fixture :todays_activity
       end
 
       private
       def fixture(name)
-        json = JSON.parse(
-            File.open(File.join(File.dirname(__FILE__), "../spec/fixtures/#{name}.json")).read
-        )
+        fixture_file = File.join(File.dirname(__FILE__), "../spec/fixtures/#{name}.json")
+
+        json_string = if File.exist?(fixture_file)
+                        File.read(fixture_file)
+                      else
+                        last_sunday = Date.today - Date.today.wday
+                        start_date = last_sunday << 6
+
+                        dates = (start_date..last_sunday).to_a.reverse
+                        ERB.new(File.read(fixture_file + ".erb")).result(binding)
+                      end
+        json = JSON.parse(json_string)
         if (name == :narrative)
           json["content"]
         else
