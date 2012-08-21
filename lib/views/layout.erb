@@ -11,6 +11,10 @@
   <% yield_content :head %>
 </head>
 <body>
-<%= yield %>
+  <div id="wrapper" class="wrapper">
+    <section id="content" role="main">
+      <%= yield %>
+    </section>
+  </div>
 </body>
 </html>

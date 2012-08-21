@@ -154,3 +154,18 @@ path.red {
     bottom: 2px;
     position: absolute;
 }
+
+/* slimmer hacks */
+body {
+    background-color: #f2f2f2;
+}
+nav {
+    display: none;
+    visibility: hidden;
+}
+
+#content {
+    background-color: #FFFFFF;
+    padding-top: 1px;
+    padding-bottom: 40px;
+}

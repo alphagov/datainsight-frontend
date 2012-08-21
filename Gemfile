@@ -1,6 +1,7 @@
 source :rubygems
 gem "rake", "0.9.2"
 gem "sinatra", "1.3.2", :require => "sinatra/base"
+gem 'slimmer', '1.2.4'
 gem "rack", "1.4.1"
 gem "json"
 gem "unicorn"
