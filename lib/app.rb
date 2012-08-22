@@ -101,4 +101,9 @@ class App < Sinatra::Base
     content_type "image/png"
     open("#{GRAPHS_IMAGES_DIR}/todays-activity.png")
   end
+
+  get "/yesterday-legend.png" do
+    content_type "image/png"
+    open("#{GRAPHS_IMAGES_DIR}/yesterday-legend.png")
+  end
 end
