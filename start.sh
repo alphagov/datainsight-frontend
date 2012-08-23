@@ -11,4 +11,4 @@ bundle install --path vendor --local
 
 echo -e "${ANSI_YELLOW}Starting application server${ANSI_RESET}"
 bundle exec unicorn --port $PORT
-bundle exec whenever --set "port=$PORT"
+bundle exec whenever --set "port=$PORT" --update-crontab
