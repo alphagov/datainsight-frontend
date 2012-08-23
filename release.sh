@@ -2,6 +2,8 @@
 
 set -e
 
+PROJECT_NAME=datainsight-web
+
 export VERSION="$1"
 if [ -z "$VERSION" ]; then
   echo "USAGE: release.sh <version-hash>"
@@ -21,13 +23,13 @@ clean_old_files() {
 	OLD=$(ssh $HOST "ls -t '$DIR'" | tail -n +2)
 	for file in $OLD; do echo "remove $DIR/$file"; ssh $HOST rm -rf $DIR/$file; done
 }
-clean_old_files /srv/datainsight-web/release
-clean_old_files /srv/datainsight-web/packages
+clean_old_files /srv/$PROJECT_NAME/release
+clean_old_files /srv/$PROJECT_NAME/packages
 
-scp datainsight-web-$VERSION.zip $HOST:/srv/datainsight-web/packages
+scp $PROJECT_NAME-$VERSION.zip $HOST:/srv/$PROJECT_NAME/packages
 # deploy
-ssh $HOST "mkdir /srv/datainsight-web/release/$VERSION; unzip -o /srv/datainsight-web/packages/datainsight-web-$VERSION.zip -d /srv/datainsight-web/release/$VERSION;"
+ssh $HOST "mkdir /srv/$PROJECT_NAME/release/$VERSION; unzip -o /srv/$PROJECT_NAME/packages/$PROJECT_NAME-$VERSION.zip -d /srv/$PROJECT_NAME/release/$VERSION;"
 # link
-ssh $HOST "rm /srv/datainsight-web/current; ln -s /srv/datainsight-web/release/$VERSION/ /srv/datainsight-web/current;"
+ssh $HOST "rm /srv/$PROJECT_NAME/current; ln -s /srv/$PROJECT_NAME/release/$VERSION/ /srv/$PROJECT_NAME/current;"
 # restart
-ssh $HOST "sudo service datainsight-web restart"
+ssh $HOST "sudo service $PROJECT_NAME restart"
