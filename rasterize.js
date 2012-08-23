@@ -27,8 +27,12 @@ if (phantom.args.length < 2 || phantom.args.length > 4) {
                    width:  clipRect.width,
                    height: clipRect.height
                   }
-                page.render(output);
-                phantom.exit();
+                var imageSaved = page.render(output);
+                if (!imageSaved) {
+                  phantom.exit(2);
+                } else {
+                  phantom.exit();
+                }
             }, 200);
         }
     });
