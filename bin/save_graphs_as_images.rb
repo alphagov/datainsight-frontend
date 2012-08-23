@@ -10,15 +10,17 @@ def save_as_image(route, output_filename, div_selector)
   LOGGER.info("Generating image for #{url}")
   `phantomjs rasterize.js #{url} #{output_location} "#{div_selector}"`
   case $?.exitstatus
-  when 1
-    LOGGER.error("Timeout error when trying to generate an image for `#{route}`.")
-    exit 1
-  when 2
-    LOGGER.error("Cannot save image to #{output_location}")
-    exit 2
-  else
-    LOGGER.error("Error when trying to generate an image.")
-    exit 128
+    when 0
+      # do nothing
+    when 1
+      LOGGER.error("Timeout error when trying to generate an image for `#{route}`.")
+      exit 1
+    when 2
+      LOGGER.error("Cannot save image to #{output_location}")
+      exit 2
+    else
+      LOGGER.error("Error when trying to generate an image.")
+      exit 128
   end
   LOGGER.info("Saved image to #{output_location}")
 end
