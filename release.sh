@@ -15,6 +15,15 @@ fi
 #HOST="deploy@datainsight"
 HOST="deploy@datainsight.alphagov.co.uk"
 
+# remove older deployments
+clean_old_files() {
+	DIR=$1
+	OLD=$(ssh $HOST "ls -t '$DIR'" | tail -n +2)
+	for file in $OLD; do echo "remove $DIR/$file"; ssh $HOST rm -rf $DIR/$file; done
+}
+clean_old_files /srv/datainsight-web/release
+clean_old_files /srv/datainsight-web/packages
+
 scp datainsight-web-$VERSION.zip $HOST:/srv/datainsight-web/packages
 # deploy
 ssh $HOST "mkdir /srv/datainsight-web/release/$VERSION; unzip -o /srv/datainsight-web/packages/datainsight-web-$VERSION.zip -d /srv/datainsight-web/release/$VERSION;"
