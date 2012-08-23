@@ -11,7 +11,7 @@ end
 class App < Sinatra::Base
   helpers Sinatra::ContentFor
   helpers Insight::Helpers
-  GRAPHS_IMAGES_DIR = "/var/tmp"
+  GRAPHS_IMAGES_DIR = "/var/tmp/graphs"
 
   configure :development do
     if USE_STUB_DATA

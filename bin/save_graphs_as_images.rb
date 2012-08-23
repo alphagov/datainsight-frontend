@@ -2,7 +2,7 @@ require 'logger'
 
 LOGGER = Logger.new(STDOUT)
 PORT = ARGV[0]
-OUTPUT_DIR = ARGV[1] || "/var/tmp"
+OUTPUT_DIR = ARGV[1] || "/var/tmp/graphs"
 
 def save_as_image(route, output_filename, div_selector)
   url = "http://localhost:#{PORT}/#{route}"
