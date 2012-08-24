@@ -1,5 +1,5 @@
 var page = require('webpage').create(),
-    address, output, size;
+    address, output;
 
 setTimeout(function() {
     phantom.exit(1);
@@ -33,7 +33,7 @@ if (phantom.args.length < 2 || phantom.args.length > 4) {
                    left:   clipRect.left,
                    width:  clipRect.width,
                    height: clipRect.height
-                  }
+                  };
                 var imageSaved = page.render(output);
                 if (!imageSaved) {
                   phantom.exit(2);
