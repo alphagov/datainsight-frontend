@@ -60,6 +60,7 @@ class App < Sinatra::Base
 
   get "/visits.png" do
     content_type "image/png"
+    headers['X-Slimmer-Skip'] = "true"
     send_file "#{GRAPHS_IMAGES_DIR}/visits.png"
   end
 
@@ -74,6 +75,7 @@ class App < Sinatra::Base
 
   get "/unique-visitors.png" do
     content_type "image/png"
+    headers['X-Slimmer-Skip'] = "true"
     send_file "#{GRAPHS_IMAGES_DIR}/unique-visitors.png"
   end
 
@@ -99,11 +101,13 @@ class App < Sinatra::Base
 
   get "/todays-activity.png" do
     content_type "image/png"
+    headers['X-Slimmer-Skip'] = "true"
     send_file "#{GRAPHS_IMAGES_DIR}/todays-activity.png"
   end
 
   get "/yesterday-legend.png" do
     content_type "image/png"
+    headers['X-Slimmer-Skip'] = "true"
     send_file "#{GRAPHS_IMAGES_DIR}/yesterday-legend.png"
   end
 end
