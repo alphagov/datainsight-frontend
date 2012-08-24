@@ -5,6 +5,7 @@ setTimeout(function() {
     phantom.exit(1);
 }, 10000);
 
+
 if (phantom.args.length < 2 || phantom.args.length > 4) {
     console.log('Usage: rasterize.js URL filename selector');
     phantom.exit();
@@ -19,7 +20,13 @@ if (phantom.args.length < 2 || phantom.args.length > 4) {
         } else {
             window.setTimeout(function () {
                 var clipRect = page.evaluate(function (s) {
-                        return document.querySelector(s).getBoundingClientRect();
+                      function hideGovUKBetaOverlayMessage() {
+                        $("#popup").hide();
+                        $("#mask").hide();
+                      }
+
+                      hideGovUKBetaOverlayMessage();
+                      return document.querySelector(s).getBoundingClientRect();
                     }, selector);
                 page.clipRect = {
                    top:    clipRect.top,
