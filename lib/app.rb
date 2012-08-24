@@ -60,7 +60,7 @@ class App < Sinatra::Base
 
   get "/visits.png" do
     content_type "image/png"
-    open("#{GRAPHS_IMAGES_DIR}/visits.png")
+    send_file "#{GRAPHS_IMAGES_DIR}/visits.png"
   end
 
   get "/unique-visitors.json" do
@@ -74,7 +74,7 @@ class App < Sinatra::Base
 
   get "/unique-visitors.png" do
     content_type "image/png"
-    open("#{GRAPHS_IMAGES_DIR}/unique-visitors.png")
+    send_file "#{GRAPHS_IMAGES_DIR}/unique-visitors.png"
   end
 
   get "/trust.json" do
@@ -99,11 +99,11 @@ class App < Sinatra::Base
 
   get "/todays-activity.png" do
     content_type "image/png"
-    open("#{GRAPHS_IMAGES_DIR}/todays-activity.png")
+    send_file "#{GRAPHS_IMAGES_DIR}/todays-activity.png"
   end
 
   get "/yesterday-legend.png" do
     content_type "image/png"
-    open("#{GRAPHS_IMAGES_DIR}/yesterday-legend.png")
+    send_file "#{GRAPHS_IMAGES_DIR}/yesterday-legend.png"
   end
 end
