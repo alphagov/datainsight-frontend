@@ -38,7 +38,8 @@ module Insight
       def get_json(&block)
         begin
           block.yield.data
-        rescue Songkick::Transport::UpstreamError
+        rescue Songkick::Transport::UpstreamError => e
+          logger.error(e)
           :error
         end
       end

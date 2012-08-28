@@ -1,5 +1,6 @@
 require "bundler"
 Bundler.require
+
 require 'sinatra/content_for'
 require_relative "helpers"
 require_relative "api"
@@ -11,7 +12,15 @@ end
 class App < Sinatra::Base
   helpers Sinatra::ContentFor
   helpers Insight::Helpers
+  helpers Datainsight::Logging::Helpers
   GRAPHS_IMAGES_DIR = "/var/tmp/graphs"
+
+  configure do
+    enable :logging
+    unless test?
+      Datainsight::Logging.configure
+    end
+  end
 
   configure :development do
     if USE_STUB_DATA
@@ -109,5 +118,11 @@ class App < Sinatra::Base
     content_type "image/png"
     headers['X-Slimmer-Skip'] = "true"
     send_file "#{GRAPHS_IMAGES_DIR}/yesterday-legend.png"
+  end
+
+  error do
+    logger.error env['sinatra.error']
+
+    erb :error
   end
 end

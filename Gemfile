@@ -11,6 +11,8 @@ gem 'nokogiri'
 gem "songkick-transport", :git => "git://github.com/songkick/transport.git"
 gem "httparty"
 gem "whenever"
+gem "datainsight_logging", :git => "git@github.com:alphagov/datainsight_logging.git"
+#gem "datainsight_logging", :path => "../datainsight_logging"
 
 group :test do
   #gem "rack-test"

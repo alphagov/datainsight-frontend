@@ -37,7 +37,7 @@ module Insight
     end
 
     def error_div
-      '<div style="color: red">Sorry, there has been an error.</div>'
+      '<div class="error">Sorry, there has been an error.</div>'
     end
   end
 end
