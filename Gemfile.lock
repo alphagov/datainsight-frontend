@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git@github.com:alphagov/datainsight_logging.git
-  revision: 96001305e4101a8accc2bfe9d55b138c5f3dec01
+  revision: 4733688e5a7eaab520110793cafdde8ede334616
   specs:
     datainsight_logging (0.0.1)
       logging
