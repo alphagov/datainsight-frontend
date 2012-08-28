@@ -9,3 +9,14 @@ GOVUK.Insights.Helpers = {
 GOVUK.isSvgSupported = function () {
     return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 };
+
+GOVUK.formatTickLabel = function (tickValue, tickStep) {
+    if (tickStep >= 1000000) {
+        return Math.ceil(tickValue / 1000000) + "m";
+    }
+    if (tickStep >= 1000) {
+        return Math.ceil(tickValue / 1000) + "k";
+    }
+    return "" + tickValue;
+}
+

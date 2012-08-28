@@ -93,6 +93,10 @@ module Insight
         fixture :todays_activity
       end
 
+      def format_success
+        fixture :format_success
+      end
+
       private
       def fixture(name)
         fixture_file = File.join(File.dirname(__FILE__), "../spec/fixtures/#{name}.json")

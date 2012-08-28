@@ -1,0 +1,5 @@
+[
+    { "format": "Guide", "events" : { "total": 1000, "percentageOfSuccess": 50} },
+    { "format": "Transaction", "events" : { "total": 40000, "percentageOfSuccess": 20} },
+    { "format": "Quick Answers", "events" : { "total": 100000, "percentageOfSuccess": 85} }
+]

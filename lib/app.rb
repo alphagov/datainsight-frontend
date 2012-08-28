@@ -101,4 +101,13 @@ class App < Sinatra::Base
 
     erb :error
   end
+
+  get "/format-success" do
+    erb :format_success
+  end
+
+  get "/format-success.json" do
+    content_type :json
+    api_result_to_json(api(api_urls).format_success)
+  end
 end
