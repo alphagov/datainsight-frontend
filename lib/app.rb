@@ -2,6 +2,8 @@ require "bundler"
 Bundler.require
 
 require 'sinatra/content_for'
+
+require_relative "config"
 require_relative "helpers"
 require_relative "api"
 
@@ -12,30 +14,10 @@ end
 class App < Sinatra::Base
   helpers Sinatra::ContentFor
   helpers Insight::Helpers
-  helpers Datainsight::Logging::Helpers
   GRAPHS_IMAGES_DIR = "/var/tmp/graphs"
 
-  configure do
-    enable :logging
-    unless test?
-      Datainsight::Logging.configure
-    end
-  end
-
-  configure :development do
-    if USE_STUB_DATA
-      include Insight::API::StubApiMethod
-    else
-      include Insight::API::ApiMethod
-    end
-  end
-
-  configure :production do
-    include Insight::API::ApiMethod
-  end
-
-  configure :test do
-    include Insight::API::StubApiMethod
+  def api_urls
+    settings.api_urls
   end
 
   def api_result_to_json(result)
@@ -47,20 +29,20 @@ class App < Sinatra::Base
   end
 
   get "/engagement" do
-    @narrative = api.narrative
-    @trust = api.user_trust
+    @narrative = api(api_urls).narrative
+    @trust = api(api_urls).user_trust
 
     erb :engagement
   end
 
   get "/narrative" do
-    @narrative = api.narrative
+    @narrative = api(api_urls).narrative
     erb :narrative
   end
 
   get "/visits.json" do
     content_type :json
-    api_result_to_json(api.weekly_visits)
+    api_result_to_json(api(api_urls).weekly_visits)
   end
 
   get "/visits" do
@@ -75,7 +57,7 @@ class App < Sinatra::Base
 
   get "/unique-visitors.json" do
     content_type :json
-    api_result_to_json(api.weekly_visitors)
+    api_result_to_json(api(api_urls).weekly_visitors)
   end
 
   get "/unique-visitors" do
@@ -90,18 +72,18 @@ class App < Sinatra::Base
 
   get "/trust.json" do
     content_type :json
-    api.user_trust.to_json
+    api(api_urls).user_trust.to_json
   end
 
   get "/trust" do
-    @trust = api.user_trust
+    @trust = api(api_urls).user_trust
 
     erb :trust
   end
 
   get "/todays-activity.json" do
     content_type :json
-    api_result_to_json(api.todays_activity)
+    api_result_to_json(api(api_urls).todays_activity)
   end
 
   get "/todays-activity" do

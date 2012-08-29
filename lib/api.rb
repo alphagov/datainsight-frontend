@@ -6,18 +6,22 @@ module Insight
   module API
 
     module StubApiMethod
-      def api
+      def api(config)
         @api ||= ClientStub.new
       end
     end
 
     module ApiMethod
-      def api
-        @api ||= ClientAPI.new
+      def api(config)
+        @api ||= ClientAPI.new(config)
       end
     end
 
     class ClientAPI
+      def initialize(config)
+        @config = config
+      end
+
       def user_trust
         {
             "govuk" => {
@@ -45,20 +49,20 @@ module Insight
       end
 
       def narrative
-        result = get_json { transport("http://localhost:8081").get("/narrative") }
+        result = get_json { transport("http://#{@config['narrative_base_url']}").get("/narrative") }
         result == :error ? result : result["content"]
       end
 
       def weekly_visits
-        get_json { transport("http://localhost:8082").get("/weekly-visits") }
+        get_json { transport("http://#{@config['weekly_reach_base_url']}").get("/weekly-visits") }
       end
 
       def weekly_visitors
-        get_json { transport("http://localhost:8082").get("/weekly-visitors") }
+        get_json { transport("http://#{@config['weekly_reach_base_url']}").get("/weekly-visitors") }
       end
 
       def todays_activity
-        get_json { transport("http://localhost:8083").get("/todays-activity") }
+        get_json { transport("http://#{@config['todays_activity_base_url']}").get("/todays-activity") }
       end
 
       private

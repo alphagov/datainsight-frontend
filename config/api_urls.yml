@@ -1,0 +1,12 @@
+development:
+  narrative_base_url: localhost:8081
+  weekly_reach_base_url: localhost:8082
+  todays_activity_base_url: localhost:8083
+production:
+  narrative_base_url: datainsight-narrative-recorder
+  weekly_reach_base_url: datainsight-weekly-reach-recorder
+  todays_activity_base_url: datainsight-todays-activity-recorder
+test:
+  narrative_base_url: localhost:8081
+  weekly_reach_base_url: localhost:8082
+  todays_activity_base_url: localhost:8083
