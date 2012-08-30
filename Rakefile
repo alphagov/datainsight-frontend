@@ -3,6 +3,7 @@ require 'rspec/core/rake_task'
 require 'ci/reporter/rake/rspec'
 load 'jasmine-phantom/tasks.rake'
 
+Dir.glob('lib/tasks/*.rake').each { |r| import r }
 
 task :default => :spec
 
