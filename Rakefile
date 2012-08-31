@@ -1,13 +1,14 @@
 require 'rubygems'
-require 'rspec/core/rake_task' unless ENV["RACK_ENV"] == "production"
-require 'ci/reporter/rake/rspec' unless ENV["RACK_ENV"] == "production"
-load 'jasmine-phantom/tasks.rake'
 
 Dir.glob('lib/tasks/*.rake').each { |r| import r }
 
-task :default => :spec
-
 unless ENV["RACK_ENV"] == "production"
+  require 'rspec/core/rake_task'
+  require 'ci/reporter/rake/rspec'
+  load 'jasmine-phantom/tasks.rake'
+
+  task :default => :spec
+
   RSpec::Core::RakeTask.new do |task|
     task.pattern    = 'spec/**/*_spec.rb'
     task.rspec_opts = ["--format documentation"]
