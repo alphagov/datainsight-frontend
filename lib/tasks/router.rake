@@ -11,7 +11,7 @@ namespace :router do
 
   task :register_application => :router_environment do
     platform = ENV['FACTER_govuk_platform']
-    url = "datainsight-web.#{platform}.alphagov.co.uk/"
+    url = "datainsight.#{platform}.alphagov.co.uk/"
     @router.applications.update application_id: "datainsight-web", backend_url: url
   end
 
