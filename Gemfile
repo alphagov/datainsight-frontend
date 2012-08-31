@@ -1,6 +1,10 @@
 source :rubygems
 source 'https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/'
 
+group :router do
+  gem 'router-client', '2.0.3', require: 'router/client'
+end
+
 gem "rake", "0.9.2"
 gem "sinatra", "1.3.2", :require => "sinatra/base"
 gem 'slimmer', '1.2.4'
