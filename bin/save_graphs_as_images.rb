@@ -8,7 +8,8 @@ def save_as_image(route, output_filename, div_selector)
   url = "http://localhost:#{PORT}/#{route}"
   output_location = "#{OUTPUT_DIR}/#{output_filename}.png"
   LOGGER.info("Generating image for #{url}")
-  system("phantomjs bin/rasterize.js #{url} #{output_location} '#{div_selector}'")
+  phantomjs_bin = `which phantomjs`.strip
+  system("#{phantomjs_bin} bin/rasterize.js #{url} #{output_location} '#{div_selector}'")
   case $?.exitstatus
     when 0
       # do nothing
