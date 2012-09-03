@@ -6,7 +6,7 @@ namespace :router do
     @logger = Logger.new STDOUT
     @logger.level = Logger::DEBUG
 
-    @router = Router.new("http://router.cluster:8080", @logger)
+    @router = Router.new("http://router.cluster:8080/router", @logger)
   end
 
   task :register_application => :router_environment do
@@ -16,7 +16,7 @@ namespace :router do
   end
 
   task :register_routes => :router_environment do
-    @router.create_route("/performance", :full, "datainsight-web")
+    @router.create_route("performance", :full, "datainsight-web")
   end
 
   desc "Register Data Insight with the router (run this task on server in cluster)"
