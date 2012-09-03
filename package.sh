@@ -8,7 +8,7 @@ case $? in
   0)
     bundle package
     hash=$(git log --pretty=format:'%h' -n 1)
-    zip -x vendor/ruby/\* -x \*.zip -x tmp\* -x .git\* -r datainsight-web-$hash *
+    zip -x vendor/ruby/\* -x \*.zip -x tmp\* -x .git\* -r datainsight-frontend-$hash *
     echo $hash
   ;;
   1)

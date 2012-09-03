@@ -2,7 +2,7 @@
 
 set -e
 
-PROJECT_NAME=datainsight-web
+PROJECT_NAME=datainsight-frontend
 
 export VERSION="$1"
 if [ -z "$VERSION" ]; then
