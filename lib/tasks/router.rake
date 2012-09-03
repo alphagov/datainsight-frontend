@@ -11,12 +11,12 @@ namespace :router do
 
   task :register_application => :router_environment do
     platform = ENV['FACTER_govuk_platform']
-    backend_url = "datainsight.#{platform}.alphagov.co.uk"
-    @router.update_application("datainsight-web", backend_url)
+    backend_url = "datainsight-frontend.#{platform}.alphagov.co.uk"
+    @router.update_application("datainsight-frontend", backend_url)
   end
 
   task :register_routes => :router_environment do
-    @router.create_route("performance", :full, "datainsight-web")
+    @router.create_route("performance", :full, "datainsight-frontend")
   end
 
   desc "Register Data Insight with the router (run this task on server in cluster)"
