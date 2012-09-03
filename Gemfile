@@ -2,7 +2,7 @@ source :rubygems
 source 'https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/'
 
 group :router do
-  gem 'router-client', '2.0.3', require: 'router/client'
+  gem 'router-client', '3.1.0', :require => 'router'
 end
 
 gem "rake", "0.9.2"

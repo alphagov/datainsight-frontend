@@ -6,18 +6,17 @@ namespace :router do
     @logger = Logger.new STDOUT
     @logger.level = Logger::DEBUG
 
-    @router = Router::Client.new :logger => @logger
+    @router = Router.new("http://router.cluster:8080", @logger)
   end
 
   task :register_application => :router_environment do
     platform = ENV['FACTER_govuk_platform']
-    url = "datainsight.#{platform}.alphagov.co.uk/"
-    @router.applications.update application_id: "datainsight-web", backend_url: url
+    backend_url = "datainsight.#{platform}.alphagov.co.uk"
+    @router.update_application("datainsight-web", backend_url)
   end
 
   task :register_routes => :router_environment do
-    @router.routes.update application_id: "datainsight-web", route_type: :full,
-      incoming_path: "/performance"
+    @router.create_route("/performance", :full, "datainsight-web")
   end
 
   desc "Register Data Insight with the router (run this task on server in cluster)"
