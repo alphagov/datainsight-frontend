@@ -1,19 +1,8 @@
 /* Requires: normalize.css */
 /* Global Reset & Standards ---------------------- */
-* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+#content * { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 
-html { font-size: 62.5%; }
-
-body { background: white; font-family: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 14px; font-size: 1.4rem; line-height: 1; color: #231f20; position: relative; -webkit-font-smoothing: antialiased; }
-
-/* Links ---------------------- */
-a { color: #2975bc; text-decoration: none; line-height: inherit; }
-
-a:hover { color: #2468a7; }
-
-a:focus { color: #2975bc; outline: none; }
-
-p a, p a:visited { line-height: inherit; }
+#content { line-height: 1; }
 
 /* Misc ---------------------- */
 .left { float: left; }
@@ -29,14 +18,6 @@ p a, p a:visited { line-height: inherit; }
 .hide { display: none; }
 
 .highlight { background: #ffff99; }
-
-#googlemap img, object, embed { max-width: none; }
-
-#map_canvas embed { max-width: none; }
-
-#map_canvas img { max-width: none; }
-
-#map_canvas object { max-width: none; }
 
 /* The Grid ---------------------- */
 .row { width: 996px; max-width: 100%; min-width: 768px; margin: 0 auto; }
