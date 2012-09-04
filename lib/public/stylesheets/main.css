@@ -156,6 +156,11 @@ body {
     visibility: hidden;
 }
 
+header nav, header .search-help {
+    display: none;
+    visibility: hidden;
+}
+
 #content {
     background-color: #FFFFFF;
     padding-top: 1px;
