@@ -96,12 +96,6 @@ class App < Sinatra::Base
     send_file "#{GRAPHS_IMAGES_DIR}/todays-activity.png"
   end
 
-  get "/yesterday-legend.png" do
-    content_type "image/png"
-    headers['X-Slimmer-Skip'] = "true"
-    send_file "#{GRAPHS_IMAGES_DIR}/yesterday-legend.png"
-  end
-
   error do
     logger.error env['sinatra.error']
 
