@@ -9,14 +9,15 @@ describe("todays data graph generation", function() {
     }
 
     beforeEach(function(){
-       stubGraphDiv.appendTo('body');
+		// clone every time to avoid state in tests
+       stubGraphDiv.clone().appendTo('body');
        spyOn(jQuery,'ajax').andCallFake(function(options) {
             stubAjaxResponder(options.success);
        });
     });
 
     afterEach(function(){
-        stubGraphDiv.remove();
+        $('#todays-activity-module').remove();
         jQuery.ajax.reset();
     });
 
@@ -42,7 +43,9 @@ describe("todays data graph generation", function() {
 
     it ("should display an error message if there is no data to be shown", function() {
         jsonResponse = null;
-        spyOn(GOVUK,"isSvgSupported").andReturn(false);
+		
+		// assuming the jasmine spec browser will support svgs but just to be safe...
+        spyOn(GOVUK,"isSvgSupported").andReturn(true);
 
         GOVUK.Insights.todaysActivity();
 
