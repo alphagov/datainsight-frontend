@@ -16,7 +16,6 @@ namespace :router do
   end
 
   task :register_routes => :router_environment do
-    @router.delete_route("performance")
     @router.create_route("performance", :full, "datainsight-frontend")
   end
 
