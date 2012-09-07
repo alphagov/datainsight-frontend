@@ -27,6 +27,6 @@ def save_as_image(route, output_filename, div_selector)
 end
 
 save_as_image("engagement", "todays-activity", "#todays-activity-module")
-save_as_image("engagement", "visits", "#visits")
-save_as_image("engagement", "unique-visitors", "#unique-visitors")
+save_as_image("engagement", "visits", "#visits-module")
+save_as_image("engagement", "unique-visitors", "#unique-visitors-module")
 

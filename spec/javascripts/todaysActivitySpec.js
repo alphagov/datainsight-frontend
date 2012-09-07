@@ -60,8 +60,8 @@ describe("todays data graph generation", function () {
 
         expect(jQuery.ajax).toHaveBeenCalled();
 
-        var png = $('#todays-activity-module').find('image');
-        expect(png).not.toBe(0);
+        var png = $('#todays-activity-module').find('img');
+        expect(png.length).not.toBe(0);
     });
 
     it("should display an error message if there is no data to be shown", function () {
