@@ -148,8 +148,6 @@ describe("visits graph generation", function () {
         var actualErrorMsg = $('#visits').find('#error-msg').text();
         var expectedErrorMsg = $(GOVUK.Insights.Helpers.error_div).text();
 
-        console.log(actualErrorMsg, expectedErrorMsg);
-
         expect(actualErrorMsg).toBe(expectedErrorMsg);
 
     });
