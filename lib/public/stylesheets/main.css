@@ -3,6 +3,18 @@
     font-size: 19px;
 }
 
+.ie7 .row * {
+    width: auto;
+}
+
+.ie7 .six {
+    width: 46% !important;
+}
+
+.ie6 .six {
+    width: 46% !important;
+}
+
 .info {
     background: #fff url('/images/information.png') no-repeat left;
     width: 32px;
