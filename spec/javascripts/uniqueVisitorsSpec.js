@@ -147,8 +147,6 @@ describe("unique visitors graph generation", function () {
         var actualErrorMsg = $('#unique-visitors').find('#error-msg').text();
         var expectedErrorMsg = $(GOVUK.Insights.Helpers.error_div).text();
 
-        console.log(actualErrorMsg, expectedErrorMsg);
-
         expect(actualErrorMsg).toBe(expectedErrorMsg);
 
     });
