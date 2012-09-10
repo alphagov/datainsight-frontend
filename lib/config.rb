@@ -8,7 +8,8 @@ class App < Sinatra::Base
   helpers Datainsight::Logging::Helpers
 
   configure do
-    set :api_urls, config_for(:api_urls)[ENV["RACK_ENV"]]
+    platform = ENV['FACTER_govuk_platform'] || ENV["RACK_ENV"]
+    set :api_urls, config_for(:api_urls)[platform]
     enable :logging
     unless test?
       Datainsight::Logging.configure
