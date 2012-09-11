@@ -113,6 +113,10 @@ path.red {
     stroke: #BF1E2D;
 }
 
+path.pink {
+    stroke: #c61c71;
+}
+
 /* Module Specific */
 #narrative {
     padding: 36px;
