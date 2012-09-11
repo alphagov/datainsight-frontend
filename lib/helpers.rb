@@ -39,5 +39,9 @@ module Insight
     def error_div
       '<div class="error">Sorry, there has been an error.</div>'
     end
+
+    def displayable(message)
+      message != :error and not message.empty?
+    end
   end
 end

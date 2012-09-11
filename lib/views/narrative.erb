@@ -1,6 +1,4 @@
-<% if @narrative == :error %>
-    <%= error_div %>
-<% else %>
+<% if displayable(@narrative) %>
     <div id="narrative" class="large-text module">
       <%= narrative(@narrative) %>
     </div>
