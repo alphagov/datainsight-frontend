@@ -25,10 +25,6 @@ class App < Sinatra::Base
   end
 
   get "/" do
-    redirect to "/engagement"
-  end
-
-  get "/engagement" do
     @narrative = api(api_urls).narrative
     @trust = api(api_urls).user_trust
 
