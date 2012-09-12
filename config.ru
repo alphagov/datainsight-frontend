@@ -9,4 +9,10 @@ use Rack::CommonLogger, File.new('log/rack-access.log', 'a')
 # use(Slimmer::App, :asset_host => "http://static.preview.alphagov.co.uk") unless ENV["SLIMMER_OFF"]
 # only show "info" or higher messages on STDOUT using the Basic layout
 use Slimmer::App unless ENV["SLIMMER_OFF"]
+
+# Rewrite everything /performance/{} to /{}
+use Rack::Rewrite do
+  rewrite %r{/performance(.*)}, '$1'
+end
+
 run App

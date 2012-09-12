@@ -31,10 +31,6 @@ class App < Sinatra::Base
     erb :engagement
   end
 
-  get "/performance" do
-    "It works!"
-  end
-
   get "/narrative" do
     @narrative = api(api_urls).narrative
     erb :narrative

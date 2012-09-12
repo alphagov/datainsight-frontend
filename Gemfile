@@ -18,6 +18,7 @@ gem "songkick-transport", :git => "git://github.com/songkick/transport.git"
 gem "httparty"
 gem "whenever"
 gem "datainsight_logging"
+gem "rack-rewrite"
 
 group :test do
   #gem "rack-test"
