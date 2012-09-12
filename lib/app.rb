@@ -16,6 +16,10 @@ class App < Sinatra::Base
   helpers Insight::Helpers
   GRAPHS_IMAGES_DIR = "/var/tmp/graphs"
 
+  configure do
+    set :public_folder, File.expand_path(File.dirname(__FILE__) + "/../public")
+  end
+
   def api_urls
     settings.api_urls
   end
