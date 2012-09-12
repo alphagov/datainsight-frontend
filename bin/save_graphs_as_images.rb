@@ -26,7 +26,7 @@ def save_as_image(route, output_filename, div_selector)
   LOGGER.info("Saved image to #{output_location}")
 end
 
-save_as_image("engagement", "todays-activity", "#todays-activity-module")
-save_as_image("engagement", "visits", "#visits-module")
-save_as_image("engagement", "unique-visitors", "#unique-visitors-module")
+save_as_image("", "todays-activity", "#todays-activity-module")
+save_as_image("", "visits", "#visits-module")
+save_as_image("", "unique-visitors", "#unique-visitors-module")
 
