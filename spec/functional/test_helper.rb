@@ -19,7 +19,11 @@ module CommonSetup
   extend RSpec::Core::SharedContext
 
   before(:all) do
-    Capybara.app = App.new
+    Capybara.app = Rack::URLMap.new(
+        {
+            "/performance" => App,
+        }
+    )
   end
 end
 
