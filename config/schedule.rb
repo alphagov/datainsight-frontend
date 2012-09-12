@@ -6,5 +6,5 @@ set :output, {
 job_type :ruby, "cd :path && RACK_ENV=:environment bundle exec ruby :task :port :output"
 
 every 5.minutes do
-  ruby "bin/save_graphs_as_images.rb", :environment => 'production'
+  ruby "bin/save_graphs_as_images.rb", :environment => 'production', :port => 3027
 end
