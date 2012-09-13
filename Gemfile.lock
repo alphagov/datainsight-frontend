@@ -28,7 +28,7 @@ GEM
     chronic (0.6.7)
     ci_reporter (1.7.0)
       builder (>= 2.1.2)
-    datainsight_logging (0.0.1)
+    datainsight_logging (0.0.2)
       logging
     diff-lcs (1.1.3)
     eventmachine (1.0.0.rc.4)
