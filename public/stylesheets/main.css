@@ -15,6 +15,22 @@
     width: 46% !important;
 }
 
+.ie7 #todays-activity-module {
+    height: 462px;
+}
+
+.ie7 #unique-visitors, .ie7 #visits {
+    height: 346px;
+}
+
+.ie6 #todays-activity-module  {
+height: 462px;
+    }
+
+.ie6 #unique-visitors, .ie6 #visits {
+    height: 346px;
+}
+
 .info {
     background: #fff url('/performance/images/information.png') no-repeat left;
     width: 32px;
