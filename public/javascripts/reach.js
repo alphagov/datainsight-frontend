@@ -127,7 +127,6 @@ function plot_traffic(id, raw_data) {
         .attr("y", height)
         .attr("text-anchor", "middle")
         .attr("class", "xaxis")
-        .attr("style", "font-family:sans-serif;font-size:14px;")
         .text(function (datum) {
             if (datum % 4 == 0) {
                 return x_ticks(datum);
