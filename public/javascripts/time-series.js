@@ -55,8 +55,8 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
     return {
         render:function (data) {
             var alldata = concat(data, series),
-                lastDate = Date.today().last().sunday(),
-                firstDate = lastDate.clone().add(-6).months(),
+                lastDate = moment().startOf("day").day(-7),
+                firstDate = lastDate.clone().subtract("months", 6),
                 xExtent = [firstDate, lastDate],
                 yExtent = d3.extent(alldata, function (d) {
                     return d.value;

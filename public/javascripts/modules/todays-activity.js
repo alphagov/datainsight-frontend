@@ -2,10 +2,6 @@ var GOVUK = GOVUK || {};
 GOVUK.Insights = GOVUK.Insights || {};
 
 GOVUK.Insights.todaysActivity = function () {
-    function parseDateCompatibleWithIE6(data, timezone) {
-        return Date.parseExact(data.live_at.slice(0, -6), "yyyy-MM-ddTHH:mm:ss").setTimezone(timezone)
-    }
-
     function showError() {
         $("#reach").append(GOVUK.Insights.Helpers.error_div);
     }
@@ -26,8 +22,8 @@ GOVUK.Insights.todaysActivity = function () {
                     $("#todays-activity-module").html("<img src='/performance/todays-activity.png'></img>");
                 }
                 var timezone = "GMT";
-                var date = parseDateCompatibleWithIE6(data, timezone);
-                $("#live_at").text(date.toString("dddd ddXX MMMM, H:mm EE").replace("XX", date.getOrdinal()).replace("EE", timezone));
+                var date = moment(data.live_at, "YYYY-MM-DDThh:mm:ss ZZ").utc();
+                $("#live_at").text(date.format("dddd Do MMMM, hh:mm \\G\\M\\T"));
             } else {
                 showError();
             }
