@@ -22,8 +22,8 @@ GOVUK.Insights.todaysActivity = function () {
                     $("#todays-activity-module").html("<img src='/performance/todays-activity.png'></img>");
                 }
                 var timezone = "GMT";
-                var date = moment(data.live_at, "YYYY-MM-DDTHH:mm:ss ZZ").utc();
-                $("#live_at").text(date.format("dddd Do MMMM, hh:mm \\G\\M\\T"));
+                var date = moment(data.live_at, "YYYY-MM-DDThh:mm:ss ZZ").utc();
+                $("#live_at").text(date.format("dddd Do MMMM, HH:mm \\G\\M\\T"));
             } else {
                 showError();
             }
