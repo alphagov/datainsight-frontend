@@ -23,12 +23,20 @@
     height: 346px;
 }
 
-.ie6 #todays-activity-module  {
-height: 462px;
-    }
+.ie7 #format-success-module {
+    height: 547px;
+}
+
+.ie6 #todays-activity-module {
+    height: 462px;
+}
 
 .ie6 #unique-visitors, .ie6 #visits {
     height: 346px;
+}
+
+.ie6 #format-success-module {
+    height: 547px;
 }
 
 .info {
@@ -50,7 +58,7 @@ height: 462px;
 }
 
 .module-header {
-    margin:0;
+    margin: 0;
 }
 
 .module-header > div {
@@ -106,6 +114,7 @@ svg {
 path {
     fill: none;
 }
+
 path.dashed-line {
     stroke-width: 2;
     stroke-dasharray: 2, 1;
