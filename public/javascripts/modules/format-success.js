@@ -5,16 +5,16 @@ $.ajax({
         data.map(
           function(formatEvents) {
             return {
-              total: formatEvents["events"]["total"],
-              percentageOfSuccess: formatEvents["events"]["percentageOfSuccess"],
-              formatName: formatEvents["format"]
+              formatName: formatEvents["format"],
+              total: formatEvents["entries"],
+              percentageOfSuccess: formatEvents["percentage_of_success"]
             };
         });
 
-      var maxX = d3.max(data, function (formatData) { return formatData["events"]["total"]; })
+      var maxX = d3.max(values, function (formatData) { return formatData["total"]; })
 
-      var minY = d3.min(data, function (formatData) { return formatData["events"]["percentageOfSuccess"]; })
-      var maxY = d3.max(data, function (formatData) { return formatData["events"]["percentageOfSuccess"]; })
+      var minY = d3.min(values, function (formatData) { return Math.round(formatData["percentageOfSuccess"]); })
+      var maxY = d3.max(values, function (formatData) { return Math.round(formatData["percentageOfSuccess"]); })
 
       var maxRadius = 25;
       var radiusScale = d3.scale.linear()
@@ -29,7 +29,6 @@ $.ajax({
           h = 400,
           gutterX = 32,
           gutterYTop = 25,
-          gutterYBottom = 0,
           x = d3.scale.linear()
             .domain([0, maxX])
             .range([gutterForBubbles + maxRadius/2, w - (gutterForBubbles + maxRadius/2)]),

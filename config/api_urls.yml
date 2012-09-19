@@ -2,15 +2,19 @@ development:
   narrative_base_url: http://localhost:8081
   weekly_reach_base_url: http://localhost:8082
   todays_activity_base_url: http://localhost:8083
+  format_success_base_url: http://localhost:8084
 preview:
   narrative_base_url: https://datainsight-narrative-recorder.preview.alphagov.co.uk
   weekly_reach_base_url: https://datainsight-weekly-reach-recorder.preview.alphagov.co.uk
   todays_activity_base_url: https://datainsight-todays-activity-recorder.preview.alphagov.co.uk
+  format_success_base_url: https://datainsight-format-success-recorder.preview.alphagov.co.uk
 production:
   narrative_base_url: https://datainsight-narrative-recorder.production.alphagov.co.uk
   weekly_reach_base_url: https://datainsight-weekly-reach-recorder.production.alphagov.co.uk
   todays_activity_base_url: https://datainsight-todays-activity-recorder.production.alphagov.co.uk
+  format_success_base_url: https://datainsight-format-success-recorder.production.alphagov.co.uk
 test:
   narrative_base_url: http://localhost:8081
   weekly_reach_base_url: http://localhost:8082
   todays_activity_base_url: http://localhost:8083
+  format_success_base_url: http://localhost:8084

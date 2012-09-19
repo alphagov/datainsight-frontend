@@ -65,6 +65,10 @@ module Insight
         get_json { transport(@config['todays_activity_base_url']).get("/todays-activity") }
       end
 
+      def format_success
+        get_json { transport(@config['format_success_base_url']).get("/format-success") }
+      end
+
       private
       def transport(host, args={})
         Transport.new(host, :user_agent => "Data Insight Web", :timeout => args[:timeout] || 5)
