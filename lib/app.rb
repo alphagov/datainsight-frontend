@@ -28,6 +28,14 @@ class App < Sinatra::Base
     result == :error ? 500 : result.to_json
   end
 
+  def self.serve_graph_image(image_filename)
+    get "/#{image_filename}" do
+      content_type "image/png"
+      headers['X-Slimmer-Skip'] = "true"
+      send_file "#{GRAPHS_IMAGES_DIR}/#{image_filename}"
+    end
+  end
+
   get "/" do
     @narrative = api(api_urls).narrative
     @trust = api(api_urls).user_trust
@@ -49,11 +57,7 @@ class App < Sinatra::Base
     erb :visits
   end
 
-  get "/visits.png" do
-    content_type "image/png"
-    headers['X-Slimmer-Skip'] = "true"
-    send_file "#{GRAPHS_IMAGES_DIR}/visits.png"
-  end
+  serve_graph_image "visits.png"
 
   get "/unique-visitors.json" do
     content_type :json
@@ -64,11 +68,7 @@ class App < Sinatra::Base
     erb :unique_visitors
   end
 
-  get "/unique-visitors.png" do
-    content_type "image/png"
-    headers['X-Slimmer-Skip'] = "true"
-    send_file "#{GRAPHS_IMAGES_DIR}/unique-visitors.png"
-  end
+  serve_graph_image "unique-visitors.png"
 
   get "/trust.json" do
     content_type :json
@@ -90,11 +90,7 @@ class App < Sinatra::Base
     erb :todays_activity
   end
 
-  get "/todays-activity.png" do
-    content_type "image/png"
-    headers['X-Slimmer-Skip'] = "true"
-    send_file "#{GRAPHS_IMAGES_DIR}/todays-activity.png"
-  end
+  serve_graph_image "todays-activity.png"
 
   error do
     logger.error env['sinatra.error']
@@ -106,11 +102,7 @@ class App < Sinatra::Base
     erb :format_success
   end
 
-  get "/format-success.png" do
-    content_type "image/png"
-    headers['X-Slimmer-Skip'] = "true"
-    send_file "#{GRAPHS_IMAGES_DIR}/format-success.png"
-  end
+  serve_graph_image "format-success.png"
 
   get "/format-success.json" do
     content_type :json
