@@ -29,4 +29,5 @@ end
 save_as_image("performance", "todays-activity", "#todays-activity-module")
 save_as_image("performance", "visits", "#visits-module")
 save_as_image("performance", "unique-visitors", "#unique-visitors-module")
+save_as_image("performance", "format-success", "#format-success-module")
 

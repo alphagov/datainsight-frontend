@@ -106,6 +106,12 @@ class App < Sinatra::Base
     erb :format_success
   end
 
+  get "/format-success.png" do
+    content_type "image/png"
+    headers['X-Slimmer-Skip'] = "true"
+    send_file "#{GRAPHS_IMAGES_DIR}/format-success.png"
+  end
+
   get "/format-success.json" do
     content_type :json
     api_result_to_json(api(api_urls).format_success)
