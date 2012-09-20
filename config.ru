@@ -13,5 +13,6 @@ use Slimmer::App unless ENV["SLIMMER_OFF"]
 run Rack::URLMap.new(
         {
             "/performance" => App,
+            "/" => Sinatra.new { get('/') { redirect "/performance" } }
         }
     )

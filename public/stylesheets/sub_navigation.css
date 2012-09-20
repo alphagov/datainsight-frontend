@@ -1,0 +1,93 @@
+#sub-navigation {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    padding-top: 0;
+    width: 100%;
+    height: 40px;
+    z-index: 100;
+}
+
+#sub-navigation .inner {
+    margin: 0 auto;
+    max-width: 960px;
+    overflow: hidden;
+    background: #ddd;
+    padding: 3px 0 0 0;
+    padding: 0.3rem 0 0 0;
+}
+
+#sub-navigation .ie6 .inner {
+    height: 41px;
+}
+
+#sub-navigation ul {
+    margin: 0;
+    padding: 0;
+}
+
+#sub-navigation li {
+    float: left;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+#sub-navigation li a {
+    margin: 0;
+    font-family: "nta", "GDS-Regular", sans-serif;
+    font-size: 16px;
+    font-size: 1.6rem;
+    line-height: 1.5625;
+    /* 25px */
+    display: block;
+    padding: 8px 8px;
+    padding: 0.8rem 0.8rem;
+    text-decoration: none;
+    color: #000000;
+}
+
+#sub-navigation li a:hover,
+#sub-navigation li a:focus {
+    text-decoration: underline;
+}
+
+#sub-navigation li .current {
+    margin-top: 0.4rem;
+    padding-top: 0.4rem;
+    background: #eee;
+}
+
+#sub-navigation #index a {
+    font-family: "Gill Sans W01 Book", "Gill Sans MT", "Gill Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-size: 1.3rem;
+    line-height: 1.307692308;
+    /*16px*/
+    font-weight: 400;
+    letter-spacing: 0.125em;
+    text-transform: uppercase;
+    padding-top: 11px;
+    padding-top: 1.1rem;
+    padding-bottom: 13px;
+    padding-bottom: 1.3rem;
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-weight: 400;
+    margin-top: 0;
+    margin-right: 8px;
+    padding: 12px 8px;
+    padding: 1.2rem 0.8rem;
+    background: #222;
+    color: #fff;
+}
+
+@media (min-width: 768px) {
+    #sub-navigation #inside_gov_link a {
+        padding: 1.2rem 1.6rem;
+    }
+}
+
+.inner-block {
+    padding: 0 30px;
+}

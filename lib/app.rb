@@ -12,8 +12,10 @@ unless defined?(USE_STUB_DATA)
 end
 
 class App < Sinatra::Base
+  helpers Padrino::Helpers
   helpers Sinatra::ContentFor
   helpers Insight::Helpers
+
   GRAPHS_IMAGES_DIR = "/var/tmp/graphs"
 
   configure do
@@ -37,6 +39,10 @@ class App < Sinatra::Base
   end
 
   get "/" do
+    erb :index, :locals => {:page => 'index'}
+  end
+
+  get "/dashboard" do
     @narrative = api(api_urls).narrative
     @trust = api(api_urls).user_trust
 

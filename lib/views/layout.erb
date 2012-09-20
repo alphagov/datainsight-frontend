@@ -3,27 +3,42 @@
 <head>
   <link rel="stylesheet" type="text/css" href="/performance/stylesheets/foundation.css">
   <link rel="stylesheet" type="text/css" href="/performance/stylesheets/main.css"/>
+  <link rel="stylesheet" type="text/css" href="/performance/stylesheets/sub_navigation.css"/>
   <% yield_content :head %>
 </head>
 
 <body>
-<!--[if lte IE 5]>     <div id="wrapper" class="wrapper"><![endif]-->
-<!--[if IE 6]>      <div id="wrapper" class="wrapper ie6"><![endif]-->
-<!--[if IE 7]>      <div id="wrapper" class="wrapper ie7"><![endif]-->
-<!--[if IE 8]>      <div id="wrapper" class="wrapper ie8"><![endif]-->
-<!--[if gte IE 9]>  <div id="wrapper" class="wrapper"><![endif]-->
-<!--[if !IE] --><div id="wrapper" class="wrapper"><!-- [endif]-->
-  <section id="content" role="main">
-    <%= yield %>
-  </section>
-</div>
-</body>
+    <!--[if lte IE 5]>     <div id="wrapper" class="wrapper datainsight"><![endif]-->
+    <!--[if IE 6]>      <div id="wrapper" class="wrapper ie6 datainsight"><![endif]-->
+    <!--[if IE 7]>      <div id="wrapper" class="wrapper ie7 datainsight"><![endif]-->
+    <!--[if IE 8]>      <div id="wrapper" class="wrapper ie8 datainsight"><![endif]-->
+    <!--[if gte IE 9]>  <div id="wrapper" class="wrapper datainsight"><![endif]-->
+    <!--[if !IE] --><div id="wrapper" class="wrapper datainsight"><!-- [endif]-->
 
-<footer>
-  <script type="text/javascript" src="/performance/javascripts/jquery-1.7.2.js"></script>
-  <script type="text/javascript" src="/performance/javascripts/d3.v2.js"></script>
-  <script type="text/javascript" src="/performance/javascripts/moment.min.js"></script>
-  <script type="text/javascript" src="/performance/javascripts/helpers.js"></script>
-  <% yield_content :footer %>
-</footer>
+      <nav class="group js-nav-helper" id="sub-navigation" role="navigation">
+        <div class="inner">
+          <ul>
+            <li id="index">
+              <%= nav_link_to "DATA INSIGHT", "/" %>
+            </li>
+            <li id="govuk-performance">
+              <%= nav_link_to "Dashboard", "/dashboard" %>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <section id="content" role="main">
+        <%= yield %>
+      </section>
+    </div>
+    </body>
+
+    <footer>
+      <script type="text/javascript" src="/performance/javascripts/jquery-1.7.2.js"></script>
+      <script type="text/javascript" src="/performance/javascripts/d3.v2.js"></script>
+      <script type="text/javascript" src="/performance/javascripts/moment.min.js"></script>
+      <script type="text/javascript" src="/performance/javascripts/helpers.js"></script>
+      <% yield_content :footer %>
+    </footer>
 </html>
