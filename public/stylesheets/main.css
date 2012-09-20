@@ -1,3 +1,28 @@
+.datainsight .page-header hgroup {
+    margin-right: 0;
+}
+
+.datainsight .article-container {
+    margin-right: 0;
+}
+
+article .intro {
+    padding: 0 1em;
+}
+
+article .intro p:first-child {
+    margin-top: 0;
+}
+
+article p {
+    font-family: "nta","GDS-Regular",sans-serif;
+    font-size: 1.9rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.31579;
+    text-transform: none;
+}
+
 #content {
     font-family: nta, arial, sans-serif;
     font-size: 19px;
@@ -90,6 +115,18 @@ strong {
 
 svg {
     font-size: 14px;
+}
+
+.graph-heading {
+    font-size: 19px;
+    margin: 2px 0;
+    font-weight: normal;
+}
+
+.graph-info {
+    font-size: 14px;
+    margin: 2px 0;
+    font-weight: normal;
 }
 
 .blue-text {
