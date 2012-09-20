@@ -15,7 +15,7 @@ article .intro p:first-child {
 }
 
 article p {
-    font-family: "nta","GDS-Regular",sans-serif;
+    font-family: "nta", "GDS-Regular", sans-serif;
     font-size: 1.9rem;
     font-weight: 400;
     letter-spacing: 0;
@@ -62,13 +62,6 @@ article p {
 
 .ie6 #format-success-module {
     height: 547px;
-}
-
-.info {
-    background: #fff url('/performance/images/information.png') no-repeat left;
-    width: 32px;
-    height: 27px;
-    float: left;
 }
 
 /* Layout */
@@ -119,13 +112,14 @@ svg {
 
 .graph-heading {
     font-size: 19px;
-    margin: 2px 0;
-    font-weight: normal;
 }
 
 .graph-info {
     font-size: 14px;
-    margin: 2px 0;
+}
+
+.graph-heading, .graph-info {
+    margin: 2px 12px;
     font-weight: normal;
 }
 
