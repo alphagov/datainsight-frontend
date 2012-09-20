@@ -25,7 +25,6 @@ article p {
 
 #content {
     font-family: nta, arial, sans-serif;
-    font-size: 19px;
 }
 
 .ie7 .row * {
@@ -111,20 +110,19 @@ svg {
 }
 
 .graph-heading {
-    font-size: 19px;
+    margin: 4px 12px;
 }
 
 .graph-info {
-    font-size: 14px;
+    margin: 2px 12px;
 }
 
 .graph-heading, .graph-info {
-    margin: 2px 12px;
     font-weight: normal;
 }
 
 .graph-source {
-    padding: 9px 0 18px 0;
+    padding: 18px 0;
     font-size: 14px;
     margin: 0px 0;
 }
@@ -183,7 +181,7 @@ path.pink {
 #narrative {
     padding: 36px;
     background-color: #E1E8E7;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 #narrative .green {
