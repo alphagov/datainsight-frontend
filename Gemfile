@@ -7,6 +7,7 @@ end
 
 gem "rake", "0.9.2"
 gem "sinatra", "1.3.2", :require => "sinatra/base"
+gem "padrino-helpers", '~> 0.10'
 gem 'slimmer', '1.2.4'
 gem "rack", "1.4.1"
 gem "activesupport", "3.2.8"
