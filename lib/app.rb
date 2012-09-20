@@ -20,6 +20,7 @@ class App < Sinatra::Base
 
   configure do
     set :public_folder, File.expand_path(File.dirname(__FILE__) + "/../public")
+    set :uri_root, '/performance'
   end
 
   def api_urls

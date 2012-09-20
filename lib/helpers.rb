@@ -21,7 +21,6 @@ end
 
 module Insight
   module Helpers
-    ROOT_PATH = "/performance"
 
     def narrative(text)
       Nokogiri::XML("<narrative>#{text}</narrative>").xpath("./*").children.map { |e|
@@ -50,15 +49,15 @@ module Insight
       message != :error and not message.empty?
     end
 
-    def nav_link_to text, path, options = {}
-      if path == request.path_info
+    def nav_link_to text, target, options = {}
+      if request.path_info == target
         options[:class] = options[:class] ? options[:class] + ' current' : 'current'
       end
-      internal_link_to(text, path, options)
+      internal_link_to(text, target, options)
     end
 
-    def internal_link_to text, path, options = {}
-      link_to(text, "#{ROOT_PATH}#{path}", options)
+    def internal_link_to text, target, options={}
+      link_to(text, "#{self.class.uri_root}#{target}", options)
     end
   end
 end

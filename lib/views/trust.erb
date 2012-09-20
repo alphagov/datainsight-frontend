@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <script src="/performance/javascripts/trust.js"></script>
+  <%= javascript_include_tag 'trust' %>
   <script type="text/javascript">
       $(function () {
           <% @trust.keys.each do |site| %>

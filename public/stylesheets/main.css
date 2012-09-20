@@ -123,6 +123,12 @@ svg {
     font-weight: normal;
 }
 
+.graph-source {
+    padding: 9px 0 18px 0;
+    font-size: 14px;
+    margin: 0px 0;
+}
+
 .blue-text {
     color: #2975bc;
 }

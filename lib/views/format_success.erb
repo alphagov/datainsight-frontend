@@ -1,11 +1,12 @@
 <% content_for :footer do %>
-  <script type="text/javascript" src="/performance/javascripts/modules/format-success.js"></script>
+    <%= javascript_include_tag "modules/format-success" %>
 <% end %>
 
 <div id="format-success-module" class="module">
   <div class="module-header">
     <div>
       <p class="graph-info">Format Interaction</p>
+
       <h2 class="graph-heading">Format visits and successful user interactions</h2>
     </div>
   </div>
@@ -20,6 +21,7 @@
           <div class="small-text right">100%</div>
         </div>
         <br style="clear: both"/>
+
         <div style="margin-top: 8px">
           <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #BF1E2D"></div>
           <div class="small-text right">0%</div>
@@ -30,7 +32,7 @@
   </div>
   <div style="clear: both"></div>
   <div id="format-success"></div>
-  <div class="small-text" style="padding: 18px 0">
-     <span class="blue-text">Sources: Google Analytics</span>
+  <div>
+    <p class="graph-source">Sources: Google Analytics</p>
   </div>
 </div>

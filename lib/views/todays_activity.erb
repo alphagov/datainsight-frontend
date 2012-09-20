@@ -8,8 +8,7 @@
 <% end %>
 
 <% content_for :footer do %>
-    <script type="text/javascript" src="/performance/javascripts/reach.js"></script>
-    <script type="text/javascript" src="/performance/javascripts/modules/todays-activity.js"></script>
+    <%= javascript_include_tag "reach", "modules/todays-activity" %>
 <% end %>
 
 <svg style="width: 0; height: 0">
@@ -49,7 +48,7 @@
   </div>
   <div style="clear: both"></div>
   <div id="reach"></div>
-  <div class="small-text" style="padding: 18px 0">
-    <span class="blue-text">Source: Google Analytics</span>
+  <div>
+    <p class="graph-source">Source: Google Analytics</p>
   </div>
 </div>

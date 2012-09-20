@@ -1,6 +1,5 @@
 <% content_for :footer do %>
-  <script type="text/javascript" src="/performance/javascripts/time-series.js"></script>
-  <script type="text/javascript" src="/performance/javascripts/modules/visits.js"></script>
+    <%= javascript_include_tag 'time-series', 'modules/visits' %>
 <% end %>
 
 <div id="visits-module" class="module">
@@ -12,7 +11,7 @@
   </div>
   <div style="clear: both"></div>
   <div id="visits"></div>
-  <div class="small-text" style="padding: 18px 0">
-     <span class="blue-text">Sources: Google Analytics, Celebrus, Omniture</span>
+  <div>
+     <p class="graph-source">Sources: Google Analytics, Celebrus, Omniture</p>
   </div>
 </div>
