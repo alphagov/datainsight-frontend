@@ -18,5 +18,25 @@ GOVUK.formatTickLabel = function (tickValue, tickStep) {
         return Math.ceil(tickValue / 1000) + "k";
     }
     return "" + tickValue;
-}
+};
+
+GOVUK.convertToLabel = function (val) {
+    // this is actually better than using javascripts Math library...
+    var magnitudeOfValue = (""+val).length - 1;
+
+    var isValueWholeNumber = !(val % Math.pow(10, magnitudeOfValue) > 0);
+
+    if (magnitudeOfValue <= 2) return val.toString();
+
+    var oneThousand = 1000;
+    var oneMillion = 1000000;
+
+    if (magnitudeOfValue >= 7) return Math.round(val / oneMillion) + "m";
+
+    if (magnitudeOfValue >= 6) return (isValueWholeNumber ? (val / oneMillion) : (val / oneMillion).toFixed(1)) + "m";
+
+    if (magnitudeOfValue >= 4) return Math.round(val / oneThousand) + "k";
+
+    if (magnitudeOfValue >= 3) return (isValueWholeNumber ? (val / oneThousand) : (val / oneThousand).toFixed(1)) + "k";
+};
 

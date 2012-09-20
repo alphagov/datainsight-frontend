@@ -5,6 +5,7 @@ GOVUK.Insights.formatSuccess = function () {
     function showError() {
         $("#format-success-module").append(GOVUK.Insights.Helpers.error_div);
     }
+
     $.ajax({
         url:'/performance/format-success.json',
         success:function (data) {
@@ -37,10 +38,10 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
     var minY = d3.min(values, function (formatData) {
         return Math.round(formatData["percentageOfSuccess"]);
-    })
+    });
     var maxY = d3.max(values, function (formatData) {
         return Math.round(formatData["percentageOfSuccess"]);
-    })
+    });
 
     var maxRadius = 25;
     var radiusScale = d3.scale.linear()
@@ -48,7 +49,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .range([0, Math.PI * Math.pow(maxRadius, 2)]);
     var radius = function (total) {
         return Math.sqrt(radiusScale(total) / Math.PI);
-    }
+    };
 
     var gutterForBubbles = 40;
     var h = 400,
@@ -178,9 +179,12 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("dy", ".35em");
 
     var dataForLegend = x.ticks(4).slice(1, 4);
+
     var maxCircleRadius = radius(dataForLegend.slice(-1));
 
-    panel
+    var legend = panel.append("svg:g").attr("transform", "translate(0, 0)");
+
+    legend
         .selectAll("circle.legend")
         .data(dataForLegend)
         .enter().append("svg:circle")
@@ -195,21 +199,21 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         })
         .attr("r", function (d) {
             return radius(d);
-        })
+        });
 
-    panel
+    legend
         .selectAll("text.circle-legend")
         .data(dataForLegend)
         .enter().append("svg:text")
         .attr("class", "circle-legend")
-        .attr("x", 2 * (maxCircleRadius + gutterX))
+        .attr("x", 2 * maxCircleRadius + 5)
         .attr("y", function (d, index) {
             return 15 * index + maxCircleRadius / 2;
         })
         .attr("dy", ".35em")
-        .attr("text-anchor", "end")
+        .attr("text-anchor", "start")
         .text(function (d) {
-            return GOVUK.formatTickLabel(d, maxX) + " visits";
+            return GOVUK.convertToLabel(d) + " visits";
         });
 };
 
