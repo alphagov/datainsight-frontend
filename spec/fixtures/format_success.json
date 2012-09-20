@@ -1,5 +1,5 @@
 [
-    { "format": "Guide", "entries" : 10000, "percentage_of_success": 50 },
-    { "format": "Transaction", "entries": 40000, "percentage_of_success": 20},
-    { "format": "Quick Answers", "entries": 231100, "percentage_of_success": 85}
+    { "format": "Guide", "entries" : 57000, "percentage_of_success": 35 },
+    { "format": "Transaction", "entries": 120000, "percentage_of_success": 40},
+    { "format": "Quick Answers", "entries": 100000, "percentage_of_success": 65}
 ]

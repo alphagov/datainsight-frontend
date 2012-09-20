@@ -36,14 +36,10 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         return formatData["total"];
     })
 
-    var minY = d3.min(values, function (formatData) {
-        return Math.round(formatData["percentageOfSuccess"]);
-    });
-    var maxY = d3.max(values, function (formatData) {
-        return Math.round(formatData["percentageOfSuccess"]);
-    });
+    var minY = 0;
+    var maxY = 100;
 
-    var maxRadius = 25;
+    var maxRadius = 35;
     var radiusScale = d3.scale.linear()
         .domain([0, maxX])
         .range([0, Math.PI * Math.pow(maxRadius, 2)]);
@@ -83,6 +79,25 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .append("svg:g")
         .attr("transform", "translate(" + 0 + "," + 20 + ")");
 
+    // Draw xy scatterplot
+    graph.selectAll("circle.format")
+        .data(values)
+        .enter().append("svg:circle")
+        .attr("class", "format")
+        .attr("fill", function (d) {
+            return colorScale(d.percentageOfSuccess);
+        })
+        .style("opacity", 0.6)
+        .attr("cx", function (d) {
+            return x(d.total);
+        })
+        .attr("cy", function (d) {
+            return y(d.percentageOfSuccess);
+        })
+        .attr("r", function (d) {
+            return radius(d.total);
+        })
+
     // Draw grid lines
     graph
         .append("svg:line")
@@ -105,7 +120,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     graph.append("svg:text")
         .text("Least visited")
         .attr("x", 0)
-        .attr("y", h / 2 + 15)
+        .attr("y", h / 2 + 9)
         .attr("dy", ".71em")
 
     graph.append("svg:text")
@@ -113,16 +128,16 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("x", function () {
             return w - $(this).width()
         })
-        .attr("y", h / 2 + 15)
+        .attr("y", h / 2 + 9)
         .attr("dy", ".71em")
 
     // Place Y axis tick labels
     panel.append("svg:text")
         .text("Successful interactions")
         .attr("y", 0)
-        .attr("x", w / 2 + 70)
+        .attr("x", w / 2 )
         .attr("dy", ".35em")
-        .attr("text-anchor", "end")
+        .attr("text-anchor", "middle")
 
     graph.append("svg:text")
         .attr("y", h)
@@ -138,24 +153,6 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("text-anchor", "end")
         .text(maxY + "%");
 
-    // Draw xy scatterplot
-    graph.selectAll("circle.format")
-        .data(values)
-        .enter().append("svg:circle")
-        .attr("class", "format")
-        .attr("fill", function (d) {
-            return colorScale(d.percentageOfSuccess);
-        })
-        .style("opacity", 0.6)
-        .attr("cx", function (d) {
-            return x(d.total);
-        })
-        .attr("cy", function (d) {
-            return y(d.percentageOfSuccess);
-        })
-        .attr("r", function (d) {
-            return radius(d.total);
-        })
 
     graph
         .selectAll("text.circle-format")
@@ -169,7 +166,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("x", function (d) {
             var shiftText = (radius(d.total) + 10);
             if (d.total / maxX > 0.75) {
-                var shiftText = -shiftText - $(this).width();
+                shiftText = -shiftText - $(this).width();
             }
             return x(d.total) + shiftText;
         })
