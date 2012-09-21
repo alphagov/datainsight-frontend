@@ -26,8 +26,8 @@ def save_as_image(route, output_filename, div_selector)
   LOGGER.info("Saved image to #{output_location}")
 end
 
-save_as_image("performance", "todays-activity", "#todays-activity-module")
-save_as_image("performance", "visits", "#visits-module")
-save_as_image("performance", "unique-visitors", "#unique-visitors-module")
-save_as_image("performance", "format-success", "#format-success-module")
+save_as_image("performance/dashboard", "todays-activity", "#todays-activity-module")
+save_as_image("performance/dashboard", "visits", "#visits-module")
+save_as_image("performance/dashboard", "unique-visitors", "#unique-visitors-module")
+save_as_image("performance/dashboard", "format-success", "#format-success-module")
 
