@@ -1,6 +1,6 @@
 describe("visits graph generation", function () {
 
-    var stubGraphDiv = $('<div id="visits-module"><div id="visits"></div></div>');
+    var stubGraphDiv = $('<div id="visits-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><span id="live_at"></span><div id="visits"></div>I am all invisible and stuff</div></div>');
 
     var jsonResponse = {"govuk":[
         {"date":"2012-03-02", "value":1136},
@@ -104,16 +104,20 @@ describe("visits graph generation", function () {
         jQuery.ajax.reset();
     });
 
-    it("should generate an svg graph from json data", function () {
+    it("should hide image, show graph titles and generate an svg graph from json data", function () {
         GOVUK.Insights.visits();
 
         expect(jQuery.ajax).toHaveBeenCalled();
 
         var svg = $('#visits-module').find('svg');
+        var img = $('#visits-module').find('img');
+
         expect(svg.length).not.toBe(0);
+        expect($('#hidden-stuff').hasClass('datainsight-hidden')).toBeFalsy();
+        expect(img.length).toBe(0);
     });
 
-    it("should display a png instead of a graph is svgs are not supported", function () {
+    it("should remove the png instead if svgs are not supported", function () {
         spyOn(GOVUK, "isSvgSupported").andReturn(false);
 
         GOVUK.Insights.visits();
@@ -124,15 +128,15 @@ describe("visits graph generation", function () {
         expect(png.length).not.toBe(0);
     });
 
-    it("should replace title text when displaying as a png", function () {
-        spyOn(GOVUK, 'isSvgSupported').andReturn(false);
+    it("should display a png instead of a graph if svgs are not supported", function () {
+        spyOn(GOVUK, "isSvgSupported").andReturn(false);
 
         GOVUK.Insights.visits();
 
-        var moduleDiv = $('#visits-module');
+        expect(jQuery.ajax).toHaveBeenCalled();
 
-        expect(moduleDiv.children().length).toBe(1);
-        expect(moduleDiv.children()[0].nodeName).toBe('IMG');
+        var png = $('#visits-module').find('img');
+        expect(png.length).not.toBe(0);
     });
 
     it("should display an error message if there is no data to be shown", function () {
@@ -151,5 +155,6 @@ describe("visits graph generation", function () {
         expect(actualErrorMsg).toBe(expectedErrorMsg);
 
     });
+
 
 });

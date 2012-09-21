@@ -13,6 +13,7 @@ GOVUK.Insights.visits = function () {
             if (data == null) {
                 showError();
             } else if (GOVUK.isSvgSupported()) {
+                $('#visits-module img').remove();
                 var graph = GOVUK.Insights.sixMonthTimeSeries("#visits", {
                     "series":{
                         "govuk":{
@@ -32,11 +33,10 @@ GOVUK.Insights.visits = function () {
                             "legend":"Business Link"
                         }
                     },
-                    "width":$("#visits").width()
+                    "width":444
                 });
                 graph.render(data);
-            } else {
-                $("#visits-module").html("<img src='/performance/visits.png' style='max-width: none'></img>");
+                $('#visits-module .datainsight-hidden').removeClass('datainsight-hidden');
             }
         },
         error:showError

@@ -1,5 +1,5 @@
 describe("todays data graph generation", function () {
-    var stubGraphDiv = $('<div id="todays-activity-module"><span id="live_at"></span><div id="reach"></div></div>');
+    var stubGraphDiv = $('<div id="todays-activity-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><span id="live_at"></span><div id="reach"></div>I am all invisible and stuff</div></div>');
 
     var jsonResponse = {};
     var stubAjaxResponder = function (successFunction) {
@@ -45,16 +45,20 @@ describe("todays data graph generation", function () {
         jQuery.ajax.reset();
     });
 
-    it("should generate an svg graph from json data", function () {
+    it("should hide image, show graph titles and generate an svg graph from json data", function () {
         GOVUK.Insights.todaysActivity();
 
         expect(jQuery.ajax).toHaveBeenCalled();
 
         var svg = $('#todays-activity-module').find('svg');
+        var img = $('#todays-activity-module').find('img');
+
         expect(svg.length).not.toBe(0);
+        expect($('#hidden-stuff').hasClass('datainsight-hidden')).toBeFalsy();
+        expect(img.length).toBe(0);
     });
 
-    it("should display a png instead of a graph is svgs are not supported", function () {
+    it("should remove the png instead if svgs are not supported", function () {
         spyOn(GOVUK, "isSvgSupported").andReturn(false);
 
         GOVUK.Insights.todaysActivity();

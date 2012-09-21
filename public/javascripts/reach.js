@@ -3,9 +3,9 @@ function plot_traffic(id, raw_data) {
     var data_to_plot = today_yesterday_to_plot(raw_data);
     var average_plot_data = monthly_average_to_plot(raw_data);
 
-    var target = $('#' + id);
+    // var target = $('#' + id);
     var top_gutter = 8;
-    var width = $(target).width();
+    var width = 924; //$(target).width();
     var height = 300;
     var yesterdays_height = 30;
 

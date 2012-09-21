@@ -11,9 +11,11 @@ GOVUK.Insights.formatSuccess = function () {
         success:function (data) {
             if (data !== null) {
                 if (GOVUK.isSvgSupported()) {
+                    $('#format-success-module img').remove();
                     GOVUK.Insights.plotFormatSuccessGraph(data);
+                    $('#format-success-module .datainsight-hidden').removeClass('datainsight-hidden');
                 } else {
-                    $("#format-success-module").html("<img src='/performance/format-success.png' />");
+//                    $("#format-success-module").html("<img src='/performance/format-success.png' />");
                 }
             } else {
                 showError();

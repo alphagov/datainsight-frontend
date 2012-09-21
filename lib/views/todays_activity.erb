@@ -8,7 +8,7 @@
 <% end %>
 
 <% content_for :footer do %>
-    <%= javascript_include_tag "reach", "modules/todays-activity" %>
+    <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag("reach", "modules/todays-activity") } %>
 <% end %>
 
 <svg style="width: 0; height: 0">
@@ -20,35 +20,45 @@
   </defs>
 </svg>
 
-<div id = "todays-activity-module" class="module" >
-  <div class="left">
-    <p class="graph-info">LIVE NOW</p>
-    <h3 class="graph-heading">Hourly GOV.UK traffic today <br/> compared with yesterday and <strong>the average over the last 30 days</strong></h3>
-  </div>
-  <div class="right small-text">
-    <span class="blue-text">LIVE AT</span>&nbsp;<span id="live_at"></span>
-    <div>
-      <div style="margin-top:8px;">
-        <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #74B74A"></div>
-        <div class="small-text right">Increase</div>
-      </div>
-      <br style="clear: both"/>
-      <div style="margin-top: 8px">
-        <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #BF1E2D"></div>
-        <div class="small-text right">Decrease</div>
-      </div>
-      <br style="clear: both"/>
-      <div class="right" id="yesterday" style="width: 13px; height: 13px; margin-left: 8px;margin-top: 8px;"></div>
-      <div class="small-text right" style="margin-top: 8px;">Yesterday</div>
-      <br style="clear: both"/>
-      <div class="right" id="monthly-average" style="width: 13px; height: 13px; margin-left: 8px;margin-top: 8px;"></div>
-      <div class="small-text right" style="margin-top: 8px;">Last 30 days average</div>
-      <br style="clear: both"/>
+<div id="todays-activity-module" class="module">
+  <img src='/performance/todays-activity.png'/>
+
+  <div class="datainsight-hidden">
+    <div class="left">
+      <p class="graph-info">LIVE NOW</p>
+
+      <h3 class="graph-heading">Hourly GOV.UK traffic today <br/> compared with yesterday and
+        <strong>the average over the last 30 days</strong></h3>
     </div>
-  </div>
-  <div style="clear: both"></div>
-  <div id="reach"></div>
-  <div>
-    <p class="graph-source">Source: Google Analytics</p>
+    <div class="right small-text">
+      <span class="blue-text">LIVE AT</span>&nbsp;<span id="live_at"></span>
+
+      <div>
+        <div style="margin-top:8px;">
+          <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #74B74A"></div>
+          <div class="small-text right">Increase</div>
+        </div>
+        <br style="clear: both"/>
+
+        <div style="margin-top: 8px">
+          <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #BF1E2D"></div>
+          <div class="small-text right">Decrease</div>
+        </div>
+        <br style="clear: both"/>
+
+        <div class="right" id="yesterday" style="width: 13px; height: 13px; margin-left: 8px;margin-top: 8px;"></div>
+        <div class="small-text right" style="margin-top: 8px;">Yesterday</div>
+        <br style="clear: both"/>
+
+        <div class="right" id="monthly-average" style="width: 13px; height: 13px; margin-left: 8px;margin-top: 8px;"></div>
+        <div class="small-text right" style="margin-top: 8px;">Last 30 days average</div>
+        <br style="clear: both"/>
+      </div>
+    </div>
+    <div style="clear: both"></div>
+    <div id="reach"></div>
+    <div>
+      <p class="graph-source">Source: Google Analytics</p>
+    </div>
   </div>
 </div>

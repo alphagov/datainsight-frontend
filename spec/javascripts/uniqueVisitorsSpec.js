@@ -1,6 +1,6 @@
 describe("unique visitors graph generation", function () {
 
-    var stubGraphDiv = $('<div id="unique-visitors-module"><div id="unique-visitors"></div></div>');
+    var stubGraphDiv = $('<div id="unique-visitors-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><div id="unique-visitors"></div>I am all invisible and stuff</div></div>');
 
     var jsonResponse = {"directgov":[
         {"date":"2012-03-02", "value":2905962},
@@ -103,16 +103,20 @@ describe("unique visitors graph generation", function () {
         jQuery.ajax.reset();
     });
 
-    it("should generate an svg graph from json data", function () {
+    it("should hide image, show graph titles and generate an svg graph from json data", function () {
         GOVUK.Insights.uniqueVisitors();
 
         expect(jQuery.ajax).toHaveBeenCalled();
 
         var svg = $('#unique-visitors-module').find('svg');
+        var img = $('#unique-visitors-module').find('img');
+
         expect(svg.length).not.toBe(0);
+        expect($('#hidden-stuff').hasClass('datainsight-hidden')).toBeFalsy();
+        expect(img.length).toBe(0);
     });
 
-    it("should display a png instead of a graph is svgs are not supported", function () {
+    it("should remove the png instead if svgs are not supported", function () {
         spyOn(GOVUK, "isSvgSupported").andReturn(false);
 
         GOVUK.Insights.uniqueVisitors();
@@ -121,17 +125,6 @@ describe("unique visitors graph generation", function () {
 
         var png = $('#unique-visitors-module').find('img');
         expect(png.length).not.toBe(0);
-    });
-
-    it("should replace title text when displaying as a png", function () {
-        spyOn(GOVUK,'isSvgSupported').andReturn(false);
-
-        GOVUK.Insights.uniqueVisitors();
-
-        var moduleDiv = $('#unique-visitors-module');
-
-        expect(moduleDiv.children().length).toBe(1);
-        expect(moduleDiv.children()[0].nodeName).toBe('IMG');
     });
 
     it("should display an error message if there is no data to be shown", function () {

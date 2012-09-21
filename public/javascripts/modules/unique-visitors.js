@@ -13,6 +13,7 @@ GOVUK.Insights.uniqueVisitors = function() {
             if (data == null) {
                 showError();
             } else if (GOVUK.isSvgSupported()) {
+                $('#unique-visitors-module img').remove();
                 var graph = GOVUK.Insights.sixMonthTimeSeries("#unique-visitors", {
                     "series":{
                         "govuk":{
@@ -35,8 +36,7 @@ GOVUK.Insights.uniqueVisitors = function() {
                     "width":444
                 });
                 graph.render(data);
-            } else {
-                $("#unique-visitors-module").html("<img src='/performance/unique-visitors.png' style='max-width: none'></img>");
+                $('#unique-visitors-module .datainsight-hidden').removeClass('datainsight-hidden');
             }
         },
         error:showError

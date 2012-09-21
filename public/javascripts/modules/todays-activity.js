@@ -18,8 +18,8 @@ GOVUK.Insights.todaysActivity = function () {
             if (data !== null) {
                 if (GOVUK.isSvgSupported()) {
                     plot_traffic("reach", data.values);
-                } else {
-                    $("#todays-activity-module").html("<img src='/performance/todays-activity.png'></img>");
+                    $('#todays-activity-module img').remove();
+                    $('#todays-activity-module .datainsight-hidden').removeClass('datainsight-hidden');
                 }
                 var timezone = "GMT";
                 var date = moment(data.live_at, "YYYY-MM-DDThh:mm:ss ZZ").utc();

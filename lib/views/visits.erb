@@ -1,17 +1,23 @@
 <% content_for :footer do %>
-    <%= javascript_include_tag 'time-series', 'modules/visits' %>
+    <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag('time-series') } %>
+    <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag('modules/visits') } %>
 <% end %>
 
 <div id="visits-module" class="module">
-  <div class="module-header">
-    <div>
-      <p class="graph-info">Reach</p>
-      <h3 class="graph-heading">Weekly Visits for the last half year</h3>
+  <img src="/performance/visits.png"/>
+
+  <div class="datainsight-hidden">
+    <div class="module-header">
+      <div>
+        <p class="graph-info">Reach</p>
+
+        <h3 class="graph-heading">Weekly Visits for the last half year</h3>
+      </div>
     </div>
-  </div>
-  <div style="clear: both"></div>
-  <div id="visits"></div>
-  <div>
-     <p class="graph-source">Sources: Google Analytics, Celebrus, Omniture</p>
+    <div style="clear: both"></div>
+    <div id="visits"></div>
+    <div>
+      <p class="graph-source">Sources: Google Analytics, Celebrus, Omniture</p>
+    </div>
   </div>
 </div>

@@ -1,38 +1,42 @@
 <% content_for :footer do %>
-    <%= javascript_include_tag "modules/format-success" %>
+    <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag("modules/format-success") } %>
 <% end %>
 
 <div id="format-success-module" class="module">
-  <div class="module-header">
-    <div>
-      <p class="graph-info">Format Interaction</p>
+  <img src="/performance/format-success.png"/>
 
-      <h3 class="graph-heading">Format visits and successful user interactions</h3>
-    </div>
-  </div>
-  <div class="right small-text">
-    <div>
-      <div style="margin-top:8px; float:left; padding-right: 20px">
-        <div class="small-text right">Successful interactions</div>
+  <div class="datainsight-hidden">
+    <div class="module-header">
+      <div>
+        <p class="graph-info">Format Interaction</p>
+
+        <h3 class="graph-heading">Format visits and successful user interactions</h3>
       </div>
-      <div style="float: right; padding-right: 5px">
-        <div style="margin-top:8px;">
-          <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #74B74A"></div>
-          <div class="small-text right">100%</div>
+    </div>
+    <div class="right small-text">
+      <div>
+        <div style="margin-top:8px; float:left; padding-right: 20px">
+          <div class="small-text right">Successful interactions</div>
+        </div>
+        <div style="float: right; padding-right: 5px">
+          <div style="margin-top:8px;">
+            <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #74B74A"></div>
+            <div class="small-text right">100%</div>
+          </div>
+          <br style="clear: both"/>
+
+          <div style="margin-top: 8px">
+            <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #BF1E2D"></div>
+            <div class="small-text right">0%</div>
+          </div>
         </div>
         <br style="clear: both"/>
-
-        <div style="margin-top: 8px">
-          <div class="right" style="width: 13px; height: 13px; margin-left: 8px; background-color: #BF1E2D"></div>
-          <div class="small-text right">0%</div>
-        </div>
       </div>
-      <br style="clear: both"/>
     </div>
-  </div>
-  <div style="clear: both"></div>
-  <div id="format-success"></div>
-  <div>
-    <p class="graph-source">Sources: Google Analytics</p>
+    <div style="clear: both"></div>
+    <div id="format-success"></div>
+    <div>
+      <p class="graph-source">Sources: Google Analytics</p>
+    </div>
   </div>
 </div>

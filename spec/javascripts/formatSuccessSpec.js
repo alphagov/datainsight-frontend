@@ -1,5 +1,5 @@
 describe("format success graph", function () {
-    var stubGraphDiv = $('<div id="format-success-module"><div id="format-success"></div></div>');
+    var stubGraphDiv = $('<div id="format-success-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><div id="format-success"></div>I am all invisible and stuff</div></div>');
 
     var jsonResponse = {};
     var stubAjaxResponder = function (successFunction) {
@@ -25,16 +25,20 @@ describe("format success graph", function () {
         jQuery.ajax.reset();
     });
 
-    it("should generate an svg graph from json data", function () {
+    it("should hide image, show graph titles and generate an svg graph from json data", function () {
         GOVUK.Insights.formatSuccess();
 
         expect(jQuery.ajax).toHaveBeenCalled();
 
         var svg = $('#format-success-module').find('svg');
+        var img = $('#format-success-module').find('img');
+
         expect(svg.length).not.toBe(0);
+        expect($('#hidden-stuff').hasClass('datainsight-hidden')).toBeFalsy();
+        expect(img.length).toBe(0);
     });
 
-    it("should display a png instead of a graph is svgs are not supported", function () {
+    it("should remove the png instead if svgs are not supported", function () {
         spyOn(GOVUK, "isSvgSupported").andReturn(false);
 
         GOVUK.Insights.formatSuccess();

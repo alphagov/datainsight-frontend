@@ -233,6 +233,9 @@ path.pink {
     color: #FF0000;
 }
 
+.datainsight-hidden {
+    display: none;
+}
 /* slimmer hacks */
 
 /* hide top shim */
