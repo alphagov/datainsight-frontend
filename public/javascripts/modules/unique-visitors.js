@@ -32,7 +32,7 @@ GOVUK.Insights.uniqueVisitors = function() {
                             "legend":"Business Link"
                         }
                     },
-                    "width":$("#unique-visitors").width()
+                    "width":444
                 });
                 graph.render(data);
             } else {
