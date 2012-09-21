@@ -61,3 +61,21 @@ module Insight
     end
   end
 end
+
+module Padrino
+  module Helpers
+    module AssetTagHelpers
+      def asset_path(kind, source)
+        return source if source =~ /^http/
+        # is_absolute = source =~ %r{^/}
+        asset_folder = asset_folder_name(kind)
+        source = source.to_s.gsub(/\s/, '%20')
+        ignore_extension = (asset_folder.to_s == kind.to_s) # don't append an extension
+        source << ".#{kind}" unless ignore_extension or source =~ /\.#{kind}/
+        result_path = asset_host + asset_folder + "/" + source
+        timestamp = asset_timestamp(result_path, false)
+        "#{result_path}#{timestamp}"
+      end
+    end
+  end
+end

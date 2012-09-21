@@ -21,10 +21,15 @@ class App < Sinatra::Base
   configure do
     set :public_folder, File.expand_path(File.dirname(__FILE__) + "/../public")
     set :uri_root, '/performance'
+    set :asset_host, production? ? Plek.current.find("cdn") : ""
   end
 
   def api_urls
     settings.api_urls
+  end
+
+  def asset_host
+    settings.asset_host
   end
 
   def api_result_to_json(result)
