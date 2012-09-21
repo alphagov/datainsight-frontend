@@ -32,6 +32,9 @@
     </body>
 
     <footer>
+      <% if test? then %>
+        <%= javascript_include_tag 'jquery-1.7.2' %>
+      <% end %>
       <%= javascript_include_tag 'd3.v2.min', 'moment.min', 'helpers' %>
       <% yield_content :footer %>
     </footer>

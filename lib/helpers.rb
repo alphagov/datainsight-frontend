@@ -59,6 +59,10 @@ module Insight
     def internal_link_to text, target, options={}
       link_to(text, "#{self.class.uri_root}#{target}", options)
     end
+
+    def test?
+      settings.test?
+    end
   end
 end
 
