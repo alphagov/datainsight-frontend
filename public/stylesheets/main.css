@@ -247,3 +247,7 @@ header nav, header .search-help {
 .error {
     color: #FF0000;
 }
+
+.shim {
+    display: none
+}
