@@ -89,28 +89,28 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 .attr("x2", "0%")
                 .attr("y2", "100%");
 
-            const strongGreen = "#74B74A";
-            const centerGrey = "#B3B3B3";
-            const strongRed = "#BF1E2D";
+            var STRONG_GREEN = "#74B74A";
+            var CENTER_GREY = "#B3B3B3";
+            var STRONG_RED = "#BF1E2D";
 
             gradient.append("svg:stop")
                 .attr("offset", "0%")
-                .attr("stop-color", data["highlight_spikes"] ? strongGreen : centerGrey)
+                .attr("stop-color", data["highlight_spikes"] ? STRONG_GREEN : CENTER_GREY)
                 .attr("stop-opacity", 1);
 
             gradient.append("svg:stop")
                 .attr("offset", "20%")
-                .attr("stop-color", centerGrey)
+                .attr("stop-color", CENTER_GREY)
                 .attr("stop-opacity", 1);
 
             gradient.append("svg:stop")
                 .attr("offset", "80%")
-                .attr("stop-color", centerGrey)
+                .attr("stop-color", CENTER_GREY)
                 .attr("stop-opacity", 1);
 
             gradient.append("svg:stop")
                 .attr("offset", "100%")
-                .attr("stop-color", data["highlight_troughs"] ? strongRed : centerGrey)
+                .attr("stop-color", data["highlight_troughs"] ? STRONG_RED : CENTER_GREY)
                 .attr("stop-opacity", 1);
 
             /* Set up X Axis */
@@ -149,7 +149,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     .attr("d", line(data[name]))
                     .attr("class", params.series[name].lineClass)
                 if (params.series[name].gradient) {
-                    path.attr("style", "stroke: url(#spike-gradient-" + $(container).attr("id") + ") " + centerGrey + ";")
+                    path.attr("style", "stroke: url(#spike-gradient-" + $(container).attr("id") + ") " + CENTER_GREY + ";")
                 }
             });
 

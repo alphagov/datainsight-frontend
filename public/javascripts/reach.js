@@ -3,15 +3,15 @@ function plot_traffic(id, raw_data) {
     var data_to_plot = today_yesterday_to_plot(raw_data);
     var average_plot_data = monthly_average_to_plot(raw_data);
 
-    const strongGreen = "#74B74A";
-    const middleGreen = "#9CB072"
-    const weakGreen = "#B2B3AF";
+    var STRONG_GREEN = "#74B74A";
+    var MIDDLE_GREEN = "#9CB072"
+    var WEAK_GREEN = "#B2B3AF";
 
-    const strongRed = "#BF1E2D";
-    const middleRed = "#A56667";
-    const weakRed = "#D3C8CB";
+    var STRONG_RED = "#BF1E2D";
+    var MIDDLE_RED = "#A56667";
+    var WEAK_RED = "#D3C8CB";
 
-    const centerGrey = "#B3B3B3";
+    var CENTER_GREY = "#B3B3B3";
 
     // var target = $('#' + id);
     var top_gutter = 8;
@@ -50,7 +50,7 @@ function plot_traffic(id, raw_data) {
             } else if (datum < (monthly_average * 0.8)) {
                 return fill_for_trough(datum, monthly_average);
             } else {
-                return centerGrey;
+                return CENTER_GREY;
             }
         } else {
             return "url(#gradient_for_yesterday)"
@@ -60,7 +60,7 @@ function plot_traffic(id, raw_data) {
     function fill_for_spike_from_zero(datum) {
         var colorScale = d3.scale.linear()
             .domain([0, 1])
-            .range([weakGreen, strongGreen]);
+            .range([WEAK_GREEN, STRONG_GREEN]);
         colorScale.clamp(true);
         return colorScale(datum);
     }
@@ -69,12 +69,12 @@ function plot_traffic(id, raw_data) {
         var maxRange = monthly_average_at * 1.5;
         var minRange = monthly_average_at * 1.2;
         var midRange = percentOfRange(0.7, minRange, maxRange);
-        var colorScale = linear3PointGradient(colourValue(weakGreen,minRange), colourValue(middleGreen,midRange), colourValue(strongGreen,maxRange));
+        var colorScale = linear3PointGradient(colourValue(WEAK_GREEN, minRange), colourValue(MIDDLE_GREEN, midRange), colourValue(STRONG_GREEN, maxRange));
         return colorScale(datum);
     }
 
     function colourValue(colour, value) {
-        return { 'colour': colour, 'value': value};
+        return { 'colour':colour, 'value':value};
     }
 
     function percentOfRange(val, min, max) {
@@ -93,7 +93,7 @@ function plot_traffic(id, raw_data) {
         var maxRange = monthly_average_at * 0.8;
         var minRange = monthly_average_at * 0.5;
         var midRange = percentOfRange(0.7, minRange, maxRange);
-        var colorScale = linear3PointGradient(colourValue(weakRed,minRange),colourValue(middleRed,midRange),colourValue(strongRed,maxRange));
+        var colorScale = linear3PointGradient(colourValue(WEAK_RED, minRange), colourValue(MIDDLE_RED, midRange), colourValue(STRONG_RED, maxRange));
         return colorScale(datum);
     }
 
