@@ -62,10 +62,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .range([h - gutterForBubbles, gutterForBubbles]);
 
     var colorScale = d3.scale.linear()
-        .domain(d3.range(0, 10).map(function (i) {
-        return 10 * i;
-    }))
-        .range(["#BF1E2D", "#C18F9E", "#CCAAB0", "#D3C8CB", "#CFCACB", "#CACBC5", "#C3CBBA", "#C6CEBA", "#A0C184", "#74B74A"]);
+        .domain([minY, maxY])
+        .range(["#BF1E2D", "#74B74A"]);
 
     var svg = d3.select("#format-success")
         .data(values)
