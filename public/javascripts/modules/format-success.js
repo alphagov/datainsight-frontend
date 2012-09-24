@@ -121,12 +121,14 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     // Place X axis tick labels
     graph.append("svg:text")
         .text("Least visited")
+        .attr("class", "label-x-left")
         .attr("x", 0)
         .attr("y", h / 2 + 9)
         .attr("dy", ".71em")
 
     graph.append("svg:text")
         .text("Most visited")
+        .attr("class", "label-x-right")
         .attr("x", function () {
             return w - $(this).width()
         })
@@ -136,24 +138,24 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     // Place Y axis tick labels
     panel.append("svg:text")
         .text("Successful interactions")
+        .attr("class", "title-y")
         .attr("y", 0)
         .attr("x", w / 2 )
-        .attr("dy", ".35em")
-        .attr("text-anchor", "middle")
+        .attr("dy", ".35em");
 
     graph.append("svg:text")
+        .text(minY + "%")
+        .attr("class", "label-y-bottom")
         .attr("y", h)
         .attr("x", w / 2 - 5)
-        .attr("dy", ".35em")
-        .attr("text-anchor", "end")
-        .text(minY + "%");
+        .attr("dy", ".35em");
 
     graph.append("svg:text")
+        .text(maxY + "%")
+        .attr("class", "label-y-top")
         .attr("y", 0)
         .attr("x", w / 2 - 5)
-        .attr("dy", ".35em")
-        .attr("text-anchor", "end")
-        .text(maxY + "%");
+        .attr("dy", ".35em");
 
 
     graph

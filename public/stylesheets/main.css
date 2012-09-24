@@ -254,3 +254,16 @@ header nav, header .search-help {
     display: none;
     visibility: hidden;
 }
+
+/* format success */
+#format-success .label-x-right, #format-success .label-y-top, #format-success .label-y-bottom {
+    text-anchor: end;
+}
+
+#format-success .label-x-left {
+    text-anchor: start;
+}
+
+#format-success .title-y {
+    text-anchor: middle;
+}
