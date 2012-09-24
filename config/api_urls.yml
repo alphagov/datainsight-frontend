@@ -2,7 +2,7 @@ development:
   narrative_base_url: http://datainsight-narrative-recorder.dev.gov.uk
   weekly_reach_base_url: http://datainsight-weekly-reach-recorder.dev.gov.uk
   todays_activity_base_url: http://datainsight-todays-activity-recorder.dev.gov.uk
-  format_success_base_url: https://datainsight-format-success-recorder.dev.gov.uk
+  format_success_base_url: http://datainsight-format-success-recorder.dev.gov.uk
 preview:
   narrative_base_url: https://datainsight-narrative-recorder.preview.alphagov.co.uk
   weekly_reach_base_url: https://datainsight-weekly-reach-recorder.preview.alphagov.co.uk
