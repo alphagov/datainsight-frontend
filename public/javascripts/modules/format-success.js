@@ -89,7 +89,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("fill", function (d) {
             return colorScale(d.percentageOfSuccess);
         })
-        .style("opacity", 0.6)
+        .style("opacity", 0.9)
         .attr("cx", function (d) {
             return x(d.total);
         })
