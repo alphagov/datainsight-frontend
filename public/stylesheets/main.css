@@ -173,23 +173,40 @@ path.red {
     stroke: #BF1E2D;
 }
 
+.graph-red {
+    background-color: #BF1E2D;
+}
+
+.graph-green {
+    background-color: #74B74A;
+}
+
 path.pink {
     stroke: #c61c71;
 }
 
+.small-square {
+    width: 13px;
+    height: 13px;
+    margin-left: 8px;
+}
+
+.small-shim {
+    margin-top: 8px;
+}
+
 /* Module Specific */
 #narrative {
-    padding: 36px;
-    background-color: #E1E8E7;
+    padding: 12px;
     font-weight: normal;
 }
 
 #narrative .green {
-    color: #a0c184;
+    color: #5c9317;
 }
 
 #narrative .red {
-    color: #C76674;
+    color: #c76674;
 }
 
 .module-inner-left {

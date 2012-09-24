@@ -3,6 +3,16 @@ function plot_traffic(id, raw_data) {
     var data_to_plot = today_yesterday_to_plot(raw_data);
     var average_plot_data = monthly_average_to_plot(raw_data);
 
+    const strongGreen = "#74B74A";
+    const middleGreen = "#9CB072"
+    const weakGreen = "#B2B3AF";
+
+    const strongRed = "#BF1E2D";
+    const middleRed = '#A56667';
+    const weakRed = "#D3C8CB";
+
+    const centerGrey = "#B3B3B3";
+
     // var target = $('#' + id);
     var top_gutter = 8;
     var width = 924; //$(target).width();
@@ -33,14 +43,14 @@ function plot_traffic(id, raw_data) {
     function get_fill(datum, index) {
         if (index < get_todays_hour(raw_data)) {
             var monthly_average = get_monthly_average(raw_data, index);
-            if (monthly_average == 0) {
+            if (monthly_average === 0) {
                 return fill_for_spike_from_zero(datum)
             } else if (datum > (monthly_average * 1.2)) {
                 return fill_for_spike(datum, monthly_average);
             } else if (datum < (monthly_average * 0.8)) {
                 return fill_for_trough(datum, monthly_average);
             } else {
-                return "#C4C4C4";
+                return centerGrey;
             }
         } else {
             return "url(#gradient_for_yesterday)"
@@ -50,24 +60,40 @@ function plot_traffic(id, raw_data) {
     function fill_for_spike_from_zero(datum) {
         var colorScale = d3.scale.linear()
             .domain([0, 1])
-            .range(["#C3CBBA", "#74B74A"]);
+            .range([weakGreen, strongGreen]);
         colorScale.clamp(true);
         return colorScale(datum);
     }
 
     function fill_for_spike(datum, monthly_average_at) {
-        var colorScale = d3.scale.linear()
-            .domain([monthly_average_at * 1.2, monthly_average_at * 1.5])
-            .range(["#C3CBBA", "#74B74A"]);
-        colorScale.clamp(true);
+        var maxRange = monthly_average_at * 1.5;
+        var minRange = monthly_average_at * 1.2;
+        var midRange = percentOfRange(0.7, minRange, maxRange);
+        var colorScale = linear3PointGradient(colourValue(weakGreen,minRange), colourValue(middleGreen,midRange), colourValue(strongGreen,maxRange));
         return colorScale(datum);
     }
 
-    function fill_for_trough(datum, monthly_average_at) {
+    function colourValue(colour, value) {
+        return { 'colour': colour, 'value': value};
+    }
+
+    function percentOfRange(val, min, max) {
+        return min + (val * (max - min))
+    }
+
+    function linear3PointGradient(colourValue1, colourValue2, colourValue3) {
         var colorScale = d3.scale.linear()
-            .domain([monthly_average_at * 0.8, monthly_average_at * 0.5])
-            .range(["#D3C8CB", "#BF1E2D"]);
+            .domain([colourValue1['value'], colourValue2['value'], colourValue3['value']])
+            .range([colourValue1['colour'], colourValue2['colour'], colourValue3['colour']]);
         colorScale.clamp(true);
+        return colorScale;
+    }
+
+    function fill_for_trough(datum, monthly_average_at) {
+        var maxRange = monthly_average_at * 0.8;
+        var minRange = monthly_average_at * 0.5;
+        var midRange = percentOfRange(0.7, minRange, maxRange);
+        var colorScale = linear3PointGradient(colourValue(weakRed,minRange),colourValue(middleRed,midRange),colourValue(strongRed,maxRange));
         return colorScale(datum);
     }
 
@@ -179,7 +205,10 @@ function plot_legend_for_monthly_average(id) {
 
     var line = d3.svg.line()
     svg.append("svg:path")
-        .attr("d", line([[0, 8], [13, 8]]))
+        .attr("d", line([
+        [0, 8],
+        [13, 8]
+    ]))
         .attr("class", "dashed-line pink");
 }
 
