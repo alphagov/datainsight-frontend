@@ -8,7 +8,7 @@ function plot_traffic(id, raw_data) {
     const weakGreen = "#B2B3AF";
 
     const strongRed = "#BF1E2D";
-    const middleRed = '#A56667';
+    const middleRed = "#A56667";
     const weakRed = "#D3C8CB";
 
     const centerGrey = "#B3B3B3";
@@ -116,7 +116,7 @@ function plot_traffic(id, raw_data) {
                 if (y(datum) < yesterdays_height) {
                     return y(datum);
                 } else {
-                    return yesterdays_height;
+                    return y(datum);
                 }
             }
         });
@@ -193,7 +193,7 @@ function plot_legend_for_yesterday(id) {
         .attr("x", 0)
         .attr("y", 0)
         .attr("width", 13)
-        .attr("height", 13)
+        .attr("height", 26)
         .attr("fill", "url(#gradient_for_yesterday)");
 }
 

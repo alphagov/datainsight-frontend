@@ -89,24 +89,28 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 .attr("x2", "0%")
                 .attr("y2", "100%");
 
+            const strongGreen = "#74B74A";
+            const centerGrey = "#B3B3B3";
+            const strongRed = "#BF1E2D";
+
             gradient.append("svg:stop")
                 .attr("offset", "0%")
-                .attr("stop-color", data["highlight_spikes"] ? "#74B74A" : "#c4c4c4")
+                .attr("stop-color", data["highlight_spikes"] ? strongGreen : centerGrey)
                 .attr("stop-opacity", 1);
 
             gradient.append("svg:stop")
                 .attr("offset", "20%")
-                .attr("stop-color", "#c4c4c4")
+                .attr("stop-color", centerGrey)
                 .attr("stop-opacity", 1);
 
             gradient.append("svg:stop")
                 .attr("offset", "80%")
-                .attr("stop-color", "#c4c4c4")
+                .attr("stop-color", centerGrey)
                 .attr("stop-opacity", 1);
 
             gradient.append("svg:stop")
                 .attr("offset", "100%")
-                .attr("stop-color", data["highlight_troughs"] ? "#BF1E2D" : "#c4c4c4")
+                .attr("stop-color", data["highlight_troughs"] ? strongRed : centerGrey)
                 .attr("stop-opacity", 1);
 
             /* Set up X Axis */
@@ -145,7 +149,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     .attr("d", line(data[name]))
                     .attr("class", params.series[name].lineClass)
                 if (params.series[name].gradient) {
-                    path.attr("style", "stroke: url(#spike-gradient-" + $(container).attr("id") + ") #c4c4c4;")
+                    path.attr("style", "stroke: url(#spike-gradient-" + $(container).attr("id") + ") " + centerGrey + ";")
                 }
             });
 
