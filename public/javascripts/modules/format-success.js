@@ -59,7 +59,13 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .range([gutterForBubbles + maxRadius / 2, w - (gutterForBubbles + maxRadius / 2)]),
         y = d3.scale.linear()
             .domain([minY, maxY])
-            .range([h - gutterForBubbles, gutterForBubbles]);
+            .range([h, 0]);
+
+    var overlayBottom = function(d){
+        var overlay = y(d.percentageOfSuccess) + radius(d.total) - h;
+        return overlay > 0 ? overlay : 0;
+    }
+    var gutterYBottom = gutterYTop + d3.max(values, overlayBottom);
 
     var colorScale = d3.scale.linear()
         .domain([minY, maxY])
@@ -69,15 +75,19 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .data(values)
         .append("svg:svg")
         .attr("width", w + gutterX * 2)
-        .attr("height", h + gutterYTop * 2);
+        .attr("height", h + gutterYTop + gutterYBottom);
 
     var panel = svg
         .append("svg:g")
-        .attr("transform", "translate(" + gutterX + "," + gutterYTop + ")");
+        .attr("transform", "translate(" + 0 + "," + 20 + ")");
 
     var graph = panel
         .append("svg:g")
-        .attr("transform", "translate(" + 0 + "," + 20 + ")");
+        .attr("transform", "translate(" + gutterX + "," + gutterYTop + ")");
+
+    var legend = panel
+        .append("svg:g")
+        .attr("transform", "translate(" + gutterX + ", 0)");
 
     // Draw xy scatterplot
     graph.selectAll("circle.format")
@@ -181,7 +191,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
     var maxCircleRadius = radius(dataForLegend.slice(-1));
 
-    var legend = panel.append("svg:g").attr("transform", "translate(0, 0)");
+
 
     legend
         .selectAll("circle.legend")
