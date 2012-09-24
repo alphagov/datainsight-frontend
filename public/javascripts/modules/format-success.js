@@ -61,7 +61,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .domain([minY, maxY])
             .range([h, 0]);
 
-    var overlayBottom = function(d){
+    var overlayBottom = function (d) {
         var overlay = y(d.percentageOfSuccess) + radius(d.total) - h;
         return overlay > 0 ? overlay : 0;
     }
@@ -148,7 +148,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .text("Successful interactions")
         .attr("class", "title-y")
         .attr("y", 0)
-        .attr("x", w / 2 )
+        .attr("x", w / 2)
         .attr("dy", ".35em");
 
     graph.append("svg:text")
@@ -165,6 +165,9 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("x", w / 2 - 5)
         .attr("dy", ".35em");
 
+    var shouldFlipLabelToLeft = function (d) {
+        return d.total / maxX > 0.75;
+    };
 
     graph
         .selectAll("text.circle-format")
@@ -174,10 +177,12 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             return d.formatName
         })
         .attr("class", "circle-format")
-        .attr("text-anchor", "start")
+        .attr("text-anchor", function (d) {
+            return shouldFlipLabelToLeft(d) ? "end" : "start";
+        })
         .attr("x", function (d) {
             var shiftText = (radius(d.total) + 10);
-            if (d.total / maxX > 0.75) {
+            if (shouldFlipLabelToLeft(d)) {
                 shiftText = -shiftText - $(this).width();
             }
             return x(d.total) + shiftText;
@@ -190,7 +195,6 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var dataForLegend = x.ticks(4).slice(1, 4);
 
     var maxCircleRadius = radius(dataForLegend.slice(-1));
-
 
 
     legend
