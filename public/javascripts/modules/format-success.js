@@ -36,7 +36,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
     var maxX = d3.max(values, function (formatData) {
         return formatData["total"];
-    })
+    });
 
     var minY = 0;
     var maxY = 100;
@@ -69,7 +69,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .data(values)
         .append("svg:svg")
         .attr("width", w + gutterX * 2)
-        .attr("height", h + gutterYTop * 2)
+        .attr("height", h + gutterYTop * 2);
 
     var panel = svg
         .append("svg:g")
@@ -96,7 +96,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         })
         .attr("r", function (d) {
             return radius(d.total);
-        })
+        });
 
     // Draw grid lines
     graph
@@ -122,7 +122,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("class", "label-x-left")
         .attr("x", 0)
         .attr("y", h / 2 + 9)
-        .attr("dy", ".71em")
+        .attr("dy", ".71em");
 
     graph.append("svg:text")
         .text("Most visited")
@@ -131,7 +131,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             return w - $(this).width()
         })
         .attr("y", h / 2 + 9)
-        .attr("dy", ".71em")
+        .attr("dy", ".71em");
 
     // Place Y axis tick labels
     panel.append("svg:text")
@@ -190,7 +190,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("class", "legend")
         .attr("fill", "none")
         .attr("stroke", "black")
-        .attr("cx", function (d) {
+        .attr("cx", function () {
             return maxCircleRadius;
         })
         .attr("cy", function (d) {
