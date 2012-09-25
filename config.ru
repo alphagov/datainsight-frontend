@@ -10,9 +10,14 @@ use Rack::CommonLogger, File.new('log/rack-access.log', 'a')
 # only show "info" or higher messages on STDOUT using the Basic layout
 use Slimmer::App unless ENV["SLIMMER_OFF"]
 
-run Rack::URLMap.new(
-        {
-            "/performance" => App,
-            "/" => Sinatra.new { get('/') { redirect "/performance" } }
-        }
-    )
+map '/performance/assets' do
+  run SprocketEnvHolder.instance.environment
+end
+
+map "/performance" do
+  run App
+end
+
+map "/" do
+  run Sinatra.new { get('/') { redirect "/performance" } }
+end

@@ -22,6 +22,7 @@ module CommonSetup
     Capybara.app = Rack::URLMap.new(
         {
             "/performance" => App,
+            "/performance/assets" => SprocketEnvHolder.instance.environment,
         }
     )
   end

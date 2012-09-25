@@ -72,13 +72,19 @@ module Padrino
       def asset_path(kind, source)
         return source if source =~ /^http/
         # is_absolute = source =~ %r{^/}
-        asset_folder = asset_folder_name(kind)
+        asset_folder = settings.asset_path
+
         source = source.to_s.gsub(/\s/, '%20')
         ignore_extension = (asset_folder.to_s == kind.to_s) # don't append an extension
         source << ".#{kind}" unless ignore_extension or source =~ /\.#{kind}/
-        result_path = asset_host + asset_folder + "/" + source
-        timestamp = asset_timestamp(result_path, false)
-        "#{result_path}#{timestamp}"
+        source = (sprocket_manifest.assets[source] or source)
+
+        asset_host + asset_folder + "/" + source
+      end
+
+      private
+      def sprocket_manifest
+        @manifest ||= Sprockets::Manifest.new(settings.sprocket_env, settings.asset_path)
       end
     end
   end
