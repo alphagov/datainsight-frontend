@@ -4,7 +4,7 @@ require_relative '../sprocket_env'
 namespace :sprockets do
   Rake::SprocketsTask.new do |t|
     t.environment = SprocketEnvHolder.instance.environment
-    t.output = './assets'
+    t.output = './public'
     t.assets = %w{*.css *.png *.js}
   end
 end

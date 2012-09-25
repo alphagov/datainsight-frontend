@@ -84,7 +84,7 @@ module Padrino
 
       private
       def sprocket_manifest
-        @manifest ||= Sprockets::Manifest.new(settings.sprocket_env, settings.asset_path)
+        @manifest ||= Sprockets::Manifest.new(settings.sprocket_env, settings.asset_dir)
       end
     end
   end
