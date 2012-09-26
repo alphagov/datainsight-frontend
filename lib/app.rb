@@ -22,7 +22,7 @@ class App < Sinatra::Base
   configure do
     set :public_folder, File.expand_path(File.dirname(__FILE__) + "/../public")
     set :uri_root, '/performance'
-    set :asset_host, production? ? (Plek.current.find("cdn") + "/datainsight-frontend") : ""
+    set :asset_host, production? ? (Plek.current.find("cdn") + "/datainsight-frontend") : settings.uri_root
     set :asset_dir, 'public/datainsight-frontend/assets'
     set :asset_path, '/assets'
     set :sprocket_env, SprocketEnvHolder.instance.environment
