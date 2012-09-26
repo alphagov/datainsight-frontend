@@ -72,7 +72,7 @@ module Padrino
       def asset_path(kind, source)
         return source if source =~ /^http/
         # is_absolute = source =~ %r{^/}
-        asset_folder = settings.asset_path
+        asset_folder = settings.uri_root + settings.asset_path
 
         source = source.to_s.gsub(/\s/, '%20')
         ignore_extension = (asset_folder.to_s == kind.to_s) # don't append an extension
