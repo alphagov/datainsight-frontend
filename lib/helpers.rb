@@ -49,6 +49,14 @@ module Insight
       message != :error and not message.empty?
     end
 
+    def graph_image_tag name
+      location = "#{settings.graphs_images_dir}/#{name}.png"
+      timestamp = File.mtime(location).to_i
+      uri = "#{settings.uri_root}/#{name}.png?#{timestamp}"
+
+      tag(:img, :src => uri)
+    end
+
     def nav_link_to text, target, options = {}
       if request.path_info == target
         options[:class] = options[:class] ? options[:class] + ' current' : 'current'

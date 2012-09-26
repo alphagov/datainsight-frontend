@@ -17,7 +17,6 @@ class App < Sinatra::Base
   helpers Sinatra::ContentFor
   helpers Insight::Helpers
 
-  GRAPHS_IMAGES_DIR = "/var/tmp/graphs"
 
   configure do
     set :public_folder, File.expand_path(File.dirname(__FILE__) + "/../public")
@@ -26,6 +25,7 @@ class App < Sinatra::Base
     set :asset_dir, 'public/datainsight-frontend/assets'
     set :asset_path, '/assets'
     set :sprocket_env, SprocketEnvHolder.instance.environment
+    set :graphs_images_dir, "/var/tmp/graphs"
   end
 
   def api_urls
@@ -45,7 +45,7 @@ class App < Sinatra::Base
       content_type "image/png"
       headers['X-Slimmer-Skip'] = "true"
       headers['Cache-Control'] = 'public, max-age=300'
-      send_file "#{GRAPHS_IMAGES_DIR}/#{image_filename}"
+      send_file "#{settings.graphs_images_dir}/#{image_filename}"
     end
   end
 
