@@ -44,7 +44,6 @@ class App < Sinatra::Base
     get "/#{image_filename}" do
       content_type "image/png"
       headers['X-Slimmer-Skip'] = "true"
-      headers['Cache-Control'] = 'public, max-age=300'
       send_file "#{settings.graphs_images_dir}/#{image_filename}"
     end
   end
