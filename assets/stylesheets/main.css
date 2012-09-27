@@ -239,7 +239,7 @@ path.pink {
     position: absolute;
 }
 
-#content {
+.datainsight #content {
     background-color: #FFFFFF;
     padding-top: 1px;
     padding-bottom: 40px;
