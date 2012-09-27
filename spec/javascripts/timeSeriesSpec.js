@@ -26,5 +26,16 @@ describe("time series helper", function() {
                 [new Date(2012, 11, 30), new Date(2013, 1, 28), new Date(2013, 3, 30), new Date(2013, 5, 30)]
             );
         });
+
+        it("should return date range that goes until last Sunday from a day 6 months ago of it", function() {
+            var dateRange =
+                GOVUK.Insights.sixMonthTimeSeries(null, {}).dateRange(moment("20120922", "YYYYMMDD"))
+                    .map(function (each) { return each.toGMTString()});
+
+            expect(dateRange)
+                .toEqual(
+                    [moment("20120316", "YYYYMMDD").toDate().toGMTString(),
+                     moment("20120916", "YYYYMMDD").toDate().toGMTString()]);
+        });
     });
 });

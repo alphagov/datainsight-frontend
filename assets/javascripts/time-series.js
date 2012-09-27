@@ -53,11 +53,14 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
         dateFormat = d3.time.format("%Y-%m-%d");
 
     return {
+        dateRange:function (now) {
+            var lastDate = now.startOf("day").day(0);
+            var firstDate = lastDate.clone().subtract("months", 6);
+            return [firstDate.toDate(), lastDate.toDate()];
+        },
         render:function (data) {
             var alldata = concat(data, series),
-                lastDate = moment().startOf("day").day(-7),
-                firstDate = lastDate.clone().subtract("months", 6),
-                xExtent = [firstDate, lastDate],
+                xExtent = this.dateRange(moment()),
                 yExtent = d3.extent(alldata, function (d) {
                     return d.value;
                 });
