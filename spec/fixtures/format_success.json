@@ -1,5 +1,14 @@
 [
     { "format": "Guide", "entries" : 57000, "percentage_of_success": 35 },
     { "format": "Transaction", "entries": 120000, "percentage_of_success": 40},
-    { "format": "Quick Answers", "entries": 100000, "percentage_of_success": 65}
+    { "format": "Quick Answers", "entries": 100000, "percentage_of_success": 65},
+    { "format": "small grey",   "entries": 5000, "percentage_of_success": 50},
+    { "format": "mid grey",     "entries": 50000, "percentage_of_success": 50},
+    { "format": "big grey",     "entries": 100000, "percentage_of_success": 50},
+    { "format": "small green",   "entries": 5000, "percentage_of_success": 100},
+    { "format": "mid green",    "entries": 50000, "percentage_of_success": 100},
+    { "format": "big green",    "entries": 100000, "percentage_of_success": 100},
+    { "format": "small red",   "entries": 5000, "percentage_of_success": 0},
+    { "format": "mid red",    "entries": 50000, "percentage_of_success": 0},
+    { "format": "big red",    "entries": 100000, "percentage_of_success": 0}
 ]

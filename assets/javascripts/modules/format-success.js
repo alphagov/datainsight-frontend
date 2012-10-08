@@ -68,8 +68,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var gutterYBottom = gutterYTop + d3.max(values, overlayBottom);
 
     var colorScale = d3.scale.linear()
-        .domain([minY, maxY])
-        .range(["#BF1E2D", "#74B74A"]);
+        .domain([minY, minY + (maxY - minY) / 2, maxY])
+        .range(["#BF1E2D", "#B3B3B3", "#74B74A"]);
 
     var svg = d3.select("#format-success")
         .data(values)
