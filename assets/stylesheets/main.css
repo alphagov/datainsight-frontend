@@ -162,6 +162,7 @@ path.main-line {
     stroke: #c4c4c4;
     stroke-width: 4;
     stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 path.brown {

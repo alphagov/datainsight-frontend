@@ -1,8 +1,7 @@
 /* overrides default values from the core css (delivered via application.css) */
 
-
-.datainsight hgroup {
-    padding: 1em 10em 2em 2em !important;
+.datainsight h1 {
+    padding-top: 1em;
 }
 
 .datainsight #content {
@@ -11,4 +10,8 @@
 
 .ie6 #content {
     width: 960px;
+}
+
+section .inner {
+    padding: 0 7em 2em 7em !important;
 }
