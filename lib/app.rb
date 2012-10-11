@@ -3,6 +3,7 @@ Bundler.require
 
 require 'sinatra/content_for'
 
+require_relative "../config/initializers/asset_host" if File.exists?(File.dirname(__FILE__) + '/../config/initializers/asset_host.rb')
 require_relative "config"
 require_relative "sprocket_env"
 require_relative "helpers"
@@ -17,11 +18,14 @@ class App < Sinatra::Base
   helpers Sinatra::ContentFor
   helpers Insight::Helpers
 
-
   configure do
     set :public_folder, File.expand_path(File.dirname(__FILE__) + "/../public")
     set :uri_root, '/performance'
-    set :asset_host, production? ? (Plek.current.find("cdn") + "/datainsight-frontend") : settings.uri_root
+    if defined?(ASSET_HOST)
+      set :asset_host, ASSET_HOST
+    else
+      set :asset_host, production? ? (Plek.current.find("cdn") + "/datainsight-frontend") : settings.uri_root
+    end
     set :asset_dir, 'public/datainsight-frontend/assets'
     set :asset_path, '/assets'
     set :sprocket_env, SprocketEnvHolder.instance.environment
