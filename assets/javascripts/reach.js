@@ -4,7 +4,7 @@ function plot_traffic(id, raw_data) {
     var average_plot_data = monthly_average_to_plot(raw_data);
 
     var STRONG_GREEN = "#74B74A";
-    var MIDDLE_GREEN = "#9CB072"
+    var MIDDLE_GREEN = "#9CB072";
     var WEAK_GREEN = "#B2B3AF";
 
     var STRONG_RED = "#BF1E2D";
@@ -128,7 +128,7 @@ function plot_traffic(id, raw_data) {
 
     var numberOfTicks = 6;
     var tick_values = get_tick_values(maxValue, numberOfTicks).map(Math.ceil);
-    yAxis = d3.svg.axis().scale(yscale_for_axis)
+    var yAxis = d3.svg.axis().scale(yscale_for_axis)
         .orient("left")
         .tickValues(tick_values)
         .tickFormat(function (each) {
@@ -140,25 +140,22 @@ function plot_traffic(id, raw_data) {
         .attr("transform", "translate(40,0)")
         .call(yAxis);
 
-    var x_ticks = d3.scale.ordinal()
-        .domain(d3.range(0, 28, 4))
-        .range(["01.00", "04.00", "08.00", "12.00", "16.00", "20.00", "24.00"]);
+    var xAxis = d3.svg.axis()
+            .scale(x)
+            .tickValues([4, 8, 12, 16, 20])
+            .tickFormat(function(v) {
+                var ext = "am";
+                if (v > 12) {
+                    v -= 12;
+                    ext = "pm";
+                }
+                return v + ext;
+            });
 
-    svg.selectAll("text.xaxis")
-        .data(d3.range(0, 25))
-        .enter().append("svg:text")
-        .attr("x", function (datum) {
-            if (datum == 0) return x(datum) + 8; else return x(datum) - 30;
-        })
-        .attr("y", height)
-        .attr("text-anchor", "middle")
+    svg.append("g")
         .attr("class", "xaxis")
-        .text(function (datum) {
-            if (datum % 4 == 0) {
-                return x_ticks(datum);
-            }
-        });
-
+        .attr("transform", "translate(-" + barwidth + ", " + (height - axesheight) + ")")
+        .call(xAxis);
 
 //    trend
 
@@ -203,12 +200,12 @@ function plot_legend_for_monthly_average(id) {
         .attr("width", 20)
         .attr("height", 20);
 
-    var line = d3.svg.line()
+    var line = d3.svg.line();
     svg.append("svg:path")
         .attr("d", line([
-        [0, 8],
-        [13, 8]
-    ]))
+            [0, 8],
+            [13, 8]
+        ]))
         .attr("class", "dashed-line pink");
 }
 
