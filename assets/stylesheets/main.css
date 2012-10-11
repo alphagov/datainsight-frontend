@@ -300,6 +300,11 @@ text.pink {
     stroke: #333;
     shape-rendering: crispEdges;
 }
+
+#visits .x-axis .tick, #unique-visitors .x-axis .tick {
+    stroke: #333;
+    shape-rendering: crispEdges;
+}
 /* slimmer hacks */
 
 /* hide top shim */

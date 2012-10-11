@@ -45,9 +45,9 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
     }
 
     var series = extractKeys(params.series),
-        margins = params.margins || [22, 27, 20, 40],
+        margins = params.margins || [22, 27, 27, 40],
         width = params.width || 462,
-        height = params.height || (236 + 15),
+        height = params.height || (236 + 22),
         yUnitScale = params.yUnitScale || 1000000,
 
         dateFormat = d3.time.format("%Y-%m-%d");
@@ -120,6 +120,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             var xAxis = d3.svg.axis()
                 .scale(xScale)
                 .ticks(GOVUK.Insights.months_range, 2)
+                .tickPadding(4)
                 .tickFormat(function(date) {
                     return date.getDate() + " " + GOVUK.Insights.SHORT_MONTHS[date.getMonth()];
                 }
@@ -128,7 +129,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
             graph.append("svg:g")
                 .attr("class", "x-axis")
-                .attr("transform", "translate(0," + (height - margins[0] - margins[2]) + ")")
+                .attr("transform", "translate(0," + (height - margins[0] - margins[2] + 5) + ")")
                 .call(xAxis);
 
             /* Set Up Y-Axis */
