@@ -257,6 +257,11 @@ path.pink {
 .datainsight-hidden {
     display: none;
 }
+
+#todays-activity-module .x.axis .tick {
+    stroke: #333;
+    shape-rendering: crispEdges;
+}
 /* slimmer hacks */
 
 /* hide top shim */

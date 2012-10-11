@@ -1,44 +1,30 @@
 function plot_traffic(id, raw_data) {
-
     var data_to_plot = today_yesterday_to_plot(raw_data);
     var average_plot_data = monthly_average_to_plot(raw_data);
 
-    var STRONG_GREEN = "#74B74A";
-    var MIDDLE_GREEN = "#9CB072";
-    var WEAK_GREEN = "#B2B3AF";
+    // Colours
+    var STRONG_GREEN = "#74B74A",
+        MIDDLE_GREEN = "#9CB072",
+        WEAK_GREEN = "#B2B3AF",
 
-    var STRONG_RED = "#BF1E2D";
-    var MIDDLE_RED = "#A56667";
-    var WEAK_RED = "#D3C8CB";
+        STRONG_RED = "#BF1E2D",
+        MIDDLE_RED = "#A56667",
+        WEAK_RED = "#D3C8CB",
 
-    var CENTER_GREY = "#B3B3B3";
+        CENTER_GREY = "#B3B3B3";
 
-    // var target = $('#' + id);
-    var top_gutter = 8;
-    var width = 924; //$(target).width();
-    var height = 300;
-    var yesterdays_height = 30;
+    // Sizing
+    var margin = [15, 10, 24, 54],
+        width = 924,
+        height = 300,
+        chartWidth = width - margin[1] - margin[3],
+        chartHeight = height - margin[0] - margin[2],
+        numberOfYTicks = 6;
 
-    var barwidth = 20;
-    var axesheight = 30;
-    var axeswidth = 45;
+    var barWidth = Math.floor(chartWidth / 24),
+        barPadding = Math.floor(barWidth / 5);
 
     var maxValue = d3.max([].concat(data_to_plot).concat(average_plot_data));
-
-    var svg = d3.select('#' + id)
-        .append("svg:svg")
-        .attr("width", width)
-        .attr("height", height + top_gutter)
-        .append("svg:g")
-        .attr("transform", "translate(8, " + top_gutter + ")");
-
-    var x = d3.scale.linear()
-        .domain([0, 24])
-        .rangeRound([0 + axeswidth, width]);
-    var y = d3.scale.linear()
-        .domain([0, maxValue])
-        .rangeRound([0, height - axesheight]);
-
 
     function get_fill(datum, index) {
         if (index < get_todays_hour(raw_data)) {
@@ -97,81 +83,74 @@ function plot_traffic(id, raw_data) {
         return colorScale(datum);
     }
 
-    svg.selectAll(".bar")
+    var svg = d3.select("#" + id)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    var chart = svg.append("g")
+        .attr("transform", "translate(" + margin[3] + "," + margin[0] + ")");
+
+    var xScale = d3.scale.linear()
+        .domain([0, 24])
+        .rangeRound([0, chartWidth]);
+
+    var yScale = d3.scale.linear()
+        .domain([0, maxValue])
+        .rangeRound([chartHeight, 0]);
+
+    chart.selectAll(".bar")
         .data(data_to_plot)
         .enter().append("rect")
         .attr("class", "bar")
-        .attr("x", function (datum, index) {
-            return x(index) - barwidth / 2;
+        .attr("x", function(d, i) {
+            return xScale(i) + barPadding
         })
-        .attr("y", function (datum) {
-            return height - axesheight - y(datum);
-        })
+        .attr("y", yScale)
         .attr("fill", get_fill)
-        .attr("width", barwidth)
-        .attr("height", function (datum, index) {
-            if (index < get_todays_hour(raw_data)) {
-                return y(datum);
-            } else {
-                if (y(datum) < yesterdays_height) {
-                    return y(datum);
-                } else {
-                    return y(datum);
-                }
-            }
+        .attr("width", barWidth - barPadding * 2)
+        .attr("height", function(d) {
+            return chartHeight - yScale(d);
         });
-
-
-    var yscale_for_axis = d3.scale.linear()
-        .domain([0, maxValue])
-        .rangeRound([height - axesheight, 0]);
-
-    var numberOfTicks = 6;
-    var tick_values = get_tick_values(maxValue, numberOfTicks).map(Math.ceil);
-    var yAxis = d3.svg.axis().scale(yscale_for_axis)
-        .orient("left")
-        .tickValues(tick_values)
-        .tickFormat(function (each) {
-            return format_tick_label(each, maxValue / numberOfTicks);
-        });
-
-    svg.append("svg:g")
-        .attr("class", "y axis")
-        .attr("transform", "translate(40,0)")
-        .call(yAxis);
-
-    var xAxis = d3.svg.axis()
-            .scale(x)
-            .tickValues([4, 8, 12, 16, 20])
-            .tickFormat(function(v) {
-                var ext = "am";
-                if (v > 12) {
-                    v -= 12;
-                    ext = "pm";
-                }
-                return v + ext;
-            });
-
-    svg.append("g")
-        .attr("class", "xaxis")
-        .attr("transform", "translate(-" + barwidth + ", " + (height - axesheight) + ")")
-        .call(xAxis);
-
-//    trend
 
     var line = d3.svg.line()
-        .x(function (d, index) {
-            return x(index);
-        })
-        .y(function (d) {
-            return yscale_for_axis(d);
-        });
+        .x(function(d, i) { return xScale(i) + barWidth / 2 })
+        .y(yScale)
+        .interpolate("monotone");
 
-    line.interpolate("monotone");
-    svg.append("svg:path")
+    chart.append("path")
         .attr("d", line(average_plot_data))
         .attr("class", "dashed-line pink");
 
+    var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient("left")
+        .tickValues(get_tick_values(maxValue, numberOfYTicks).map(Math.ceil))
+        .tickFormat(function(label) {
+            return format_tick_label(label, maxValue / numberOfYTicks);
+        });
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + (margin[3] - 5) + "," + margin[0] + ")")
+        .call(yAxis);
+
+    var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .tickValues([4, 8, 12, 16, 20])
+        .tickFormat(function(v) {
+            var ext = "am";
+            if (v > 12) {
+                v -= 12;
+                ext = "pm";
+            }
+            return v + ext;
+        });
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(" + margin[3] + "," + (height - margin[2] + 3) + ")")
+        .call(xAxis);
 }
 
 function get_tick_values(maxValue, numberOfTicks) {
