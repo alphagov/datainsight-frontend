@@ -1,0 +1,14 @@
+/* overrides default values from the core css (delivered via application.css) */
+
+
+.datainsight hgroup {
+    padding: 1em 10em 2em 2em !important;
+}
+
+.datainsight #content {
+    max-width: 960px !important;
+}
+
+.ie6 #content {
+    width: 960px;
+}
