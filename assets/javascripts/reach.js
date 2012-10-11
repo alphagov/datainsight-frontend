@@ -1,88 +1,40 @@
+GOVUK.Insights.Reach = GOVUK.Insights.Reach || {};
+
 function plot_traffic(id, raw_data) {
-    var data_to_plot = today_yesterday_to_plot(raw_data);
-    var average_plot_data = monthly_average_to_plot(raw_data);
+    // Prepare data
+    var yesterdaysData = $.map(raw_data, function(item) {
+            return item.visitors.yesterday;
+        }),
+        averageData = $.map(raw_data, function(item) {
+            return item.visitors.last_week_average;
+        }),
+        maxValue = d3.max([].concat(yesterdaysData).concat(averageData));
 
     // Colours
-    var STRONG_GREEN = "#74B74A",
-        MIDDLE_GREEN = "#9CB072",
-        WEAK_GREEN = "#B2B3AF",
+    var colours = {
+            STRONG_GREEN: "#74B74A",
+            MIDDLE_GREEN: "#9CB072",
+            WEAK_GREEN: "#B2B3AF",
 
-        STRONG_RED = "#BF1E2D",
-        MIDDLE_RED = "#A56667",
-        WEAK_RED = "#D3C8CB",
+            STRONG_RED: "#BF1E2D",
+            MIDDLE_RED: "#A56667",
+            WEAK_RED: "#D3C8CB",
 
-        CENTER_GREY = "#B3B3B3";
+            CENTER_GREY: "#B3B3B3"
+        },
+        calculateFill = GOVUK.Insights.Reach.fillCalculator(averageData, colours);
 
-    // Sizing
+    // Dimensions
     var margin = [15, 10, 24, 40],
         width = 924,
         height = 300,
         chartWidth = width - margin[1] - margin[3],
         chartHeight = height - margin[0] - margin[2],
-        numberOfYTicks = 6;
-
-    var barWidth = Math.floor(chartWidth / 24),
+        numberOfYTicks = 6,
+        barWidth = Math.floor(chartWidth / 24),
         barPadding = Math.floor(barWidth / 5);
 
-    var maxValue = d3.max([].concat(data_to_plot).concat(average_plot_data));
-
-    function get_fill(datum, index) {
-        if (index < get_todays_hour(raw_data)) {
-            var monthly_average = get_monthly_average(raw_data, index);
-            if (monthly_average === 0) {
-                return fill_for_spike_from_zero(datum)
-            } else if (datum > (monthly_average * 1.2)) {
-                return fill_for_spike(datum, monthly_average);
-            } else if (datum < (monthly_average * 0.8)) {
-                return fill_for_trough(datum, monthly_average);
-            } else {
-                return CENTER_GREY;
-            }
-        } else {
-            return "url(#gradient_for_yesterday)"
-        }
-    }
-
-    function fill_for_spike_from_zero(datum) {
-        var colorScale = d3.scale.linear()
-            .domain([0, 1])
-            .range([WEAK_GREEN, STRONG_GREEN]);
-        colorScale.clamp(true);
-        return colorScale(datum);
-    }
-
-    function fill_for_spike(datum, monthly_average_at) {
-        var maxRange = monthly_average_at * 1.5;
-        var minRange = monthly_average_at * 1.2;
-        var midRange = percentOfRange(0.7, minRange, maxRange);
-        var colorScale = linear3PointGradient(colourValue(WEAK_GREEN, minRange), colourValue(MIDDLE_GREEN, midRange), colourValue(STRONG_GREEN, maxRange));
-        return colorScale(datum);
-    }
-
-    function colourValue(colour, value) {
-        return { 'colour':colour, 'value':value};
-    }
-
-    function percentOfRange(val, min, max) {
-        return min + (val * (max - min))
-    }
-
-    function linear3PointGradient(colourValue1, colourValue2, colourValue3) {
-        var colorScale = d3.scale.linear()
-            .domain([colourValue1['value'], colourValue2['value'], colourValue3['value']])
-            .range([colourValue1['colour'], colourValue2['colour'], colourValue3['colour']]);
-        colorScale.clamp(true);
-        return colorScale;
-    }
-
-    function fill_for_trough(datum, monthly_average_at) {
-        var maxRange = monthly_average_at * 0.8;
-        var minRange = monthly_average_at * 0.5;
-        var midRange = percentOfRange(0.7, minRange, maxRange);
-        var colorScale = linear3PointGradient(colourValue(WEAK_RED, minRange), colourValue(MIDDLE_RED, midRange), colourValue(STRONG_RED, maxRange));
-        return colorScale(datum);
-    }
-
+    // Create the svg panel
     var svg = d3.select("#" + id)
         .append("svg")
         .attr("width", width)
@@ -91,6 +43,7 @@ function plot_traffic(id, raw_data) {
     var chart = svg.append("g")
         .attr("transform", "translate(" + margin[3] + "," + margin[0] + ")");
 
+    // Set up scales
     var xScale = d3.scale.linear()
         .domain([0, 24])
         .rangeRound([0, chartWidth]);
@@ -99,29 +52,32 @@ function plot_traffic(id, raw_data) {
         .domain([0, maxValue])
         .rangeRound([chartHeight, 0]);
 
+    // Create the bars
     chart.selectAll(".bar")
-        .data(data_to_plot)
+        .data(yesterdaysData)
         .enter().append("rect")
         .attr("class", "bar")
         .attr("x", function(d, i) {
             return xScale(i) + barPadding
         })
         .attr("y", yScale)
-        .attr("fill", get_fill)
+        .attr("fill", calculateFill)
         .attr("width", barWidth - barPadding * 2)
         .attr("height", function(d) {
             return chartHeight - yScale(d);
         });
 
+    // Create the average line
     var line = d3.svg.line()
         .x(function(d, i) { return xScale(i) + barWidth / 2 })
         .y(yScale)
         .interpolate("monotone");
 
     chart.append("path")
-        .attr("d", line(average_plot_data))
+        .attr("d", line(averageData))
         .attr("class", "dashed-line pink");
 
+    // Create the Y-Axis
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left")
@@ -135,16 +91,12 @@ function plot_traffic(id, raw_data) {
         .attr("transform", "translate(" + (margin[3] - 5) + "," + margin[0] + ")")
         .call(yAxis);
 
+    // Create the X-Axis
     var xAxis = d3.svg.axis()
         .scale(xScale)
         .tickValues([4, 8, 12, 16, 20])
         .tickFormat(function(v) {
-            var ext = "am";
-            if (v > 12) {
-                v -= 12;
-                ext = "pm";
-            }
-            return v + ext;
+            return v > 12 ? (v-12) + "pm" : v + "am";
         });
 
     svg.append("g")
@@ -198,51 +150,36 @@ function format_tick_label(tick_value, tick_step) {
     return "" + tick_value;
 }
 
-function get_monthly_average(raw_data, index) {
-    return raw_data[index].visitors.monthly_average;
-}
+GOVUK.Insights.Reach.fillCalculator = function(averageData, colours) {
+    var zeroScale = d3.scale.linear()
+        .domain([0, 1])
+        .range([colours.WEAK_GREEN, colours.STRONG_GREEN])
+        .clamp(true),
 
-function get_today(raw_data, index) {
-    return raw_data[index].visitors.today;
-}
+        greens = [colours.WEAK_GREEN, colours.MIDDLE_GREEN, colours.STRONG_GREEN],
+        reds = [colours.WEAK_RED, colours.MIDDLE_RED, colours.STRONG_RED];
 
-function get_yesterday(raw_data, index) {
-    return raw_data[index].visitors.yesterday;
-}
+    function colourScale(average, minFactor, maxFactor, percent, colours) {
+        var minRange = average * minFactor,
+            maxRange = average * maxFactor,
+            midRange = minRange + (percent * (maxRange - minRange));
 
-function get_todays_hour(raw_data) {
-    var hour;
-    for (hour = 0; hour < raw_data.length; hour++) {
-        if (raw_data[hour].visitors.today === undefined) {
-            break
+        return d3.scale.linear()
+            .domain([minRange, midRange, maxRange])
+            .range(colours)
+            .clamp(true);
+    }
+
+    return function(datum, index) {
+        var average = averageData[index];
+        if (average === 0) {
+            return zeroScale(datum)
+        } else if (datum > (average * 1.2)) {
+            return colourScale(average, 1.2, 1.5, 0.7, greens)(datum);
+        } else if (datum < (average * 0.8)) {
+            return colourScale(average, 0.5, 0.8, 0.7, reds)(datum);
+        } else {
+            return colours.CENTER_GREY;
         }
     }
-    return hour;
-}
-
-function data_to_plot(raw_data, extractor) {
-    var result = [];
-    for (var hour = 0; hour < raw_data.length; hour++) {
-        result.push(extractor(raw_data, hour));
-    }
-    return result;
-
-}
-
-function today_yesterday_to_plot(raw_data) {
-    var plot_data = [],
-        stop_today = get_todays_hour(raw_data);
-
-    var hour;
-    for (hour = 0; hour < stop_today; hour++) {
-        plot_data.push(get_today(raw_data, hour));
-    }
-    for (; hour < raw_data.length; hour++) {
-        plot_data.push(get_yesterday(raw_data, hour));
-    }
-    return plot_data;
-}
-
-function monthly_average_to_plot(raw_data) {
-    return data_to_plot(raw_data, get_monthly_average);
-}
+};
