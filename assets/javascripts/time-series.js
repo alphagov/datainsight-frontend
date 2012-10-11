@@ -120,7 +120,11 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             var xAxis = d3.svg.axis()
                 .scale(xScale)
                 .ticks(GOVUK.Insights.months_range, 2)
-                .tickFormat(d3.time.format("%b %d"));
+                .tickFormat(function(date) {
+                    return date.getDate() + " " + GOVUK.Insights.SHORT_MONTHS[date.getMonth()];
+                }
+
+            );
 
             graph.append("svg:g")
                 .attr("class", "x-axis")
