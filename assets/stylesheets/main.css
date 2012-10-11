@@ -151,14 +151,17 @@ path {
 }
 
 path.dashed-line {
-    stroke-width: 2;
-    stroke-dasharray: 2, 1;
+    stroke-width: 2.5;
+    stroke-dasharray: 3, 6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 /* main focus line for a time series */
 path.main-line {
     stroke: #c4c4c4;
-    stroke-width: 5;
+    stroke-width: 4;
+    stroke-linecap: round;
 }
 
 path.brown {
