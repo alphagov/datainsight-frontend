@@ -45,7 +45,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
     }
 
     var series = extractKeys(params.series),
-        margins = params.margins || [22, 27, 20, 54],
+        margins = params.margins || [22, 27, 20, 40],
         width = params.width || 462,
         height = params.height || (236 + 15),
         yUnitScale = params.yUnitScale || 1000000,

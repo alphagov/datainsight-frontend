@@ -1,6 +1,6 @@
 [
-    { "format": "Guide", "entries" : 57000, "percentage_of_success": 35 },
-    { "format": "Transaction", "entries": 120000, "percentage_of_success": 40},
+    { "format": "Guides", "entries" : 57000, "percentage_of_success": 35 },
+    { "format": "Transactions", "entries": 120000, "percentage_of_success": 40},
     { "format": "Quick Answers", "entries": 100000, "percentage_of_success": 65},
     { "format": "small grey",   "entries": 5000, "percentage_of_success": 50},
     { "format": "mid grey",     "entries": 50000, "percentage_of_success": 50},

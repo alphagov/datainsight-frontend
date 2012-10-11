@@ -14,7 +14,7 @@ function plot_traffic(id, raw_data) {
         CENTER_GREY = "#B3B3B3";
 
     // Sizing
-    var margin = [15, 10, 24, 54],
+    var margin = [15, 10, 24, 40],
         width = 924,
         height = 300,
         chartWidth = width - margin[1] - margin[3],

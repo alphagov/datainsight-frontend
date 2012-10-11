@@ -3,9 +3,9 @@
     <%= erb :narrative %>
   </div>
 </div>
-
-<div class="row">
+<div class="row offset-by-one">
   <div class="twelve columns">
+    <h2>Web traffic</h2>
     <%= erb :todays_activity %>
   </div>
 </div>
@@ -19,17 +19,17 @@
     <%= erb :unique_visitors %>
   </div>
 </div>
-
 <div class="row">
   <div class="twelve columns">
+    <h2>Content</h2>
     <%= erb :format_success %>
   </div>
 </div>
 
 <% if false %>
-  <div class="row">
-    <div class="six columns">
-      <%= erb :trust %>
+    <div class="row">
+      <div class="six columns">
+        <%= erb :trust %>
+      </div>
     </div>
-  </div>
 <% end %>

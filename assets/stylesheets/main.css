@@ -23,8 +23,9 @@ article p {
     text-transform: none;
 }
 
-#content {
+#content * {
     font-family: nta, arial, sans-serif;
+    font-weight: lighter;
 }
 
 .ie7 .row * {
@@ -72,10 +73,15 @@ article p {
 
 .row {
     margin-top: 36px;
+    padding-left: 12px;
 }
 
 .module-header {
     margin: 0;
+}
+
+.twelve .module-header {
+    width: 50%;
 }
 
 .module-header > div {
@@ -85,6 +91,20 @@ article p {
 
 .module-header .info {
     margin-top: 0;
+}
+
+.legend {
+    position: relative;
+    width: 210px;
+}
+
+.legend-label {
+    position: absolute;
+    left: 60px;
+}
+
+.legend-row {
+    padding-top: 10px;
 }
 
 /* Typography */
@@ -110,11 +130,11 @@ svg {
 }
 
 .graph-heading {
-    margin: 4px 12px;
+    margin: 4px 12px 4px 0;
 }
 
 .graph-info {
-    margin: 2px 12px;
+    margin: 2px 12px 2px 0;
 }
 
 .graph-heading, .graph-info {
@@ -201,7 +221,7 @@ path.pink {
 
 /* Module Specific */
 #narrative {
-    padding: 12px;
+    padding: 12px 12px 12px 0;
     font-weight: normal;
 }
 

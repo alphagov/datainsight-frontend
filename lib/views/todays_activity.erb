@@ -11,7 +11,7 @@
     <%= erb :_for_svg_supported_browsers, :locals => {:content => javascript_include_tag("reach", "modules/todays-activity")} %>
 <% end %>
 
-<svg style="width: 0; height: 0">
+<svg style="position: absolute">
   <defs>
     <linearGradient id="gradient_for_yesterday" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" style="stop-color: #B3B3B3; stop-opacity: 1"/>
@@ -24,37 +24,41 @@
   <%= graph_image_tag 'todays-activity' %>
 
   <div class="datainsight-hidden">
-    <div class="left">
-      <p class="graph-info">LIVE NOW</p>
+    <div class="module-header left">
+      <h3 class="graph-info">GOV.UK's recent traffic</h3>
 
-      <h3 class="graph-heading">Hourly GOV.UK traffic today <br/> compared with yesterday and
-        <strong>the average over the last 30 days</strong></h3>
+      <p class="graph-heading">Hourly GOV.UK traffic today compared with yesterday and
+        <strong>the average over the last 30 days</strong></p>
     </div>
     <div class="right small-text">
-      <span class="blue-text">LIVE AT</span>&nbsp;<span id="live_at"></span>
+      <span id="live_at"></span>
 
-      <div>
+      <div class="legend">
+        <div class="legend-row">
         <div class="small-shim">
           <div class="right small-square graph-green"></div>
-          <div class="small-text right">Increase</div>
+          <div class="small-text right" style="width: 8px; text-align: center">+</div>
+          <div class="small-text right legend-label">Change from</div>
         </div>
         <br style="clear: both"/>
 
         <div class="small-shim">
           <div class="right small-square graph-red"></div>
-          <div class="small-text right">Decrease</div>
+          <div class="small-text right" style="width: 8px; text-align: center">-</div>
+          <div class="small-text right legend-label">30 day average</div>
         </div>
         <br style="clear: both"/>
+        </div>
 
-        <div class="small-shim">
+        <div class="small-shim legend-row">
           <div class="right small-square" id="yesterday"></div>
-          <div class="small-text right">Yesterday</div>
+          <div class="small-text right legend-label">Yesterday</div>
         </div>
         <br style="clear: both"/>
 
-        <div class="small-shim">
+        <div class="small-shim legend-row">
           <div class="right small-square" id="monthly-average"></div>
-          <div class="small-text right">Last 30 days average</div>
+          <div class="small-text right legend-label">30 day average</div>
         </div>
         <br style="clear: both"/>
       </div>
