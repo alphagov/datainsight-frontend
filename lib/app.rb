@@ -30,6 +30,9 @@ class App < Sinatra::Base
     set :asset_path, '/assets'
     set :sprocket_env, SprocketEnvHolder.instance.environment
     set :graphs_images_dir, "/var/tmp/graphs"
+    # JSON CSRF is only relevant, if you have non-public data of editing something
+    # http://flask.pocoo.org/docs/security/#json-security
+    set :protection, :except => :json_csrf
   end
 
   def api_urls
