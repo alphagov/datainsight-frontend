@@ -170,11 +170,25 @@ path {
     fill: none;
 }
 
-path.dashed-line {
+path.dashed-line, line.dashed-line {
     stroke-width: 2.5;
     stroke-dasharray: 3, 6;
     stroke-linecap: round;
     stroke-linejoin: round;
+}
+
+path.solid-line, line.solid-line {
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+path.label-line, line.label-line {
+    stroke-width: 1;
+}
+
+path.vertical, line.vertical {
+    shape-rendering: crispEdges;
 }
 
 /* main focus line for a time series */
@@ -205,8 +219,12 @@ path.red {
     background-color: #74B74A;
 }
 
-path.pink {
+path.pink, line.pink {
     stroke: #c61c71;
+}
+
+text.pink {
+    fill: #c61c71;
 }
 
 .small-square {

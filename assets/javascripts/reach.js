@@ -1,6 +1,22 @@
 GOVUK.Insights.Reach = GOVUK.Insights.Reach || {};
 
-function plot_traffic(id, raw_data) {
+GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
+    function getTickValues(maxValue, numberOfTicks) {
+        var step = maxValue / (numberOfTicks - 1);
+
+        return d3.range(0, maxValue + 1, step);
+    }
+
+    function formatTickLabels(tick_value, tick_step) {
+        if (tick_step >= 1000000) {
+            return Math.ceil(tick_value / 1000000) + "m";
+        }
+        if (tick_step >= 1000) {
+            return Math.ceil(tick_value / 1000) + "k";
+        }
+        return "" + tick_value;
+    }
+
     // Prepare data
     var yesterdaysData = $.map(raw_data, function(item) {
             return item.visitors.yesterday;
@@ -25,7 +41,7 @@ function plot_traffic(id, raw_data) {
         calculateFill = GOVUK.Insights.Reach.fillCalculator(averageData, colours);
 
     // Dimensions
-    var margin = [15, 10, 24, 40],
+    var margin = [15, 10, 24, 45],
         width = 924,
         height = 300,
         chartWidth = width - margin[1] - margin[3],
@@ -81,9 +97,9 @@ function plot_traffic(id, raw_data) {
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left")
-        .tickValues(get_tick_values(maxValue, numberOfYTicks).map(Math.ceil))
+        .tickValues(getTickValues(maxValue, numberOfYTicks).map(Math.ceil))
         .tickFormat(function(label) {
-            return format_tick_label(label, maxValue / numberOfYTicks);
+            return formatTickLabels(label, maxValue / numberOfYTicks);
         });
 
     svg.append("g")
@@ -103,52 +119,33 @@ function plot_traffic(id, raw_data) {
         .attr("class", "x axis")
         .attr("transform", "translate(" + margin[3] + "," + (height - margin[2] + 3) + ")")
         .call(xAxis);
-}
 
-function get_tick_values(maxValue, numberOfTicks) {
-    var step = maxValue / (numberOfTicks - 1);
-
-    return d3.range(0, maxValue + 1, step);
-}
-
-function plot_legend_for_yesterday(id) {
-    var svg = d3.select('#' + id)
-        .append("svg")
-        .attr("width", 20)
-        .attr("height", 20);
-
-    svg.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", 13)
-        .attr("height", 26)
-        .attr("fill", "url(#gradient_for_yesterday)");
-}
-
-function plot_legend_for_monthly_average(id) {
-    var svg = d3.select('#' + id)
-        .append("svg")
-        .attr("width", 20)
-        .attr("height", 20);
-
-    var line = d3.svg.line();
-    svg.append("svg:path")
-        .attr("d", line([
-            [0, 8],
-            [13, 8]
-        ]))
-        .attr("class", "dashed-line pink");
-}
-
-function format_tick_label(tick_value, tick_step) {
-    if (tick_step >= 1000000) {
-        return Math.ceil(tick_value / 1000000) + "m";
+    // Add average line label
+    function yValuesFrom(averageData, n) {
+        var values = [];
+        for (var i = n; i < averageData.length; i++) {
+            values.push(averageData[i]);
+        }
+        return values;
     }
-    if (tick_step >= 1000) {
-        return Math.ceil(tick_value / 1000) + "k";
-    }
-    return "" + tick_value;
-}
+    var maxY = d3.max(yValuesFrom(averageData, averageData.length - 4)),
+        xPos = xScale(averageData.length - 1) + barWidth / 2;
+    chart.append("line")
+        .attr("x1", xPos)
+        .attr("x2", xPos)
+        .attr("y1", yScale(averageData[averageData.length - 1]) - 20)
+        .attr("y2", yScale(maxY) - 10)
+        .attr("class", "label-line vertical pink");
+
+    chart.append("foreignObject")
+        .attr("width", 100)
+        .attr("height", 80)
+        .attr("x", xPos - 100)
+        .attr("y", yScale(maxY) - 60)
+        .append("xhtml:body")
+        .html("<p style='color: #c61c71; font-size: 14px; text-align: right;'>Average over previous week</p>");
+
+};
 
 GOVUK.Insights.Reach.fillCalculator = function(averageData, colours) {
     var zeroScale = d3.scale.linear()
