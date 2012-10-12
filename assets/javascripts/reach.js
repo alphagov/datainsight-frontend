@@ -112,8 +112,14 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     var xAxis = d3.svg.axis()
         .scale(xScale)
         .tickValues([4, 8, 12, 16, 20])
-        .tickFormat(function(v) {
-            return v > 12 ? (v-12) + "pm" : v + "am";
+        .tickFormat(function(hour) {
+            return {
+                4: "4am",
+                8: "8am",
+                12: "12pm",
+                16: "4pm",
+                20: "8pm"
+            }[hour];
         });
 
     svg.append("g")
@@ -175,7 +181,6 @@ GOVUK.Insights.Reach.fillCalculator = function(averageData, colours) {
         } else if (datum > (average * 1.2)) {
             return colourScale(average, 1.2, 2.0, 0.7, greens)(datum);
         } else if (datum < (average * 0.8)) {
-            console.log(datum, average);
             return colourScale(average, 0.5, 0.8, 0.3, reds)(datum);
         } else {
             return colours.CENTER_GREY;

@@ -61,5 +61,12 @@ describe("reach", function() {
         it("should have 1 average line", function() {
             expect($("#reach-chart path.dashed-line").length).toEqual(1);
         });
+
+        it("should have 5 correct x-axis labels", function() {
+            var labels = $.map($("#reach-chart .x.axis text"), function(item) {
+                return $(item).text();
+            });
+            expect(labels).toEqual(["4am", "8am", "12pm", "4pm", "8pm"])
+        })
     });
 });
