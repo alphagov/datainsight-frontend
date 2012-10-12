@@ -17,14 +17,14 @@ GOVUK.Insights.todaysActivity = function () {
                     $('#todays-activity-module .datainsight-hidden').removeClass('datainsight-hidden');
                 }
                 var for_date = moment(data.for_date, "YYYY-MM-DD");
-                $("#todays-activity-module .for_date").text(for_date.format("d MMMM"));
+                $("#todays-activity-module .for_date").text(for_date.format("D MMMM"));
             } else {
                 showError();
             }
         },
         error:showError
     });
-}
+};
 
 
 // Get jQuery to call this on page ready event...

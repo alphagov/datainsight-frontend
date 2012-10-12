@@ -1,5 +1,17 @@
 GOVUK.Insights.Reach = GOVUK.Insights.Reach || {};
 
+GOVUK.Insights.Reach.COLOURS = colours = {
+    STRONG_GREEN: "#74B74A",
+    MIDDLE_GREEN: "#9CB072",
+    WEAK_GREEN: "#B2B3AF",
+
+    STRONG_RED: "#BF1E2D",
+    MIDDLE_RED: "#A56667",
+    WEAK_RED: "#D3C8CB",
+
+    CENTER_GREY: "#B3B3B3"
+};
+
 GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     function getTickValues(maxValue, numberOfTicks) {
         var step = maxValue / (numberOfTicks - 1);
@@ -27,18 +39,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         maxValue = d3.max([].concat(yesterdaysData).concat(averageData));
 
     // Colours
-    var colours = {
-            STRONG_GREEN: "#74B74A",
-            MIDDLE_GREEN: "#9CB072",
-            WEAK_GREEN: "#B2B3AF",
-
-            STRONG_RED: "#BF1E2D",
-            MIDDLE_RED: "#A56667",
-            WEAK_RED: "#D3C8CB",
-
-            CENTER_GREY: "#B3B3B3"
-        },
-        calculateFill = GOVUK.Insights.Reach.fillCalculator(averageData, colours);
+    var calculateFill = GOVUK.Insights.Reach.fillCalculator(averageData, GOVUK.Insights.Reach.COLOURS);
 
     // Dimensions
     var margin = [15, 10, 24, 45],
@@ -154,7 +155,7 @@ GOVUK.Insights.Reach.fillCalculator = function(averageData, colours) {
         .clamp(true),
 
         greens = [colours.WEAK_GREEN, colours.MIDDLE_GREEN, colours.STRONG_GREEN],
-        reds = [colours.WEAK_RED, colours.MIDDLE_RED, colours.STRONG_RED];
+        reds = [colours.STRONG_RED, colours.MIDDLE_RED, colours.WEAK_RED];
 
     function colourScale(average, minFactor, maxFactor, percent, colours) {
         var minRange = average * minFactor,
@@ -172,9 +173,10 @@ GOVUK.Insights.Reach.fillCalculator = function(averageData, colours) {
         if (average === 0) {
             return zeroScale(datum)
         } else if (datum > (average * 1.2)) {
-            return colourScale(average, 1.2, 1.5, 0.7, greens)(datum);
+            return colourScale(average, 1.2, 2.0, 0.7, greens)(datum);
         } else if (datum < (average * 0.8)) {
-            return colourScale(average, 0.5, 0.8, 0.7, reds)(datum);
+            console.log(datum, average);
+            return colourScale(average, 0.5, 0.8, 0.3, reds)(datum);
         } else {
             return colours.CENTER_GREY;
         }
