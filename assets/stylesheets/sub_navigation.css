@@ -10,7 +10,7 @@
 
 #sub-navigation .inner {
     margin: 0 auto;
-    max-width: 960px;
+    max-width: 1020px;
     overflow: hidden;
     background: #ddd;
     padding: 0;
@@ -59,24 +59,20 @@
 }
 
 #sub-navigation #index a {
-    font-family: "Gill Sans W01 Book", "Gill Sans MT", "Gill Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    font-size: 1.3rem;
-    line-height: 1.307692308;
+    font-family: "nta", "GDS-Regular", sans-serif;
+    font-size: 16px;
+    font-size: 1.6rem;
+    line-height: 1.5625;
     /*16px*/
-    font-weight: 400;
-    letter-spacing: 0.125em;
-    text-transform: uppercase;
-    padding-top: 11px;
-    padding-top: 1.1rem;
-    padding-bottom: 13px;
-    padding-bottom: 1.3rem;
-    -webkit-font-smoothing: subpixel-antialiased;
-    font-weight: 400;
-    margin-top: 0;
+
+
+    display: block;
+    padding: 8px 8px;
+    padding: 0.8rem 0.8rem;
+
+    margin-top: 0px;
     margin-right: 8px;
-    padding: 12px 8px;
-    padding: 1.2rem 1.2rem;
+
     background: #222;
     color: #fff;
 }

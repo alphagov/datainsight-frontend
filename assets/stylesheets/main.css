@@ -1,6 +1,6 @@
-.datainsight .page-header hgroup {
-    margin-right: 0;
-}
+/*.datainsight .page-header hgroup {*/
+    /*margin-right: 0;*/
+/*}*/
 
 .datainsight .article-container {
     margin-right: 0;
@@ -305,7 +305,6 @@ text.pink {
     stroke: #333;
     shape-rendering: crispEdges;
 }
-/* slimmer hacks */
 
 /* hide top shim */
 .shim {
@@ -335,4 +334,11 @@ header nav, header .search-help {
 
 #format-success .title-y {
     text-anchor: middle;
+}
+
+/* OVERRIDES */
+
+/* stops foundation.css breaking the logo */
+header #logo img {
+    max-width: none;
 }

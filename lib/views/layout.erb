@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%= stylesheet_link_tag 'foundation', 'main', 'sub_navigation', 'data-insight' %>
+  <%= stylesheet_link_tag 'foundation', 'main', 'sub_navigation' %>
   <% yield_content :head %>
 </head>
 
@@ -26,7 +26,7 @@
         </div>
       </nav>
 
-      <section id="content" role="main">
+      <section id="content" class="group category-page" role="main">
         <%= yield %>
       </section>
     </div>
