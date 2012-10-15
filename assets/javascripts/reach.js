@@ -128,19 +128,13 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .call(xAxis);
 
     // Add average line label
-    function yValuesFrom(averageData, n) {
-        var values = [];
-        for (var i = n; i < averageData.length; i++) {
-            values.push(averageData[i]);
-        }
-        return values;
-    }
-    var maxY = d3.max(yValuesFrom(averageData, averageData.length - 4)),
-        xPos = xScale(averageData.length - 1) + barWidth / 2;
+    var maxY = d3.max(averageData.slice(-4)),
+        xPos = xScale(averageData.length - 1),
+        yStart = d3.mean(averageData.slice(-2).map(yScale));
     chart.append("line")
         .attr("x1", xPos)
         .attr("x2", xPos)
-        .attr("y1", yScale(averageData[averageData.length - 1]) - 20)
+        .attr("y1", yStart - 5)
         .attr("y2", yScale(maxY) - 10)
         .attr("class", "label-line vertical pink");
 
