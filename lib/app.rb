@@ -61,7 +61,6 @@ class App < Sinatra::Base
 
   get "/dashboard" do
     @narrative = api(api_urls).narrative
-    @trust = api(api_urls).user_trust
 
     erb :engagement
   end
@@ -92,17 +91,6 @@ class App < Sinatra::Base
   end
 
   serve_graph_image "unique-visitors.png"
-
-  get "/graphs/trust.json" do
-    content_type :json
-    api(api_urls).user_trust.to_json
-  end
-
-  get "/trust" do
-    @trust = api(api_urls).user_trust
-
-    erb :trust
-  end
 
   get "/graphs/todays-activity.json" do
     content_type :json

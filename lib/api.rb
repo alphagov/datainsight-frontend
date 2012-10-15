@@ -22,23 +22,6 @@ module Insight
         @config = config
       end
 
-      def user_trust
-        {
-            "govuk" => {
-                "votes" => [25, 60, 5, 5, 5],
-                "trustLevel" => 10
-            },
-            "directgov" => {
-                "votes" => [5, 5, 5, 65, 25],
-                "trustLevel" => 90
-            },
-            "businesslink" => {
-                "votes" => [33, 23, 27, 12, 5],
-                "trustLevel" => 17
-            }
-        }
-      end
-
       def get_json(&block)
         begin
           block.yield.data
@@ -76,11 +59,6 @@ module Insight
     end
 
     class ClientStub
-
-      def user_trust
-        fixture :user_trust
-      end
-
       def narrative
         fixture :narrative
       end
