@@ -14,8 +14,6 @@ GOVUK.Insights.formatSuccess = function () {
                     $('#format-success-module img').remove();
                     GOVUK.Insights.plotFormatSuccessGraph(data);
                     $('#format-success-module .datainsight-hidden').removeClass('datainsight-hidden');
-                } else {
-//                    $("#format-success-module").html("<img src='/performance/format-success.png' />");
                 }
             } else {
                 showError();
