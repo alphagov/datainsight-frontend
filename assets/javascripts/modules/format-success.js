@@ -99,7 +99,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             return y(d.percentageOfSuccess);
         })
         .attr("r", function (d) {
-            return radius(d.total);
+            // add half the circle stroke width
+            return radius(d.total) + 1;
         });
 
     // Draw grid lines

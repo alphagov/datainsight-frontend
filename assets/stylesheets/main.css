@@ -363,6 +363,11 @@ header nav, header .search-help {
     shape-rendering: geometricPrecision;
 }
 
+#format-success .format {
+    stroke: white;
+    stroke-width: 2;
+}
+
 /* OVERRIDES */
 
 /* stops foundation.css breaking the logo */
