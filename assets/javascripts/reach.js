@@ -139,12 +139,12 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr("class", "label-line vertical pink");
 
     chart.append("foreignObject")
-        .attr("width", 100)
+        .attr("width", 110)
         .attr("height", 80)
         .attr("x", xPos - 100)
-        .attr("y", yScale(maxY) - 60)
+        .attr("y", yScale(maxY) - 40)
         .append("xhtml:body")
-        .html("<p style='color: #c61c71; font-size: 14px; text-align: right;'>Average over previous week</p>");
+        .html("<p style='color: #c61c71; font-size: 14px; text-align: right;'>Average last week</p>");
 
 };
 
