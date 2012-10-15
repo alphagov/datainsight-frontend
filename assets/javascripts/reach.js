@@ -1,3 +1,6 @@
+var GOVUK = GOVUK || {};
+GOVUK.Insights = GOVUK.Insights || {};
+
 GOVUK.Insights.Reach = GOVUK.Insights.Reach || {};
 
 GOVUK.Insights.Reach.COLOURS = colours = {
