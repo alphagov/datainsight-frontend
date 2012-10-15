@@ -21,6 +21,11 @@ gem "httparty"
 gem "whenever"
 gem "datainsight_logging"
 
+group :compressors do
+  gem "yui-compressor", :require => false
+  gem "uglifier", :require => false
+end
+
 group :test do
   #gem "rack-test"
   gem "rspec", "2.10.0"
