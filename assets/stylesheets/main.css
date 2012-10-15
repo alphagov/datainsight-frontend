@@ -358,6 +358,11 @@ header nav, header .search-help {
     text-anchor: middle;
 }
 
+#format-success-legend {
+    float: right;
+    shape-rendering: geometricPrecision;
+}
+
 /* OVERRIDES */
 
 /* stops foundation.css breaking the logo */

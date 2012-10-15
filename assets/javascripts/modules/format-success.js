@@ -83,10 +83,6 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .append("svg:g")
         .attr("transform", "translate(" + gutterX + "," + gutterYTop + ")");
 
-    var legend = panel
-        .append("svg:g")
-        .attr("transform", "translate(" + gutterX + ", 0)");
-
     // Draw xy scatterplot
     graph.selectAll("circle.format")
         .data(values)
@@ -175,12 +171,27 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("x", w / 2 - 5)
         .attr("dy", ".35em");
 
+    graph.append("rect")
+        .attr("height", 12)
+        .attr("width", 12)
+        .attr("y", h - 6)
+        .attr("x", w / 2 + 7)
+        .attr("style", "fill: #BF1E2D");
+
     graph.append("svg:text")
         .text(maxY + "%")
         .attr("class", "label-y-top")
         .attr("y", 0)
         .attr("x", w / 2 - 5)
         .attr("dy", ".35em");
+
+    graph.append("rect")
+        .attr("height", 12)
+        .attr("width", 12)
+        .attr("y", -6)
+        .attr("x", w / 2 + 7)
+        .attr("style", "fill: #74B74A");
+
 
     var shouldFlipLabelToLeft = function (d) {
         return d.total / maxX > 0.75;
@@ -212,6 +223,14 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var dataForLegend = x.ticks(4).slice(1, 4);
 
     var maxCircleRadius = radius(dataForLegend.slice(-1));
+
+
+    var legend = d3.select("#format-success-legend")
+        .append("svg")
+        .attr("width", 180)
+        .attr("height", 80)
+        .append("g")
+        .attr("transform", "translate(3, 3)");
 
 
     legend
