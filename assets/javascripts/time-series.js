@@ -157,7 +157,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     .attr("d", line(data[name]))
                     .attr("class", params.series[name].lineClass);
                 if (params.series[name].gradient) {
-                    path.attr("style", "stroke: url(#spike-gradient-" + $(container).attr("id") + ") " + CENTER_GREY + ";")
+                    path.attr("style", "stroke: url(#spike-gradient-" + $(container).attr("id") + ") " + CENTER_GREY + ";");
                 }
             });
 
