@@ -48,7 +48,7 @@ class App < Sinatra::Base
   end
 
   def self.serve_graph_image(image_filename)
-    get "/graphs/#{image_filename}" do
+    get "/#{image_filename}" do
       content_type "image/png"
       headers['X-Slimmer-Skip'] = "true"
       send_file "#{settings.graphs_images_dir}/#{image_filename}"

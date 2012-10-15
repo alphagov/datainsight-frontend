@@ -52,9 +52,9 @@ module Insight
     def graph_image_tag name
       location = "#{settings.graphs_images_dir}/#{name}.png"
       timestamp = File.exist?(location) ? "?#{File.mtime(location).to_i}" : ""
-      path = "#{name}.png#{timestamp}"
+      uri = "#{settings.uri_root}/#{name}.png#{timestamp}"
 
-      tag(:img, :src => graphs_asset_path("png", path))
+      tag(:img, :src => uri)
     end
 
     def nav_link_to text, target, options = {}
@@ -77,7 +77,6 @@ end
 module Padrino
   module Helpers
     module AssetTagHelpers
-
       def asset_path(kind, source)
         return source if source =~ /^http/
         # is_absolute = source =~ %r{^/}
@@ -89,19 +88,6 @@ module Padrino
         source = (sprocket_manifest.assets[source] or source)
 
         asset_host + asset_folder + "/" + source
-      end
-
-      def graphs_asset_path(kind, source)
-        return source if source =~ /^http/
-        # is_absolute = source =~ %r{^/}
-        asset_folder = "graphs"
-
-        source = source.to_s.gsub(/\s/, '%20')
-        ignore_extension = (asset_folder.to_s == kind.to_s) # don't append an extension
-        source << ".#{kind}" unless ignore_extension or source =~ /\.#{kind}/
-        source = (sprocket_manifest.assets[source] or source)
-
-        asset_host + "/" + asset_folder + "/" + source
       end
 
       private
