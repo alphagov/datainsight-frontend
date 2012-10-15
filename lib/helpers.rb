@@ -52,7 +52,7 @@ module Insight
     def graph_image_tag name
       location = "#{settings.graphs_images_dir}/#{name}.png"
       timestamp = File.exist?(location) ? "?#{File.mtime(location).to_i}" : ""
-      uri = "#{settings.uri_root}/#{name}.png#{timestamp}"
+      uri = "#{settings.uri_root}/graphs/#{name}.png#{timestamp}"
 
       tag(:img, :src => uri)
     end
