@@ -18,7 +18,6 @@ GOVUK.Insights.visits = function () {
                     "series":{
                         "govuk":{
                             "lineClass":"main-line",
-                            "gradient":true,
                             "legendClass":"",
                             "legend":"GOV.UK"
                         },

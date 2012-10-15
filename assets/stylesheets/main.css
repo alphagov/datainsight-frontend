@@ -142,6 +142,8 @@ svg {
 
 .graph-heading {
     margin: 4px 12px 4px 0;
+    font-size: 1em;
+    line-height: 1.4;
 }
 
 .graph-info {
@@ -155,7 +157,7 @@ svg {
 .graph-source {
     padding: 18px 0;
     font-size: 14px;
-    margin: 0px 0;
+    margin: 0 0;
 }
 
 .blue-text {
@@ -316,6 +318,15 @@ text.pink {
     stroke: #333;
     shape-rendering: crispEdges;
 }
+
+#format-success .axis .domain {
+    stroke: #808080;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+    stroke-dasharray: 2px, 8px;
+    stroke-dashoffset: 1px;
+}
+/* slimmer hacks */
 
 /* hide top shim */
 .shim {

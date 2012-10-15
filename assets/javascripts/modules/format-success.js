@@ -109,22 +109,41 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         });
 
     // Draw grid lines
-    graph
-        .append("svg:line")
-        .attr("stroke", "#808080")
-        .attr("x1", 0)
+    var xaxis = graph.append("g")
+        .attr("class", "x axis");
+
+    xaxis.append("line")
+        .attr("class", "domain")
+        .attr("x1", w / 2)
+        .attr("x2", 0)
+        .attr("y1", h / 2)
+        .attr("y2", h / 2)
+        .attr("style", "stroke-dashoffset: 2px");
+
+    xaxis.append("line")
+        .attr("class", "domain")
+        .attr("x1", w / 2)
         .attr("x2", w)
         .attr("y1", h / 2)
         .attr("y2", h / 2);
 
-    graph
-        .append("svg:line")
-        .attr("stroke", "#808080")
-        .style("width", "1px")
+    var yaxis = graph.append("g")
+        .attr("class", "y axis");
+
+    yaxis.append("line")
+        .attr("class", "domain")
         .attr("x1", w / 2)
         .attr("x2", w / 2)
-        .attr("y1", 0)
-        .attr("y2", h);
+        .attr("y1", h / 2)
+        .attr("y2", 0);
+    yaxis.append("line")
+        .attr("class", "domain")
+        .attr("x1", w / 2)
+        .attr("x2", w / 2)
+        .attr("y1", h / 2)
+        .attr("y2", h)
+        .attr("style", "stroke-dashoffset: 2px")
+    ;
 
     // Place X axis tick labels
     graph.append("svg:text")

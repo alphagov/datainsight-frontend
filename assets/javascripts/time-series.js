@@ -155,7 +155,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             $(series).each(function (i, name) {
                 var path = graph.append("svg:path")
                     .attr("d", line(data[name]))
-                    .attr("class", params.series[name].lineClass)
+                    .attr("class", params.series[name].lineClass);
                 if (params.series[name].gradient) {
                     path.attr("style", "stroke: url(#spike-gradient-" + $(container).attr("id") + ") " + CENTER_GREY + ";")
                 }
