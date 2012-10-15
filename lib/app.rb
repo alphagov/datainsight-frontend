@@ -71,7 +71,7 @@ class App < Sinatra::Base
     erb :narrative
   end
 
-  get "/visits.json" do
+  get "/graphs/visits.json" do
     content_type :json
     api_result_to_json(api(api_urls).weekly_visits)
   end
@@ -82,7 +82,7 @@ class App < Sinatra::Base
 
   serve_graph_image "visits.png"
 
-  get "/unique-visitors.json" do
+  get "/graphs/unique-visitors.json" do
     content_type :json
     api_result_to_json(api(api_urls).weekly_visitors)
   end
@@ -93,7 +93,7 @@ class App < Sinatra::Base
 
   serve_graph_image "unique-visitors.png"
 
-  get "/trust.json" do
+  get "/graphs/trust.json" do
     content_type :json
     api(api_urls).user_trust.to_json
   end
@@ -104,7 +104,7 @@ class App < Sinatra::Base
     erb :trust
   end
 
-  get "/todays-activity.json" do
+  get "/graphs/todays-activity.json" do
     content_type :json
     api_result_to_json(api(api_urls).todays_activity)
   end
@@ -127,7 +127,7 @@ class App < Sinatra::Base
 
   serve_graph_image "format-success.png"
 
-  get "/format-success.json" do
+  get "/graphs/format-success.json" do
     content_type :json
     api_result_to_json(api(api_urls).format_success)
   end

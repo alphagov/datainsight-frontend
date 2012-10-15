@@ -7,7 +7,7 @@ GOVUK.Insights.uniqueVisitors = function() {
     }
 
     $.ajax({
-        url:"/performance/unique-visitors.json",
+        url:"/performance/graphs/unique-visitors.json",
         dataType:"json",
         success:function (data) {
             if (data == null) {

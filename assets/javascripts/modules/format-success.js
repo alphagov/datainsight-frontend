@@ -7,7 +7,7 @@ GOVUK.Insights.formatSuccess = function () {
     }
 
     $.ajax({
-        url:'/performance/format-success.json',
+        url:'/performance/graphs/format-success.json',
         success:function (data) {
             if (data !== null) {
                 if (GOVUK.isSvgSupported()) {

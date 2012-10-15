@@ -7,7 +7,7 @@ GOVUK.Insights.todaysActivity = function () {
     }
 
     $.ajax({
-        url:"/performance/todays-activity.json",
+        url:"/performance/graphs/todays-activity.json",
         dataType:"json",
         success:function (data) {
             if (data !== null) {
