@@ -203,7 +203,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .data(values)
         .enter().append("svg:text")
         .text(function (d) {
-            return d.formatName
+            return d.formatName;
         })
         .attr("class", "circle-format")
         .attr("text-anchor", function (d) {
@@ -212,7 +212,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("x", function (d) {
             var shiftText = (radius(d.total) + 10);
             if (shouldFlipLabelToLeft(d)) {
-                shiftText = -shiftText - $(this).width();
+                shiftText = -shiftText;
             }
             return x(d.total) + shiftText;
         })
@@ -224,14 +224,14 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var dataForLegend = x.ticks(4).slice(1, 4);
 
     var maxCircleRadius = radius(dataForLegend.slice(-1));
-
+    var estimatedWidthOfLegendText = 80;
 
     var legend = d3.select("#format-success-legend")
         .append("svg")
         .attr("width", 180)
         .attr("height", 80)
         .append("g")
-        .attr("transform", "translate(3, 3)");
+        .attr("transform", "translate(" + (maxCircleRadius + estimatedWidthOfLegendText) + ", 3)");
 
 
     legend
@@ -256,12 +256,12 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .data(dataForLegend)
         .enter().append("svg:text")
         .attr("class", "circle-legend")
-        .attr("x", 2 * maxCircleRadius + 5)
+        .attr("x", -10)
         .attr("y", function (d, index) {
             return 15 * index + maxCircleRadius / 2;
         })
         .attr("dy", ".35em")
-        .attr("text-anchor", "start")
+        .attr("text-anchor", "end")
         .text(function (d) {
             return GOVUK.convertToLabel(d) + " times used";
         });
