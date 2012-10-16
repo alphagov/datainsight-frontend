@@ -45,11 +45,11 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     var calculateFill = GOVUK.Insights.Reach.fillCalculator(averageData, GOVUK.Insights.Reach.COLOURS);
 
     // Dimensions
-    var margin = [15, 10, 24, 45],
+    var margin = {top: 15, right: 10,  bottom: 24, left: 45},
         width = 924,
         height = 300,
-        chartWidth = width - margin[1] - margin[3],
-        chartHeight = height - margin[0] - margin[2],
+        chartWidth = width - margin.right - margin.left,
+        chartHeight = height - margin.top - margin.bottom,
         numberOfYTicks = 6,
         barWidth = Math.floor(chartWidth / 24),
         barPadding = Math.floor(barWidth / 5);
@@ -61,7 +61,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr("height", height);
 
     var chart = svg.append("g")
-        .attr("transform", "translate(" + margin[3] + "," + margin[0] + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // Set up scales
     var xScale = d3.scale.linear()
@@ -108,7 +108,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
 
     svg.append("g")
         .attr("class", "y axis")
-        .attr("transform", "translate(" + (margin[3] - 5) + "," + margin[0] + ")")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         .call(yAxis);
 
     // Create the X-Axis
@@ -127,7 +127,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
 
     svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(" + margin[3] + "," + (height - margin[2] + 3) + ")")
+        .attr("transform", "translate(" + margin.left + "," + (height - margin.bottom + 3) + ")")
         .call(xAxis);
 
     // Add average line label
