@@ -32,7 +32,7 @@ module Insight
       end
 
       def narrative
-        result = get_json { transport(@config['narrative_base_url']).get("/narrative") }
+        result = get_json { transport(@config['todays_activity_base_url']).get("/narrative") }
         result == :error ? result : result["content"]
       end
 
