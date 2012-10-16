@@ -1,5 +1,5 @@
 /*.datainsight .page-header hgroup {*/
-    /*margin-right: 0;*/
+/*margin-right: 0;*/
 /*}*/
 
 #datainsight-dashboard h1 {
@@ -9,6 +9,10 @@
     padding-bottom: 18px;
 }
 
+h1#narrative {
+    font-size: 60px;
+    font-size: 6.0rem;
+}
 
 #unique-visitors-module {
     width: 444px;
@@ -337,6 +341,7 @@ text.pink {
     stroke-dasharray: 2px, 8px;
     stroke-dashoffset: 1px;
 }
+
 /* slimmer hacks */
 
 /* hide top shim */
