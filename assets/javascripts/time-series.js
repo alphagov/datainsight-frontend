@@ -148,7 +148,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 });
             graph.append("svg:g")
                 .attr("class", "y-axis")
-                .attr("transform", "translate(-10,0)")
+                .attr("transform", "translate(-5,0)")
                 .call(yAxis);
 
             /* Add The Graph Lines */
