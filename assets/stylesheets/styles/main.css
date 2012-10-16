@@ -178,6 +178,10 @@ svg {
     color: #808285;
 }
 
+.beta-label {
+    color: #F15A24;
+}
+
 /* Graphs */
 path {
     fill: none;
