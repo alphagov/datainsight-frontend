@@ -1,27 +1,29 @@
-<div class="row" style="margin-top: 18px">
-  <div class="twelve columns">
-    <%= erb :narrative %>
+<div id="datainsight-dashboard">
+  <div class="row" style="margin-top: 18px">
+    <div class="twelve columns">
+      <%= erb :narrative %>
+    </div>
   </div>
-</div>
-<div class="row offset-by-one">
-  <div class="twelve columns">
-    <h2>Web traffic</h2>
-    <%= erb :todays_activity %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="six columns">
-    <%= erb :visits %>
+  <div class="row offset-by-one">
+    <div class="twelve columns">
+      <h1>Web traffic</h1>
+      <%= erb :todays_activity %>
+    </div>
   </div>
 
-  <div class="six columns">
-    <%= erb :unique_visitors %>
+  <div class="row">
+    <div class="six columns">
+      <%= erb :visits %>
+    </div>
+
+    <div class="six columns">
+      <%= erb :unique_visitors %>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="twelve columns">
-    <h2>Content</h2>
-    <%= erb :format_success %>
+  <div class="row">
+    <div class="twelve columns">
+      <h1>Content</h1>
+      <%= erb :format_success %>
+    </div>
   </div>
 </div>

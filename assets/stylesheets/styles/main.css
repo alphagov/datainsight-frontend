@@ -2,6 +2,13 @@
     /*margin-right: 0;*/
 /*}*/
 
+#datainsight-dashboard h1 {
+    font-size: 36px;
+    font-size: 3.6rem;
+    color: #000000;
+    padding-bottom: 18px;
+}
+
 
 #unique-visitors-module {
     width: 444px;
