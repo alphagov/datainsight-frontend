@@ -50,6 +50,10 @@ article p {
     font-weight: lighter;
 }
 
+.ie7 #content {
+    width: 1020px !important;
+}
+
 .ie7 .row * {
     width: auto;
 }
