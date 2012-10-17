@@ -131,7 +131,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .call(xAxis);
 
     // Add average line label
-    var maxY = d3.max(averageData.slice(-4)),
+    var maxY = d3.max([d3.max(averageData.slice(-4)), d3.max(yesterdaysData.slice(-4))]),
         xPos = xScale(averageData.length - 1),
         yStart = d3.mean(averageData.slice(-2).map(yScale));
     chart.append("line")
