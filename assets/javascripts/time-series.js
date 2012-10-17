@@ -59,8 +59,16 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             return [firstDate.toDate(), lastDate.toDate()];
         },
         render:function (data) {
-            var alldata = concat(data, series),
-                xExtent = this.dateRange(moment()),
+
+            if (data == null) {
+                throw "No data!";
+            }
+            var alldata = concat(data, series);
+            if (alldata == null || alldata.length == 0) {
+                throw "No data!";
+            }
+
+            var xExtent = this.dateRange(moment()),
                 yExtent = d3.extent(alldata, function (d) {
                     return d.value;
                 });
@@ -121,7 +129,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 .scale(xScale)
                 .ticks(GOVUK.Insights.months_range, 2)
                 .tickPadding(4)
-                .tickFormat(function(date) {
+                .tickFormat(function (date) {
                     return date.getDate() + " " + GOVUK.Insights.SHORT_MONTHS[date.getMonth()];
                 }
 
@@ -197,23 +205,29 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 createTextLabel(seriesLastValue[0], seriesLastValue[0].ypos - 5);
             }
 
+            var placeLabel = function (lastValue, offset) {
+                if (lastValue) {
+                    createTextLabel(lastValue, lastValue.ypos + offset);
+                }
+            };
+
             // place bottom legend
             if (seriesLastValue.length >= 2
                 && (seriesLastValue[0].ypos - seriesLastValue[1].ypos) < legendHeight) {
                 // place bottom above last but one
-                createTextLabel(seriesLastValue[0], seriesLastValue[1].ypos - 5);
-                createTextLabel(seriesLastValue[1], seriesLastValue[1].ypos - legendHeight - 5);
+                placeLabel(seriesLastValue[0], -5);
+                placeLabel(seriesLastValue[1], -legendHeight - 5);
             } else {
-                createTextLabel(seriesLastValue[0], seriesLastValue[0].ypos - 5);
-                createTextLabel(seriesLastValue[1], seriesLastValue[1].ypos - 5);
+                placeLabel(seriesLastValue[0], -5);
+                placeLabel(seriesLastValue[1], -5);
             }
 
             // place the top one
             if (seriesLastValue.length >= 3
                 && seriesLastValue[2].ypos > legendHeight) {
-                createTextLabel(seriesLastValue[2], seriesLastValue[2].ypos - 5);
-            } else {
-                createTextLabel(seriesLastValue[2], seriesLastValue[2].ypos + legendHeight - 5);
+                placeLabel(seriesLastValue[2], -5);
+            } else if (seriesLastValue.length == 3) {
+                placeLabel(seriesLastValue[2], legendHeight - 5);
             }
         }
     };
