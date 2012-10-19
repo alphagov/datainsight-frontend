@@ -36,12 +36,7 @@ h1#narrative {
   height: 409px;
 }
 
-.datainsight .article-container {
-  margin-right: 0;
-  background-image: url("performance_graphs.png");
-  background-repeat: no-repeat;
-  background-position: top right;
-}
+/*Inlined ... make it work with asset pipeling*/
 
 article .intro {
   padding: 0 1em;
