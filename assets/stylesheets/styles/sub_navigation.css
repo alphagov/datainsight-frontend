@@ -12,7 +12,7 @@
     margin: 0 auto;
     max-width: 1020px;
     overflow: hidden;
-    background: #ddd;
+    background: transparent;
     padding: 0;
 }
 
@@ -33,7 +33,8 @@
     vertical-align: baseline;
 }
 
-#sub-navigation li a {
+#sub-navigation li a,
+#sub-navigation #index a {
     margin: 0;
     font-family: "nta", "GDS-Regular", sans-serif;
     font-size: 16px;
@@ -41,10 +42,11 @@
     line-height: 1.5625;
     /* 25px */
     display: block;
-    padding: 8px 8px;
-    padding: 0.8rem 0.8rem;
+    padding: 8px 36px;
+    padding: 0.8rem 3.5rem;
     text-decoration: none;
-    color: #000000;
+    background-color:none;
+  
 }
 
 #sub-navigation li a:hover,
@@ -52,19 +54,18 @@
     text-decoration: underline;
 }
 
-#sub-navigation li .current {
+#sub-navigation li .current,
+#sub-navigation #index a.current {
+    background-color:#fff;
     margin-top: 0.4rem;
     padding-top: 0.4rem;
-    background: #eee;
 }
 
-#sub-navigation #index a {
+/* {
     font-family: "nta", "GDS-Regular", sans-serif;
     font-size: 16px;
     font-size: 1.6rem;
     line-height: 1.5625;
-    /*16px*/
-
 
     display: block;
     padding: 8px 8px;
@@ -75,7 +76,7 @@
 
     background: #222;
     color: #fff;
-}
+}*/
 
 @media (min-width: 768px) {
     #sub-navigation #inside_gov_link a {
