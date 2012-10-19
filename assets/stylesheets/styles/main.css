@@ -2,7 +2,7 @@
 /*margin-right: 0;*/
 /*}*/
 .datainsight article p{
-    max-width:32em;
+    max-width:26em;
 }
 #datainsight-dashboard h1 {
     font-size: 36px;
@@ -28,9 +28,13 @@ h1#narrative {
 
 .datainsight .article-container {
     margin-right: 0;
+    background-image: url("performance_graphs.png");
+    background-repeat: no-repeat;
+    background-position: top right;
 }
 
 article .intro {
+
     padding: 0 1em;
 }
 
