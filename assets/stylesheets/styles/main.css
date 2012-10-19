@@ -2,7 +2,17 @@
   margin-right: 7em;
 }
 .datainsight article p{
-  max-width:26em;
+  max-width:24em;
+}
+.datainsight .beta-warning{
+  background-color: #FF5A27;
+  display: inline;
+  float: right;
+  color: #fff;
+  text-transform: uppercase;
+  margin-top: -1.9em;
+  padding: 0.3em 1em 0.2em 1em;
+  font-size:1em;
 }
 #datainsight-dashboard h1 {
   font-size: 36px;
