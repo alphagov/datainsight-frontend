@@ -1,7 +1,9 @@
 /*.datainsight .page-header hgroup {*/
 /*margin-right: 0;*/
 /*}*/
-
+.datainsight article p{
+    max-width:32em;
+}
 #datainsight-dashboard h1 {
     font-size: 36px;
     font-size: 3.6rem;
