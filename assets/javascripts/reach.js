@@ -39,13 +39,17 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         averageData = $.map(raw_data, function(item) {
             return item.visitors.last_week_average;
         }),
-        maxValue = d3.max([].concat(yesterdaysData).concat(averageData));
+        maxValue = d3.max([].concat(yesterdaysData).concat(averageData)),
+        maxLast4 = d3.max([d3.max(averageData.slice(-4)), d3.max(yesterdaysData.slice(-4))]);
 
     // Colours
     var calculateFill = GOVUK.Insights.Reach.fillCalculator(averageData, GOVUK.Insights.Reach.COLOURS);
 
+    var SPACE_OF_AVG_LABEL = 20;
+    var extraTopForAvgLabel = (maxValue - maxLast4)/maxValue < 0.1 ? SPACE_OF_AVG_LABEL : 0;
+
     // Dimensions
-    var margin = {top: 15, right: 10,  bottom: 24, left: 45},
+    var margin = {top: 15 + extraTopForAvgLabel, right: 10,  bottom: 24, left: 45},
         width = 924,
         height = 300,
         chartWidth = width - margin.right - margin.left,
@@ -131,21 +135,20 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .call(xAxis);
 
     // Add average line label
-    var maxY = d3.max([d3.max(averageData.slice(-4)), d3.max(yesterdaysData.slice(-4))]),
-        xPos = xScale(averageData.length - 1),
+    var xPos = xScale(averageData.length - 1),
         yStart = d3.mean(averageData.slice(-2).map(yScale));
     chart.append("line")
         .attr("x1", xPos)
         .attr("x2", xPos)
         .attr("y1", yStart - 5)
-        .attr("y2", yScale(maxY) - 10)
+        .attr("y2", yScale(maxLast4) - 10)
         .attr("class", "label-line vertical pink");
 
     chart.append("foreignObject")
         .attr("width", 110)
         .attr("height", 80)
         .attr("x", xPos - 100)
-        .attr("y", yScale(maxY) - 40)
+        .attr("y", yScale(maxLast4) - 25)
         .append("xhtml:body")
         .html("<p style='color: #c61c71; font-size: 14px; text-align: right;'>Average last week</p>");
 
