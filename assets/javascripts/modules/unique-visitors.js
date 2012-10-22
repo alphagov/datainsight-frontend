@@ -37,6 +37,9 @@ GOVUK.Insights.uniqueVisitors = function () {
                 try {
                     graph.render(data);
                     $('#unique-visitors-module .datainsight-hidden').removeClass('datainsight-hidden');
+                    $("#unique-visitors-module .govuk-label").attr("x", 310).attr("y", 160).css('text-anchor', 'start');
+                    $("#unique-visitors-module .directgov-label").attr("x", 170).attr("y", 45).css('text-anchor', 'start');
+                    $("#unique-visitors-module .businesslink-label").attr("x", 200).attr("y", 185).css('text-anchor', 'start');
                 } catch (err) {
                     console.log(err);
                     showError();
