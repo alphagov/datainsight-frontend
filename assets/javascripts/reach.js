@@ -50,7 +50,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
 
     // Dimensions
     var margin = {top: 15 + extraTopForAvgLabel, right: 10,  bottom: 24, left: 45},
-        width = 924,
+        width = 960,
         height = 300,
         chartWidth = width - margin.right - margin.left,
         chartHeight = height - margin.top - margin.bottom,
