@@ -425,3 +425,18 @@ header nav, header .search-help {
 header #logo img {
   max-width: none;
 }
+
+/* Delicious margins + background hack - low res / mobile */
+@media (max-width: 480px) {
+  .columns {
+    padding: 13px !important;
+  }
+
+  #sub-nav {
+    background-color: #EAEDEF;
+  }
+
+  html {
+    background-color: #FFF;
+  }
+}
