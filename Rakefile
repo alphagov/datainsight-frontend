@@ -9,6 +9,9 @@ unless ENV["RACK_ENV"] == "production"
 
   task :default => :spec
 
+  desc "Run RSpec and Jasmine - Test to run before pushing"
+  task :pre_push => [:spec, 'jasmine:ci']
+
   RSpec::Core::RakeTask.new do |task|
     task.pattern    = 'spec/**/*_spec.rb'
     task.rspec_opts = ["--format documentation"]
