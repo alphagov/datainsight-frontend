@@ -84,6 +84,13 @@
     }
 }
 
+@media (max-width: 480px) {
+  #sub-navigation a {
+    padding-left: 0.4rem !important;
+    padding-right: 0.8rem !important;
+  }
+}
+
 .inner-block {
     padding: 0 30px;
 }

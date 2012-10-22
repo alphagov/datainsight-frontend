@@ -105,6 +105,23 @@ article p {
 }
 
 /* Layout */
+
+@media (max-width: 960px){
+  .datainsight .article-container {
+    margin-right: 0;
+    background-image: none;
+  }
+  .datainsight .intro{
+    padding:0;
+  }
+  .datainsight article p {
+    max-width: none;
+  }
+  header hgroup{
+    padding: 1em 1em 2em;
+  }
+}
+
 .module {
   width: 100%;
   margin: 0;
