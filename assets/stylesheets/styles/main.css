@@ -409,3 +409,15 @@ header nav, header .search-help {
 header #logo img {
   max-width: none;
 }
+@media (max-width: 640px){
+  .datainsight .article-container {
+    margin-right: 0;
+    background-image: none;
+  }
+  .datainsight .intro{
+    padding:0;
+  }
+  header hgroup{
+    padding: 1em 1em 2em;
+  }
+
