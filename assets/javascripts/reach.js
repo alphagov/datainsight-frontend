@@ -16,13 +16,11 @@ GOVUK.Insights.Reach.COLOURS = colours = {
 };
 
 GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
-    function getTickValues(maxValue, numberOfTicks) {
-        var step = maxValue / (numberOfTicks - 1);
-
-        return d3.range(0, maxValue + 1, step);
-    }
 
     function formatTickLabels(tick_value, tick_step) {
+        if(tick_value == 0){
+            return '0';
+        }
         if (tick_step >= 1000000) {
             return Math.ceil(tick_value / 1000000) + "m";
         }
@@ -70,7 +68,8 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
 
     var yScale = d3.scale.linear()
         .domain([0, maxValue])
-        .rangeRound([chartHeight, 0]);
+        .rangeRound([chartHeight, 0])
+        .nice();
 
     // Create the bars
     chart.selectAll(".bar")
@@ -101,7 +100,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left")
-        .tickValues(getTickValues(maxValue, numberOfYTicks).map(Math.ceil))
+        .ticks(numberOfYTicks)
         .tickFormat(function(label) {
             return formatTickLabels(label, maxValue / numberOfYTicks);
         });
