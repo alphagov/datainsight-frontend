@@ -20,7 +20,7 @@
 .highlight { background: #ffff99; }
 
 /* The Grid ---------------------- */
-.row { width: 996px; max-width: 100%; min-width: 768px; margin: 0 auto; }
+.row { width: 1020px; max-width: 100%; min-width: 960px; margin: 0 auto; }
 .row .row { width: auto; max-width: none; min-width: 0; margin: 0 -18px; }
 .row.collapse .column, .row.collapse .columns { padding: 0; }
 .row .row { width: auto; max-width: none; min-width: 0; margin: 0 -18px; }
