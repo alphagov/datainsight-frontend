@@ -211,7 +211,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             return x(d.total);
         })
         .attr("y", function (d) {
-            return y(d.percentageOfSuccess) + radius(d.total) + 9;
+            return y(d.percentageOfSuccess) + radius(d.total) + 15;
         })
         .attr("dy", ".35em");
 
