@@ -206,18 +206,12 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             return d.formatName;
         })
         .attr("class", "circle-format")
-        .attr("text-anchor", function (d) {
-            return shouldFlipLabelToLeft(d) ? "end" : "start";
-        })
+        .attr("text-anchor", "middle")
         .attr("x", function (d) {
-            var shiftText = (radius(d.total) + 10);
-            if (shouldFlipLabelToLeft(d)) {
-                shiftText = -shiftText;
-            }
-            return x(d.total) + shiftText;
+            return x(d.total);
         })
         .attr("y", function (d) {
-            return y(d.percentageOfSuccess);
+            return y(d.percentageOfSuccess) + radius(d.total) + 9;
         })
         .attr("dy", ".35em");
 
