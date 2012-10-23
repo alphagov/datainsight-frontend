@@ -26,7 +26,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     // - Constants -
     var MIN_Y = 0,
         MAX_Y = 100,
-        MAX_RADIUS = 35,
+        MAX_RADIUS = 30,
         GUTTER_FOR_BUBBLES = 40,
         HEIGHT = 400,
         GUTTER_X = 32,
@@ -263,7 +263,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .data(dataForLegend)
             .enter().append("svg:text")
             .attr("class", "circle-legend")
-            .attr("x", -10)
+            .attr("x", -5)
             .attr("y", function (d, index) {
                 return 2*radius(d) - 5; // offset text to bottom of circles
             })
