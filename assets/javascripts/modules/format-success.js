@@ -265,7 +265,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("class", "circle-legend")
             .attr("x", -10)
             .attr("y", function (d, index) {
-                return 15 * index + maxCircleRadius / 2 + radius(d);
+                return 2*radius(d) - 5; // offset text to bottom of circles
             })
             .attr("dy", ".35em")
             .attr("text-anchor", "end")
