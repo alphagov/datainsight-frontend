@@ -79,7 +79,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var svg = d3.select("#format-success")
         .data(values)
         .append("svg:svg")
-        .attr("WIDTH", WIDTH + GUTTER_X * 2)
+        .attr("width", WIDTH + GUTTER_X * 2)
         .attr("height", HEIGHT + GUTTER_Y_TOP + GUTTER_Y_BOTTOM);
 
     var panel = svg
@@ -184,7 +184,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
             graph.append("rect")
                 .attr("height", 12)
-                .attr("WIDTH", 12)
+                .attr("width", 12)
                 .attr("y", HEIGHT - 6)
                 .attr("x", WIDTH / 2 + 7)
                 .attr("style", "fill: #BF1E2D");
@@ -198,7 +198,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
             graph.append("rect")
                 .attr("height", 12)
-                .attr("WIDTH", 12)
+                .attr("width", 12)
                 .attr("y", -6)
                 .attr("x", WIDTH / 2 + 7)
                 .attr("style", "fill: #74B74A");
@@ -229,11 +229,14 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var drawLegend = function () {
         var estimatedWidthOfLegendText = 80;
         var dataForLegend = x.ticks(4).slice(1, 4);
+
+        if (dataForLegend.length > 2) dataForLegend = dataForLegend.slice(0,2);
+
         var maxCircleRadius = radius(dataForLegend.slice(-1));
 
         var legend = d3.select("#format-success-legend")
             .append("svg")
-            .attr("WIDTH", 180)
+            .attr("width", 180)
             .attr("height", 80)
             .append("g")
             .attr("transform", "translate(" + (maxCircleRadius + estimatedWidthOfLegendText) + ", 3)");
@@ -262,7 +265,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("class", "circle-legend")
             .attr("x", -10)
             .attr("y", function (d, index) {
-                return 15 * index + maxCircleRadius / 2;
+                return 15 * index + maxCircleRadius / 2 + radius(d);
             })
             .attr("dy", ".35em")
             .attr("text-anchor", "end")
