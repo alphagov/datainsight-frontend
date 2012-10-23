@@ -16,11 +16,6 @@ GOVUK.Insights.uniqueVisitors = function () {
                 $('#unique-visitors-module img').remove();
                 var graph = GOVUK.Insights.sixMonthTimeSeries("#unique-visitors", {
                     "series":{
-                        "govuk":{
-                            "lineClass":"main-line",
-                            "legendClass":"",
-                            "legend":"GOV.UK"
-                        },
                         "directgov":{
                             "lineClass":"dashed-line brown",
                             "legendClass":"brown-text",
@@ -30,6 +25,11 @@ GOVUK.Insights.uniqueVisitors = function () {
                             "lineClass":"dashed-line purple",
                             "legendClass":"purple-text",
                             "legend":"Business Link"
+                        },
+                        "govuk":{
+                            "lineClass":"main-line",
+                            "legendClass":"",
+                            "legend":"GOV.UK"
                         }
                     },
                     "width":444
@@ -41,7 +41,6 @@ GOVUK.Insights.uniqueVisitors = function () {
                     $("#unique-visitors-module .directgov-label").attr("x", 170).attr("y", 45).css('text-anchor', 'start');
                     $("#unique-visitors-module .businesslink-label").attr("x", 200).attr("y", 185).css('text-anchor', 'start');
                 } catch (err) {
-                    console.log(err);
                     showError();
                 }
             }

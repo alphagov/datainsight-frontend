@@ -256,8 +256,8 @@ path.vertical, line.vertical {
 
 /* main focus line for a time series */
 path.main-line {
-  stroke: #c4c4c4;
-  stroke-width: 4;
+  stroke: #999;
+  stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
 }

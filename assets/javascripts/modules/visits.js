@@ -16,11 +16,6 @@ GOVUK.Insights.visits = function () {
                 $('#visits-module img').remove();
                 var graph = GOVUK.Insights.sixMonthTimeSeries("#visits", {
                     "series":{
-                        "govuk":{
-                            "lineClass":"main-line",
-                            "legendClass":"",
-                            "legend":"GOV.UK"
-                        },
                         "directgov":{
                             "lineClass":"dashed-line brown",
                             "legendClass":"brown-text",
@@ -30,6 +25,11 @@ GOVUK.Insights.visits = function () {
                             "lineClass":"dashed-line purple",
                             "legendClass":"purple-text",
                             "legend":"Business Link"
+                        },
+                        "govuk":{
+                            "lineClass":"main-line",
+                            "legendClass":"",
+                            "legend":"GOV.UK"
                         }
                     },
                     "width":444
