@@ -149,7 +149,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr("x", xPos - 100)
         .attr("y", yScale(maxLast4) - 25)
         .append("xhtml:body")
-        .html("<p style='color: #c61c71; font-size: 14px; text-align: right;'>Average last week</p>");
+        .html("<p style='color: #c61c71; font-size: 14px; text-align: right;padding: 0; margin: 0'>Average last week</p>");
 
 };
 
