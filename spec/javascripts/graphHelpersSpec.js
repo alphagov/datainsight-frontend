@@ -1,4 +1,29 @@
 describe("Helpers", function () {
+    describe("labelFormatter", function() {
+        describe("tick step of 1000", function() {
+            it("should return 0 for 0", function() {
+                expect(GOVUK.Insights.labelFormatter(1000)(0)).toBe("0");
+            });
+            it("should return 1k for 400", function() {
+                expect(GOVUK.Insights.labelFormatter(1000)(400)).toBe("1k");
+            });
+            it("should return 2k for 1500", function() {
+                expect(GOVUK.Insights.labelFormatter(1000)(1500)).toBe("2k");
+            });
+        });
+
+        describe("tick step of 1000000", function() {
+            it("should return 0 for 0", function() {
+                expect(GOVUK.Insights.labelFormatter(1000000)(0)).toBe("0");
+            });
+            it("should return 1m for 5000", function() {
+                expect(GOVUK.Insights.labelFormatter(1000000)(5000)).toBe("1m");
+            });
+            it("should return 2m for 150000", function() {
+                expect(GOVUK.Insights.labelFormatter(1000000)(1500000)).toBe("2m");
+            });
+        })
+    });
     describe("convertToLabel", function() {
         it("should convert 1 000 000 to 1m", function () {
             var number = 1000000;
