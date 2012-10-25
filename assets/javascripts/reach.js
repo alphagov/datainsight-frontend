@@ -15,21 +15,8 @@ GOVUK.Insights.Reach.COLOURS = colours = {
     CENTER_GREY: "#B3B3B3"
 };
 
+
 GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
-
-    function formatTickLabels(tick_value, tick_step) {
-        if(tick_value == 0){
-            return '0';
-        }
-        if (tick_step >= 1000000) {
-            return Math.ceil(tick_value / 1000000) + "m";
-        }
-        if (tick_step >= 1000) {
-            return Math.ceil(tick_value / 1000) + "k";
-        }
-        return "" + tick_value;
-    }
-
     // Prepare data
     var yesterdaysData = $.map(raw_data, function(item) {
             return item.visitors.yesterday;
