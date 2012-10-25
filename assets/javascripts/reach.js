@@ -38,7 +38,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         height = 300,
         chartWidth = width - margin.right - margin.left,
         chartHeight = height - margin.top - margin.bottom,
-        numberOfYTicks = 6,
+        numberOfYTicks = 5,
         barWidth = Math.floor(chartWidth / 24),
         barPadding = Math.floor(barWidth / 5);
 

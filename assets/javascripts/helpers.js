@@ -46,11 +46,12 @@ GOVUK.Insights.formatNumericLabel = function (val) {
     if (magnitudeOfValue >= 3) return (isValueWholeNumber ? (val / oneThousand) : (val / oneThousand).toFixed(1)) + "k";
 };
 
-GOVUK.Insights.calculateLinearTicks = function(extent, targetTickCount) {
+GOVUK.Insights.calculateLinearTicks = function(extent, minimumTickCount) {
     if (extent[0] >= extent[1]) {
         throw new Error("Upper bound must be larger than lower.");
     }
-    var span = extent[1] - extent[0],
+    var targetTickCount = minimumTickCount - 1,
+        span = extent[1] - extent[0],
         step = Math.pow(10, Math.floor(Math.log(span / targetTickCount) / Math.LN10)),
         err  = targetTickCount / span * step;
 

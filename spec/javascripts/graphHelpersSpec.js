@@ -99,6 +99,17 @@ describe("Helpers", function () {
             expect(ticks.extent).toEqual([0, 8000]);
             expect(ticks.step).toEqual(2000);
         });
+        it("should be good for our tests", function() {
+            var extent = [0, 61241];
+            expect(GOVUK.Insights.calculateLinearTicks(extent, 2).values)
+                .toEqual([0, 50000, 100000]);
+            expect(GOVUK.Insights.calculateLinearTicks(extent, 3).values)
+                .toEqual([0, 50000, 100000]);
+            expect(GOVUK.Insights.calculateLinearTicks(extent, 4).values)
+                .toEqual([0, 20000, 40000, 60000, 80000]);
+            expect(GOVUK.Insights.calculateLinearTicks(extent, 5).values)
+                .toEqual([0, 20000, 40000, 60000, 80000]);
+        });
         it("should return valid ticks for 0-7000 with step of 10", function() {
             var ticks = GOVUK.Insights.calculateLinearTicks([0, 7000], 10);
             expect(ticks.values).toEqual([0, 1000, 2000, 3000, 4000, 5000, 6000, 7000]);
