@@ -14,6 +14,7 @@
   padding: 0.3em 1em 0.2em 1em;
   font-size:1em;
 }
+
 #datainsight-dashboard h1 {
   font-size: 36px;
   font-size: 3.6rem;
@@ -109,14 +110,17 @@ article p {
 @media (max-width: 960px){
   .datainsight .article-container {
     margin-right: 0;
-    background-image: none;
+    background-image: none !important;
   }
-  .datainsight .intro{
+  
+  .datainsight .intro {
     padding:0;
   }
+  
   .datainsight article p {
     max-width: none;
   }
+  
   header hgroup{
     padding: 1em 1em 2em;
   }
