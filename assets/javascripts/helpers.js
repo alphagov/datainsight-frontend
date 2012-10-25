@@ -13,8 +13,8 @@ GOVUK.isSvgSupported = function () {
 };
 
 GOVUK.Insights.numericLabelFormatterFor = function (tickStep) {
-    return function(tickValue) {
-        if(tickValue == 0){
+    return function (tickValue) {
+        if (tickValue == 0) {
             return '0';
         }
         if (tickStep >= 1000000) {
@@ -46,6 +46,7 @@ GOVUK.Insights.formatNumericLabel = function (val) {
     if (magnitudeOfValue >= 3) return (isValueWholeNumber ? (val / oneThousand) : (val / oneThousand).toFixed(1)) + "k";
 };
 
+
 GOVUK.Insights.calculateLinearTicks = function(extent, minimumTickCount) {
     if (extent[0] >= extent[1]) {
         throw new Error("Upper bound must be larger than lower.");
@@ -53,7 +54,7 @@ GOVUK.Insights.calculateLinearTicks = function(extent, minimumTickCount) {
     var targetTickCount = minimumTickCount - 1,
         span = extent[1] - extent[0],
         step = Math.pow(10, Math.floor(Math.log(span / targetTickCount) / Math.LN10)),
-        err  = targetTickCount / span * step;
+        err = targetTickCount / span * step;
 
     // Filter ticks to get closer to the desired count.
     if (err <= .15) step *= 10;
@@ -66,8 +67,48 @@ GOVUK.Insights.calculateLinearTicks = function(extent, minimumTickCount) {
         lastInclusive = last + step / 2;
 
     return {
-        values: d3.range.apply(d3, [first, lastInclusive, step]),
-        extent: [first, last],
-        step:   step
+        values:d3.range.apply(d3, [first, lastInclusive, step]),
+        extent:[first, last],
+        step:step
     };
 };
+
+GOVUK.Insights.colors = function () {
+    function HexColor(hex) {
+        var startsWith = hex.substring(0, 3);
+        if (startsWith === "rgb") {
+            var colors = hex.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            this.red = parseInt(colors[1]);
+            this.green = parseInt(colors[2]);
+            this.blue = parseInt(colors[3]);
+        } else {
+            var hex = parseInt('0x' + hex.replace('#', ''), 16);
+            this.red = hex >> 16;
+            this.green = hex >> 8 & 0xff;
+            this.blue = hex & 0xff;
+        }
+        return this;
+    }
+
+    HexColor.prototype.multiplyWithSelf = function () {
+        this.red = this.red * this.red / 255;
+        this.green = this.green * this.green / 255;
+        this.blue = this.blue * this.blue / 255;
+        return this;
+    };
+
+    HexColor.prototype.asCSS = function () {
+        // todo: make this nicer
+        var hexValue = (this.blue | (this.green << 8) | (this.red << 16)).toString(16);
+        var paddingNeeded = 6 - hexValue.length;
+        if (paddingNeeded > 0) {
+            for (var i = 0; i < paddingNeeded; i++) {
+                hexValue = '0' + hexValue;
+            }
+            ;
+        }
+        return '#' + hexValue;
+    }
+
+    return HexColor;
+}();
