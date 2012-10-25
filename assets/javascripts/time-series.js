@@ -48,7 +48,6 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
         margins = params.margins || [22, 27, 27, 40],
         width = params.width || 462,
         height = params.height || (236 + 22),
-        yUnitScale = params.yUnitScale || 1000000,
 
         dateFormat = d3.time.format("%Y-%m-%d");
 
@@ -69,13 +68,11 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             }
 
             var xExtent = this.dateRange(moment()),
-                yExtent = d3.extent(alldata, function (d) {
-                    return d.value;
-                });
-            yExtent = [0, Math.ceil(yExtent[1] / yUnitScale) * yUnitScale];
+                xScale = d3.time.scale().domain(xExtent).range([0, width - margins[1] - margins[3]]),
 
-            var xScale = d3.time.scale().domain(xExtent).range([0, width - margins[1] - margins[3]]),
-                yScale = d3.scale.linear().domain(yExtent).range([height - margins[0] - margins[2], 0]),
+                yMax = d3.max(alldata, function(d) { return d.value}),
+                yTicks = GOVUK.Insights.calculateLinearTicks([0, yMax], 4),
+                yScale = d3.scale.linear().domain(yTicks.extent).range([height - margins[0] - margins[2], 0]),
 
                 line = d3.svg.line()
                     .x(function (d) {
@@ -141,16 +138,11 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 .call(xAxis);
 
             /* Set Up Y-Axis */
-            var yTickValues = [];
-            for (var i = 0; i <= yExtent[1]; i += yUnitScale) {
-                yTickValues.push(i);
-            }
-            // TODO: consider extracting parts of this
             var yAxis = d3.svg.axis()
                 .scale(yScale)
-                .tickValues(yTickValues)
+                .tickValues(yTicks.values)
                 .orient("left")
-                .tickFormat(GOVUK.Insights.numericLabelFormatterFor(1000000));
+                .tickFormat(GOVUK.Insights.numericLabelFormatterFor(yTicks.step));
             graph.append("svg:g")
                 .attr("class", "y-axis")
                 .attr("transform", "translate(-5,0)")
