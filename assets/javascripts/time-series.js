@@ -150,10 +150,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 .scale(yScale)
                 .tickValues(yTickValues)
                 .orient("left")
-                .tickFormat(function (d) {
-                    d /= yUnitScale;
-                    return d ? (d + "m") : d;
-                });
+                .tickFormat(GOVUK.Insights.labelFormatter(1000000));
             graph.append("svg:g")
                 .attr("class", "y-axis")
                 .attr("transform", "translate(-5,0)")

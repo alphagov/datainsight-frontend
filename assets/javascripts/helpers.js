@@ -12,17 +12,19 @@ GOVUK.isSvgSupported = function () {
     return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 };
 
-GOVUK.Insights.formatTickLabel = function (tickValue, tickStep) {
-    if(tickValue == 0){
-        return '0';
+GOVUK.Insights.labelFormatter = function (tickStep) {
+    return function(tickValue) {
+        if(tickValue == 0){
+            return '0';
+        }
+        if (tickStep >= 1000000) {
+            return Math.ceil(tickValue / 1000000) + "m";
+        }
+        if (tickStep >= 1000) {
+            return Math.ceil(tickValue / 1000) + "k";
+        }
+        return "" + tickValue;
     }
-    if (tickStep >= 1000000) {
-        return Math.ceil(tickValue / 1000000) + "m";
-    }
-    if (tickStep >= 1000) {
-        return Math.ceil(tickValue / 1000) + "k";
-    }
-    return "" + tickValue;
 };
 
 GOVUK.convertToLabel = function (val) {

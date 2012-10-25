@@ -92,9 +92,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .scale(yScale)
         .orient("left")
         .ticks(numberOfYTicks)
-        .tickFormat(function(label) {
-            return formatTickLabels(label, maxValue / numberOfYTicks);
-        });
+        .tickFormat(GOVUK.Insights.labelFormatter(yTicks.step));
 
     svg.append("g")
         .attr("class", "y axis")
