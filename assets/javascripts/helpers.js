@@ -23,8 +23,7 @@ GOVUK.formatTickLabel = function (tickValue, tickStep) {
 };
 
 GOVUK.convertToLabel = function (val) {
-    // this is actually better than using javascripts Math library...
-    var magnitudeOfValue = (""+val).length - 1;
+    var magnitudeOfValue = Math.floor(Math.log(val) / Math.LN10);
 
     var isValueWholeNumber = !(val % Math.pow(10, magnitudeOfValue) > 0);
 
