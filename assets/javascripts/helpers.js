@@ -12,7 +12,7 @@ GOVUK.isSvgSupported = function () {
     return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 };
 
-GOVUK.Insights.labelFormatter = function (tickStep) {
+GOVUK.Insights.numericLabelFormatterFor = function (tickStep) {
     return function(tickValue) {
         if(tickValue == 0){
             return '0';
@@ -27,7 +27,7 @@ GOVUK.Insights.labelFormatter = function (tickStep) {
     }
 };
 
-GOVUK.Insights.convertToLabel = function (val) {
+GOVUK.Insights.formatNumericLabel = function (val) {
     var magnitudeOfValue = Math.round(Math.log(val) / Math.LN10);
 
     var isValueWholeNumber = !(val % Math.pow(10, magnitudeOfValue) > 0);

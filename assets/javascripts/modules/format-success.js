@@ -270,7 +270,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("dy", ".35em")
             .attr("text-anchor", "end")
             .text(function (d) {
-                return GOVUK.Insights.convertToLabel(d) + " times used";
+                return GOVUK.Insights.formatNumericLabel(d) + " times used";
             });
     };
 
