@@ -15,7 +15,6 @@ GOVUK.Insights.Reach.COLOURS = colours = {
     CENTER_GREY: "#B3B3B3"
 };
 
-
 GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     // Prepare data
     var yesterdaysData = $.map(raw_data, function(item) {
@@ -57,8 +56,9 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .domain([0, 24])
         .rangeRound([0, chartWidth]);
 
+    var yTicks = GOVUK.Insights.calculateLinearTicks([0, maxValue], numberOfYTicks);
     var yScale = d3.scale.linear()
-        .domain([0, maxValue])
+        .domain(yTicks.extent)
         .rangeRound([chartHeight, 0])
         .nice();
 
@@ -91,7 +91,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left")
-        .ticks(numberOfYTicks)
+        .tickValues(yTicks.values)
         .tickFormat(GOVUK.Insights.labelFormatter(yTicks.step));
 
     svg.append("g")
