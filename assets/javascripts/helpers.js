@@ -27,7 +27,7 @@ GOVUK.Insights.labelFormatter = function (tickStep) {
     }
 };
 
-GOVUK.convertToLabel = function (val) {
+GOVUK.Insights.convertToLabel = function (val) {
     var magnitudeOfValue = Math.round(Math.log(val) / Math.LN10);
 
     var isValueWholeNumber = !(val % Math.pow(10, magnitudeOfValue) > 0);
