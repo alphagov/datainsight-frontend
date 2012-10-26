@@ -35,7 +35,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     // - Derived Constants -
     var WIDTH = 924 - GUTTER_X * 2;
 
-
+    var overlay = GOVUK.Insights.formatSuccessOverlay;
 
     var values = data.map(
         function (formatEvents) {
@@ -88,9 +88,10 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
     var graph = panel
         .append("svg:g")
+        .attr("id", "format-success-graph")
         .attr("transform", "translate(" + GUTTER_X + "," + GUTTER_Y_TOP + ")");
 
-    var plotData = function (graph) {
+    var plotFormats = function (graph) {
         // Draw xy scatterplot
         graph.selectAll("circle.format")
             .data(values)
@@ -109,7 +110,12 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("r", function (d) {
                 // add half the circle stroke width
                 return radius(d.total) + 1;
-            });
+            })
+            .attr("data-format", function (d) {
+                return d.formatName.idify();
+            })
+            .on('mouseover', overlay.onHover)
+            .on('mouseout', overlay.onHoverOut);
     };
 
     var drawAxis = function (graph) {
@@ -215,6 +221,12 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
                 return d.formatName;
             })
             .attr("class", "circle-format")
+            .attr("id", function (d) {
+                return "label-" + d.formatName.idify();
+            })
+            .attr("data-format", function (d) {
+                return d.formatName.idify();
+            })
             .attr("text-anchor", "middle")
             .attr("x", function (d) {
                 return x(d.total);
@@ -230,7 +242,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         var estimatedWidthOfLegendText = 80;
         var dataForLegend = x.ticks(4).slice(1, 4);
 
-        if (dataForLegend.length > 2) dataForLegend = dataForLegend.slice(0,2);
+        if (dataForLegend.length > 2) dataForLegend = dataForLegend.slice(0, 2);
 
         var maxCircleRadius = radius(dataForLegend.slice(-1));
 
@@ -265,7 +277,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("class", "circle-legend")
             .attr("x", -5)
             .attr("y", function (d, index) {
-                return 2*radius(d) - 5; // offset text to bottom of circles
+                return 2 * radius(d) - 5; // offset text to bottom of circles
             })
             .attr("dy", ".35em")
             .attr("text-anchor", "end")
@@ -275,7 +287,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     };
 
     // - Actually draw the graph -
-    plotData(graph);
+    plotFormats(graph);
     drawAxis(graph);
     drawLabels(graph);
     drawLegend();

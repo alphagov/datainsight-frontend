@@ -1,5 +1,5 @@
 <% content_for :footer do %>
-    <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag("modules/format-success") } %>
+    <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag("widgets/format-success-overlay","modules/format-success") } %>
 <% end %>
 
 <div id="format-success-module" class="module">

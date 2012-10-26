@@ -1,0 +1,32 @@
+/* format success */
+#format-success .label-x-right, #format-success .label-y-top, #format-success .label-y-bottom {
+    text-anchor: end;
+}
+
+#format-success .label-x-left {
+    text-anchor: start;
+}
+
+#format-success .title-y {
+    text-anchor: middle;
+}
+
+#format-success-legend {
+    float: right;
+    shape-rendering: geometricPrecision;
+}
+
+#format-success .format {
+    stroke: white;
+    stroke-width: 2;
+}
+
+#format-success .hover-box {
+    fill: #eee;
+    stroke: #aaaaaa;
+    stroke-width: 2px;
+}
+
+#format-success text.hover {
+    font-weight: 600;
+}
