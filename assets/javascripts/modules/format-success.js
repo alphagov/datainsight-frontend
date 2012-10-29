@@ -88,7 +88,6 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
     var graph = panel
         .append("svg:g")
-        .attr("id", "format-success-graph")
         .attr("transform", "translate(" + GUTTER_X + "," + GUTTER_Y_TOP + ")");
 
     var plotFormats = function (graph) {
@@ -234,7 +233,9 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("y", function (d) {
                 return y(d.percentageOfSuccess) + radius(d.total) + 15;
             })
-            .attr("dy", ".35em");
+            .attr("dy", ".35em")
+            .on('mouseover', overlay.onHover)
+            .on('mouseout', overlay.onHoverOut);
     };
 
 

@@ -8,6 +8,7 @@
     { "format": "small green",   "entries": 5000, "percentage_of_success": 100},
     { "format": "mid green",    "entries": 50000, "percentage_of_success": 100},
     { "format": "big green",    "entries": 100000, "percentage_of_success": 100},
+    { "format": "second",    "entries": 103000, "percentage_of_success": 99},
     { "format": "small red",   "entries": 5000, "percentage_of_success": 0},
     { "format": "mid red",    "entries": 50000, "percentage_of_success": 0},
     { "format": "big red",    "entries": 100000, "percentage_of_success": 0}

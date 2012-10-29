@@ -21,12 +21,29 @@
     stroke-width: 2;
 }
 
-#format-success .hover-box {
-    fill: #eee;
-    stroke: #aaaaaa;
-    stroke-width: 2px;
+#format-success-hover {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    background-color: #F1F1F1;
+    border-radius: 5px;
+    box-shadow: 0 0 2.5px 2.5px #DDD;
 }
 
-#format-success text.hover {
-    font-weight: 600;
+#format-success-hover div {
+    font-size: 14px;
+    line-height: 18px;
+}
+
+#format-success-hover .format {
+    background-color: #E6E5E5;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 4px 9px 2px 7px;
+}
+
+
+#format-success-hover .details {
+    padding: 2px 9px 4px 7px;
 }
