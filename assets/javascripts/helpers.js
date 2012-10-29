@@ -145,6 +145,14 @@ GOVUK.Insights.geometry = function () {
         return true;
     };
 
+    CollisionBox.prototype.outsideOf = function (box) {
+       if (this.right > box.right) return true;
+       if (this.left < box.left) return true;
+       if (this.top < box.top) return true;
+       if (this.bottom > box.bottom) return true;
+       return false;
+    };
+
     return {
         CollisionBox: CollisionBox
     };

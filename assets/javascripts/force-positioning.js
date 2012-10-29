@@ -10,10 +10,20 @@ GOVUK.Insights.forcePosition = function () {
     constants.FLOATING_ELEMENT_CLASS = "js-floating";
 
     var privateConstants = {};
-    privateConstants.REPULSION_STRENGTH = 10;
+    privateConstants.REPULSION_STRENGTH = 20;
     privateConstants.ITERATIONS = 10;
 
-    var anIteration = function (fixedElements, floatingElements) {
+    var getTranslatedGraphArea = function (svg, element) {
+        var matrix = element.getTransformToElement();
+        return {
+            top: 0,
+            bottom: parseFloat(svg.attr('height') - matrix.f),
+            right: parseFloat(svg.attr('width') - matrix.e),
+            left: 0
+        };
+    };
+
+    var anIteration = function (fixedElements, floatingElements, selector) {
         for (var i = 0; i < floatingElements.length; i++) {
             for (var j = i + 1; j < floatingElements.length; j++) {
                 var box1 = new CollisionBox(floatingElements[i].getBBox());
@@ -33,6 +43,14 @@ GOVUK.Insights.forcePosition = function () {
                 }
             }
         }
+
+        for (var i = 0; i < floatingElements.length; i++) {
+            var collisionBox = new CollisionBox(floatingElements[i].getBBox());
+            var graphArea = getTranslatedGraphArea(d3.select(selector).select('svg'),floatingElements[i]);
+            if (collisionBox.outsideOf(graphArea)) {
+                pullToCenter(graphArea.right/2,graphArea.bottom/2,d3.select(floatingElements[i]));
+            }
+        }
     };
 
     var apply = function (selector) {
@@ -40,7 +58,7 @@ GOVUK.Insights.forcePosition = function () {
         var floatingElements = d3.select(selector).selectAll('.' + constants.FLOATING_ELEMENT_CLASS)[0];
 
         for (var i = 0; i < privateConstants.ITERATIONS; i++) {
-            anIteration(fixedElements, floatingElements);
+            anIteration(fixedElements, floatingElements, selector);
         }
     };
 
@@ -63,6 +81,16 @@ GOVUK.Insights.forcePosition = function () {
             yMovement = (privateConstants.REPULSION_STRENGTH * Math.sin(theta));
 
         moveElement(anElementThatGetsPushed, xMovement, yMovement);
+    };
+
+    var pullToCenter = function (centerX, centerY, anElement) {
+        var dX = centerX - parseFloat(anElement.attr('x')),
+            dY = centerY - parseFloat(anElement.attr('y')),
+            theta = Math.atan2(dY, dX),
+            xMovement = (privateConstants.REPULSION_STRENGTH * Math.cos(theta)),
+            yMovement = (privateConstants.REPULSION_STRENGTH * Math.sin(theta));
+
+        moveElement(anElement, xMovement, yMovement);
     };
 
     var moveElement = function (element, x, y) {

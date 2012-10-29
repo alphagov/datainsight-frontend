@@ -226,12 +226,12 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("data-format", function (d) {
                 return d.formatName.idify();
             })
-            .attr("text-anchor", "middle")
+            .attr("text-anchor", "start")
             .attr("x", function (d) {
                 return x(d.total);
             })
             .attr("y", function (d) {
-                return y(d.percentageOfSuccess) + radius(d.total) + 15;
+                return y(d.percentageOfSuccess);
             })
             .attr("dy", ".35em")
             .on('mouseover', overlay.onHover)
