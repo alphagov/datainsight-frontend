@@ -95,7 +95,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         graph.selectAll("circle.format")
             .data(values)
             .enter().append("svg:circle")
-            .attr("class", "format")
+            .attr("class", "format js-fixed")
             .attr("fill", function (d) {
                 return colorScale(d.percentageOfSuccess);
             })
@@ -219,7 +219,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .text(function (d) {
                 return d.formatName;
             })
-            .attr("class", "circle-format")
+            .attr("class", "circle-format js-floating")
             .attr("id", function (d) {
                 return "label-" + d.formatName.idify();
             })
