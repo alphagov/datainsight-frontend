@@ -38,7 +38,7 @@
           <%= javascript_include_tag 'jquery-1.7.2' %>
       <% end %>
       <%= javascript_include_tag 'moment.min', 'helpers' %>
-      <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag('d3.v2.min') } %>
+      <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag('d3.v2') } %>
       <% yield_content :footer %>
     </footer>
 </html>
