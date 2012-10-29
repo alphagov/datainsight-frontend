@@ -33,8 +33,7 @@
     vertical-align: baseline;
 }
 
-#sub-navigation li a,
-#sub-navigation #index a {
+#sub-navigation li a {
     color: #444;
     margin: 0;
     font-family: "nta", "GDS-Regular", sans-serif;
@@ -55,8 +54,7 @@
     text-decoration: underline;
 }
 
-#sub-navigation li .current,
-#sub-navigation #index a.current {
+#sub-navigation li .current {
     background-color:#fff;
     margin-top: 0.4rem;
     padding-top: 0.4rem;
