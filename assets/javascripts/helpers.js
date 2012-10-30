@@ -47,7 +47,7 @@ GOVUK.Insights.formatNumericLabel = function (val) {
 };
 
 
-GOVUK.Insights.calculateLinearTicks = function(extent, minimumTickCount) {
+GOVUK.Insights.calculateLinearTicks = function (extent, minimumTickCount) {
     if (extent[0] >= extent[1]) {
         throw new Error("Upper bound must be larger than lower.");
     }
@@ -116,8 +116,8 @@ GOVUK.Insights.colors = function () {
 GOVUK.Insights.extensions = function () {
     if (String.prototype.idify === undefined) {
         String.prototype.idify = function () {
-            var result = this.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]+/g,'');
-            if (result.length === 0) throw new Error('Resulting ID of ['+ this + '] would be empty');
+            var result = this.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]+/g, '');
+            if (result.length === 0) throw new Error('Resulting ID of [' + this + '] would be empty');
             return result;
         };
     } else {
@@ -132,10 +132,12 @@ GOVUK.Insights.geometry = function () {
         this.left = rectangle.x;
         this.right = rectangle.x + rectangle.width;
         this.center = {
-            x: rectangle.x + (rectangle.width / 2),
-            y: rectangle.y + (rectangle.height / 2)
+            x:rectangle.x + (rectangle.width / 2),
+            y:rectangle.y + (rectangle.height / 2)
         };
-    };
+    }
+
+    ;
 
     CollisionBox.prototype.collidesWith = function (box) {
         if (this.bottom < box.top) return false;
@@ -146,14 +148,21 @@ GOVUK.Insights.geometry = function () {
     };
 
     CollisionBox.prototype.outsideOf = function (box) {
-       if (this.right > box.right) return true;
-       if (this.left < box.left) return true;
-       if (this.top < box.top) return true;
-       if (this.bottom > box.bottom) return true;
-       return false;
+        if (this.right > box.right) return true;
+        if (this.left < box.left) return true;
+        if (this.top < box.top) return true;
+        if (this.bottom > box.bottom) return true;
+        return false;
+    };
+
+    CollisionBox.prototype.containsPoint = function (point) {
+        return ((this.bottom) > point.y
+            && (this.top) < point.y
+            && (this.left) < point.x
+            && (this.right) > point.y);
     };
 
     return {
-        CollisionBox: CollisionBox
+        CollisionBox:CollisionBox
     };
 }();

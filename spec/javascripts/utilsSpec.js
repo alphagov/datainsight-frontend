@@ -143,6 +143,24 @@ describe("Data Insight utility functions", function () {
             expect(aBox.collidesWith(anotherBox)).toBeTruthy();
             expect(aBox.collidesWith(yetAnotherBox)).toBeFalsy();
         });
+
+        it("should detect if a point is inside of a box", function () {
+            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            var aRectangle = svg.createSVGRect();
+
+            aRectangle.x = 0;
+            aRectangle.y = 0;
+            aRectangle.height = 50;
+            aRectangle.width = 50;
+
+            var pointInsideTheRectangle = {x: 15, y: 15};
+            var pointOutsideOfTheRectangle = {x: 100, y: 100};
+
+            var aBox = new GOVUK.Insights.geometry.CollisionBox(aRectangle);
+
+            expect(aBox.containsPoint(pointInsideTheRectangle)).toBeTruthy();
+            expect(aBox.containsPoint(pointOutsideOfTheRectangle)).toBeFalsy();
+        });
     });
 
 

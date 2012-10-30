@@ -14,7 +14,7 @@ GOVUK.Insights.forcePosition = function () {
     privateConstants.ITERATIONS = 10;
 
     var getTranslatedGraphArea = function (svg, element) {
-        var matrix = element.getTransformToElement();
+        var matrix = element.getTransformToElement(element);
         return {
             top: 0,
             bottom: parseFloat(svg.attr('height') - matrix.f),
@@ -37,9 +37,23 @@ GOVUK.Insights.forcePosition = function () {
         for (var i = 0; i < floatingElements.length; i++) {
             for (var j = 0; j < fixedElements.length; j++) {
                 var floatingBox = new CollisionBox(floatingElements[i].getBBox());
-                var fixedBox = new CollisionBox(fixedElements[j].getBBox());
-                if (floatingBox.collidesWith(fixedBox)) {
-                    oneWayRepulsion(d3.select(fixedElements[j]), d3.select(floatingElements[i]));
+
+                if (fixedElements[j].nodeName === "path") {
+                    for (var k = 0; k < fixedElements[j].pathSegList.numberOfItems; k++) {
+                        var item = fixedElements[j].pathSegList.getItem(k);
+                        if (floatingBox.containsPoint(item)) {
+                            oneWayRepulsion(item.x, item.y, d3.select(floatingElements[i]));
+                        }
+                    }
+                } else {
+                    var fixedBox = new CollisionBox(fixedElements[j].getBBox());
+
+                    if (floatingBox.collidesWith(fixedBox)) {
+                        var circle = d3.select(fixedElements[j]);
+                        var cx = parseFloat(circle.attr('cx'));
+                        var cy = parseFloat(circle.attr('cy'));
+                        oneWayRepulsion(cx, cy, d3.select(floatingElements[i]));
+                    }
                 }
             }
         }
@@ -57,6 +71,7 @@ GOVUK.Insights.forcePosition = function () {
         var fixedElements = d3.select(selector).selectAll('.' + constants.FIXED_ELEMENT_CLASS)[0];
         var floatingElements = d3.select(selector).selectAll('.' + constants.FLOATING_ELEMENT_CLASS)[0];
 
+
         for (var i = 0; i < privateConstants.ITERATIONS; i++) {
             anIteration(fixedElements, floatingElements, selector);
         }
@@ -73,9 +88,9 @@ GOVUK.Insights.forcePosition = function () {
         moveElement(anotherElement, -1 * xMovement, -1 * yMovement);
     };
 
-    var oneWayRepulsion = function (anElement, anElementThatGetsPushed) {
-        var dX = parseFloat(anElementThatGetsPushed.attr('x')) - parseFloat(anElement.attr('cx')),
-            dY = parseFloat(anElementThatGetsPushed.attr('y')) - parseFloat(anElement.attr('cy')),
+    var oneWayRepulsion = function (x, y, anElementThatGetsPushed) {
+        var dX = parseFloat(anElementThatGetsPushed.attr('x')) - x,
+            dY = parseFloat(anElementThatGetsPushed.attr('y')) - y,
             theta = Math.atan2(dY, dX),
             xMovement = (privateConstants.REPULSION_STRENGTH * Math.cos(theta)),
             yMovement = (privateConstants.REPULSION_STRENGTH * Math.sin(theta));
