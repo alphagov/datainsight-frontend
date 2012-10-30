@@ -22,30 +22,67 @@ GOVUK.Insights.formatSuccessOverlay = function () {
                 (data[0].percentageOfSuccess).toFixed(1) + "% used successfully"];
         };
 
+        var determinePosition = function (labelElement) {
+            var labelOffset = labelElement.offset(),
+                scrollOffset = {top:labelElement.scrollTop(), left:labelElement.scrollLeft()},
+                quadrant = labelElement.attr('data-quadrant'),
+                position = {
+                    top:labelOffset.top + scrollOffset.top - TOP_OFFSET,
+                    left:labelOffset.left + scrollOffset.left - LEFT_OFFSET,
+                    bottom: labelOffset.top + scrollOffset.top  - box.height() + labelElement.height() + TOP_OFFSET,
+                    right: labelOffset.left + scrollOffset.left - box.width() + labelElement.width() + LEFT_OFFSET
+                };
+
+            if (quadrant >= 0 && quadrant < 1) {
+                return {
+                    top:position.top,
+                    left:position.left
+                };
+            } else if (quadrant >= 1 && quadrant < 2) {
+                return {
+                    top:position.top,
+                    left:position.right
+                };
+            } else if (quadrant >= -1 && quadrant < 0) {
+                return {
+                    top:position.bottom,
+                    left:position.left
+                };
+            } else if (quadrant >= -2 && quadrant < -1) {
+                return {
+                    top:position.bottom,
+                    left:position.right
+                };
+            } else {
+                return {
+                    top:position.top,
+                    left:position.left
+                }
+            }
+        }
+
         this.init = function () {
-            var labelElement = $(selector(format, "text")),
-                labelOffset = labelElement.offset(),
-                scrollOffset = {top:labelElement.scrollTop(), left:labelElement.scrollLeft()};
+            var labelElement = $(selector(format, "text"));
 
             box = $('<div class="format-success-hover" data-format="' + format + '" style="display: none;"><div class="format"/><div class="details"/></div>');
-            box.on('mouseover', function(event){
+            box.on('mouseover', function (event) {
                 event.stopPropagation();
                 overlay.cancelDestroy();
             });
-            box.on('mouseleave', function(event){
+            box.on('mouseleave', function (event) {
                 event.stopPropagation();
                 overlay.destroyAfterDelay();
             });
 
-            var formatName = $(labelElement).text(),
-                details = hoverDetailsText(data),
-                offset = {top:labelOffset.top + scrollOffset.top - TOP_OFFSET, left:labelOffset.left + scrollOffset.left - LEFT_OFFSET};
+            var formatName = labelElement.text(),
+                details = hoverDetailsText(data);
 
-            box.offset(offset);
             box.find('.format').text(formatName);
             box.find('.details').html(details.join("<br />"));
 
             $(document.body).append(box);
+            var position = determinePosition(labelElement);
+            box.css(position);
             box.fadeIn(100);
         };
 
