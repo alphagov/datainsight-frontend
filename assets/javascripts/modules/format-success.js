@@ -13,7 +13,9 @@ GOVUK.Insights.formatSuccess = function () {
                 if (GOVUK.isSvgSupported()) {
                     $('#format-success-module img').remove();
                     GOVUK.Insights.plotFormatSuccessGraph(data);
+
                     $('#format-success-module .datainsight-hidden').removeClass('datainsight-hidden');
+                    GOVUK.Insights.forcePosition.apply("#format-success");
                 }
             } else {
                 showError();
@@ -27,13 +29,11 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var MIN_Y = 0,
         MAX_Y = 100,
         MAX_RADIUS = 30,
-        GUTTER_FOR_BUBBLES = 40,
         HEIGHT = 400,
-        GUTTER_X = 32,
         GUTTER_Y_TOP = 25;
 
     // - Derived Constants -
-    var WIDTH = 924 - GUTTER_X * 2;
+    var WIDTH = 960;
 
     var overlay = GOVUK.Insights.formatSuccessOverlay;
 
@@ -59,8 +59,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     };
 
     var x = d3.scale.linear()
-            .domain([0, MAX_X])
-            .range([GUTTER_FOR_BUBBLES + MAX_RADIUS / 2, WIDTH - (GUTTER_FOR_BUBBLES + MAX_RADIUS / 2)]),
+            .domain([0, MAX_X + MAX_X * 0.05]) // add 5% buffer to the scale
+            .range([0, WIDTH]),
         y = d3.scale.linear()
             .domain([MIN_Y, MAX_Y])
             .range([HEIGHT, 0]);
@@ -68,7 +68,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var overlayBottom = function (d) {
         var overlay = y(d.percentageOfSuccess) + radius(d.total) - HEIGHT;
         return overlay > 0 ? overlay : 0;
-    }
+    };
 
     var GUTTER_Y_BOTTOM = GUTTER_Y_TOP + d3.max(values, overlayBottom);
 
@@ -79,7 +79,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var svg = d3.select("#format-success")
         .data(values)
         .append("svg:svg")
-        .attr("width", WIDTH + GUTTER_X * 2)
+        .attr("width", WIDTH)
         .attr("height", HEIGHT + GUTTER_Y_TOP + GUTTER_Y_BOTTOM);
 
     var panel = svg
@@ -88,7 +88,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
     var graph = panel
         .append("svg:g")
-        .attr("transform", "translate(" + GUTTER_X + "," + GUTTER_Y_TOP + ")");
+        .attr("transform", "translate(" + 0 + "," + GUTTER_Y_TOP + ")");
 
     var plotFormats = function (graph) {
         // Draw xy scatterplot
@@ -177,7 +177,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
                 .text("Used successfully")
                 .attr("class", "title-y")
                 .attr("y", 5)
-                .attr("x", WIDTH / 2 + GUTTER_X)
+                .attr("x", WIDTH / 2)
                 .attr("dy", ".35em");
 
             graph.append("svg:text")
@@ -239,7 +239,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
 
     var drawLegend = function () {
-        var estimatedWidthOfLegendText = 80;
+        var estimatedWidthOfLegendText = 110;
         var dataForLegend = x.ticks(4).slice(1, 4);
 
         if (dataForLegend.length > 2) dataForLegend = dataForLegend.slice(0, 2);
@@ -276,7 +276,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .enter().append("svg:text")
             .attr("class", "circle-legend")
             .attr("x", -5)
-            .attr("y", function (d, index) {
+            .attr("y", function (d) {
                 return 2 * radius(d) - 5; // offset text to bottom of circles
             })
             .attr("dy", ".35em")
