@@ -291,10 +291,6 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     drawAxis(graph);
     drawLabels(graph);
     drawLegend();
-
-    // - Hover out of hover label
-    d3.select("#format-success-hover")
-        .on('mouseout', overlay.onHoverOut);
 };
 
 // register with jQuery's autorun.

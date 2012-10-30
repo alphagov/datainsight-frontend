@@ -4,18 +4,17 @@ GOVUK.Insights = GOVUK.Insights || {};
 
 GOVUK.Insights.formatSuccessOverlay = function () {
 
-    var HOVER_SELECTOR = '#format-success-hover';
+    var currentEffects = {};
+    var OUT_DELAY = 200;
 
     var selector = function (format, elementType) {
         return elementType + '[data-format=' + format + ']';
     };
 
-    var notSelector = function (format, elementType) {
-        return elementType + ':not([data-format=' + format + '])';
-    };
-
-    function HoverBox() {
+    function HoverBox(format, data, overlay) {
         var TOP_OFFSET = 2, LEFT_OFFSET = 7;
+
+        var box = undefined;
 
 
         var hoverDetailsText = function (data) {
@@ -23,28 +22,41 @@ GOVUK.Insights.formatSuccessOverlay = function () {
                 (data[0].percentageOfSuccess).toFixed(1) + "% used successfully"];
         };
 
-        this.init = function (format, data) {
+        this.init = function () {
             var labelElement = $(selector(format, "text")),
                 labelOffset = labelElement.offset(),
-                scrollOffset = {top:labelElement.scrollTop(), left:labelElement.scrollLeft()},
-                hoverElement = $(HOVER_SELECTOR);
+                scrollOffset = {top:labelElement.scrollTop(), left:labelElement.scrollLeft()};
+
+            box = $('<div class="format-success-hover" data-format="' + format + '" style="display: none;"><div class="format"/><div class="details"/></div>');
+            box.on('mouseover', function(event){
+                event.stopPropagation();
+                overlay.cancelDestroy();
+            });
+            box.on('mouseleave', function(event){
+                event.stopPropagation();
+                overlay.destroyAfterDelay();
+            });
 
             var formatName = $(labelElement).text(),
                 details = hoverDetailsText(data),
                 offset = {top:labelOffset.top + scrollOffset.top - TOP_OFFSET, left:labelOffset.left + scrollOffset.left - LEFT_OFFSET};
 
+            box.offset(offset);
+            box.find('.format').text(formatName);
+            box.find('.details').html(details.join("<br />"));
 
-            hoverElement.css({top:0, left:0});
-            hoverElement.offset(offset);
-            hoverElement.data('format', format)
-            hoverElement.find('.format').text(formatName);
-            hoverElement.find('.details').html(details.join("<br />"));
+            $(document.body).append(box);
+            box.fadeIn(100);
+        };
 
-            hoverElement.fadeIn(100);
+        this.destroy = function () {
+            box.fadeOut(100, function () {
+                box.remove();
+            });
         };
     }
 
-    function CircleOverlay() {
+    function CircleOverlay(format) {
         var circle = {};
 
         this.destroy = function () {
@@ -52,7 +64,7 @@ GOVUK.Insights.formatSuccessOverlay = function () {
             circle.style('stroke', "#ffffff");
         };
 
-        this.init = function (format) {
+        this.init = function () {
             circle = d3.select(selector(format, "circle"));
             circle.classed('hover', true);
             var fillColour = new GOVUK.Insights.colors(circle.attr('fill'));
@@ -62,6 +74,62 @@ GOVUK.Insights.formatSuccessOverlay = function () {
         }
     }
 
+    function Overlay(format, data) {
+        var components = [],
+            timeout = undefined,
+            present = false,
+            self = this;
+
+        this.format = format;
+
+        this.init = function () {
+            if (!present) {
+                var box = new HoverBox(format, data, this);
+                components.push(box);
+                var circle = new CircleOverlay(format);
+                components.push(circle);
+
+                components.forEach(function (component) {
+                    component.init();
+                });
+
+                present = true;
+            }
+        };
+
+        this.destroy = function () {
+            if (present) {
+                components.forEach(function (component) {
+                    component.destroy();
+                });
+                present = false;
+            }
+        };
+
+        this.destroyAfterDelay = function () {
+            timeout = setTimeout(self.destroy, OUT_DELAY);
+        };
+
+        this.cancelDestroy = function () {
+            if (timeout) {
+                window.clearTimeout(timeout);
+                timeout = undefined;
+            }
+        };
+    }
+
+
+    var resetOverlays = function (format) {
+        for (var _format in currentEffects) {
+            if (currentEffects.hasOwnProperty(_format)) {
+                if (_format !== format) {
+                    currentEffects[_format].destroy();
+                } else {
+                    currentEffects[_format].cancelDestroy();
+                }
+            }
+        }
+    };
 
     var onHover = function () {
         d3.event.stopPropagation();
@@ -69,39 +137,21 @@ GOVUK.Insights.formatSuccessOverlay = function () {
         var format = d3.select(this).attr('data-format'),
             data = d3.select(this).data();
 
-        $.each($(notSelector(format, 'circle.format')), function(){
-            var overlay = $(this).data('overlay-remove');
-            if(overlay){
-                overlay();
-            }
-        });
+        resetOverlays(format);
 
-        var hoverBox = new HoverBox();
-        hoverBox.init(format, data);
-
-        var circleOverlay = new CircleOverlay();
-        circleOverlay.init(format);
-        $(selector(format, 'circle')).data('overlay-remove', circleOverlay.destroy);
+        if (!currentEffects[format]) {
+            currentEffects[format] = new Overlay(format, data);
+        }
+        currentEffects[format].init();
     };
 
-    var OUT_DELAY = 200;
 
     var onHoverOut = function () {
         d3.event.stopPropagation();
-        var self = this;
-        setTimeout(function () {
-            var format = $(self).data('format');
-            var circle = $(selector(format, "circle"));
-            var hoverBox = $(HOVER_SELECTOR);
-            if (!circle.is(":hover") && !hoverBox.is(":hover")) {
-                if(hoverBox.data('format') === format){
-                    hoverBox.fadeOut(100);
-                }
-                if(circle.data('overlay-remove')){
-                    circle.data('overlay-remove')();
-                }
-            }
-        }, OUT_DELAY);
+
+        var format = d3.select(this).attr('data-format');
+
+        currentEffects[format].destroyAfterDelay();
     };
 
     return {
@@ -109,7 +159,3 @@ GOVUK.Insights.formatSuccessOverlay = function () {
         onHoverOut:onHoverOut
     }
 }();
-
-setTimeout(function () {
-    $('svg:text[data-format=benefits]').trigger('mouseover');
-}, 500);
