@@ -16,10 +16,10 @@ GOVUK.Insights.forcePosition = function () {
     var getTranslatedGraphArea = function (svg, element) {
         var matrix = element.getTransformToElement(element);
         return {
-            top: 0,
-            bottom: parseFloat(svg.attr('height') - matrix.f),
-            right: parseFloat(svg.attr('width') - matrix.e),
-            left: 0
+            top:0,
+            bottom:parseFloat(svg.attr('height') - matrix.f),
+            right:parseFloat(svg.attr('width') - matrix.e),
+            left:0
         };
     };
 
@@ -60,9 +60,9 @@ GOVUK.Insights.forcePosition = function () {
 
         for (var i = 0; i < floatingElements.length; i++) {
             var collisionBox = new CollisionBox(floatingElements[i].getBBox());
-            var graphArea = getTranslatedGraphArea(d3.select(selector).select('svg'),floatingElements[i]);
+            var graphArea = getTranslatedGraphArea(d3.select(selector).select('svg'), floatingElements[i]);
             if (collisionBox.outsideOf(graphArea)) {
-                pullToCenter(graphArea.right/2,graphArea.bottom/2,d3.select(floatingElements[i]));
+                pullToCenter(graphArea.right / 2, graphArea.bottom / 2, d3.select(floatingElements[i]));
             }
         }
     };
@@ -88,6 +88,10 @@ GOVUK.Insights.forcePosition = function () {
         moveElement(anotherElement, -1 * xMovement, -1 * yMovement);
     };
 
+    var radsToQuadrant = function (theta) {
+        return quadrantFloat = parseFloat(theta / (Math.PI / 2));
+    };
+
     var oneWayRepulsion = function (x, y, anElementThatGetsPushed) {
         var dX = parseFloat(anElementThatGetsPushed.attr('x')) - x,
             dY = parseFloat(anElementThatGetsPushed.attr('y')) - y,
@@ -96,6 +100,7 @@ GOVUK.Insights.forcePosition = function () {
             yMovement = (privateConstants.REPULSION_STRENGTH * Math.sin(theta));
 
         moveElement(anElementThatGetsPushed, xMovement, yMovement);
+        anElementThatGetsPushed.attr('data-quadrant', radsToQuadrant(theta));
     };
 
     var pullToCenter = function (centerX, centerY, anElement) {
