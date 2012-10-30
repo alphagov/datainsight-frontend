@@ -92,7 +92,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
     var plotFormats = function (graph) {
         // Draw xy scatterplot
-        graph.selectAll("circle.format")
+        graph.append("svg:g")
+            .selectAll("circle.format")
             .data(values)
             .enter().append("svg:circle")
             .attr("class", "format js-fixed")
