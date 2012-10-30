@@ -102,6 +102,7 @@ GOVUK.Insights.formatSuccessOverlay = function () {
                 components.forEach(function (component) {
                     component.destroy();
                 });
+                components = [];
                 present = false;
             }
         };
