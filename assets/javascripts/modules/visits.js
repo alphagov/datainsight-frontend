@@ -38,9 +38,9 @@ GOVUK.Insights.visits = function () {
                     graph.render(data);
                     $('#visits-module .datainsight-hidden').removeClass('datainsight-hidden');
                     $('#visits-module .datainsight-hidden').removeClass('datainsight-hidden');
-//                    $("#visits-module .govuk-label").attr("x", 310).attr("y", 160).css('text-anchor', 'start');
-//                    $("#visits-module .directgov-label").attr("x", 245).attr("y", 30).css('text-anchor', 'start');
-//                    $("#visits-module .businesslink-label").attr("x", 200).attr("y", 185).css('text-anchor', 'start');
+                    $("#visits-module .govuk-label").attr("x", 310).attr("y", 160).css('text-anchor', 'start');
+                    $("#visits-module .directgov-label").attr("x", 245).attr("y", 30).css('text-anchor', 'start');
+                    $("#visits-module .businesslink-label").attr("x", 200).attr("y", 185).css('text-anchor', 'start');
                 } catch (err) {
                     console.log(err);
                     showError();

@@ -156,7 +156,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             $(series).each(function (i, name) {
                 var path = plottingArea.append("svg:path")
                     .attr("d", line(data[name]))
-                    .attr("class", params.series[name].lineClass + " " + "js-fixed");
+                    .attr("class", params.series[name].lineClass);
                 if (params.series[name].gradient) {
                     path.attr("style", "stroke: url(#spike-gradient-" + $(container).attr("id") + ") " + CENTER_GREY + ";");
                 }
@@ -187,45 +187,41 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             function createTextLabel(item, ypos) {
                 plottingArea.append("svg:text")
                     .attr("style", "text-anchor: end")
-                    .attr("class", item.name + "-label " + item.class + " " + "js-floating")
+                    .attr("class", item.name + "-label " + item.class)
                     .attr("y", ypos)
                     .text(item.legend);
-                $(item.container + " ." + item.name + "-label").attr("x", (width - margins[3]));
+                $(item.container + " ." + item.name + "-label").attr("x", width - margins[3]);
             }
 
-            createTextLabel(seriesLastValue[0], seriesLastValue[0].ypos);
-            createTextLabel(seriesLastValue[1], seriesLastValue[1].ypos);
-            createTextLabel(seriesLastValue[2], seriesLastValue[2].ypos);
+            var legendHeight = 20;
+            if (seriesLastValue.length == 1) {
+                createTextLabel(seriesLastValue[0], seriesLastValue[0].ypos - 5);
+            }
 
-//            var legendHeight = 20;
-//            if (seriesLastValue.length == 1) {
-//                createTextLabel(seriesLastValue[0], seriesLastValue[0].ypos - 5);
-//            }
-//
-//            var placeLabel = function (lastValue, offset) {
-//                if (lastValue) {
-//                    createTextLabel(lastValue, lastValue.ypos + offset);
-//                }
-//            };
-//
-//            // place bottom legend
-//            if (seriesLastValue.length >= 2
-//                && (seriesLastValue[0].ypos - seriesLastValue[1].ypos) < legendHeight) {
-//                // place bottom above last but one
-//                placeLabel(seriesLastValue[0], -5);
-//                placeLabel(seriesLastValue[1], -legendHeight - 5);
-//            } else {
-//                placeLabel(seriesLastValue[0], -5);
-//                placeLabel(seriesLastValue[1], -5);
-//            }
-//
-//            // place the top one
-//            if (seriesLastValue.length >= 3
-//                && seriesLastValue[2].ypos > legendHeight) {
-//                placeLabel(seriesLastValue[2], -5);
-//            } else if (seriesLastValue.length == 3) {
-//                placeLabel(seriesLastValue[2], legendHeight - 5);
-//            }
+            var placeLabel = function (lastValue, offset) {
+                if (lastValue) {
+                    createTextLabel(lastValue, lastValue.ypos + offset);
+                }
+            };
+
+            // place bottom legend
+            if (seriesLastValue.length >= 2
+                && (seriesLastValue[0].ypos - seriesLastValue[1].ypos) < legendHeight) {
+                // place bottom above last but one
+                placeLabel(seriesLastValue[0], -5);
+                placeLabel(seriesLastValue[1], -legendHeight - 5);
+            } else {
+                placeLabel(seriesLastValue[0], -5);
+                placeLabel(seriesLastValue[1], -5);
+            }
+
+            // place the top one
+            if (seriesLastValue.length >= 3
+                && seriesLastValue[2].ypos > legendHeight) {
+                placeLabel(seriesLastValue[2], -5);
+            } else if (seriesLastValue.length == 3) {
+                placeLabel(seriesLastValue[2], legendHeight - 5);
+            }
         }
     };
 };
