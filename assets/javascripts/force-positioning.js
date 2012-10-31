@@ -60,7 +60,7 @@ GOVUK.Insights.forcePosition = function () {
 
         for (var i = 0; i < floatingElements.length; i++) {
             var collisionBox = new CollisionBox(floatingElements[i].getBBox());
-            var graphArea = getTranslatedGraphArea(d3.select(selector).select('svg'), floatingElements[i]);
+            var graphArea = getTranslatedGraphArea(d3.select(selector).select('.js-graph-area'), floatingElements[i]);
             if (collisionBox.outsideOf(graphArea)) {
                 pullToCenter(graphArea.right / 2, graphArea.bottom / 2, d3.select(floatingElements[i]));
             }

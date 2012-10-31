@@ -148,9 +148,13 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 .attr("transform", "translate(-5,0)")
                 .call(yAxis);
 
+            var plottingArea = graph.append("svg:g")
+                .attr("class", "js-graph-area")
+                .attr("height", "214");
+
             /* Add The Graph Lines */
             $(series).each(function (i, name) {
-                var path = graph.append("svg:path")
+                var path = plottingArea.append("svg:path")
                     .attr("d", line(data[name]))
                     .attr("class", params.series[name].lineClass + " " + "js-fixed");
                 if (params.series[name].gradient) {
@@ -181,7 +185,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             });
 
             function createTextLabel(item, ypos) {
-                graph.append("svg:text")
+                plottingArea.append("svg:text")
                     .attr("style", "text-anchor: end")
                     .attr("class", item.name + "-label " + item.class + " " + "js-floating")
                     .attr("y", ypos)
