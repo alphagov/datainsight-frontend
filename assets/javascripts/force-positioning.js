@@ -14,7 +14,7 @@ GOVUK.Insights.forcePosition = function () {
     privateConstants.ITERATIONS = 10;
 
     var getTranslatedGraphArea = function (svg, element) {
-        var matrix = element.getTransformToElement();
+        var matrix = element.getTransformToElement(element);
         return {
             top:0,
             bottom:parseFloat(svg.attr('height') - matrix.f),
