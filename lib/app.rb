@@ -50,7 +50,7 @@ class App < Sinatra::Base
   def self.serve_api_response(path, method)
     get "#{path}" do
       content_type :json
-      request_url = "#{request.scheme}://#{request.host}#{request.path}"
+      request_url = "#{request.scheme}://#{request.host}#{request.path}".chomp(".json")
       api = api(settings.api_urls)
       result = api.send(method, request_url)
       result == :error ? 500 : result.to_json
