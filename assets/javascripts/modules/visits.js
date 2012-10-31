@@ -19,17 +19,30 @@ GOVUK.Insights.visits = function () {
                         "directgov":{
                             "lineClass":"dashed-line brown",
                             "legendClass":"brown-text",
-                            "legend":"Directgov"
+                            "legend": {
+                                "text": "Directgov",
+                                "anchor": "2012-10-07",
+                                "yOffset": -5
+                            }
                         },
                         "businesslink":{
                             "lineClass":"dashed-line purple",
                             "legendClass":"purple-text",
-                            "legend":"Business Link"
+                            "legend": {
+                                "text": "Business Link",
+                                "anchor": "2012-09-16",
+                                "yOffset": -10
+                            }
                         },
                         "govuk":{
                             "lineClass":"main-line",
                             "legendClass":"",
-                            "legend":"GOV.UK"
+                            "legend": {
+                                "text":"GOV.UK",
+                                "anchor": "2012-10-20",
+                                "xOffset": -35,
+                                "yOffset": 30
+                            }
                         }
                     },
                     "width":444
@@ -37,10 +50,6 @@ GOVUK.Insights.visits = function () {
                 try {
                     graph.render(data);
                     $('#visits-module .datainsight-hidden').removeClass('datainsight-hidden');
-                    $('#visits-module .datainsight-hidden').removeClass('datainsight-hidden');
-                    $("#visits-module .govuk-label").attr("x", 310).attr("y", 160).css('text-anchor', 'start');
-                    $("#visits-module .directgov-label").attr("x", 245).attr("y", 30).css('text-anchor', 'start');
-                    $("#visits-module .businesslink-label").attr("x", 200).attr("y", 185).css('text-anchor', 'start');
                 } catch (err) {
                     console.log(err);
                     showError();

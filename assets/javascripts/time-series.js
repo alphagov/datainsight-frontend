@@ -67,7 +67,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 throw "No data!";
             }
 
-            var xExtent = this.dateRange(moment()),
+            xExtent = this.dateRange(moment()),
                 xScale = d3.time.scale().domain(xExtent).range([0, width - margins[1] - margins[3]]),
 
                 yMax = d3.max(alldata, function(d) { return d.value}),
@@ -170,57 +170,37 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                         return data[name].length != 0;
                     })
                     .map(function (i, name) {
-                        var value = data[name][data[name].length - 1].value;
                         return {
                             "container":container,
                             "name":name,
                             "legend":params.series[name].legend,
-                            "class":params.series[name].legendClass,
-                            "value":value,
-                            "ypos":yScale(value)
+                            "class":params.series[name].legendClass
                         };
                     });
-            seriesLastValue.sort(function (a, b) {
-                return a.value - b.value;
-            });
 
-            function createTextLabel(item, ypos) {
-                plottingArea.append("svg:text")
-                    .attr("style", "text-anchor: end")
-                    .attr("class", item.name + "-label " + item.class)
-                    .attr("y", ypos)
-                    .text(item.legend);
-                $(item.container + " ." + item.name + "-label").attr("x", width - margins[3]);
-            }
-
-            var legendHeight = 20;
-            if (seriesLastValue.length == 1) {
-                createTextLabel(seriesLastValue[0], seriesLastValue[0].ypos - 5);
-            }
-
-            var placeLabel = function (lastValue, offset) {
-                if (lastValue) {
-                    createTextLabel(lastValue, lastValue.ypos + offset);
+            function ypos(seriesName, date) {
+                var series = data[seriesName];
+                for (var i = 0; i < series.length; ++i) {
+                    if (series[i].date == date) {
+                        return yScale(series[i].value);
+                    }
                 }
-            };
-
-            // place bottom legend
-            if (seriesLastValue.length >= 2
-                && (seriesLastValue[0].ypos - seriesLastValue[1].ypos) < legendHeight) {
-                // place bottom above last but one
-                placeLabel(seriesLastValue[0], -5);
-                placeLabel(seriesLastValue[1], -legendHeight - 5);
-            } else {
-                placeLabel(seriesLastValue[0], -5);
-                placeLabel(seriesLastValue[1], -5);
+                return 0;
             }
 
-            // place the top one
-            if (seriesLastValue.length >= 3
-                && seriesLastValue[2].ypos > legendHeight) {
-                placeLabel(seriesLastValue[2], -5);
-            } else if (seriesLastValue.length == 3) {
-                placeLabel(seriesLastValue[2], legendHeight - 5);
+            function createTextLabel(item) {
+                var x = xScale(dateFormat.parse(item.legend.anchor)) + (item.legend.xOffset || 0);
+                var y = ypos(item.name, item.legend.anchor) + (item.legend.yOffset || 0);
+                plottingArea.append("svg:text")
+                    .attr("style", "text-anchor: middle")
+                    .attr("class", item.name + "-label " + item.class)
+                    .attr("x", x)
+                    .attr("y", y)
+                    .text(item.legend.text);
+            }
+
+            for (var i = 0; i < seriesLastValue.length; ++i) {
+                createTextLabel(seriesLastValue[i]);
             }
         }
     };

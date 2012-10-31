@@ -79,6 +79,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var svg = d3.select("#format-success")
         .data(values)
         .append("svg:svg")
+        .attr("class", "js-graph-area")
         .attr("width", WIDTH)
         .attr("height", HEIGHT + GUTTER_Y_TOP + GUTTER_Y_BOTTOM);
 
