@@ -22,15 +22,6 @@ module Insight
         @config = config
       end
 
-      def get_json(&block)
-        begin
-          block.yield.data
-        rescue Songkick::Transport::UpstreamError => e
-          logger.error(e)
-          :error
-        end
-      end
-
       def rewrite_urls(url, &block)
         response = block.yield.data
         response["id"] = "#{url}.json"

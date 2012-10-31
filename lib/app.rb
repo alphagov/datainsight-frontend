@@ -35,16 +35,8 @@ class App < Sinatra::Base
     set :protection, :except => :json_csrf
   end
 
-  def api_urls
-    settings.api_urls
-  end
-
   def asset_host
     settings.asset_host
-  end
-
-  def api_result_to_json(result)
-    result == :error ? 500 : result.to_json
   end
 
   def self.serve_graph_image(image_filename)
@@ -55,8 +47,19 @@ class App < Sinatra::Base
     end
   end
 
+  def self.serve_api_response(path, method)
+    get "#{path}" do
+      content_type :json
+      request_url = "#{request.scheme}://#{request.host}#{request.path}"
+      api = api(settings.api_urls)
+      result = api.send(method, request_url)
+      result == :error ? 500 : result.to_json
+    end
+  end
+
   def get_narrative()
-    response = api(api_urls).narrative("http://datainsight-frontend.dev.gov.uk/performance/dashboard/narrative")
+    # we don't care about the id / web_url fields because it's not being published from here
+    response = api(settings.api_urls).narrative("do not care")
     if response == :error
       ""
     else
@@ -74,10 +77,7 @@ class App < Sinatra::Base
     erb :engagement
   end
 
-  get "/dashboard/narrative.json" do
-    content_type :json
-    api_result_to_json(api(api_urls).narrative("http://datainsight-frontend.dev.gov.uk/performance/dashboard/narrative"))
-  end
+  serve_api_response "/dashboard/narrative.json", :narrative
 
   get "/dashboard/narrative" do
     @narrative = get_narrative
@@ -85,32 +85,21 @@ class App < Sinatra::Base
     erb :narrative
   end
 
-  get "/dashboard/visits.json" do
-    content_type :json
-    api_result_to_json(api(api_urls).weekly_visits("http://datainsight-frontend.dev.gov.uk/performance/dashboard/visits"))
-  end
+  serve_api_response "/dashboard/visits.json", :weekly_visits
 
   get "/dashboard/visits" do
     erb :visits
   end
 
   serve_graph_image "visits.png"
-
-  get "/dashboard/unique-visitors.json" do
-    content_type :json
-    api_result_to_json(api(api_urls).weekly_visitors("http://datainsight-frontend.dev.gov.uk/performance/dashboard/unique-visitors"))
-  end
+  serve_api_response "/dashboard/unique-visitors.json", :weekly_visitors
 
   get "/dashboard/unique-visitors" do
     erb :unique_visitors
   end
 
   serve_graph_image "unique-visitors.png"
-
-  get "/dashboard/todays-activity.json" do
-    content_type :json
-    api_result_to_json(api(api_urls).todays_activity(("http://datainsight-frontend.dev.gov.uk/performance/dashboard/todays-activity")))
-  end
+  serve_api_response "/dashboard/todays-activity.json", :todays_activity
 
   get "/dashboard/todays-activity" do
     erb :todays_activity
@@ -129,9 +118,6 @@ class App < Sinatra::Base
   end
 
   serve_graph_image "format-success.png"
+  serve_api_response "/dashboard/format-success.json", :format_success
 
-  get "/dashboard/format-success.json" do
-    content_type :json
-    api_result_to_json(api(api_urls).format_success("http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success"))
-  end
 end
