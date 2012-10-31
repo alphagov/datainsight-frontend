@@ -8,11 +8,11 @@ GOVUK.Insights.formatSuccess = function () {
 
     $.ajax({
         url:'/performance/dashboard/format-success.json',
-        success:function (data) {
-            if (data !== null) {
+        success:function (response) {
+            if (response !== null) {
                 if (GOVUK.isSvgSupported()) {
                     $('#format-success-module img').remove();
-                    GOVUK.Insights.plotFormatSuccessGraph(data.details.data);
+                    GOVUK.Insights.plotFormatSuccessGraph(response.details.data);
 
                     $('#format-success-module .datainsight-hidden').removeClass('datainsight-hidden');
                     GOVUK.Insights.forcePosition.apply("#format-success");

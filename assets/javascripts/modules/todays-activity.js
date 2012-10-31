@@ -9,14 +9,14 @@ GOVUK.Insights.todaysActivity = function () {
     $.ajax({
         url:"/performance/dashboard/todays-activity.json",
         dataType:"json",
-        success:function (data) {
-            if (data !== null) {
+        success:function (response) {
+            if (response !== null) {
                 if (GOVUK.isSvgSupported()) {
-                    GOVUK.Insights.Reach.plotTraffic("reach", data.details.data.values);
+                    GOVUK.Insights.Reach.plotTraffic("reach", response.details.data.values);
                     $('#todays-activity-module img').remove();
                     $('#todays-activity-module .datainsight-hidden').removeClass('datainsight-hidden');
                 }
-                var for_date = moment(data.details.data.for_date, "YYYY-MM-DD");
+                var for_date = moment(response.details.data.for_date, "YYYY-MM-DD");
                 $("#todays-activity-module .for_date").text(for_date.format("D MMMM"));
             } else {
                 showError();

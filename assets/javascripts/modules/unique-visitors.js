@@ -11,7 +11,7 @@ GOVUK.Insights.uniqueVisitors = function () {
     $.ajax({
         url:"/performance/dashboard/unique-visitors.json",
         dataType:"json",
-        success:function (data) {
+        success:function (response) {
             if (GOVUK.isSvgSupported()) {
                 $('#unique-visitors-module img').remove();
                 var graph = GOVUK.Insights.sixMonthTimeSeries("#unique-visitors", {
@@ -48,7 +48,7 @@ GOVUK.Insights.uniqueVisitors = function () {
                     "width":444
                 });
                 try {
-                    graph.render(data.details.data);
+                    graph.render(response.details.data);
                     $('#unique-visitors-module .datainsight-hidden').removeClass('datainsight-hidden');
                 } catch (err) {
                     showError();

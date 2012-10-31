@@ -11,7 +11,7 @@ GOVUK.Insights.visits = function () {
     $.ajax({
         url:"/performance/dashboard/visits.json",
         dataType:"json",
-        success:function (data) {
+        success:function (response) {
             if (GOVUK.isSvgSupported()) {
                 $('#visits-module img').remove();
                 var graph = GOVUK.Insights.sixMonthTimeSeries("#visits", {
@@ -48,7 +48,7 @@ GOVUK.Insights.visits = function () {
                     "width":444
                 });
                 try {
-                    graph.render(data.details.data);
+                    graph.render(response.details.data);
                     $('#visits-module .datainsight-hidden').removeClass('datainsight-hidden');
                 } catch (err) {
                     showError();
