@@ -105,10 +105,9 @@ GOVUK.Insights.colors = function () {
             for (var i = 0; i < paddingNeeded; i++) {
                 hexValue = '0' + hexValue;
             }
-            ;
         }
         return '#' + hexValue;
-    }
+    };
 
     return HexColor;
 }();
