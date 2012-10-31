@@ -173,8 +173,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                         return {
                             "container":container,
                             "name":name,
-                            "legend":params.series[name].legend,
-                            "class":params.series[name].legendClass
+                            "legend":params.series[name].legend
                         };
                     });
 
@@ -193,7 +192,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 var y = ypos(item.name, item.legend.anchor) + (item.legend.yOffset || 0);
                 plottingArea.append("svg:text")
                     .attr("style", "text-anchor: middle")
-                    .attr("class", item.name + "-label " + item.class)
+                    .attr("class", item.name + "-label " + item.legend.class)
                     .attr("x", x)
                     .attr("y", y)
                     .text(item.legend.text);

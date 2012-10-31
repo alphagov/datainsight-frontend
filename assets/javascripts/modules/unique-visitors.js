@@ -18,8 +18,8 @@ GOVUK.Insights.uniqueVisitors = function () {
                     "series":{
                         "directgov":{
                             "lineClass":"dashed-line brown",
-                            "legendClass":"brown-text",
                             "legend": {
+                                "class": "brown-text",
                                 "text": "Directgov",
                                 "anchor": "2012-10-07",
                                 "yOffset": -10
@@ -27,8 +27,8 @@ GOVUK.Insights.uniqueVisitors = function () {
                         },
                         "businesslink":{
                             "lineClass":"dashed-line purple",
-                            "legendClass":"purple-text",
                             "legend": {
+                                "class": "purple-text",
                                 "text": "Business Link",
                                 "anchor": "2012-09-16",
                                 "yOffset": -10
@@ -36,8 +36,8 @@ GOVUK.Insights.uniqueVisitors = function () {
                         },
                         "govuk":{
                             "lineClass":"main-line",
-                            "legendClass":"",
                             "legend":{
+                                "class": "",
                                 "text": "GOV.UK",
                                 "anchor": "2012-10-20",
                                 "xOffset": -35,
