@@ -7,12 +7,12 @@ GOVUK.Insights.formatSuccess = function () {
     }
 
     $.ajax({
-        url:'/performance/graphs/format-success.json',
+        url:'/performance/dashboard/format-success.json',
         success:function (data) {
             if (data !== null) {
                 if (GOVUK.isSvgSupported()) {
                     $('#format-success-module img').remove();
-                    GOVUK.Insights.plotFormatSuccessGraph(data);
+                    GOVUK.Insights.plotFormatSuccessGraph(data.details.data);
 
                     $('#format-success-module .datainsight-hidden').removeClass('datainsight-hidden');
                     GOVUK.Insights.forcePosition.apply("#format-success");

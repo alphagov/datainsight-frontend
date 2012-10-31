@@ -1,15 +1,24 @@
-[
-    { "format": "Guides", "entries" : 57000, "percentage_of_success": 35 },
-    { "format": "Transactions", "entries": 120000, "percentage_of_success": 40},
-    { "format": "Quick Answers", "entries": 100000, "percentage_of_success": 65},
-    { "format": "small grey",   "entries": 5000, "percentage_of_success": 50},
-    { "format": "mid grey",     "entries": 50000, "percentage_of_success": 50},
-    { "format": "big grey",     "entries": 100000, "percentage_of_success": 50},
-    { "format": "small green",   "entries": 5000, "percentage_of_success": 100},
-    { "format": "mid green",    "entries": 50000, "percentage_of_success": 100},
-    { "format": "big green",    "entries": 100000, "percentage_of_success": 100},
-    { "format": "second",    "entries": 103000, "percentage_of_success": 99},
-    { "format": "small red",   "entries": 5000, "percentage_of_success": 0},
-    { "format": "mid red",    "entries": 50000, "percentage_of_success": 0},
-    { "format": "big red",    "entries": 100000, "percentage_of_success": 0}
-]
+{
+  "response_info":{"status":"ok"},
+  "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success.json",
+  "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success",
+  "details":{
+      "source":["Google Analytics"],
+      "data":[
+            { "format": "Guides", "entries" : 57000, "percentage_of_success": 35 },
+            { "format": "Transactions", "entries": 120000, "percentage_of_success": 40},
+            { "format": "Quick Answers", "entries": 100000, "percentage_of_success": 65},
+            { "format": "small grey",   "entries": 5000, "percentage_of_success": 50},
+            { "format": "mid grey",     "entries": 50000, "percentage_of_success": 50},
+            { "format": "big grey",     "entries": 100000, "percentage_of_success": 50},
+            { "format": "small green",   "entries": 5000, "percentage_of_success": 100},
+            { "format": "mid green",    "entries": 50000, "percentage_of_success": 100},
+            { "format": "big green",    "entries": 100000, "percentage_of_success": 100},
+            { "format": "second",    "entries": 103000, "percentage_of_success": 99},
+            { "format": "small red",   "entries": 5000, "percentage_of_success": 0},
+            { "format": "mid red",    "entries": 50000, "percentage_of_success": 0},
+            { "format": "big red",    "entries": 100000, "percentage_of_success": 0}
+        ]
+  },
+  "updated_at":"2012-10-30T09:27:34+00:00"
+}

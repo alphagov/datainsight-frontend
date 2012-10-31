@@ -7,11 +7,20 @@ describe("format success graph", function () {
     }
 
     beforeEach(function () {
-        jsonResponse = [
-            { "format": "Guide", "entries" : 1000, "percentage_of_success": 50 },
-            { "format": "Transaction", "entries": 40000, "percentage_of_success": 20},
-            { "format": "Quick Answers", "entries": 100000, "percentage_of_success": 85}
-        ];
+        jsonResponse = {
+            "response_info":{"status":"ok"},
+            "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success.json",
+            "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success",
+            "details":{
+                "source":["Google Analytics"],
+                "data":[
+                    { "format": "Guide", "entries" : 1000, "percentage_of_success": 50 },
+                    { "format": "Transaction", "entries": 40000, "percentage_of_success": 20},
+                    { "format": "Quick Answers", "entries": 100000, "percentage_of_success": 85}
+                ]
+            },
+            "updated_at":"2012-10-30T09:27:34+00:00"
+        };
 
         // clone every time to avoid state in tests
         stubGraphDiv.clone().appendTo('body');
