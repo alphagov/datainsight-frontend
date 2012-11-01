@@ -144,6 +144,17 @@ describe("Data Insight utility functions", function () {
             expect(aBox.collidesWith(yetAnotherBox)).toBeFalsy();
         });
     });
+    
+    describe("hour conversion", function () {
+        var convert = GOVUK.Insights.convertTo12HourTime;
+        
+        it("should convert 24 hour time to 12 hour time", function () {
+            expect(convert(13)).toBe("1pm");
+            expect(convert(00)).toBe("12am");
+            expect(convert(10)).toBe("10am");
+            expect(convert(24)).toBe("12am");
+        });
+    });
 
 
 });

@@ -16,6 +16,9 @@ GOVUK.Insights.Reach.COLOURS = colours = {
 };
 
 GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
+    var Callout = GOVUK.Insights.overlay.CalloutBox;
+    var callouts = {};
+    
     // Prepare data
     var yesterdaysData = $.map(raw_data, function(item) {
             return item.value.yesterday;
@@ -135,6 +138,33 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr("y", yScale(maxLast4) - 25)
         .append("xhtml:body")
         .html("<p style='color: #c61c71; font-size: 14px; text-align: right;padding: 0; margin: 0'>Average last week</p>");
+        
+    // Add the hover panels
+    chart.selectAll('.hover-panel')
+        .data(yesterdaysData).enter()
+        .append('svg:rect')
+        .attr('x', function (d,i) {
+            return xScale(i);
+        })
+        .attr('y',0)
+        .attr('width',barWidth)
+        .attr('height',height)
+        .attr('stroke','#444')
+        .attr('fill', '#555')
+        .attr('opacity',0.0)
+        .on('mouseover',function (d,hour) {
+            var calloutInfo = {
+                xPos: xScale(hour) - 100,
+                yPos: height * (1 - 0.7),
+                parent: '#reach',
+                title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
+                description: (d/1000).toFixed(1) + "k visitors<br>" + (averageData[hour]/1000).toFixed(1) + "k average visitors"
+            };
+            callouts[hour] = new Callout(calloutInfo);
+        })
+        .on('mouseout', function(d,hour) {
+           callouts[hour].close(); 
+        });
 
 };
 
