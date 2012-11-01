@@ -3,7 +3,9 @@ Bundler.require
 
 require 'sinatra/content_for'
 
-require_relative "../config/initializers/asset_host" if File.exists?(File.dirname(__FILE__) + '/../config/initializers/asset_host.rb')
+Dir.glob("#{File.dirname(__FILE__)}/../config/initializers/*.rb").each do |initializer|
+  require_relative "#{initializer}"
+end
 require_relative "config"
 require_relative "sprocket_env"
 require_relative "helpers"
@@ -14,6 +16,9 @@ unless defined?(USE_STUB_DATA)
 end
 
 class App < Sinatra::Base
+  use Airbrake::Rack
+  enable :raise_errors
+
   helpers Padrino::Helpers
   helpers Sinatra::ContentFor
   helpers Insight::Helpers

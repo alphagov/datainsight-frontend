@@ -20,6 +20,7 @@ gem "songkick-transport", :git => "git://github.com/songkick/transport.git"
 gem "httparty"
 gem "whenever"
 gem "datainsight_logging"
+gem "airbrake", '3.1.5'
 
 group :compressors do
   gem "yui-compressor", :require => false

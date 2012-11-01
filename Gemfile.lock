@@ -19,6 +19,9 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.3.2)
+    airbrake (3.1.5)
+      builder
+      girl_friday
     builder (3.0.0)
     capybara (1.1.2)
       mime-types (>= 1.16)
@@ -32,6 +35,7 @@ GEM
     chronic (0.6.7)
     ci_reporter (1.7.0)
       builder (>= 2.1.2)
+    connection_pool (0.9.2)
     datainsight_logging (0.0.2)
       logging
     diff-lcs (1.1.3)
@@ -45,6 +49,8 @@ GEM
       lrucache (~> 0.1.1)
       null_logger
       plek
+    girl_friday (0.10.0)
+      connection_pool (~> 0.9.0)
     hike (1.2.1)
     http_parser.rb (0.5.3)
     http_router (0.10.2)
@@ -163,6 +169,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport (= 3.2.8)
+  airbrake (= 3.1.5)
   capybara (~> 1.1.2)
   ci_reporter
   datainsight_logging
