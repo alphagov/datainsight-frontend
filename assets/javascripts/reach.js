@@ -139,6 +139,14 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .append("xhtml:body")
         .html("<p style='color: #c61c71; font-size: 14px; text-align: right;padding: 0; margin: 0'>Average last week</p>");
         
+    var reverseBarLookUp = function (data) {
+        var barElement = d3.selectAll('.bar').filter(function(d,i) {
+            return d3.select(this).datum() === data && parseFloat(d3.select(this).attr('x')) === xScale(i) + barPadding;
+        });
+        
+        return barElement;
+    };
+        
     // Add the hover panels
     chart.selectAll('.hover-panel')
         .data(yesterdaysData).enter()
@@ -161,9 +169,14 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                 description: (d/1000).toFixed(1) + "k visitors<br>" + (averageData[hour]/1000).toFixed(1) + "k average visitors"
             };
             callouts[hour] = new Callout(calloutInfo);
+            
+            
+            var barElement = reverseBarLookUp(d);
+            barElement.attr('stroke',new GOVUK.Insights.colors(barElement.style('fill')).multiplyWithSelf().asCSS()).attr('stroke-width','3');
         })
         .on('mouseout', function(d,hour) {
            callouts[hour].close(); 
+           reverseBarLookUp(d).attr('stroke-width','0');
         });
 
 };
