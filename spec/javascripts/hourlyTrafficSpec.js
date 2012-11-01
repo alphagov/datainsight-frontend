@@ -1,5 +1,5 @@
 describe("hourly traffic graph generation", function () {
-    var stubGraphDiv = $('<div id="hourly-traffic-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><span id="live_at"></span><span class="for_date"></span><div id="reach"></div>I am all invisible and stuff</div></div>');
+    var stubGraphDiv = $('<div id="hourly-traffic-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><span class="for_date"></span><div id="reach"></div>I am all invisible and stuff</div></div>');
 
     var jsonResponse = {};
     var stubAjaxResponder = function (successFunction) {
@@ -15,7 +15,6 @@ describe("hourly traffic graph generation", function () {
             "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic",
             "details":{
                 "source":["Google Analytics"],
-                "live_at":"2012-08-14T18:45:00+01:00",
                 "for_date":"2012-08-13",
                 "metric": "visitors",
                 "data":[

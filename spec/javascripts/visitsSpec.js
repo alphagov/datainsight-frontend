@@ -1,6 +1,6 @@
 describe("visits graph generation", function () {
 
-    var stubGraphDiv = $('<div id="visits-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><span id="live_at"></span><div id="visits"></div>I am all invisible and stuff</div></div>');
+    var stubGraphDiv = $('<div id="visits-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><div id="visits"></div>I am all invisible and stuff</div></div>');
 
     var jsonResponse = {
         "response_info":{

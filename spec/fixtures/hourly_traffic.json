@@ -6,7 +6,6 @@
   "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic",
   "details":{
     "source":["Google Analytics"],
-    "live_at":"2012-08-14T08:45:00+01:00",
     "for_date":"2012-08-13",
     "metric": "visitors",
     "data":[
