@@ -256,9 +256,7 @@ describe("visits graph generation", function () {
                     },
                     "end_at":"2012-09-07"
                 }
-            ],
-            "highlight_troughs":false,
-            "highlight_spikes":true
+            ]
         }
     };
 
