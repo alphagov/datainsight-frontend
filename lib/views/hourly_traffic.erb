@@ -8,7 +8,7 @@
 <% end %>
 
 <% content_for :footer do %>
-    <%= erb :_for_svg_supported_browsers, :locals => {:content => javascript_include_tag("reach", "modules/todays-activity")} %>
+    <%= erb :_for_svg_supported_browsers, :locals => {:content => javascript_include_tag("reach", "modules/hourly-traffic")} %>
 <% end %>
 
 <svg style="position: absolute">
@@ -20,8 +20,8 @@
   </defs>
 </svg>
 
-<div id="todays-activity-module" class="module">
-  <%= graph_image_tag 'todays-activity' %>
+<div id="hourly-traffic-module" class="module">
+  <%= graph_image_tag 'hourly-traffic' %>
 
   <div class="datainsight-hidden">
     <div class="module-header left">

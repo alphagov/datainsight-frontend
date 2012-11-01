@@ -1,5 +1,5 @@
-describe("todays data graph generation", function () {
-    var stubGraphDiv = $('<div id="todays-activity-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><span id="live_at"></span><span class="for_date"></span><div id="reach"></div>I am all invisible and stuff</div></div>');
+describe("hourly traffic graph generation", function () {
+    var stubGraphDiv = $('<div id="hourly-traffic-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><span id="live_at"></span><span class="for_date"></span><div id="reach"></div>I am all invisible and stuff</div></div>');
 
     var jsonResponse = {};
     var stubAjaxResponder = function (successFunction) {
@@ -11,8 +11,8 @@ describe("todays data graph generation", function () {
             "response_info":{
                 "status":"ok"
             },
-            "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/todays-activity.json",
-            "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/todays-activity",
+            "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic.json",
+            "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic",
             "details":{
                 "source":["Google Analytics"],
                 "live_at":"2012-08-14T18:45:00+01:00",
@@ -55,17 +55,17 @@ describe("todays data graph generation", function () {
     });
 
     afterEach(function () {
-        $('#todays-activity-module').remove();
+        $('#hourly-traffic-module').remove();
         jQuery.ajax.reset();
     });
 
     it("should hide image, show graph titles and generate an svg graph from json data", function () {
-        GOVUK.Insights.todaysActivity();
+        GOVUK.Insights.hourlyTraffic();
 
         expect(jQuery.ajax).toHaveBeenCalled();
 
-        var svg = $('#todays-activity-module').find('svg');
-        var img = $('#todays-activity-module').find('img');
+        var svg = $('#hourly-traffic-module').find('svg');
+        var img = $('#hourly-traffic-module').find('img');
 
         expect(svg.length).not.toBe(0);
         expect($('#hidden-stuff').hasClass('datainsight-hidden')).toBeFalsy();
@@ -75,11 +75,11 @@ describe("todays data graph generation", function () {
     it("should remove the png instead if svgs are not supported", function () {
         spyOn(GOVUK, "isSvgSupported").andReturn(false);
 
-        GOVUK.Insights.todaysActivity();
+        GOVUK.Insights.hourlyTraffic();
 
         expect(jQuery.ajax).toHaveBeenCalled();
 
-        var png = $('#todays-activity-module').find('img');
+        var png = $('#hourly-traffic-module').find('img');
         expect(png.length).not.toBe(0);
     });
 
@@ -89,7 +89,7 @@ describe("todays data graph generation", function () {
         // assuming the jasmine spec browser will support svgs but just to be safe...
         spyOn(GOVUK, "isSvgSupported").andReturn(true);
 
-        GOVUK.Insights.todaysActivity();
+        GOVUK.Insights.hourlyTraffic();
 
         expect(jQuery.ajax).toHaveBeenCalled();
 
@@ -101,11 +101,11 @@ describe("todays data graph generation", function () {
     });
 
     it("should display for date in a proper format", function () {
-        GOVUK.Insights.todaysActivity();
+        GOVUK.Insights.hourlyTraffic();
 
         expect(jQuery.ajax).toHaveBeenCalled();
 
-        var actualForDateLabel = $('#todays-activity-module .for_date').text();
+        var actualForDateLabel = $('#hourly-traffic-module .for_date').text();
         var expectedForDateLabel = "13 August";
 
         expect(actualForDateLabel).toBe(expectedForDateLabel);

@@ -81,7 +81,7 @@ article p {
   width: 46% !important;
 }
 
-.ie7 #todays-activity-module {
+.ie7 #hourly-traffic-module {
   height: 462px;
 }
 
@@ -93,7 +93,7 @@ article p {
   height: 642px;
 }
 
-.ie6 #todays-activity-module {
+.ie6 #hourly-traffic-module {
   height: 462px;
 }
 
@@ -363,7 +363,7 @@ text.pink {
   display: none;
 }
 
-#todays-activity-module .x.axis .tick {
+#hourly-traffic-module .x.axis .tick {
   stroke: #333;
   shape-rendering: crispEdges;
 }

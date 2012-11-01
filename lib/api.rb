@@ -44,7 +44,7 @@ module Insight
         rewrite_urls(url) { transport(@config['weekly_reach_base_url']).get("/weekly-visitors") }
       end
 
-      def todays_activity(url)
+      def hourly_traffic(url)
         rewrite_urls(url) { transport(@config['todays_activity_base_url']).get("/todays-activity") }
       end
 
@@ -71,8 +71,8 @@ module Insight
         fixture :weekly_visitors
       end
 
-      def todays_activity(url)
-        fixture :todays_activity
+      def hourly_traffic(url)
+        fixture :hourly_traffic
       end
 
       def format_success(url)

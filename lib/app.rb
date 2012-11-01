@@ -40,7 +40,7 @@ class App < Sinatra::Base
   end
 
   def self.serve_graph_image(image_filename)
-    get "/graphs/#{image_filename}" do
+    get "/dashboard/#{image_filename}" do
       content_type "image/png"
       headers['X-Slimmer-Skip'] = "true"
       send_file "#{settings.graphs_images_dir}/#{image_filename}"
@@ -97,10 +97,10 @@ class App < Sinatra::Base
     erb :unique_visitors
   end
 
-  serve_api_response "/dashboard/todays-activity.json", :todays_activity
-  serve_graph_image "todays-activity.png"
-  get "/dashboard/todays-activity" do
-    erb :todays_activity
+  serve_api_response "/dashboard/hourly-traffic.json", :hourly_traffic
+  serve_graph_image "hourly-traffic.png"
+  get "/dashboard/hourly-traffic" do
+    erb :hourly_traffic
   end
 
   serve_api_response "/dashboard/format-success.json", :format_success

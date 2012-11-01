@@ -2,8 +2,8 @@
   "response_info":{
     "status":"ok"
   },
-  "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/todays-activity.json",
-  "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/todays-activity",
+  "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic.json",
+  "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic",
   "details":{
     "source":["Google Analytics"],
     "live_at":"2012-08-14T08:45:00+01:00",

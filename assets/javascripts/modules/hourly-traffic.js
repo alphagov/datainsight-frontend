@@ -1,23 +1,23 @@
 var GOVUK = GOVUK || {};
 GOVUK.Insights = GOVUK.Insights || {};
 
-GOVUK.Insights.todaysActivity = function () {
+GOVUK.Insights.hourlyTraffic = function () {
     function showError() {
         $("#reach").append(GOVUK.Insights.Helpers.error_div);
     }
 
     $.ajax({
-        url:"/performance/dashboard/todays-activity.json",
+        url:"/performance/dashboard/hourly-traffic.json",
         dataType:"json",
         success:function (response) {
             if (response !== null) {
                 if (GOVUK.isSvgSupported()) {
                     GOVUK.Insights.Reach.plotTraffic("reach", response.details.data);
-                    $('#todays-activity-module img').remove();
-                    $('#todays-activity-module .datainsight-hidden').removeClass('datainsight-hidden');
+                    $('#hourly-traffic-module img').remove();
+                    $('#hourly-traffic-module .datainsight-hidden').removeClass('datainsight-hidden');
                 }
                 var for_date = moment(response.details.for_date, "YYYY-MM-DD");
-                $("#todays-activity-module .for_date").text(for_date.format("D MMMM"));
+                $("#hourly-traffic-module .for_date").text(for_date.format("D MMMM"));
             } else {
                 showError();
             }
@@ -28,4 +28,4 @@ GOVUK.Insights.todaysActivity = function () {
 
 
 // Get jQuery to call this on page ready event...
-$(GOVUK.Insights.todaysActivity);
+$(GOVUK.Insights.hourlyTraffic);
