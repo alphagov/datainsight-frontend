@@ -3,102 +3,233 @@ describe("unique visitors graph generation", function () {
     var stubGraphDiv = $('<div id="unique-visitors-module"><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><div id="unique-visitors"></div>I am all invisible and stuff</div></div>');
 
     var jsonResponse = {
-        "response_info": {"status": "ok"},
-        "id": "http://datainsight-frontend.dev.gov.uk/performance/dashboard/unique-visitors.json",
+        "response_info": {
+            "status": "ok"
+        },
         "web_url": "http://datainsight-frontend.dev.gov.uk/performance/dashboard/unique-visitors",
+        "id": "http://datainsight-frontend.dev.gov.uk/performance/dashboard/unique-visitors.json",
         "details": {
-            "sources": ["Google Analytics"],
-            "data": {
-                "directgov":[
-                    {"date":"2012-03-02", "value":2905962},
-                    {"date":"2012-03-09", "value":3922413},
-                    {"date":"2012-03-16", "value":2972456},
-                    {"date":"2012-03-23", "value":2666208},
-                    {"date":"2012-03-30", "value":2762708},
-                    {"date":"2012-04-06", "value":2339548},
-                    {"date":"2012-04-13", "value":2620268},
-                    {"date":"2012-04-20", "value":2930597},
-                    {"date":"2012-04-27", "value":2706090},
-                    {"date":"2012-05-04", "value":2174276},
-                    {"date":"2012-05-11", "value":2598573},
-                    {"date":"2012-05-18", "value":3397429},
-                    {"date":"2012-05-25", "value":3681284},
-                    {"date":"2012-06-01", "value":3248936},
-                    {"date":"2012-06-08", "value":2688198},
-                    {"date":"2012-06-15", "value":0},
-                    {"date":"2012-06-22", "value":0},
-                    {"date":"2012-06-29", "value":0},
-                    {"date":"2012-07-06", "value":0},
-                    {"date":"2012-07-13", "value":0},
-                    {"date":"2012-07-20", "value":0},
-                    {"date":"2012-07-27", "value":0},
-                    {"date":"2012-08-03", "value":0},
-                    {"date":"2012-08-10", "value":0},
-                    {"date":"2012-08-17", "value":0},
-                    {"date":"2012-08-24", "value":0},
-                    {"date":"2012-08-31", "value":0}
-                ],
-                "govuk":[
-                    {"date":"2012-03-02", "value":571},
-                    {"date":"2012-03-09", "value":1192},
-                    {"date":"2012-03-16", "value":1268},
-                    {"date":"2012-03-23", "value":629},
-                    {"date":"2012-03-30", "value":1075},
-                    {"date":"2012-04-06", "value":760},
-                    {"date":"2012-04-13", "value":889},
-                    {"date":"2012-04-20", "value":1184},
-                    {"date":"2012-04-27", "value":565},
-                    {"date":"2012-05-04", "value":686},
-                    {"date":"2012-05-11", "value":826},
-                    {"date":"2012-05-18", "value":980},
-                    {"date":"2012-05-25", "value":620},
-                    {"date":"2012-06-01", "value":712},
-                    {"date":"2012-06-08", "value":529},
-                    {"date":"2012-06-15", "value":4916833},
-                    {"date":"2012-06-22", "value":4635359},
-                    {"date":"2012-06-29", "value":4481103},
-                    {"date":"2012-07-06", "value":4868698},
-                    {"date":"2012-07-13", "value":4765359},
-                    {"date":"2012-07-20", "value":4715644},
-                    {"date":"2012-07-27", "value":4085697},
-                    {"date":"2012-08-03", "value":2500000},
-                    {"date":"2012-08-10", "value":2600000},
-                    {"date":"2012-08-17", "value":2700000},
-                    {"date":"2012-08-24", "value":2800000},
-                    {"date":"2012-08-31", "value":2900000}
-                ],
-                "businesslink":[
-                    {"date":"2012-03-02", "value":344162},
-                    {"date":"2012-03-09", "value":310069},
-                    {"date":"2012-03-16", "value":355442},
-                    {"date":"2012-03-23", "value":104717},
-                    {"date":"2012-03-30", "value":274613},
-                    {"date":"2012-04-06", "value":256422},
-                    {"date":"2012-04-13", "value":324976},
-                    {"date":"2012-04-20", "value":395105},
-                    {"date":"2012-04-27", "value":321247},
-                    {"date":"2012-05-04", "value":270920},
-                    {"date":"2012-05-11", "value":210194},
-                    {"date":"2012-05-18", "value":329858},
-                    {"date":"2012-05-25", "value":322748},
-                    {"date":"2012-06-01", "value":346098},
-                    {"date":"2012-06-08", "value":233353},
-                    {"date":"2012-06-15", "value":0},
-                    {"date":"2012-06-22", "value":0},
-                    {"date":"2012-06-29", "value":0},
-                    {"date":"2012-07-06", "value":0},
-                    {"date":"2012-07-13", "value":0},
-                    {"date":"2012-07-20", "value":0},
-                    {"date":"2012-07-27", "value":0},
-                    {"date":"2012-08-03", "value":0},
-                    {"date":"2012-08-10", "value":0},
-                    {"date":"2012-08-17", "value":0},
-                    {"date":"2012-08-24", "value":0},
-                    {"date":"2012-08-31", "value":0}
-                ],
-                "highlight_troughs":false,
-                "highlight_spikes":true
-            }
+            "sources": [
+                "Google Analytics"
+            ],
+            "data": [
+                {
+                    "start_at": "2012-03-02",
+                    "value": {
+                        "directgov": 2905962,
+                        "govuk": 571,
+                        "businesslink": 344162
+                    }
+                },
+                {
+                    "start_at": "2012-03-09",
+                    "value": {
+                        "directgov": 3922413,
+                        "govuk": 1192,
+                        "businesslink": 310069
+                    }
+                },
+                {
+                    "start_at": "2012-03-16",
+                    "value": {
+                        "directgov": 2972456,
+                        "govuk": 1268,
+                        "businesslink": 355442
+                    }
+                },
+                {
+                    "start_at": "2012-03-23",
+                    "value": {
+                        "directgov": 2666208,
+                        "govuk": 629,
+                        "businesslink": 104717
+                    }
+                },
+                {
+                    "start_at": "2012-03-30",
+                    "value": {
+                        "directgov": 2762708,
+                        "govuk": 1075,
+                        "businesslink": 274613
+                    }
+                },
+                {
+                    "start_at": "2012-04-06",
+                    "value": {
+                        "directgov": 2339548,
+                        "govuk": 760,
+                        "businesslink": 256422
+                    }
+                },
+                {
+                    "start_at": "2012-04-13",
+                    "value": {
+                        "directgov": 2620268,
+                        "govuk": 889,
+                        "businesslink": 324976
+                    }
+                },
+                {
+                    "start_at": "2012-04-20",
+                    "value": {
+                        "directgov": 2930597,
+                        "govuk": 1184,
+                        "businesslink": 395105
+                    }
+                },
+                {
+                    "start_at": "2012-04-27",
+                    "value": {
+                        "directgov": 2706090,
+                        "govuk": 565,
+                        "businesslink": 321247
+                    }
+                },
+                {
+                    "start_at": "2012-05-04",
+                    "value": {
+                        "directgov": 2174276,
+                        "govuk": 686,
+                        "businesslink": 270920
+                    }
+                },
+                {
+                    "start_at": "2012-05-11",
+                    "value": {
+                        "directgov": 2598573,
+                        "govuk": 826,
+                        "businesslink": 210194
+                    }
+                },
+                {
+                    "start_at": "2012-05-18",
+                    "value": {
+                        "directgov": 3397429,
+                        "govuk": 980,
+                        "businesslink": 329858
+                    }
+                },
+                {
+                    "start_at": "2012-05-25",
+                    "value": {
+                        "directgov": 3681284,
+                        "govuk": 620,
+                        "businesslink": 322748
+                    }
+                },
+                {
+                    "start_at": "2012-06-01",
+                    "value": {
+                        "directgov": 3248936,
+                        "govuk": 712,
+                        "businesslink": 346098
+                    }
+                },
+                {
+                    "start_at": "2012-06-08",
+                    "value": {
+                        "directgov": 2688198,
+                        "govuk": 529,
+                        "businesslink": 233353
+                    }
+                },
+                {
+                    "start_at": "2012-06-15",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 4916833,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-06-22",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 4635359,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-06-29",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 4481103,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-07-06",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 4868698,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-07-13",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 4765359,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-07-20",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 4715644,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-07-27",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 4085697,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-08-03",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 2500000,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-08-10",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 2600000,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-08-17",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 2700000,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-08-24",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 2800000,
+                        "businesslink": 0
+                    }
+                },
+                {
+                    "start_at": "2012-08-31",
+                    "value": {
+                        "directgov": 0,
+                        "govuk": 2900000,
+                        "businesslink": 0
+                    }
+                }
+            ]
         }
     };
 

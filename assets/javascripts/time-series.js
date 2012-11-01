@@ -57,8 +57,17 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             var firstDate = lastDate.clone().subtract("months", 6);
             return [firstDate.toDate(), lastDate.toDate()];
         },
-        render:function (data) {
-
+        render:function (rawData) {
+            var data = {
+                "govuk":[],
+                "directgov":[],
+                "businesslink":[]
+            };
+            for (var i = 0; i < rawData.length; i++) {
+                for (var k in rawData[i].value) {
+                    data[k].push({"date":rawData[i].start_at, "value":rawData[i].value[k]});
+                }
+            }
             if (data == null) {
                 throw "No data!";
             }
@@ -67,26 +76,27 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 throw "No data!";
             }
 
-            xExtent = this.dateRange(moment()),
-                xScale = d3.time.scale().domain(xExtent).range([0, width - margins[1] - margins[3]]),
+            var xExtent = this.dateRange(moment()),
+            xScale = d3.time.scale().domain(xExtent).range([0, width - margins[1] - margins[3]]),
 
-                yMax = d3.max(alldata, function(d) { return d.value}),
-                yTicks = GOVUK.Insights.calculateLinearTicks([0, yMax], 4),
-                yScale = d3.scale.linear().domain(yTicks.extent).range([height - margins[0] - margins[2], 0]),
 
-                line = d3.svg.line()
-                    .x(function (d) {
-                        return xScale(dateFormat.parse(d.date));
-                    })
-                    .y(function (d) {
-                        return yScale(d.value);
-                    }),
+            yMax = d3.max(alldata, function(d) { return d.value}),
+            yTicks = GOVUK.Insights.calculateLinearTicks([0, yMax], 4),
+            yScale = d3.scale.linear().domain(yTicks.extent).range([height - margins[0] - margins[2], 0]),
 
-                graph = d3.select(container)
-                    .append("svg:svg")
-                    .attr("width", width)
-                    .attr("height", height)
-                    .append("svg:g")
+            line = d3.svg.line()
+                .x(function (d) {
+                    return xScale(dateFormat.parse(d.date));
+                })
+                .y(function (d) {
+                    return yScale(d.value);
+                }),
+
+            graph = d3.select(container)
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("svg:g")
                     .attr("transform", "translate(" + margins[3] + "," + margins[0] + ")");
 
             var gradient = graph.append("svg:defs")
