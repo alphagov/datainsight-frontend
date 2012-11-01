@@ -86,38 +86,33 @@ class App < Sinatra::Base
   end
 
   serve_api_response "/dashboard/visits.json", :weekly_visits
-
+  serve_graph_image "visits.png"
   get "/dashboard/visits" do
     erb :visits
   end
 
-  serve_graph_image "visits.png"
   serve_api_response "/dashboard/unique-visitors.json", :weekly_visitors
-
+  serve_graph_image "unique-visitors.png"
   get "/dashboard/unique-visitors" do
     erb :unique_visitors
   end
 
-  serve_graph_image "unique-visitors.png"
   serve_api_response "/dashboard/todays-activity.json", :todays_activity
-
+  serve_graph_image "todays-activity.png"
   get "/dashboard/todays-activity" do
     erb :todays_activity
   end
 
-  serve_graph_image "todays-activity.png"
+  serve_api_response "/dashboard/format-success.json", :format_success
+  serve_graph_image "format-success.png"
+  get "/dashboard/format-success" do
+    erb :format_success
+  end
 
   error do
     logger.error env['sinatra.error']
 
     erb :error
   end
-
-  get "/dashboard/format-success" do
-    erb :format_success
-  end
-
-  serve_graph_image "format-success.png"
-  serve_api_response "/dashboard/format-success.json", :format_success
 
 end
