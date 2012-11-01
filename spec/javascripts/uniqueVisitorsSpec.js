@@ -19,7 +19,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2905962,
                         "govuk": 571,
                         "businesslink": 344162
-                    }
+                    },
+                    "end_at": "2012-03-09"
                 },
                 {
                     "start_at": "2012-03-09",
@@ -27,7 +28,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 3922413,
                         "govuk": 1192,
                         "businesslink": 310069
-                    }
+                    },
+                    "end_at": "2012-03-16"
                 },
                 {
                     "start_at": "2012-03-16",
@@ -35,7 +37,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2972456,
                         "govuk": 1268,
                         "businesslink": 355442
-                    }
+                    },
+                    "end_at": "2012-03-23"
                 },
                 {
                     "start_at": "2012-03-23",
@@ -43,7 +46,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2666208,
                         "govuk": 629,
                         "businesslink": 104717
-                    }
+                    },
+                    "end_at": "2012-03-30"
                 },
                 {
                     "start_at": "2012-03-30",
@@ -51,7 +55,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2762708,
                         "govuk": 1075,
                         "businesslink": 274613
-                    }
+                    },
+                    "end_at": "2012-04-06"
                 },
                 {
                     "start_at": "2012-04-06",
@@ -59,7 +64,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2339548,
                         "govuk": 760,
                         "businesslink": 256422
-                    }
+                    },
+                    "end_at": "2012-04-13"
                 },
                 {
                     "start_at": "2012-04-13",
@@ -67,7 +73,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2620268,
                         "govuk": 889,
                         "businesslink": 324976
-                    }
+                    },
+                    "end_at": "2012-04-20"
                 },
                 {
                     "start_at": "2012-04-20",
@@ -75,7 +82,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2930597,
                         "govuk": 1184,
                         "businesslink": 395105
-                    }
+                    },
+                    "end_at": "2012-04-27"
                 },
                 {
                     "start_at": "2012-04-27",
@@ -83,7 +91,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2706090,
                         "govuk": 565,
                         "businesslink": 321247
-                    }
+                    },
+                    "end_at": "2012-05-04"
                 },
                 {
                     "start_at": "2012-05-04",
@@ -91,7 +100,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2174276,
                         "govuk": 686,
                         "businesslink": 270920
-                    }
+                    },
+                    "end_at": "2012-05-11"
                 },
                 {
                     "start_at": "2012-05-11",
@@ -99,7 +109,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2598573,
                         "govuk": 826,
                         "businesslink": 210194
-                    }
+                    },
+                    "end_at": "2012-05-18"
                 },
                 {
                     "start_at": "2012-05-18",
@@ -107,7 +118,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 3397429,
                         "govuk": 980,
                         "businesslink": 329858
-                    }
+                    },
+                    "end_at": "2012-05-25"
                 },
                 {
                     "start_at": "2012-05-25",
@@ -115,7 +127,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 3681284,
                         "govuk": 620,
                         "businesslink": 322748
-                    }
+                    },
+                    "end_at": "2012-06-01"
                 },
                 {
                     "start_at": "2012-06-01",
@@ -123,7 +136,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 3248936,
                         "govuk": 712,
                         "businesslink": 346098
-                    }
+                    },
+                    "end_at": "2012-06-08"
                 },
                 {
                     "start_at": "2012-06-08",
@@ -131,7 +145,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 2688198,
                         "govuk": 529,
                         "businesslink": 233353
-                    }
+                    },
+                    "end_at": "2012-06-15"
                 },
                 {
                     "start_at": "2012-06-15",
@@ -139,7 +154,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 4916833,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-06-22"
                 },
                 {
                     "start_at": "2012-06-22",
@@ -147,7 +163,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 4635359,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-06-29"
                 },
                 {
                     "start_at": "2012-06-29",
@@ -155,7 +172,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 4481103,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-07-06"
                 },
                 {
                     "start_at": "2012-07-06",
@@ -163,7 +181,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 4868698,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-07-13"
                 },
                 {
                     "start_at": "2012-07-13",
@@ -171,7 +190,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 4765359,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-07-20"
                 },
                 {
                     "start_at": "2012-07-20",
@@ -179,7 +199,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 4715644,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-07-27"
                 },
                 {
                     "start_at": "2012-07-27",
@@ -187,7 +208,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 4085697,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-08-03"
                 },
                 {
                     "start_at": "2012-08-03",
@@ -195,7 +217,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 2500000,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-08-10"
                 },
                 {
                     "start_at": "2012-08-10",
@@ -203,7 +226,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 2600000,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-08-17"
                 },
                 {
                     "start_at": "2012-08-17",
@@ -211,7 +235,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 2700000,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-08-24"
                 },
                 {
                     "start_at": "2012-08-24",
@@ -219,7 +244,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 2800000,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-08-31"
                 },
                 {
                     "start_at": "2012-08-31",
@@ -227,7 +253,8 @@ describe("unique visitors graph generation", function () {
                         "directgov": 0,
                         "govuk": 2900000,
                         "businesslink": 0
-                    }
+                    },
+                    "end_at": "2012-09-07"
                 }
             ]
         }

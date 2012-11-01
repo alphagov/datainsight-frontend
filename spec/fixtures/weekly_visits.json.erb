@@ -1,6 +1,9 @@
 <% last_date = Date.today - Date.today.wday %>
 <% first_date = last_date << 6 %>
-<% dates = (first_date..last_date).step(7).to_a.reverse %>
+<% dates = (first_date..last_date).step(7).zip(
+    (first_date + 7..last_date + 7).step(7)
+  ).flatten
+%>
 {
   "updated_at": "2012-10-30T09:27:15+00:00",
   "response_info": {
@@ -16,220 +19,247 @@
     "highlight_troughs":false,
     "data": [
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3469325,
           "govuk": 1136,
           "businesslink": 357480
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3908845,
           "govuk": 773,
           "businesslink": 251644
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 2901610,
           "govuk": 541,
           "businesslink": 361594
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3226377,
           "govuk": 964,
           "businesslink": 248138
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3946037,
           "govuk": 875,
           "businesslink": 362384
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3927795,
           "govuk": 615,
           "businesslink": 187217
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 2109663,
           "govuk": 1046,
           "businesslink": 158674
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3105882,
           "govuk": 1107,
           "businesslink": 214487
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3060759,
           "govuk": 920,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3581153,
           "govuk": 1202,
           "businesslink": 392708
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3965265,
           "govuk": 1294,
           "businesslink": 371306
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3026279,
           "govuk": 908,
           "businesslink": 292149
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3664606,
           "govuk": 1449,
           "businesslink": 190155
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 3676194,
           "govuk": 641,
           "businesslink": 311037
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 2423538,
           "govuk": 591,
           "businesslink": 214856
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4273880,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4993463,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4383256,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4618603,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4770964,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4779488,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4149617,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 2500000,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4035591,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4675732,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4384813,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       },
       {
-        "start_at": "<%= dates.pop.to_s %>",
+        "start_at": "<%= dates.shift.to_s %>",
         "value": {
           "directgov": 0,
           "govuk": 4377346,
           "businesslink": 0
-        }
+        },
+        "end_at": "<%= dates.shift.to_s %>"
       }
     ]
   }
