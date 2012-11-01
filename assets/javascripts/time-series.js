@@ -65,7 +65,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             };
             for (var i = 0; i < rawData.length; i++) {
                 for (var k in rawData[i].value) {
-                    data[k].push({"date":rawData[i].start_at, "value":rawData[i].value[k]});
+                    data[k].push({"date":rawData[i].end_at, "value":rawData[i].value[k]});
                 }
             }
             if (data == null) {
