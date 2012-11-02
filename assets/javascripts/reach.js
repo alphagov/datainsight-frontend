@@ -146,6 +146,10 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         
         return barElement;
     };
+    
+    var reverseAveragePointLookUp = function (hour) {
+        // need to get average point of something
+    }
         
     // Add the hover panels
     chart.selectAll('.hover-panel')
@@ -154,16 +158,16 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr('x', function (d,i) {
             return xScale(i);
         })
-        .attr('y',0)
+        .attr('y',0 - margin.bottom - margin.top + 3)
         .attr('width',barWidth)
         .attr('height',height)
-        .attr('stroke','#444')
-        .attr('fill', '#555')
+        .attr('stroke','none')
+        .attr('fill', '#000')
         .attr('opacity',0.0)
         .on('mouseover',function (d,hour) {
             var calloutInfo = {
                 xPos: xScale(hour) - 100,
-                yPos: height * (1 - 0.7),
+                yPos: d3.mouse(this)[1] + margin.top,
                 parent: '#reach',
                 title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
                 description: (d/1000).toFixed(1) + "k visitors<br>" + (averageData[hour]/1000).toFixed(1) + "k average visitors"
@@ -173,10 +177,13 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
             
             var barElement = reverseBarLookUp(d);
             barElement.attr('stroke',new GOVUK.Insights.colors(barElement.style('fill')).multiplyWithSelf().asCSS()).attr('stroke-width','3');
+            
+            d3.select(this).attr('opacity',0.08);
         })
         .on('mouseout', function(d,hour) {
            callouts[hour].close(); 
            reverseBarLookUp(d).attr('stroke-width','0');
+           d3.select(this).attr('opacity',0.0);
         });
 
 };
