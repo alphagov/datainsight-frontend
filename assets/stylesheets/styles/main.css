@@ -237,7 +237,7 @@ path {
   fill: none;
 }
 
-path.dashed-line, line.dashed-line {
+circle.dashed-line, path.dashed-line, line.dashed-line {
   stroke-width: 2.5;
   stroke-dasharray: 3, 6;
   stroke-linecap: round;
@@ -286,7 +286,7 @@ path.red {
   background-color: #74B74A;
 }
 
-path.pink, line.pink {
+circle.pink, path.pink, line.pink {
   stroke: #c61c71;
 }
 

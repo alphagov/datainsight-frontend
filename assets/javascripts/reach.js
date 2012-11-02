@@ -18,6 +18,7 @@ GOVUK.Insights.Reach.COLOURS = colours = {
 GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     var Callout = GOVUK.Insights.overlay.CalloutBox;
     var callouts = {};
+    var circleHighlights = {};
     
     // Prepare data
     var yesterdaysData = $.map(raw_data, function(item) {
@@ -147,17 +148,18 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         return barElement;
     };
     
-    var reverseAveragePointLookUp = function (hour) {
-        // need to get average point of something
-    }
+    var reverseAveragePointLookUp = function (d, hour) {
+        return {
+            x: xScale(hour) + barWidth/2,
+            y: yScale(averageData[hour])
+        }
+    };
         
     // Add the hover panels
     chart.selectAll('.hover-panel')
         .data(yesterdaysData).enter()
         .append('svg:rect')
-        .attr('x', function (d,i) {
-            return xScale(i);
-        })
+        .attr('x', function (d,i) { return xScale(i); })
         .attr('y',0 - margin.bottom - margin.top + 3)
         .attr('width',barWidth)
         .attr('height',height)
@@ -178,10 +180,21 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
             var barElement = reverseBarLookUp(d);
             barElement.attr('stroke',new GOVUK.Insights.colors(barElement.style('fill')).multiplyWithSelf().asCSS()).attr('stroke-width','3');
             
+            var pointLocation = reverseAveragePointLookUp(d, hour);
+            
+            circleHighlights[hour] = chart.append('svg:circle')
+                .attr('cx',pointLocation.x)
+                .attr('cy',pointLocation.y)
+                .attr('r',3)
+                .attr('stroke-width','2')
+                .attr('fill','#fff')
+                .attr('class','pink js-temp');
+            
             d3.select(this).attr('opacity',0.08);
         })
         .on('mouseout', function(d,hour) {
-           callouts[hour].close(); 
+           callouts[hour].close();
+           d3.selectAll('.js-temp').remove(); 
            reverseBarLookUp(d).attr('stroke-width','0');
            d3.select(this).attr('opacity',0.0);
         });
