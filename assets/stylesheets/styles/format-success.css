@@ -33,6 +33,7 @@
 .details-left {
     float: left;
     text-align: right;
+    min-width: 40px;
 }
 
 .details-right {
