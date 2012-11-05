@@ -169,7 +169,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr('fill', '#000')
         .attr('opacity',0.0)
         .on('mouseover',function (d,hour) {
-            var boxWidth = 150,
+            var boxWidth = 160,
                 boxHeight = 66,
                 offsetSoTheUserCantCatchTheBox = 5,
                 boxShadow = 4,
