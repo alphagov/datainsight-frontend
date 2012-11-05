@@ -18,6 +18,9 @@ GOVUK.Insights.overlay = function () {
         this.draw = function () {
             $('.format-success-hover').remove();
             element = $(htmlTemplate);
+            if (boxInfo.boxClass) {
+                element.addClass(boxInfo.boxClass);
+            }
             setGeometryCss();
             element.find('.format').text(boxInfo.title);
 

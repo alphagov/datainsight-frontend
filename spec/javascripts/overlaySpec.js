@@ -68,5 +68,20 @@ describe("hover overlays", function () {
             expect($('.details-left').text()).toBe('foo');
             expect($('.details-right').text()).toBe('bar');
         });
+
+        it("should add a css class to the top level element", function() {
+            var theBox = {
+                xPos:15,
+                yPos:45,
+                parent:'#test-div',
+                title:'test',
+                rowData: [{left:'foo',right:'bar'}],
+                boxClass: "my-class"
+            };
+
+            var box = new CalloutBox(theBox);
+
+            expect($('.format-success-hover').hasClass("my-class")).toBeTruthy();
+        });
     });
 });
