@@ -30,6 +30,15 @@
     box-shadow: 0px 0px 7.7px -1px rgba(0, 0, 0, 0.7);
 }
 
+.details-left {
+    float: left;
+    text-align: right;
+}
+
+.details-right {
+    padding-left: 45px;
+}
+
 .format-success-hover div {
     font-size: 14px;
     line-height: 18px;

@@ -294,6 +294,10 @@ text.pink {
   fill: #c61c71;
 }
 
+span.pink {
+  color: #c61c71;
+}
+
 .small-square {
   width: 13px;
   height: 13px;

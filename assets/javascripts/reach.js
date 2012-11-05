@@ -169,7 +169,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr('fill', '#000')
         .attr('opacity',0.0)
         .on('mouseover',function (d,hour) {
-            var boxWidth = 160,
+            var boxWidth = 180,
                 boxHeight = 66,
                 offsetSoTheUserCantCatchTheBox = 5,
                 boxShadow = 4,
@@ -180,10 +180,10 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                     yPos: GOVUK.Insights.clamp(d3.mouse(this)[1] + margin.top, boxHeight + margin.top + xAxisOffset + boxShadow, height),
                     parent: '#reach',
                     title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
-                    description: (d/1000).toFixed(1) + "k visitors<br>" + (averageData[hour]/1000).toFixed(1) + "k average visitors",
+                    rowData: [{left:(d/1000).toFixed(1) + "k",right:'unique visitors'},{left:(averageData[hour]/1000).toFixed(1) + "k",right:'<span class="pink">average last week</span>'}],
                     width: boxWidth,
                     height: boxHeight,
-                    closeDelay: 50
+                    closeDelay: 0
                 };
             callouts[hour] = new Callout(calloutInfo);
             
