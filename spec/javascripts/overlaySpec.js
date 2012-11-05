@@ -19,7 +19,8 @@ describe("hover overlays", function () {
               xPos:15,
               yPos:45,
               parent:'#test-div',
-              title:'test'
+              title:'test',
+              rowData: [{left:'foo',right:'bar'}]
             };
             
             var box = new CalloutBox(theBox);
@@ -32,7 +33,8 @@ describe("hover overlays", function () {
               xPos:15,
               yPos:45,
               parent:'#test-div',
-              title:'test'
+              title:'test',
+              rowData: [{left:'foo',right:'bar'}]
             };
             var box = new CalloutBox(theBox);
             expect($('#test-div div').attr('style')).toBe("left: 15px; top: 45px; ");
@@ -43,7 +45,8 @@ describe("hover overlays", function () {
               xPos:15,
               yPos:45,
               parent:'#test-div',
-              title:'test'
+              title:'test',
+              rowData: [{left:'foo',right:'bar'}]
             };
             
             var box = new CalloutBox(theBox);
@@ -57,12 +60,13 @@ describe("hover overlays", function () {
               yPos:45,
               parent:'#test-div',
               title:'test',
-              description:'this is the desc.'
+              rowData: [{left:'foo',right:'bar'}]
             };
             
             var box = new CalloutBox(theBox);
             
-            expect($('.details').text()).toBe(theBox.description);
+            expect($('.details-left').text()).toBe('foo');
+            expect($('.details-right').text()).toBe('bar');
         });
     });
 });
