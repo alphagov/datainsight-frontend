@@ -7,6 +7,7 @@ GOVUK.Insights.overlay = function () {
             element = undefined,
             timeout = undefined;
         
+        
         var setGeometryCss = function () {
             if (boxInfo.width) element.width(boxInfo.width);
             if (boxInfo.height) element.height(boxInfo.height);
@@ -30,7 +31,7 @@ GOVUK.Insights.overlay = function () {
         };
         
         this.close = function () {
-            timeout = setTimeout(unDraw,300);
+            timeout = setTimeout(unDraw, boxInfo.closeDelay);
         };
         
         this.cancelClose = function () {

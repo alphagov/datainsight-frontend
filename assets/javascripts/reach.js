@@ -182,7 +182,8 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                     title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
                     description: (d/1000).toFixed(1) + "k visitors<br>" + (averageData[hour]/1000).toFixed(1) + "k average visitors",
                     width: boxWidth,
-                    height: boxHeight
+                    height: boxHeight,
+                    closeDelay: 50
                 };
             callouts[hour] = new Callout(calloutInfo);
             
