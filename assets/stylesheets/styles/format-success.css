@@ -28,6 +28,9 @@
     background-color: #F1F1F1;
     border-radius: 5px;
     box-shadow: 0px 0px 7.7px -1px rgba(0, 0, 0, 0.7);
+
+    white-space: nowrap;
+    z-index: 1000;
 }
 
 .details-left {
