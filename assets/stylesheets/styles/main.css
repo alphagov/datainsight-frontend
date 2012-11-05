@@ -258,24 +258,45 @@ path.vertical, line.vertical {
   shape-rendering: crispEdges;
 }
 
+.time-series rect {
+    opacity: 0.0;
+}
+
 /* main focus line for a time series */
-path.main-line {
+.time-series .main-line {
   stroke: #999;
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-path.brown {
+.time-series circle {
+    stroke-width: 3.5;
+    stroke-dasharray: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: white;
+}
+
+.brown {
   stroke: #8b5d3b;
 }
 
-path.purple {
+.purple {
   stroke: #662d91;
 }
 
-path.red {
+.red {
   stroke: #BF1E2D;
+}
+
+.time-series .highlight {
+    stroke-width: 3.5;
+}
+
+.time-series .main-line.highlight,
+.time-series circle.main-line {
+    stroke-width: 4;
 }
 
 .graph-red {

@@ -38,4 +38,23 @@ describe("time series helper", function() {
                      moment("20120916", "YYYYMMDD").toDate().toGMTString()]);
         });
     });
+
+    describe("findClosestDataPoint", function() {
+        it("should find the closest data point", function() {
+            var mousePoint = GOVUK.Insights.point(12, 32),
+                data = {
+                    "aSeries": [[10,12], [12, 33], [14, 18]],
+                    "anotherSeries": [[10,0], [12, 5], [14, 3]]
+                },
+                getDataPoint = function(d) {
+                    return GOVUK.Insights.point(d);
+                };
+
+            var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, getDataPoint);
+            expect(closest.dataPoint.x()).toEqual(12);
+            expect(closest.dataPoint.y()).toEqual(33);
+            expect(closest.seriesName).toBe("aSeries");
+
+        });
+    });
 });
