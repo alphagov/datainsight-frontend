@@ -27,21 +27,21 @@ GOVUK.Insights.months_range = function (startDate, endDate, step) {
 };
 
 GOVUK.Insights.findClosestDataPoint = function(mousePoint, data, getDataPoint) {
-    var closestDataPoint = null;
-    var closestDataPointSeriesName = null;
+    var closest = {}
 
     for (var seriesName in data) {
         var series = data[seriesName];
         $(series).each(function (i, d) {
             var dataPoint = getDataPoint(d);
-            if (!closestDataPoint || dataPoint.distanceFrom(mousePoint) < closestDataPoint.distanceFrom(mousePoint)) {
-                closestDataPoint = dataPoint;
-                closestDataPointSeriesName = seriesName;
+            if (!closest.dataPoint || dataPoint.distanceFrom(mousePoint) < closest.dataPoint.distanceFrom(mousePoint)) {
+                closest.dataPoint = dataPoint;
+                closest.seriesName = seriesName;
+                closest.datum = d;
             }
         });
     }
 
-    return {dataPoint: closestDataPoint, seriesName: closestDataPointSeriesName};
+    return closest;
 };
 
 
@@ -85,7 +85,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             };
             for (var i = 0; i < rawData.length; i++) {
                 for (var k in rawData[i].value) {
-                    data[k].push({"date":rawData[i].end_at, "value":rawData[i].value[k]});
+                    data[k].push({"date":rawData[i].end_at, "value":rawData[i].value[k], "startDate": rawData[i].start_at});
                 }
             }
             if (data == null) {
@@ -120,15 +120,14 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     .attr("transform", "translate(" + margins[3] + "," + margins[0] + ")");
 
             /* Set up X Axis */
+            function formatDate(date) {
+                return date.getDate() + " " + GOVUK.Insights.SHORT_MONTHS[date.getMonth()];
+            }
             var xAxis = d3.svg.axis()
                 .scale(xScale)
                 .ticks(GOVUK.Insights.months_range, 2)
                 .tickPadding(4)
-                .tickFormat(function (date) {
-                    return date.getDate() + " " + GOVUK.Insights.SHORT_MONTHS[date.getMonth()];
-                }
-
-            );
+                .tickFormat(formatDate);
 
             graph.append("svg:g")
                 .attr("class", "x-axis")
@@ -149,7 +148,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             var plottingArea = graph.append("svg:g")
                 .attr("class", "js-graph-area")
                 .attr("height", "214");
-
+            var currentCallout = null;
             plottingArea.append("svg:rect")
                 .attr("x", 0)
                 .attr("y", 0)
@@ -170,8 +169,29 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                         .attr("cy", closest.dataPoint.y())
                         .attr("r", 3.5)
                         .attr("id", "dataPointHighlight")
-                        .attr("class", params.series[closest.seriesName].lineClass);
+                        .attr("class", closest.seriesName);
                     plottingArea.select("." + closest.seriesName).classed("highlight", true);
+
+                    // hide callout
+                    if (currentCallout) {
+                        currentCallout.close();
+                    }
+
+                    // show callout
+                    var calloutInfo = {
+                        xPos: closest.dataPoint.x() + margins[3],
+                        yPos: closest.dataPoint.y() + margins[0],
+                        parent: container,
+                        title: formatDate(dateFormat.parse(closest.datum.startDate)) + " - " + formatDate(dateFormat.parse(closest.datum.date)),
+                        rowData: [
+                            {
+                                left: GOVUK.Insights.formatNumericLabel(closest.datum.value),
+                                right: params.series[closest.seriesName].legend.text
+                            }
+                        ],
+                        boxClass: closest.seriesName
+                    };
+                    currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
                 })
                 .on("mouseout", function() {
                     var mousePoint = GOVUK.Insights.point(d3.mouse(this));
@@ -186,7 +206,8 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             $(series).each(function (i, name) {
                 var path = plottingArea.append("svg:path")
                     .attr("d", line(data[name]))
-                    .attr("class", params.series[name].lineClass + " " + name)
+                    .classed(params.series[name].lineClass, true)
+                    .classed(name, true);
             });
 
 

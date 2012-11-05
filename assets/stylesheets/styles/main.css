@@ -278,6 +278,24 @@ path.vertical, line.vertical {
     fill: white;
 }
 
+.time-series circle.directgov {
+    stroke: #8b5d3b;
+}
+.time-series circle.businesslink {
+    stroke: #662d91;
+}
+.time-series circle.govuk {
+    stroke: #999;
+    stroke-width: 4;
+}
+
+.time-series .format-success-hover.directgov .details-right {
+    color: #8b5d3b;
+}
+.time-series .format-success-hover.businesslink .details-right {
+    color: #662d91;
+}
+
 .brown {
   stroke: #8b5d3b;
 }
@@ -294,8 +312,7 @@ path.vertical, line.vertical {
     stroke-width: 3.5;
 }
 
-.time-series .main-line.highlight,
-.time-series circle.main-line {
+.time-series .main-line.highlight {
     stroke-width: 4;
 }
 

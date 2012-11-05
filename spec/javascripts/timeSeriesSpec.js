@@ -54,6 +54,8 @@ describe("time series helper", function() {
             expect(closest.dataPoint.x()).toEqual(12);
             expect(closest.dataPoint.y()).toEqual(33);
             expect(closest.seriesName).toBe("aSeries");
+            expect(closest.datum).toEqual([12, 33]);
+
 
         });
     });
