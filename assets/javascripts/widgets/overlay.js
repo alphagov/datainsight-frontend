@@ -3,14 +3,21 @@ GOVUK.Insights= GOVUK.Insights || {};
 
 GOVUK.Insights.overlay = function () {
     function CalloutBox(boxInfo) {
-        var htmlTemplate = '<div class="format-success-hover" style="left:@x@px; top:@y@px"><div class="format"/><div class="details"/></div>',
+        var htmlTemplate = '<div class="format-success-hover"><div class="format"/><div class="details"/></div>',
             element = undefined,
             timeout = undefined;
         
+        var setGeometryCss = function () {
+            if (boxInfo.width) element.width(boxInfo.width);
+            if (boxInfo.height) element.height(boxInfo.height);
+            if (boxInfo.xPos) element.css({left: boxInfo.xPos});
+            if (boxInfo.yPos) element.css({top: boxInfo.yPos});  
+        };
+        
         this.draw = function () {
             $('.format-success-hover').remove();
-            var html = htmlTemplate.replace('@x@',boxInfo.xPos).replace('@y@',boxInfo.yPos);
-            element = $(html);
+            element = $(htmlTemplate);
+            setGeometryCss();
             element.find('.format').text(boxInfo.title);
             element.find('.details').html(boxInfo.description);
             element.on('mouseover', this.cancelClose);

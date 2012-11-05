@@ -70,6 +70,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     chart.selectAll(".bar")
         .data(yesterdaysData)
         .enter().append("rect")
+        .attr("shape-rendering", "geometricPrecision")
         .attr("class", "bar")
         .attr("x", function(d, i) {
             return xScale(i) + barPadding
@@ -167,22 +168,29 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr('fill', '#000')
         .attr('opacity',0.0)
         .on('mouseover',function (d,hour) {
-            var calloutInfo = {
-                xPos: xScale(hour) - 100,
-                yPos: d3.mouse(this)[1] + margin.top,
-                parent: '#reach',
-                title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
-                description: (d/1000).toFixed(1) + "k visitors<br>" + (averageData[hour]/1000).toFixed(1) + "k average visitors"
-            };
+            var boxWidth = 150,
+                boxHeight = 66,
+                offsetSoTheUserCantCatchTheBox = 5,
+                boxShadow = 4,
+                xPos = xScale(hour) - boxWidth - offsetSoTheUserCantCatchTheBox,
+                actualXPos = (xPos > 0) ? xPos : xPos + boxWidth + barWidth + offsetSoTheUserCantCatchTheBox + boxShadow,
+                calloutInfo = {
+                    xPos: actualXPos + margin.left,
+                    yPos: GOVUK.Insights.clamp(d3.mouse(this)[1] + margin.top, boxHeight + margin.top + 3 + boxShadow, height),
+                    parent: '#reach',
+                    title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
+                    description: (d/1000).toFixed(1) + "k visitors<br>" + (averageData[hour]/1000).toFixed(1) + "k average visitors",
+                    width: boxWidth,
+                    height: boxHeight
+                };
             callouts[hour] = new Callout(calloutInfo);
-            
             
             var barElement = reverseBarLookUp(d);
             barElement.attr('stroke',new GOVUK.Insights.colors(barElement.style('fill')).multiplyWithSelf().asCSS()).attr('stroke-width','3');
             
             var pointLocation = reverseAveragePointLookUp(d, hour);
             
-            circleHighlights[hour] = chart.append('svg:circle')
+            circleHighlights[hour] = chart.insert('svg:circle','.label-line')
                 .attr('cx',pointLocation.x)
                 .attr('cy',pointLocation.y)
                 .attr('r',3)

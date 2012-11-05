@@ -173,4 +173,10 @@ GOVUK.Insights.convertTo12HourTime = function (hour) {
     }
     
     return hour + suffix;
-}
+};
+
+GOVUK.Insights.clamp = function (value, min, max) {
+    if (value > max) return max;
+    if (value < min) return min;
+    return value;
+};
