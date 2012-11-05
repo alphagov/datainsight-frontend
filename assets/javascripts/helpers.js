@@ -28,22 +28,20 @@ GOVUK.Insights.numericLabelFormatterFor = function (tickStep) {
 };
 
 GOVUK.Insights.formatNumericLabel = function (val) {
-    var magnitudeOfValue = Math.round(Math.log(val) / Math.LN10);
-
-    var isValueWholeNumber = !(val % Math.pow(10, magnitudeOfValue) > 0);
-
-    if (magnitudeOfValue <= 2) return val.toString();
-
     var oneThousand = 1000;
+    var tenThousand = 10000;
     var oneMillion = 1000000;
+    var tenMillion = 10000000;
 
-    if (magnitudeOfValue >= 7) return Math.round(val / oneMillion) + "m";
+    if (val <= 100) return val.toString();
 
-    if (magnitudeOfValue >= 6) return (isValueWholeNumber ? (val / oneMillion) : (val / oneMillion).toFixed(1)) + "m";
+    if (val >= tenMillion) return Math.round(val / oneMillion) + "m";
 
-    if (magnitudeOfValue >= 4) return Math.round(val / oneThousand) + "k";
+    if (val >= oneMillion) return (val / oneMillion).toFixed((val % oneMillion < 100000) ? 0 : 1) + "m";
 
-    if (magnitudeOfValue >= 3) return (isValueWholeNumber ? (val / oneThousand) : (val / oneThousand).toFixed(1)) + "k";
+    if (val >= tenThousand) return Math.round(val / oneThousand) + "k";
+
+    if (val >= oneThousand) return (val / oneThousand).toFixed((val % oneThousand < 100) ? 0 : 1) + "k";
 };
 
 

@@ -46,11 +46,16 @@ describe("Helpers", function () {
         });
 
         it("should display millions to one decimal place", function () {
-            var onePointFiveMillion = 1500000;
+            var onePointFiveMillion = 5500000;
             var onePointFiveMillionAndOneOneOneOneOne = 1511111;
 
-            expect(GOVUK.Insights.formatNumericLabel(onePointFiveMillion)).toBe('1.5m');
+            expect(GOVUK.Insights.formatNumericLabel(onePointFiveMillion)).toBe('5.5m');
             expect(GOVUK.Insights.formatNumericLabel(onePointFiveMillionAndOneOneOneOneOne)).toBe('1.5m');
+        });
+
+        it("should not display decimal place when it would be zero", function() {
+            expect(GOVUK.Insights.formatNumericLabel(7002345)).toBe('7m');
+            expect(GOVUK.Insights.formatNumericLabel(7002)).toBe('7k');
         });
 
         it("should not use decimal places for ten million or greater", function () {
