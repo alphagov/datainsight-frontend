@@ -44,7 +44,8 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         chartHeight = height - margin.top - margin.bottom,
         numberOfYTicks = 5,
         barWidth = Math.floor(chartWidth / 24),
-        barPadding = Math.floor(barWidth / 5);
+        barPadding = Math.floor(barWidth / 5),
+        xAxisOffset = 3;
 
     // Create the svg panel
     var svg = d3.select("#" + id)
@@ -120,7 +121,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
 
     svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(" + margin.left + "," + (height - margin.bottom + 3) + ")")
+        .attr("transform", "translate(" + margin.left + "," + (height - margin.bottom + xAxisOffset) + ")")
         .call(xAxis);
 
     // Add average line label
@@ -161,7 +162,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .data(yesterdaysData).enter()
         .append('svg:rect')
         .attr('x', function (d,i) { return xScale(i); })
-        .attr('y',0 - margin.bottom - margin.top + 3)
+        .attr('y',0 - margin.bottom - margin.top + xAxisOffset)
         .attr('width',barWidth)
         .attr('height',height)
         .attr('stroke','none')
@@ -176,7 +177,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                 actualXPos = (xPos > 0) ? xPos : xPos + boxWidth + barWidth + offsetSoTheUserCantCatchTheBox + boxShadow,
                 calloutInfo = {
                     xPos: actualXPos + margin.left,
-                    yPos: GOVUK.Insights.clamp(d3.mouse(this)[1] + margin.top, boxHeight + margin.top + 3 + boxShadow, height),
+                    yPos: GOVUK.Insights.clamp(d3.mouse(this)[1] + margin.top, boxHeight + margin.top + xAxisOffset + boxShadow, height),
                     parent: '#reach',
                     title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
                     description: (d/1000).toFixed(1) + "k visitors<br>" + (averageData[hour]/1000).toFixed(1) + "k average visitors",

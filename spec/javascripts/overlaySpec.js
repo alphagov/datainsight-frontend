@@ -35,7 +35,7 @@ describe("hover overlays", function () {
               title:'test'
             };
             var box = new CalloutBox(theBox);
-            expect($('#test-div div').attr('style')).toBe("left:15px; top:45px");
+            expect($('#test-div div').attr('style')).toBe("left: 15px; top: 45px; ");
         });
         
         it("should set the title", function () {
