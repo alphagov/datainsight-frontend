@@ -19,7 +19,7 @@ GOVUK.Insights.formatSuccessOverlay = function () {
 
         var hoverDetailsText = function (data) {
             return [ (data[0].total / 1000).toFixed(1) + "k times used" ,
-                (data[0].percentageOfSuccess).toFixed(1) + "% used successfully"];
+                (data[0].percentageOfSuccess).toFixed(0) + "% used successfully"];
         };
 
         var determinePosition = function (labelElement) {
