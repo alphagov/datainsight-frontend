@@ -189,7 +189,9 @@ GOVUK.Insights.formatSuccessOverlay = function () {
 
         var format = d3.select(this).attr('data-format');
 
-        currentEffects[format].destroyAfterDelay();
+        if (currentEffects[format]) {
+            currentEffects[format].destroyAfterDelay();
+        }
     };
 
     return {

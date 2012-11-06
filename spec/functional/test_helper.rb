@@ -70,10 +70,29 @@ class DashboardPage
     HourlyTrafficGraph.new
   end
 
-  def get_callout_boxes
+  def visits_graph
+    VisitsGraph.new
+  end
+
+  def format_success_graph
+    FormatSuccessGraph.new
+  end
+
+  def wait_for_callout_boxes(n)
     get_session.wait_until do
-      get_session.all(".format-success-hover").count >= 1
+      get_session.all(".format-success-hover").count == n
     end
+  end
+
+  def wait_for_callout_box
+    wait_for_callout_boxes(1)
+  end
+
+  def wait_for_no_callout_box
+    wait_for_callout_boxes(0)
+  end
+
+  def get_callout_boxes
     get_session.all(".format-success-hover")
   end
 end
@@ -82,20 +101,22 @@ class HourlyTrafficGraph
   include SessionAware
 
   def columns
-    get_session.find("#reach").all(".hover-panel").map { |bar|
-      Bar.new(bar)
-    }
+    get_session.find("#reach").all(".hover-panel")
   end
 end
 
-class Bar
+class VisitsGraph
   include SessionAware
 
-  def initialize(element)
-    @element = element
+  def area
+    get_session.find("#visits .js-graph-area")
   end
+end
 
-  def hover_over
-    @element.trigger(:mouseover)
+class FormatSuccessGraph
+  include SessionAware
+
+  def circles
+    get_session.find("#format-success").all(".format")
   end
 end
