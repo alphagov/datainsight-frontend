@@ -3,11 +3,13 @@ require_relative "test_helper"
 describe "Today's Activity Graph" do
   include CommonSetup
 
-  #it "should show the graph svg" do
-  #  visit "/performance/hourly-traffic"
-  #  # d3.js should insert an svg element
-  #  # strange xpath syntax is used to get around fact that svg elements are not visible to xpath normally.
-  #  # see: http://stackoverflow.com/questions/5433825/having-trouble-using-capybara-and-selenium-to-find-an-svg-tag-on-a-page
-  #  page.should have_xpath("//*[@id='reach']//*[name()='svg']")
-  #end
+  describe "hover" do
+    it "should show callout box on mouseover" do
+      page = DashboardPage.new.visit
+      graph = page.todays_activity_graph
+      graph.columns.first.hover_over
+
+      page.get_callout_boxes.should_not be_empty
+    end
+  end
 end

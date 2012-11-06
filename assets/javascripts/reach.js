@@ -161,6 +161,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     chart.selectAll('.hover-panel')
         .data(yesterdaysData).enter()
         .append('svg:rect')
+        .attr("class", "hover-panel")
         .attr('x', function (d,i) { return xScale(i); })
         .attr('y',0 - margin.bottom - margin.top + xAxisOffset)
         .attr('width',barWidth)

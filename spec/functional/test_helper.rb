@@ -48,3 +48,54 @@ class StubApp < App
     @api
   end
 end
+
+module SessionAware
+  def get_session
+    Capybara.current_session
+  end
+end
+
+class DashboardPage
+  include SessionAware
+
+  def visit
+    get_session.visit "/performance/dashboard"
+    get_session.wait_until do
+      get_session.all("*[name()='svg']").count >= 4
+    end
+    self
+  end
+
+  def todays_activity_graph
+    TodaysActivityGraph.new
+  end
+
+  def get_callout_boxes
+    get_session.wait_until do
+      get_session.all(".format-success-hover").count >= 1
+    end
+    get_session.all(".format-success-hover")
+  end
+end
+
+class TodaysActivityGraph
+  include SessionAware
+
+  def columns
+    get_session.find("#reach").all(".hover-panel").map { |bar|
+      Bar.new(bar)
+    }
+  end
+end
+
+class Bar
+  include SessionAware
+
+  def initialize(element)
+    @element = element
+  end
+
+  def hover_over
+    @element.trigger(:mouseover)
+  end
+end
