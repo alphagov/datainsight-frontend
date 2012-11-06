@@ -66,8 +66,8 @@ class DashboardPage
     self
   end
 
-  def todays_activity_graph
-    TodaysActivityGraph.new
+  def hourly_traffic_graph
+    HourlyTrafficGraph.new
   end
 
   def get_callout_boxes
@@ -78,7 +78,7 @@ class DashboardPage
   end
 end
 
-class TodaysActivityGraph
+class HourlyTrafficGraph
   include SessionAware
 
   def columns
