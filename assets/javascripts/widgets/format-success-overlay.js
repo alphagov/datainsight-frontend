@@ -11,85 +11,74 @@ GOVUK.Insights.formatSuccessOverlay = function () {
         return elementType + '[data-format=' + format + ']';
     };
 
-    function HoverBox(format, data, overlay) {
+    function HoverBox(format, data, overlay, destroyer) {
+        var Callout = GOVUK.Insights.overlay.CalloutBox;
         var TOP_OFFSET = 2, LEFT_OFFSET = 7;
 
         var box = undefined;
 
-
-        var hoverDetailsText = function (data) {
-            return [ GOVUK.Insights.formatNumericLabel(data[0].total) + " times used" ,
-                (data[0].percentageOfSuccess).toFixed(0) + "% used successfully"];
-        };
-
-        var determinePosition = function (labelElement) {
-            var labelOffset = labelElement.offset(),
-                scrollOffset = {top:labelElement.scrollTop(), left:labelElement.scrollLeft()},
+        var determinePosition = function (labelElement, boxHeight, boxWidth) {
+            var labelPosition = labelElement.position(),
                 quadrant = labelElement.attr('data-quadrant'),
                 position = {
-                    top:labelOffset.top + scrollOffset.top - TOP_OFFSET,
-                    left:labelOffset.left + scrollOffset.left - LEFT_OFFSET,
-                    bottom: labelOffset.top + scrollOffset.top  - box.height() + labelElement.height() + TOP_OFFSET,
-                    right: labelOffset.left + scrollOffset.left - box.width() + labelElement.width() + LEFT_OFFSET
+                    top:labelPosition.top - TOP_OFFSET,
+                    left:labelPosition.left - LEFT_OFFSET,
+                    bottom: labelPosition.top - boxHeight + labelElement.height() + TOP_OFFSET,
+                    right: labelPosition.left - boxWidth + labelElement.width() + LEFT_OFFSET
                 };
-
             if (quadrant >= 0 && quadrant < 1) {
                 return {
-                    top:position.top,
-                    left:position.left
+                    yPos:position.top,
+                    xPos:position.left
                 };
             } else if (quadrant >= 1 && quadrant < 2) {
                 return {
-                    top:position.top,
-                    left:position.right
+                    yPos:position.top,
+                    xPos:position.right
                 };
             } else if (quadrant >= -1 && quadrant < 0) {
                 return {
-                    top:position.bottom,
-                    left:position.left
+                    yPos:position.bottom,
+                    xPos:position.left
                 };
             } else if (quadrant >= -2 && quadrant < -1) {
                 return {
-                    top:position.bottom,
-                    left:position.right
+                    yPos:position.bottom,
+                    xPos:position.right
                 };
             } else {
                 return {
-                    top:position.top,
-                    left:position.left
+                    yPos:position.top,
+                    xPos:position.left
                 }
             }
-        }
+        };
 
         this.init = function () {
-            var labelElement = $(selector(format, "text"));
+            var width = 180,
+                height = 66,
+                labelElement = $(selector(format, "text"));
+                position = determinePosition(labelElement, height, width);
 
-            box = $('<div class="callout-box" data-format="' + format + '" style="display: none;"><div class="format"/><div class="details"/></div>');
-            box.on('mouseover', function (event) {
-                event.stopPropagation();
-                overlay.cancelDestroy();
-            });
-            box.on('mouseleave', function (event) {
-                event.stopPropagation();
-                overlay.destroyAfterDelay();
-            });
-
-            var formatName = labelElement.text(),
-                details = hoverDetailsText(data);
-
-            box.find('.format').text(formatName);
-            box.find('.details').html(details.join("<br />"));
-
-            $(document.body).append(box);
-            var position = determinePosition(labelElement);
-            box.css(position);
-            box.fadeIn(100);
+            var formatName = labelElement.text();
+                calloutInfo = {
+                    xPos: position.xPos,
+                    yPos: position.yPos,
+                    parent: "#format-success",
+                    title: formatName,
+                    rowData: [
+                        { left: GOVUK.Insights.formatNumericLabel(data[0].total), right: "times used" },
+                        { left: (data[0].percentageOfSuccess).toFixed(0) + "%", right: "used successfully" }
+                    ],
+                    width: width,
+                    height: height,
+                    destroyer: destroyer
+                };
+            box = new Callout(calloutInfo);
         };
 
         this.destroy = function () {
-            box.fadeOut(100, function () {
-                box.remove();
-            });
+            box.destroy();
         };
     }
 
@@ -113,15 +102,19 @@ GOVUK.Insights.formatSuccessOverlay = function () {
 
     function Overlay(format, data) {
         var components = [],
-            timeout = undefined,
             present = false,
-            self = this;
+            destroyer = new GOVUK.Insights.destroyer([], 0);
 
         this.format = format;
 
         this.init = function () {
             if (!present) {
-                var box = new HoverBox(format, data, this);
+                destroyer = new GOVUK.Insights.destroyer(components, 100,
+                    function () {
+                        components = [];
+                        present = false;
+                    });
+                var box = new HoverBox(format, data, this, destroyer);
                 components.push(box);
                 var circle = new CircleOverlay(format);
                 components.push(circle);
@@ -129,30 +122,18 @@ GOVUK.Insights.formatSuccessOverlay = function () {
                 components.forEach(function (component) {
                     component.init();
                 });
-
                 present = true;
             }
         };
 
         this.destroy = function () {
             if (present) {
-                components.forEach(function (component) {
-                    component.destroy();
-                });
-                components = [];
-                present = false;
+                destroyer.close();
             }
-        };
-
-        this.destroyAfterDelay = function () {
-            timeout = setTimeout(self.destroy, OUT_DELAY);
         };
 
         this.cancelDestroy = function () {
-            if (timeout) {
-                window.clearTimeout(timeout);
-                timeout = undefined;
-            }
+            destroyer.cancelClose();
         };
     }
 
@@ -190,12 +171,12 @@ GOVUK.Insights.formatSuccessOverlay = function () {
         var format = d3.select(this).attr('data-format');
 
         if (currentEffects[format]) {
-            currentEffects[format].destroyAfterDelay();
+            currentEffects[format].destroy();
         }
     };
 
     return {
         onHover:onHover,
         onHoverOut:onHoverOut
-    }
+    };
 }();
