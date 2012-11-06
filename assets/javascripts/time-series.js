@@ -26,20 +26,46 @@ GOVUK.Insights.months_range = function (startDate, endDate, step) {
     return times.reverse();
 };
 
+GOVUK.Insights.findClosestDataPointInSeries = function(mousePoint, series, getDataPoint) {
+    return series.reduce(function(datum, closestDatum) {
+        return getDataPoint(datum).distanceFrom(mousePoint) < getDataPoint(closestDatum).distanceFrom(mousePoint) ? datum : closestDatum;
+    });
+};
+
 GOVUK.Insights.findClosestDataPoint = function(mousePoint, data, getDataPoint) {
     var closest = {}
 
-    for (var seriesName in data) {
-        var series = data[seriesName];
-        $(series).each(function (i, d) {
-            var dataPoint = getDataPoint(d);
-            if (!closest.dataPoint || dataPoint.distanceFrom(mousePoint) < closest.dataPoint.distanceFrom(mousePoint)) {
-                closest.dataPoint = dataPoint;
-                closest.seriesName = seriesName;
-                closest.datum = d;
-            }
-        });
-    }
+    var things = Object.keys(data).map(function(seriesName) {
+        var closestPointInSeries = GOVUK.Insights.findClosestDataPointInSeries(mousePoint, data[seriesName], getDataPoint);
+        return {
+            seriesName: seriesName,
+            dataPoint: getDataPoint(closestPointInSeries),
+            datum: closestPointInSeries,
+        };
+    });
+    
+    var currentSeriesName = 'none'
+    
+    var weightedDistanceOf = function(aThing) {
+        return mousePoint.distanceFrom(aThing.dataPoint) * (aThing.seriesName === currentSeriesName ? 1 : 2);
+    };
+    
+    return things.reduce(function(aThing, anotherThing) {
+        // distance as function of geom distance and series name
+        return weightedDistanceOf(aThing) < weightedDistanceOf(anotherThing) ? aThing : anotherThing;
+    });
+
+    // for (var seriesName in data) {
+    //     var series = data[seriesName];
+    //     
+    //     var closestPointInSeries = GOVUK.Insights.findClosestDataPointInSeries(mousePoint, series, getDataPoint);
+    //     
+    //     if (!closest.dataPoint || getDataPoint(closestPointInSeries).distanceFrom(mousePoint) < closest.dataPoint.distanceFrom(mousePoint)) {
+    //         closest.dataPoint = getDataPoint(closestPointInSeries);
+    //         closest.seriesName = seriesName;
+    //         closest.datum = closestPointInSeries;
+    //     }
+    // }
 
     return closest;
 };
