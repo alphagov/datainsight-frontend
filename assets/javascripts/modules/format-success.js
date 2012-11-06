@@ -241,29 +241,29 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
 
     var drawLegend = function () {
-        var estimatedWidthOfLegendText = 110;
         var dataForLegend = x.ticks(4).slice(1, 4);
 
         if (dataForLegend.length > 2) dataForLegend = dataForLegend.slice(0, 2);
 
-        var maxCircleRadius = radius(dataForLegend.slice(-1));
+        var maxCircleRadius = radius(dataForLegend.slice(-1)),
+            width = 180,
+            height = 180,
+            offset = 15;
 
         var legend = d3.select("#format-success-legend")
             .append("svg")
-            .attr("width", 180)
-            .attr("height", 80)
+            .attr("width", width)
+            .attr("height", height)
             .append("g")
-            .attr("transform", "translate(" + (maxCircleRadius + estimatedWidthOfLegendText) + ", 3)");
+            .attr("transform", "translate(0, 3)");
 
         legend
             .selectAll("circle.legend")
             .data(dataForLegend)
             .enter().append("svg:circle")
             .attr("class", "legend")
-            .attr("fill", "none")
-            .attr("stroke", "black")
             .attr("cx", function () {
-                return maxCircleRadius;
+                return width - maxCircleRadius - offset;
             })
             .attr("cy", function (d) {
                 return radius(d);
@@ -277,7 +277,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .data(dataForLegend)
             .enter().append("svg:text")
             .attr("class", "circle-legend")
-            .attr("x", -5)
+            .attr("x", width - 2 * maxCircleRadius - 2 * offset)
             .attr("y", function (d) {
                 return 2 * radius(d) - 5; // offset text to bottom of circles
             })

@@ -21,6 +21,11 @@
     stroke-width: 2;
 }
 
+#format-success-legend circle.legend {
+    fill: none;
+    stroke: black;
+}
+
 .format-success-hover {
     position: absolute;
 
