@@ -65,9 +65,11 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
     }
 
     var series = extractKeys(params.series),
-        margins = params.margins || [22, 27, 27, 40],
+        margins = {top:22, right:27, bottom:27, left:40},
         width = params.width || 462,
         height = params.height || (236 + 22),
+        plottingAreaWidth = 378,
+        plottingAreaHeight = 214,
 
         dateFormat = d3.time.format("%Y-%m-%d");
 
@@ -97,12 +99,12 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             }
 
             var xExtent = this.dateRange(moment()),
-            xScale = d3.time.scale().domain(xExtent).range([0, width - margins[1] - margins[3]]),
+            xScale = d3.time.scale().domain(xExtent).range([0, width - margins.right - margins.left]),
 
 
             yMax = d3.max(alldata, function(d) { return d.value}),
             yTicks = GOVUK.Insights.calculateLinearTicks([0, yMax], 4),
-            yScale = d3.scale.linear().domain(yTicks.extent).range([height - margins[0] - margins[2], 0]),
+            yScale = d3.scale.linear().domain(yTicks.extent).range([height - margins.top - margins.bottom, 0]),
 
             line = d3.svg.line()
                 .x(function (d) {
@@ -117,7 +119,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 .attr("width", width)
                 .attr("height", height)
                 .append("svg:g")
-                    .attr("transform", "translate(" + margins[3] + "," + margins[0] + ")");
+                    .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
             /* Set up X Axis */
             function formatDate(date) {
@@ -131,7 +133,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
             graph.append("svg:g")
                 .attr("class", "x-axis")
-                .attr("transform", "translate(0," + (height - margins[0] - margins[2] + 5) + ")")
+                .attr("transform", "translate(0," + (height - margins.top - margins.bottom + 5) + ")")
                 .call(xAxis);
 
             /* Set Up Y-Axis */
@@ -148,58 +150,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             var plottingArea = graph.append("svg:g")
                 .attr("class", "js-graph-area")
                 .attr("height", "214");
-            var currentCallout = null;
-            plottingArea.append("svg:rect")
-                .attr("x", 0)
-                .attr("y", 0)
-                .attr("width", 378)// avoid magic numbers
-                .attr("height", 214)
-                .on("mousemove", function () {
-                    var mousePoint = GOVUK.Insights.point(d3.mouse(this));
 
-                    var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, function(d) {
-                        return GOVUK.Insights.point(xScale(dateFormat.parse(d.date)), yScale(d.value));
-                    });
-
-                    plottingArea.select(".highlight").classed("highlight", false);
-                    plottingArea.select("#dataPointHighlight").remove();
-
-                    plottingArea.append("svg:circle")
-                        .attr("cx", closest.dataPoint.x())
-                        .attr("cy", closest.dataPoint.y())
-                        .attr("r", 3.5)
-                        .attr("id", "dataPointHighlight")
-                        .attr("class", closest.seriesName);
-                    plottingArea.select("." + closest.seriesName).classed("highlight", true);
-
-                    // hide callout
-                    if (currentCallout) {
-                        currentCallout.close();
-                    }
-
-                    // show callout
-                    var calloutInfo = {
-                        xPos: closest.dataPoint.x() + margins[3],
-                        yPos: closest.dataPoint.y() + margins[0],
-                        parent: container,
-                        title: formatDate(dateFormat.parse(closest.datum.startDate)) + " - " + formatDate(dateFormat.parse(closest.datum.date)),
-                        rowData: [
-                            {
-                                left: GOVUK.Insights.formatNumericLabel(closest.datum.value),
-                                right: params.series[closest.seriesName].legend.text
-                            }
-                        ],
-                        boxClass: closest.seriesName
-                    };
-                    currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
-                })
-                .on("mouseout", function() {
-                    var mousePoint = GOVUK.Insights.point(d3.mouse(this));
-                    if (mousePoint.x() < 0 || mousePoint.x() > 378 || mousePoint.y() < 0 || mousePoint.y() > 214) {
-                        plottingArea.select(".highlight").classed("highlight", false);
-                        plottingArea.select("#dataPointHighlight").remove();
-                    }
-                });
 
 
             /* Add The Graph Lines */
@@ -249,6 +200,73 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             for (var i = 0; i < seriesLastValue.length; ++i) {
                 createTextLabel(seriesLastValue[i]);
             }
+
+            var currentCallout = null;
+            plottingArea.append("svg:rect")
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", plottingAreaWidth)
+                .attr("height", plottingAreaHeight)
+                .on("mousemove", function () {
+                    var mousePoint = GOVUK.Insights.point(d3.mouse(this));
+
+                    var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, function(d) {
+                        return GOVUK.Insights.point(xScale(dateFormat.parse(d.date)), yScale(d.value));
+                    });
+
+                    plottingArea.select(".highlight").classed("highlight", false);
+                    plottingArea.select("#dataPointHighlight").remove();
+
+                    plottingArea.insert("svg:circle", "rect")
+                        .attr("cx", closest.dataPoint.x())
+                        .attr("cy", closest.dataPoint.y())
+                        .attr("r", 3.5)
+                        .attr("id", "dataPointHighlight")
+                        .attr("class", closest.seriesName);
+                    plottingArea.select("." + closest.seriesName).classed("highlight", true);
+
+                    // hide callout
+                    if (currentCallout) {
+                        currentCallout.close();
+                    }
+
+
+
+                    // show callout
+                    var boxWidth = 145,
+                        xOffset = -20,
+                        yOffset = -60,
+                        intendedXPos = closest.dataPoint.x() + margins.left + xOffset - boxWidth,
+                        xPos = (intendedXPos < margins.left) ? closest.dataPoint.x() + margins.left - xOffset : intendedXPos,
+                        calloutInfo = {
+                            xPos: xPos,
+                            yPos: closest.dataPoint.y() + margins.top + yOffset,
+                            width: 145,
+                            parent: container,
+                            title: formatDate(dateFormat.parse(closest.datum.startDate)) + " - " + formatDate(dateFormat.parse(closest.datum.date)),
+                            rowData: [
+                                {
+                                    left: GOVUK.Insights.formatNumericLabel(closest.datum.value),
+                                    right: params.series[closest.seriesName].legend.text
+                                }
+                            ],
+                            boxClass: closest.seriesName
+                        };
+
+                    currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
+
+                    return true;
+                })
+                .on("mouseout", function() {
+                    var mousePoint = GOVUK.Insights.point(d3.mouse(this));
+                    if ((mousePoint.x() < 0) || (mousePoint.x() > plottingAreaWidth) || (mousePoint.y() < 0) || (mousePoint.y() > plottingAreaHeight)) {
+                        plottingArea.select(".highlight").classed("highlight", false);
+                        plottingArea.select("#dataPointHighlight").remove();
+                        if (currentCallout) {
+                            currentCallout.close();
+                        }
+                    }
+                });
         }
     };
 };

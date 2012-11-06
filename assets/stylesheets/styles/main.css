@@ -37,6 +37,10 @@ h1#narrative {
   height: 409px;
 }
 
+#visits, #unique-visitors {
+    position: relative;
+}
+
 /*Inlined ... make it work with asset pipeling*/
 
 article .intro {
