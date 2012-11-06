@@ -289,8 +289,8 @@ path.vertical, line.vertical {
     stroke: #662d91;
 }
 .time-series circle.govuk {
-    stroke: #999;
-    stroke-width: 4;
+    stroke: #5b5b5b;
+/*    stroke-width: 4;*/
 }
 
 .time-series .format-success-hover.directgov .details-right {
@@ -318,7 +318,10 @@ path.vertical, line.vertical {
 
 .time-series .main-line.highlight {
     stroke-width: 4;
+    stroke: #5b5b5b;
 }
+
+.time-series 
 
 .graph-red {
   background-color: #BF1E2D;
