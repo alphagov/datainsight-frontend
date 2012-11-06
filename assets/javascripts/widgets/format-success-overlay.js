@@ -18,7 +18,7 @@ GOVUK.Insights.formatSuccessOverlay = function () {
 
 
         var hoverDetailsText = function (data) {
-            return [ (data[0].total / 1000).toFixed(1) + "k times used" ,
+            return [ GOVUK.Insights.formatNumericLabel(data[0].total) + " times used" ,
                 (data[0].percentageOfSuccess).toFixed(0) + "% used successfully"];
         };
 
