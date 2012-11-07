@@ -99,7 +99,11 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             };
             for (var i = 0; i < rawData.length; i++) {
                 for (var k in rawData[i].value) {
-                    data[k].push({"date":rawData[i].end_at, "value":rawData[i].value[k], "startDate": rawData[i].start_at});
+                    data[k].push({
+                        "endDate":rawData[i].end_at, 
+                        "value":rawData[i].value[k], 
+                        "startDate": rawData[i].start_at
+                    });
                 }
             }
             if (data == null) {
@@ -120,7 +124,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
             line = d3.svg.line()
                 .x(function (d) {
-                    return xScale(dateFormat.parse(d.date));
+                    return xScale(dateFormat.parse(d.endDate));
                 })
                 .y(function (d) {
                     return yScale(d.value);
@@ -191,7 +195,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             function ypos(seriesName, date) {
                 var series = data[seriesName];
                 for (var i = 0; i < series.length; ++i) {
-                    if (series[i].date == date) {
+                    if (series[i].endDate === date) {
                         return yScale(series[i].value);
                     }
                 }
@@ -225,7 +229,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     var mousePoint = GOVUK.Insights.point(d3.mouse(this));
 
                     var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, function(d) {
-                        return GOVUK.Insights.point(xScale(dateFormat.parse(d.date)), yScale(d.value));
+                        return GOVUK.Insights.point(xScale(dateFormat.parse(d.endDate)), yScale(d.value));
                     }, currentSelectedSeries);
                     
                     currentSelectedSeries = closest.seriesName;
@@ -260,7 +264,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                             yPos: closest.dataPoint.y() + margins.top + yOffset,
                             width: 145,
                             parent: container,
-                            title: formatDate(dateFormat.parse(closest.datum.startDate)) + " - " + formatDate(dateFormat.parse(closest.datum.date)),
+                            title: formatDate(dateFormat.parse(closest.datum.startDate)) + " - " + formatDate(dateFormat.parse(closest.datum.endDate)),
                             rowData: [
                                 {
                                     left: GOVUK.Insights.formatNumericLabel(closest.datum.value),
