@@ -3,7 +3,7 @@ GOVUK.Insights= GOVUK.Insights || {};
 
 GOVUK.Insights.overlay = function () {
     function CalloutBox(boxInfo) {
-        var htmlTemplate = '<div class="format-success-hover"><div class="format"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>',
+        var htmlTemplate = '<div class="callout-box"><div class="format"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>',
             element = undefined,
             timeout = undefined;
         
@@ -16,7 +16,7 @@ GOVUK.Insights.overlay = function () {
         };
         
         this.draw = function () {
-            $('.format-success-hover').remove();
+            $('.callout-box').remove();
             element = $(htmlTemplate);
             if (boxInfo.boxClass) {
                 element.addClass(boxInfo.boxClass);

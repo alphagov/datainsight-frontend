@@ -64,7 +64,7 @@ GOVUK.Insights.formatSuccessOverlay = function () {
         this.init = function () {
             var labelElement = $(selector(format, "text"));
 
-            box = $('<div class="format-success-hover" data-format="' + format + '" style="display: none;"><div class="format"/><div class="details"/></div>');
+            box = $('<div class="callout-box" data-format="' + format + '" style="display: none;"><div class="format"/><div class="details"/></div>');
             box.on('mouseover', function (event) {
                 event.stopPropagation();
                 overlay.cancelDestroy();

@@ -25,7 +25,7 @@ describe("hover overlays", function () {
             
             var box = new CalloutBox(theBox);
             
-            expect($('#test-div').find('.format-success-hover').length).toBe(1);
+            expect($('#test-div').find('.callout-box').length).toBe(1);
         });
         
         it("should position the div at the x and y positions specified", function () {
@@ -82,7 +82,7 @@ describe("hover overlays", function () {
 
             var box = new CalloutBox(theBox);
 
-            expect($('.format-success-hover').hasClass("my-class")).toBeTruthy();
+            expect($('.callout-box').hasClass("my-class")).toBeTruthy();
         });
     });
 });

@@ -80,7 +80,7 @@ class DashboardPage
 
   def wait_for_callout_boxes(n)
     get_session.wait_until do
-      get_session.all(".format-success-hover").count == n
+      get_session.all(".callout-box").count == n
     end
   end
 
@@ -93,7 +93,7 @@ class DashboardPage
   end
 
   def get_callout_boxes
-    get_session.all(".format-success-hover")
+    get_session.all(".callout-box")
   end
 end
 
