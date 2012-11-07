@@ -37,7 +37,8 @@ describe("hover overlays", function () {
               rowData: [{left:'foo',right:'bar'}]
             };
             var box = new CalloutBox(theBox);
-            expect($('#test-div div').attr('style')).toBe("left: 15px; top: 45px; ");
+            expect($('#test-div div').attr('style')).toMatch(/left: *15px;/);
+            expect($('#test-div div').attr('style')).toMatch(/top: *45px;/);
         });
         
         it("should set the title", function () {

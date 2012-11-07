@@ -32,7 +32,7 @@ GOVUK.Insights.findClosestDataPointInSeries = function(mousePoint, series, getDa
     });
 };
 
-GOVUK.Insights.findClosestDataPoint = function(mousePoint, data, getDataPoint) {
+GOVUK.Insights.findClosestDataPoint = function(mousePoint, data, getDataPoint, preferredSeries) {
     var closest = {}
 
     var things = Object.keys(data).map(function(seriesName) {
@@ -44,28 +44,14 @@ GOVUK.Insights.findClosestDataPoint = function(mousePoint, data, getDataPoint) {
         };
     });
     
-    var currentSeriesName = 'none'
-    
     var weightedDistanceOf = function(aThing) {
-        return mousePoint.distanceFrom(aThing.dataPoint) * (aThing.seriesName === currentSeriesName ? 1 : 2);
+        if (!preferredSeries) return mousePoint.distanceFrom(aThing.dataPoint);
+        return mousePoint.distanceFrom(aThing.dataPoint) * (aThing.seriesName === preferredSeries ? 1 : 3);
     };
     
     return things.reduce(function(aThing, anotherThing) {
-        // distance as function of geom distance and series name
         return weightedDistanceOf(aThing) < weightedDistanceOf(anotherThing) ? aThing : anotherThing;
     });
-
-    // for (var seriesName in data) {
-    //     var series = data[seriesName];
-    //     
-    //     var closestPointInSeries = GOVUK.Insights.findClosestDataPointInSeries(mousePoint, series, getDataPoint);
-    //     
-    //     if (!closest.dataPoint || getDataPoint(closestPointInSeries).distanceFrom(mousePoint) < closest.dataPoint.distanceFrom(mousePoint)) {
-    //         closest.dataPoint = getDataPoint(closestPointInSeries);
-    //         closest.seriesName = seriesName;
-    //         closest.datum = closestPointInSeries;
-    //     }
-    // }
 
     return closest;
 };
@@ -228,6 +214,8 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             }
 
             var currentCallout = null;
+            var currentSelectedSeries;
+             
             plottingArea.append("svg:rect")
                 .attr("x", 0)
                 .attr("y", 0)
@@ -238,7 +226,9 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
                     var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, function(d) {
                         return GOVUK.Insights.point(xScale(dateFormat.parse(d.date)), yScale(d.value));
-                    });
+                    }, currentSelectedSeries);
+                    
+                    currentSelectedSeries = closest.seriesName;
 
                     plottingArea.select(".highlight").classed("highlight", false);
                     plottingArea.select("#dataPointHighlight").remove();

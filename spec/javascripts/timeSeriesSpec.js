@@ -55,8 +55,48 @@ describe("time series helper", function() {
             expect(closest.dataPoint.y()).toEqual(33);
             expect(closest.seriesName).toBe("aSeries");
             expect(closest.datum).toEqual([12, 33]);
-
-
+        });
+        
+        it("should return a point in the last matching series when there are multiple matches", function () {
+            var mousePoint = GOVUK.Insights.point(10,10);
+            data = {
+                "one": [[10,12]],
+                "two": [[10,8]],
+            };
+            getDataPoint = function(d) {
+                return GOVUK.Insights.point(d);
+            };
+            
+            var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, getDataPoint);
+            expect(closest.seriesName).toBe("two");            
+        });
+        
+        it("should bias point detection towards the a given series", function () {
+            var mousePoint = GOVUK.Insights.point(10,10);
+            data = {
+                "one": [[10,12]],
+                "two": [[10,8]],
+            };
+            getDataPoint = function(d) {
+                return GOVUK.Insights.point(d);
+            };
+            
+            var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, getDataPoint, "one");
+            expect(closest.seriesName).toBe("one");            
+        });
+        
+        it("should return closest point if preferred series has no point close enough", function () {
+            var mousePoint = GOVUK.Insights.point(10,10);
+            data = {
+                "one": [[10,20]],
+                "two": [[10,8]],
+            };
+            getDataPoint = function(d) {
+                return GOVUK.Insights.point(d);
+            };
+            
+            var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, getDataPoint, "one");
+            expect(closest.seriesName).toBe("two");            
         });
     });
 });

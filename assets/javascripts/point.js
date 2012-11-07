@@ -27,3 +27,4 @@ GOVUK.Insights.point = function(x, y) {
         }
     }
 }
+
