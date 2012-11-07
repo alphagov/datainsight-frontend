@@ -178,7 +178,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                 actualXPos = (xPos > 0) ? xPos : xPos + boxWidth + barWidth + offsetSoTheUserCantCatchTheBox + boxShadow,
                 calloutInfo = {
                     xPos: actualXPos + margin.left,
-                    yPos: GOVUK.Insights.clamp(d3.mouse(this)[1] + margin.top, boxHeight + margin.top + xAxisOffset + boxShadow, height),
+                    yPos: GOVUK.Insights.clamp(d3.mouse(this)[1] - boxHeight, boxShadow, height - margin.bottom - boxHeight),
                     parent: '#reach',
                     title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
                     rowData: [{left:(d/1000).toFixed(1) + "k",right:'unique visitors'},{left:(averageData[hour]/1000).toFixed(1) + "k",right:'<span class="pink">average last week</span>'}],

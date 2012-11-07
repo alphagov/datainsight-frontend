@@ -11,15 +11,6 @@
     <%= erb :_for_svg_supported_browsers, :locals => {:content => javascript_include_tag("widgets/overlay","reach", "modules/hourly-traffic")} %>
 <% end %>
 
-<!-- <svg style="position: absolute">
-  <defs>
-    <linearGradient id="gradient_for_yesterday" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color: #B3B3B3; stop-opacity: 1"/>
-      <stop offset="50%" style="stop-color: white; stop-opacity: 1"/>
-    </linearGradient>
-  </defs>
-</svg> -->
-
 <div id="hourly-traffic-module" class="module">
   <%= graph_image_tag 'hourly-traffic' %>
 
@@ -50,7 +41,7 @@
       </div>
     </div>
     <div style="clear: both"></div>
-    <div id="reach"></div>
+    <div id="reach" class="graph-container"></div>
     <div>
       <p class="graph-source">Source: Google Analytics</p>
     </div>

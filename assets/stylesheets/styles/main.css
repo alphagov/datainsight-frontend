@@ -130,6 +130,10 @@ article p {
   }
 }
 
+.graph-container {
+  position: relative;
+}
+
 .module {
   width: 100%;
   margin: 0;
