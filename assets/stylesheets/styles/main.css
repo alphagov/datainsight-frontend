@@ -37,11 +37,8 @@ h1#narrative {
   height: 409px;
 }
 
-#visits, #unique-visitors {
-    position: relative;
-}
-
 /*Inlined ... make it work with asset pipeling*/
+/* TODO: fix this */
 
 article .intro {
   padding: 0 1em;
