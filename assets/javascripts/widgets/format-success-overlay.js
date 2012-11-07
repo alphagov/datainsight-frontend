@@ -29,8 +29,8 @@ GOVUK.Insights.formatSuccessOverlay = function () {
                 position = {
                     top:labelOffset.top + scrollOffset.top - TOP_OFFSET,
                     left:labelOffset.left + scrollOffset.left - LEFT_OFFSET,
-                    bottom: labelOffset.top + scrollOffset.top  - box.height() + labelElement.height() + TOP_OFFSET,
-                    right: labelOffset.left + scrollOffset.left - box.width() + labelElement.width() + LEFT_OFFSET
+                    bottom: labelOffset.top + scrollOffset.top  - box.height() + labelElement[0].getBoundingClientRect().height + TOP_OFFSET,
+                    right: labelOffset.left + scrollOffset.left - box.width() + labelElement[0].getBoundingClientRect().width + LEFT_OFFSET
                 };
 
             if (quadrant >= 0 && quadrant < 1) {
