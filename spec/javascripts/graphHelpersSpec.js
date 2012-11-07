@@ -95,6 +95,21 @@ describe("Helpers", function () {
             expect(GOVUK.Insights.formatNumericLabel(fiftyFivePointFourMillion)).toBe('55m');
             expect(GOVUK.Insights.formatNumericLabel(ninetyNinePointNineMillion)).toBe('100m');
         });
+        
+        it("should not show .0 for values rounding to an integer number of millions", function () {
+            expect(GOVUK.Insights.formatNumericLabel(4949999)).toBe('4.9m');
+            expect(GOVUK.Insights.formatNumericLabel(4950000)).toBe('5m');
+            expect(GOVUK.Insights.formatNumericLabel(5049999)).toBe('5m');
+            expect(GOVUK.Insights.formatNumericLabel(5050000)).toBe('5m');
+            expect(GOVUK.Insights.formatNumericLabel(5050001)).toBe('5.1m');
+        });
+
+        it("should not show .0 for values rounding to an integer number of thousands", function () {
+            expect(GOVUK.Insights.formatNumericLabel(7949)).toBe('7.9k');
+            expect(GOVUK.Insights.formatNumericLabel(7950)).toBe('8k');
+            expect(GOVUK.Insights.formatNumericLabel(8049)).toBe('8k');
+            expect(GOVUK.Insights.formatNumericLabel(8050)).toBe('8.1k');
+        });
     });
 
     describe("calculateLinearTicks", function() {
