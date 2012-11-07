@@ -150,6 +150,13 @@ GOVUK.Insights.geometry = function () {
        return false;
     };
 
+    CollisionBox.prototype.extendBy = function (value) {
+        this.bottom += value;
+        this.top -= value;
+        this.left -= value;
+        this.right += value;
+    };
+
     return {
         CollisionBox: CollisionBox
     };
