@@ -5,10 +5,8 @@ GOVUK.Insights.overlay = function () {
     function CalloutBox(boxInfo) {
         var htmlTemplate = '<div class="callout-box"><div class="format"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>',
             element = undefined,
-            self = this;
-        if (boxInfo.destroyer === undefined) {
-            boxInfo.destroyer = new GOVUK.Insights.destroyer([self], boxInfo.closeDelay);
-        }
+            timeout = undefined;
+        
         
         var setGeometryCss = function () {
             if (boxInfo.width) element.width(boxInfo.width);
@@ -17,7 +15,7 @@ GOVUK.Insights.overlay = function () {
             if (boxInfo.yPos) element.css({top: boxInfo.yPos});  
         };
         
-        self.draw = function () {
+        this.draw = function () {
             $('.callout-box').remove();
             element = $(htmlTemplate);
             if (boxInfo.boxClass) {
@@ -35,50 +33,31 @@ GOVUK.Insights.overlay = function () {
                 }
             }
 
-            element.on('mouseover', boxInfo.destroyer.cancelClose);
-            element.on('mouseout', boxInfo.destroyer.close);
+            if (boxInfo.closeDelay > 0) {
+                element.on('mouseover', this.cancelClose);
+                element.on('mouseout', this.close);
+            }
             element.appendTo(boxInfo.parent);
         };
-
-        self.close = function () {
-            boxInfo.destroyer.close();
-        };
-
-        self.destroy = function () {
+        
+        unDraw = function () {
             element.remove();
         };
-
+        
+        this.close = function () {
+            timeout = setTimeout(unDraw, boxInfo.closeDelay);
+        };
+        
+        this.cancelClose = function () {
+            window.clearTimeout(timeout);
+            timeout = undefined;
+        };
+        
         // on construction
-        self.draw();
+        this.draw();
     };
     
     return {
         CalloutBox: CalloutBox
     };
 }();
-
-GOVUK.Insights.destroyer = function (components, closeDelay, postDestroy) {
-    var canClose = true,
-        self = this;
-
-    destroy = function () {
-        if (canClose) {
-            components.forEach(function (component) {
-                component.destroy();
-            });
-            if (postDestroy) {
-                postDestroy();
-            }
-            canClose = false;
-        }
-    };
-
-    self.close = function () {
-        canClose = true;
-        setTimeout(destroy, closeDelay);
-    };
-
-    self.cancelClose = function () {
-        canClose = false;
-    };
-}

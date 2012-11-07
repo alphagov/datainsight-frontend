@@ -11,74 +11,85 @@ GOVUK.Insights.formatSuccessOverlay = function () {
         return elementType + '[data-format=' + format + ']';
     };
 
-    function HoverBox(format, data, overlay, destroyer) {
-        var Callout = GOVUK.Insights.overlay.CalloutBox;
+    function HoverBox(format, data, overlay) {
         var TOP_OFFSET = 2, LEFT_OFFSET = 7;
 
         var box = undefined;
 
-        var determinePosition = function (labelElement, boxHeight, boxWidth) {
-            var labelPosition = labelElement.position(),
+
+        var hoverDetailsText = function (data) {
+            return [ GOVUK.Insights.formatNumericLabel(data[0].total) + " times used" ,
+                (data[0].percentageOfSuccess).toFixed(0) + "% used successfully"];
+        };
+
+        var determinePosition = function (labelElement) {
+            var labelOffset = labelElement.offset(),
+                scrollOffset = {top:labelElement.scrollTop(), left:labelElement.scrollLeft()},
                 quadrant = labelElement.attr('data-quadrant'),
                 position = {
-                    top:labelPosition.top - TOP_OFFSET,
-                    left:labelPosition.left - LEFT_OFFSET,
-                    bottom: labelPosition.top - boxHeight + labelElement.height() + TOP_OFFSET,
-                    right: labelPosition.left - boxWidth + labelElement.width() + LEFT_OFFSET
+                    top:labelOffset.top + scrollOffset.top - TOP_OFFSET,
+                    left:labelOffset.left + scrollOffset.left - LEFT_OFFSET,
+                    bottom: labelOffset.top + scrollOffset.top  - box.height() + labelElement.height() + TOP_OFFSET,
+                    right: labelOffset.left + scrollOffset.left - box.width() + labelElement.width() + LEFT_OFFSET
                 };
+
             if (quadrant >= 0 && quadrant < 1) {
                 return {
-                    yPos:position.top,
-                    xPos:position.left
+                    top:position.top,
+                    left:position.left
                 };
             } else if (quadrant >= 1 && quadrant < 2) {
                 return {
-                    yPos:position.top,
-                    xPos:position.right
+                    top:position.top,
+                    left:position.right
                 };
             } else if (quadrant >= -1 && quadrant < 0) {
                 return {
-                    yPos:position.bottom,
-                    xPos:position.left
+                    top:position.bottom,
+                    left:position.left
                 };
             } else if (quadrant >= -2 && quadrant < -1) {
                 return {
-                    yPos:position.bottom,
-                    xPos:position.right
+                    top:position.bottom,
+                    left:position.right
                 };
             } else {
                 return {
-                    yPos:position.top,
-                    xPos:position.left
+                    top:position.top,
+                    left:position.left
                 }
             }
-        };
+        }
 
         this.init = function () {
-            var width = 180,
-                height = 66,
-                labelElement = $(selector(format, "text"));
-                position = determinePosition(labelElement, height, width);
+            var labelElement = $(selector(format, "text"));
 
-            var formatName = labelElement.text();
-                calloutInfo = {
-                    xPos: position.xPos,
-                    yPos: position.yPos,
-                    parent: "#format-success",
-                    title: formatName,
-                    rowData: [
-                        { left: GOVUK.Insights.formatNumericLabel(data[0].total), right: "times used" },
-                        { left: (data[0].percentageOfSuccess).toFixed(0) + "%", right: "used successfully" }
-                    ],
-                    width: width,
-                    height: height,
-                    destroyer: destroyer
-                };
-            box = new Callout(calloutInfo);
+            box = $('<div class="callout-box" data-format="' + format + '" style="display: none;"><div class="format"/><div class="details"/></div>');
+            box.on('mouseover', function (event) {
+                event.stopPropagation();
+                overlay.cancelDestroy();
+            });
+            box.on('mouseleave', function (event) {
+                event.stopPropagation();
+                overlay.destroyAfterDelay();
+            });
+
+            var formatName = labelElement.text(),
+                details = hoverDetailsText(data);
+
+            box.find('.format').text(formatName);
+            box.find('.details').html(details.join("<br />"));
+
+            $(document.body).append(box);
+            var position = determinePosition(labelElement);
+            box.css(position);
+            box.fadeIn(100);
         };
 
         this.destroy = function () {
-            box.destroy();
+            box.fadeOut(100, function () {
+                box.remove();
+            });
         };
     }
 
@@ -102,19 +113,15 @@ GOVUK.Insights.formatSuccessOverlay = function () {
 
     function Overlay(format, data) {
         var components = [],
+            timeout = undefined,
             present = false,
-            destroyer = new GOVUK.Insights.destroyer([], 0);
+            self = this;
 
         this.format = format;
 
         this.init = function () {
             if (!present) {
-                destroyer = new GOVUK.Insights.destroyer(components, 100,
-                    function () {
-                        components = [];
-                        present = false;
-                    });
-                var box = new HoverBox(format, data, this, destroyer);
+                var box = new HoverBox(format, data, this);
                 components.push(box);
                 var circle = new CircleOverlay(format);
                 components.push(circle);
@@ -122,18 +129,30 @@ GOVUK.Insights.formatSuccessOverlay = function () {
                 components.forEach(function (component) {
                     component.init();
                 });
+
                 present = true;
             }
         };
 
         this.destroy = function () {
             if (present) {
-                destroyer.close();
+                components.forEach(function (component) {
+                    component.destroy();
+                });
+                components = [];
+                present = false;
             }
         };
 
+        this.destroyAfterDelay = function () {
+            timeout = setTimeout(self.destroy, OUT_DELAY);
+        };
+
         this.cancelDestroy = function () {
-            destroyer.cancelClose();
+            if (timeout) {
+                window.clearTimeout(timeout);
+                timeout = undefined;
+            }
         };
     }
 
@@ -171,12 +190,12 @@ GOVUK.Insights.formatSuccessOverlay = function () {
         var format = d3.select(this).attr('data-format');
 
         if (currentEffects[format]) {
-            currentEffects[format].destroy();
+            currentEffects[format].destroyAfterDelay();
         }
     };
 
     return {
         onHover:onHover,
         onHoverOut:onHoverOut
-    };
+    }
 }();
