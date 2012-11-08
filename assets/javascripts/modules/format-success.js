@@ -106,7 +106,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
                 {left:d.percentageOfSuccess.toFixed(0) + '%', right:'used successfully'}
             ],
             boxInfo = {
-                xPos: GOVUK.Insights.clamp(xPos,0,WIDTH - boxWidth),
+                xPos: GOVUK.Insights.clamp(xPos,0,WIDTH - boxWidth + 3),
                 yPos: GOVUK.Insights.clamp(yPos,0,HEIGHT + GUTTER_Y_TOP + 20 - boxHeight + labelBoundingBox.height/2),
                 title: title,
                 rowData: rowData,
