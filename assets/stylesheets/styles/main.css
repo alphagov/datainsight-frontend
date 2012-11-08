@@ -461,11 +461,10 @@ span.pink {
     background-color: #E6E5E5;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    padding: 4px 9px 2px 7px;
 }
 
-.callout-box .details {
-    padding: 2px 9px 4px 7px;
+.callout-box .format, .callout-box .details {
+    padding: 4px 9px 2px 7px;
 }
 
 /* slimmer hacks */
