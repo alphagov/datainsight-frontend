@@ -246,8 +246,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         if (dataForLegend.length > 2) dataForLegend = dataForLegend.slice(0, 2);
 
         var maxCircleRadius = radius(dataForLegend.slice(-1)),
-            width = 180,
-            height = 180,
+            width = 250,
+            height = 80,
             offset = 15;
 
         var legend = d3.select("#format-success-legend")
