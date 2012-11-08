@@ -196,8 +196,8 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
             circleHighlights[hour] = chart.insert('svg:circle','.label-line')
                 .attr('cx',pointLocation.x)
                 .attr('cy',pointLocation.y)
-                .attr('r',3)
-                .attr('stroke-width','2')
+                .attr('r',3.5)
+                .attr('stroke-width','3.5')
                 .attr('fill','#fff')
                 .attr('class','pink js-temp');
             
