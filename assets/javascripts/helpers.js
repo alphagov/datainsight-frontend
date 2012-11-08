@@ -185,3 +185,19 @@ GOVUK.Insights.clamp = function (value, min, max) {
     if (value < min) return min;
     return value;
 };
+
+GOVUK.Insights.createTextShade = function(textElement) {
+    var shade = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    var text = d3.select(textElement);
+    d3.select(shade)
+        .attr("x", text.attr("x"))
+        .attr("y", text.attr("y"))
+        .attr("dx", text.attr("dx"))
+        .attr("dy", text.attr("dy"))
+        .attr("class", text.attr("class"))
+        .attr("text-anchor", text.attr("text-anchor"))
+        .text(text.text())
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 2);
+    textElement.parentNode.insertBefore(shade, textElement);
+};

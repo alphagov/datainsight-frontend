@@ -206,7 +206,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 var x = xScale(dateFormat.parse(item.legend.anchor)) + (item.legend.xOffset || 0);
                 var y = ypos(item.name, item.legend.anchor) + (item.legend.yOffset || 0);
                 plottingArea.append("svg:text")
-                    .attr("style", "text-anchor: middle")
+                    .attr("text-anchor", "middle")
                     .attr("class", item.name + "-label " + item.legend.class)
                     .attr("x", x)
                     .attr("y", y)
@@ -216,6 +216,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             for (var i = 0; i < seriesLastValue.length; ++i) {
                 createTextLabel(seriesLastValue[i]);
             }
+            plottingArea.selectAll('text').each(function () { GOVUK.Insights.createTextShade(this) });
 
             var currentCallout = null;
             var currentSelectedSeries;

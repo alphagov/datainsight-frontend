@@ -209,7 +209,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
            reverseBarLookUp(d).attr('stroke-width','0');
            d3.select(this).attr('opacity',0.0);
         });
-
+    chart.selectAll('text').each(function () { GOVUK.Insights.createTextShade(this) });
 };
 
 GOVUK.Insights.Reach.fillCalculator = function(averageData, colours) {
