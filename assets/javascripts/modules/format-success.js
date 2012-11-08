@@ -40,7 +40,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     var values = data.map(
         function (formatEvents) {
             return {
-                formatName:formatEvents["format"],
+                formatId:formatEvents["format"],
                 total:formatEvents["entries"],
                 percentageOfSuccess:formatEvents["percentage_of_success"]
             };
@@ -92,7 +92,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .attr("transform", "translate(" + 0 + "," + GUTTER_Y_TOP + ")");
 
     var doHover = function (d, element, optionalCallback) {
-        var title = d.formatName,
+        var title = getFormatName(d.formatId),
             boxWidth = 170,
             boxHeight = 66,
             label = d3.select('#label-' + d3.select(element).attr('data-format')),
@@ -152,7 +152,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
                 return radius(d.total) + 1;
             })
             .attr("data-format", function (d) {
-                return d.formatName.idify();
+                return d.formatId.idify();
             })
             .on('mouseover', function (d) {
                 doHover(d,this);
@@ -160,6 +160,15 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .on('mouseout', function (d) {
                 endHover(d,this);
             });
+    };
+
+    var getFormatName = function(formatId) {
+        return {
+            "guide": "Guide",
+            "programme": "Benefits",
+            "answer": "Answers",
+            "smart_answer": "Smart Answers"
+        }[formatId];
     };
 
     var drawAxis = function (graph) {
@@ -262,14 +271,14 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .data(values)
             .enter().append("svg:text")
             .text(function (d) {
-                return d.formatName;
+                return getFormatName(d.formatId);
             })
             .attr("class", "circle-format js-floating")
             .attr("id", function (d) {
-                return "label-" + d.formatName.idify();
+                return "label-" + d.formatId.idify();
             })
             .attr("data-format", function (d) {
-                return d.formatName.idify();
+                return d.formatId.idify();
             })
             .attr("text-anchor", "start")
             .attr("x", function (d) {
