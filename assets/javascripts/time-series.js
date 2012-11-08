@@ -255,14 +255,17 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
                     // show callout
                     var boxWidth = 145,
+                        boxHeight = 47,
                         xOffset = -20,
                         yOffset = -60,
                         intendedXPos = closest.dataPoint.x() + margins.left + xOffset - boxWidth,
                         xPos = (intendedXPos < margins.left) ? closest.dataPoint.x() + margins.left - xOffset : intendedXPos,
+                        yPos = (closest.dataPoint.y() < height/2) ? closest.dataPoint.y() + margins.top - (yOffset + boxHeight) : closest.dataPoint.y() + margins.top + yOffset,
                         calloutInfo = {
                             xPos: xPos,
-                            yPos: closest.dataPoint.y() + margins.top + yOffset,
-                            width: 145,
+                            yPos: yPos,
+                            width: boxWidth,
+                            height: boxHeight,
                             parent: container,
                             title: formatDate(dateFormat.parse(closest.datum.startDate)) + " - " + formatDate(dateFormat.parse(closest.datum.endDate)),
                             rowData: [
