@@ -16,6 +16,24 @@ GOVUK.Insights.formatSuccess = function () {
 
                     $('#format-success-module .datainsight-hidden').removeClass('datainsight-hidden');
                     GOVUK.Insights.forcePosition.apply("#format-success");
+
+                    var createTextShade = function(textElement) {
+                        var shade = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                        var text = d3.select(textElement);
+                        d3.select(shade)
+                            .attr("x", text.attr("x"))
+                            .attr("y", text.attr("y"))
+                            .attr("dx", text.attr("dx"))
+                            .attr("dy", text.attr("dy"))
+                            .attr("class", text.attr("class"))
+                            .attr("text-anchor", text.attr("text-anchor"))
+                            .text(text.text())
+                            .attr("stroke", "#fff")
+                            .attr("stroke-width", 2);
+                        textElement.parentNode.insertBefore(shade, textElement);
+                    }
+
+                    d3.selectAll('text').each(function () { createTextShade(this) });
                 }
             } else {
                 showError();
@@ -157,52 +175,37 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("style", "stroke-dashoffset: 2px");
 
         var drawTickLabels = function (graph) {
-            function addShadedLabel(graph, factoryFunc) {
-                factoryFunc(graph)
-                    .attr("stroke-width", 2)
-                    .attr("stroke", "#fff");
-                factoryFunc(graph);
-            }
-
             // Place X axis tick labels
-            addShadedLabel(graph, function (graph) {
-                return graph.append("svg:text")
-                    .text("Least used")
-                    .attr("class", "label-x-left")
-                    .attr("x", 0)
-                    .attr("y", HEIGHT / 2 + 9)
-                    .attr("dy", ".71em");
-            });
+            graph.append("svg:text")
+                .text("Least used")
+                .attr("class", "label-x-left")
+                .attr("x", 0)
+                .attr("y", HEIGHT / 2 + 9)
+                .attr("dy", ".71em");
 
-            addShadedLabel(graph, function(graph) {
-                return graph.append("svg:text")
-                    .text("Most used")
-                    .attr("class", "label-x-right")
-                    .attr("x", function () {
-                        return WIDTH - $(this).width()
-                    })
-                    .attr("y", HEIGHT / 2 + 9)
-                    .attr("dy", ".71em");
-            });
+            graph.append("svg:text")
+                .text("Most used")
+                .attr("class", "label-x-right")
+                .attr("x", function () {
+                    return WIDTH - $(this).width()
+                })
+                .attr("y", HEIGHT / 2 + 9)
+                .attr("dy", ".71em");
 
             // Place Y axis tick labels
-            addShadedLabel(panel, function (panel) {
-                return panel.append("svg:text")
-                    .text("Used successfully")
-                    .attr("class", "title-y")
-                    .attr("y", 5)
-                    .attr("x", WIDTH / 2)
-                    .attr("dy", ".35em");
-            });
+            panel.append("svg:text")
+                .text("Used successfully")
+                .attr("class", "title-y")
+                .attr("y", 5)
+                .attr("x", WIDTH / 2)
+                .attr("dy", ".35em");
 
-            addShadedLabel(graph, function (graph) {
-                return graph.append("svg:text")
-                    .text(MIN_Y + "%")
-                    .attr("class", "label-y-bottom")
-                    .attr("y", HEIGHT)
-                    .attr("x", WIDTH / 2 - 5)
-                    .attr("dy", ".35em");
-            });
+            graph.append("svg:text")
+                .text(MIN_Y + "%")
+                .attr("class", "label-y-bottom")
+                .attr("y", HEIGHT)
+                .attr("x", WIDTH / 2 - 5)
+                .attr("dy", ".35em");
 
             graph.append("rect")
                 .attr("height", 12)
@@ -211,14 +214,12 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
                 .attr("x", WIDTH / 2 + 7)
                 .attr("style", "fill: #BF1E2D");
 
-            addShadedLabel(graph, function (graph) {
-                return graph.append("svg:text")
-                    .text(MAX_Y + "%")
-                    .attr("class", "label-y-top")
-                    .attr("y", 0)
-                    .attr("x", WIDTH / 2 - 5)
-                    .attr("dy", ".35em");
-            });
+            graph.append("svg:text")
+                .text(MAX_Y + "%")
+                .attr("class", "label-y-top")
+                .attr("y", 0)
+                .attr("x", WIDTH / 2 - 5)
+                .attr("dy", ".35em");
 
             graph.append("rect")
                 .attr("height", 12)
