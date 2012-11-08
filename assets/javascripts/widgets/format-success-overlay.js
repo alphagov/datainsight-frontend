@@ -18,8 +18,10 @@ GOVUK.Insights.formatSuccessOverlay = function () {
 
 
         var hoverDetailsText = function (data) {
-            return [ GOVUK.Insights.formatNumericLabel(data[0].total) + " times used" ,
-                (data[0].percentageOfSuccess).toFixed(0) + "% used successfully"];
+            return {
+                left:[GOVUK.Insights.formatNumericLabel(data[0].total),(data[0].percentageOfSuccess).toFixed(0) + '%'], 
+                right:["times used","used successfully"]
+            };
         };
 
         var determinePosition = function (labelElement) {
@@ -62,9 +64,11 @@ GOVUK.Insights.formatSuccessOverlay = function () {
         }
 
         this.init = function () {
-            var labelElement = $(selector(format, "text"));
+            var labelElement = $(selector(format, "text")),
+                html = '<div class="callout-box"><div class="format"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>';
 
-            box = $('<div class="callout-box" data-format="' + format + '" style="display: none;"><div class="format"/><div class="details"/></div>');
+            box = $(html).attr('data-format',format);
+            
             box.on('mouseover', function (event) {
                 event.stopPropagation();
                 overlay.cancelDestroy();
@@ -78,7 +82,8 @@ GOVUK.Insights.formatSuccessOverlay = function () {
                 details = hoverDetailsText(data);
 
             box.find('.format').text(formatName);
-            box.find('.details').html(details.join("<br />"));
+            box.find('.details-left').html(details.left.join("<br />"));
+            box.find('.details-right').html(details.right.join("<br />"));
 
             $(document.body).append(box);
             var position = determinePosition(labelElement);
