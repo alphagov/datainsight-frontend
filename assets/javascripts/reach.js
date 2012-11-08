@@ -133,14 +133,14 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr("y1", yStart - 5)
         .attr("y2", yScale(maxLast4) - 10)
         .attr("class", "label-line vertical pink");
-
-    chart.append("foreignObject")
+    
+    chart.append("svg:text")
         .attr("width", 110)
         .attr("height", 80)
         .attr("x", xPos - 100)
         .attr("y", yScale(maxLast4) - 25)
-        .append("xhtml:body")
-        .html("<p style='color: #c61c71; font-size: 14px; text-align: right;padding: 0; margin: 0'>Average last week</p>");
+        .text("Average last week")
+        .attr("fill","#c61c71");
         
     var reverseBarLookUp = function (data) {
         var barElement = d3.selectAll('.bar').filter(function(d,i) {
