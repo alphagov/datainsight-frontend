@@ -104,6 +104,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
                 return colorScale(d.percentageOfSuccess);
             })
             .style("opacity", 0.9)
+            .attr("stroke","white")
+            .attr("stroke-width",2)
             .attr("cx", function (d) {
                 return x(d.total);
             })
@@ -117,8 +119,39 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("data-format", function (d) {
                 return d.formatName.idify();
             })
-            .on('mouseover', overlay.onHover)
-            .on('mouseout', overlay.onHoverOut);
+            .on('mouseover', function (d) {
+                var title = d.formatName,
+                    boxWidth = 170,
+                    boxHeight = 66,
+                    label = d3.select('#label-' + d3.select(this).attr('data-format')),
+                    labelX = parseFloat(label.attr('x')),
+                    labelY = parseFloat(label.attr('y')) + GUTTER_Y_TOP + 20,
+                    labelBoundingBox = label.node().getBBox(),
+                    xPos = (labelX > parseFloat(d3.select(this).attr('cx'))) ? labelX : labelX - (boxWidth - labelBoundingBox.width - 3),
+                    yPos = (labelY < parseFloat(d3.select(this).attr('cy'))) ? labelY - (boxHeight - labelBoundingBox.height/2) : labelY - labelBoundingBox.height/2,
+                    rowData = [
+                        {left:GOVUK.Insights.formatNumericLabel(d.total), right:'times used'},
+                        {left:d.percentageOfSuccess.toFixed(0) + '%', right:'used successfully'}
+                    ],
+                    boxInfo = {
+                        xPos: GOVUK.Insights.clamp(xPos,0,WIDTH - boxWidth),
+                        yPos: GOVUK.Insights.clamp(yPos,0,HEIGHT + GUTTER_Y_TOP + 20 - boxHeight + labelBoundingBox.height/2),
+                        title: title,
+                        rowData: rowData,
+                        parent: '#format-success',
+                        closeDelay: 200
+                    };
+                d.callout = new GOVUK.Insights.overlay.CalloutBox(boxInfo);
+                
+                this.parentNode.insertBefore(this,null);
+                
+                var darkerStrokeColor = new GOVUK.Insights.colors(d3.select(this).attr('fill')).multiplyWithSelf().asCSS();
+                d3.select(this).attr("stroke", darkerStrokeColor);
+            })
+            .on('mouseout', function (d) {
+                d.callout.close();
+                d3.select(this).attr("stroke", "white");
+            });
     };
 
     var drawAxis = function (graph) {
@@ -237,8 +270,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("y", function (d) {
                 return y(d.percentageOfSuccess);
             })
-            .attr("dy", ".35em")
-            .on('mouseover', overlay.onHover);
+            .attr("dy", ".35em");
     };
 
 

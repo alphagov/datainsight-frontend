@@ -256,7 +256,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
                     // show callout
                     var boxWidth = 145,
-                        boxHeight = 47,
+                        boxHeight = 48,
                         xOffset = -20,
                         yOffset = -60,
                         intendedXPos = closest.dataPoint.x() + margins.left + xOffset - boxWidth,

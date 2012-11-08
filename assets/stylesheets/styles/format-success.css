@@ -16,11 +16,6 @@
     shape-rendering: geometricPrecision;
 }
 
-#format-success .format {
-    stroke: white;
-    stroke-width: 2;
-}
-
 #format-success-legend circle.legend {
     fill: none;
     stroke: black;

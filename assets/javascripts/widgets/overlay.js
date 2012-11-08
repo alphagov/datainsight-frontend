@@ -5,14 +5,18 @@ GOVUK.Insights.overlay = function () {
     function CalloutBox(boxInfo) {
         var htmlTemplate = '<div class="callout-box"><div class="format"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>',
             element = undefined,
-            timeout = undefined;
+            timeout = undefined,
+            defaults = {
+                xPos: 0,
+                yPos: 0
+            };
         
         
         var setGeometryCss = function () {
-            if (boxInfo.width) element.width(boxInfo.width);
-            if (boxInfo.height) element.height(boxInfo.height);
-            if (boxInfo.xPos) element.css({left: boxInfo.xPos});
-            if (boxInfo.yPos) element.css({top: boxInfo.yPos});  
+            if (boxInfo.width !== undefined) element.width(boxInfo.width);
+            if (boxInfo.height !== undefined) element.height(boxInfo.height);
+            (boxInfo.xPos !== undefined) ? element.css({left: boxInfo.xPos}) : element.css({left: defaults.xPos});
+            (boxInfo.yPos !== undefined) ? element.css({top: boxInfo.yPos}) : element.css({top: defaults.xPos});
         };
         
         this.draw = function () {
