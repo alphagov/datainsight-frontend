@@ -37,8 +37,6 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     // - Derived Constants -
     var WIDTH = 960;
 
-    var overlay = GOVUK.Insights.formatSuccessOverlay;
-
     var values = data.map(
         function (formatEvents) {
             return {
@@ -93,42 +91,42 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         .append("svg:g")
         .attr("transform", "translate(" + 0 + "," + GUTTER_Y_TOP + ")");
 
-        var doHover = function (d, element, optionalCallback) {
-            var title = d.formatName,
-                boxWidth = 170,
-                boxHeight = 66,
-                label = d3.select('#label-' + d3.select(element).attr('data-format')),
-                labelX = parseFloat(label.attr('x')),
-                labelY = parseFloat(label.attr('y')) + GUTTER_Y_TOP + 20,
-                labelBoundingBox = label.node().getBBox(),
-                xPos = (labelX > parseFloat(d3.select(element).attr('cx'))) ? labelX : labelX - (boxWidth - labelBoundingBox.width - 3),
-                yPos = (labelY < parseFloat(d3.select(element).attr('cy'))) ? labelY - (boxHeight - labelBoundingBox.height/2) : labelY - labelBoundingBox.height/2,
-                rowData = [
-                    {left:GOVUK.Insights.formatNumericLabel(d.total), right:'times used'},
-                    {left:d.percentageOfSuccess.toFixed(0) + '%', right:'used successfully'}
-                ],
-                boxInfo = {
-                    xPos: GOVUK.Insights.clamp(xPos,0,WIDTH - boxWidth),
-                    yPos: GOVUK.Insights.clamp(yPos,0,HEIGHT + GUTTER_Y_TOP + 20 - boxHeight + labelBoundingBox.height/2),
-                    title: title,
-                    rowData: rowData,
-                    parent: '#format-success',
-                    closeDelay: 200,
-                    callback: (optionalCallback) ? optionalCallback : undefined
-                };
-            d.callout = new GOVUK.Insights.overlay.CalloutBox(boxInfo);
-            
-            element.parentNode.insertBefore(element,null);
-            
-            var darkerStrokeColor = new GOVUK.Insights.colors(d3.select(element).attr('fill')).multiplyWithSelf().asCSS();
-            d3.select(element).attr("stroke", darkerStrokeColor);
-        };
-        
-        var endHover = function (d,element) {
-            if (d.callout !== null) d.callout.close();
-            d.callout = null;
-            d3.select(element).attr("stroke", "white");
-        }
+    var doHover = function (d, element, optionalCallback) {
+        var title = d.formatName,
+            boxWidth = 170,
+            boxHeight = 66,
+            label = d3.select('#label-' + d3.select(element).attr('data-format')),
+            labelX = parseFloat(label.attr('x')),
+            labelY = parseFloat(label.attr('y')) + GUTTER_Y_TOP + 20,
+            labelBoundingBox = label.node().getBBox(),
+            xPos = (labelX > parseFloat(d3.select(element).attr('cx'))) ? labelX : labelX - (boxWidth - labelBoundingBox.width - 3),
+            yPos = (labelY < parseFloat(d3.select(element).attr('cy'))) ? labelY - (boxHeight - labelBoundingBox.height/2) : labelY - labelBoundingBox.height/2,
+            rowData = [
+                {left:GOVUK.Insights.formatNumericLabel(d.total), right:'times used'},
+                {left:d.percentageOfSuccess.toFixed(0) + '%', right:'used successfully'}
+            ],
+            boxInfo = {
+                xPos: GOVUK.Insights.clamp(xPos,0,WIDTH - boxWidth),
+                yPos: GOVUK.Insights.clamp(yPos,0,HEIGHT + GUTTER_Y_TOP + 20 - boxHeight + labelBoundingBox.height/2),
+                title: title,
+                rowData: rowData,
+                parent: '#format-success',
+                closeDelay: 200,
+                callback: (optionalCallback) ? optionalCallback : undefined
+            };
+        d.callout = new GOVUK.Insights.overlay.CalloutBox(boxInfo);
+
+        element.parentNode.insertBefore(element,null);
+
+        var darkerStrokeColor = new GOVUK.Insights.colors(d3.select(element).attr('fill')).multiplyWithSelf().asCSS();
+        d3.select(element).attr("stroke", darkerStrokeColor);
+    };
+
+    var endHover = function (d,element) {
+        if (d.callout !== null) d.callout.close();
+        d.callout = null;
+        d3.select(element).attr("stroke", "white");
+    };
 
     var plotFormats = function (graph) {
         // Draw xy scatterplot
