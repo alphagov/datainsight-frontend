@@ -45,6 +45,7 @@ GOVUK.Insights.overlay = function () {
         };
         
         unDraw = function () {
+            if (boxInfo.callback) boxInfo.callback();
             element.remove();
         };
         
