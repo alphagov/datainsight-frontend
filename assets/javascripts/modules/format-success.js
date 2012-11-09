@@ -112,7 +112,9 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
                 rowData: rowData,
                 parent: '#format-success',
                 closeDelay: 200,
-                callback: (optionalCallback) ? optionalCallback : undefined
+                callback: (optionalCallback) ? optionalCallback : undefined,
+                width: boxWidth,
+                height: boxHeight
             };
         d.callout = new GOVUK.Insights.overlay.CalloutBox(boxInfo);
 
