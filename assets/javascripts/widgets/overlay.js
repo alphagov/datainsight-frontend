@@ -2,6 +2,8 @@ var GOVUK = GOVUK || {};
 GOVUK.Insights= GOVUK.Insights || {};
 
 GOVUK.Insights.overlay = function () {
+    var overlays = [];
+
     function CalloutBox(boxInfo) {
         var htmlTemplate = '<div class="callout-box"><div class="format"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>',
             element = undefined,
@@ -9,8 +11,8 @@ GOVUK.Insights.overlay = function () {
             defaults = {
                 xPos: 0,
                 yPos: 0
-            };
-        
+            },
+            shouldUnDraw = false;
         
         var setGeometryCss = function () {
             if (boxInfo.width !== undefined) element.width(boxInfo.width);
@@ -20,7 +22,11 @@ GOVUK.Insights.overlay = function () {
         };
         
         this.draw = function () {
-            $('.callout-box').remove();
+            overlays.splice(0, overlays.length - 1).forEach(
+                function (unDraw) {
+                    unDraw();
+                }
+            );
             element = $(htmlTemplate);
             if (boxInfo.boxClass) {
                 element.addClass(boxInfo.boxClass);
@@ -44,23 +50,29 @@ GOVUK.Insights.overlay = function () {
             element.appendTo(boxInfo.parent);
         };
         
-        unDraw = function () {
-            if (boxInfo.callback) boxInfo.callback();
-            element.remove();
+        var unDraw = function () {
+            if (shouldUnDraw) {
+                if (boxInfo.callback) boxInfo.callback();
+                element.remove();
+                shouldUnDraw = false;
+            }
         };
+        overlays.push(unDraw);
         
         this.close = function () {
+            shouldUnDraw = true;
             timeout = setTimeout(unDraw, boxInfo.closeDelay);
         };
-        
+
         this.cancelClose = function () {
+            shouldUnDraw = false;
             window.clearTimeout(timeout);
             timeout = undefined;
         };
-        
+
         // on construction
         this.draw();
-    };
+    }
     
     return {
         CalloutBox: CalloutBox

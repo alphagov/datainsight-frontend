@@ -123,8 +123,10 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
     };
 
     var endHover = function (d,element) {
-        if (d.callout !== null) d.callout.close();
-        d.callout = null;
+        if (d.callout !== undefined) {
+            d.callout.close();
+        }
+        delete d.callout;
         d3.select(element).attr("stroke", "white");
     };
 
@@ -155,10 +157,19 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
                 return d.formatId.idify();
             })
             .on('mouseover', function (d) {
-                doHover(d,this);
+                if (d.callout !== undefined) {
+                    d.callout.cancelClose();
+                } else {
+                    var self = this;
+                    doHover(d, self, function() {
+                        endHover(d, self);
+                    });
+                }
             })
             .on('mouseout', function (d) {
-                endHover(d,this);
+                if (d.callout !== undefined) {
+                    d.callout.close();
+                }
             });
     };
 
@@ -291,11 +302,20 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .on('mouseover', function () {
                 var circleElement = d3.select('circle[data-format=' + d3.select(this).attr('data-format') + ']'),
                     d = circleElement.datum();
-                    
-                doHover(d,circleElement.node(),function () {
-                    endHover(d,circleElement.node());
-                });
-            });
+
+                if (d.callout !== undefined) {
+                    d.callout.cancelClose();
+                } else {
+                    doHover(d,circleElement.node(),function () {
+                        endHover(d,circleElement.node());
+                    });
+                }
+            })
+            .on("mouseout", function(d) {
+                if (d.callout !== undefined) {
+                    d.callout.close();
+                }
+            })
     };
 
 

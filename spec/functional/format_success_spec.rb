@@ -38,5 +38,20 @@ describe "Format success graph" do
 
       page.wait_for_no_callout_box
     end
+
+    it "should show callout box when mousein happens soon after mouseout" do
+      page = DashboardPage.new.visit
+      graph = page.format_success_graph
+      a_circle = graph.circles.first
+
+      a_circle.trigger(:mouseover)
+      page.wait_for_callout_box
+      a_circle.trigger(:mouseout)
+      a_circle.trigger(:mouseover)
+
+      sleep(0.3)
+      page.wait_for_callout_box
+      page.get_callout_boxes.should have(1).callout_box
+    end
   end
 end
