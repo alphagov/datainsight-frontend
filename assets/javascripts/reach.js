@@ -142,12 +142,8 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .text("Average last week")
         .attr("fill","#c61c71");
         
-    var reverseBarLookUp = function (data) {
-        var barElement = d3.selectAll('.bar').filter(function(d,i) {
-            return d3.select(this).datum() === data && parseFloat(d3.select(this).attr('x')) === xScale(i) + barPadding;
-        });
-        
-        return barElement;
+    var reverseBarLookUp = function (hour) {
+        return d3.select(d3.selectAll('.bar')[0][hour]);
     };
     
     var reverseAveragePointLookUp = function (d, hour) {
@@ -188,7 +184,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                 };
             callouts[hour] = new Callout(calloutInfo);
             
-            var barElement = reverseBarLookUp(d);
+            var barElement = reverseBarLookUp(hour);
             barElement.attr('stroke',new GOVUK.Insights.colors(barElement.style('fill')).multiplyWithSelf().asCSS()).attr('stroke-width','3');
             
             var pointLocation = reverseAveragePointLookUp(d, hour);
@@ -206,7 +202,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .on('mouseout', function(d,hour) {
            callouts[hour].close();
            d3.selectAll('.js-temp').remove(); 
-           reverseBarLookUp(d).attr('stroke-width','0');
+           reverseBarLookUp(hour).attr('stroke-width','0');
            d3.select(this).attr('opacity',0.0);
         });
     chart.selectAll('text').each(function () { GOVUK.Insights.createTextShade(this) });
