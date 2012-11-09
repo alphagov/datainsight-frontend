@@ -33,15 +33,17 @@ GOVUK.Insights.formatNumericLabel = function (val) {
     var oneMillion = 1000000;
     var tenMillion = 10000000;
 
-    if (val <= 100) return val.toString();
+    var thresholdForRenderingAsMillion = 999500;
 
     if (val >= tenMillion) return Math.round(val / oneMillion) + "m";
 
-    if (val >= oneMillion) return (val / oneMillion).toFixed(1).replace('.0', '') + "m";
+    if (val >= thresholdForRenderingAsMillion) return (val / oneMillion).toFixed(1).replace('.0', '') + "m";
 
     if (val >= tenThousand) return Math.round(val / oneThousand) + "k";
 
-    if (val >= oneThousand) return (val / oneThousand).toFixed(1).replace('.0', '') + "k";
+    if (val > 100) return (val / oneThousand).toFixed(1).replace('.0', '') + "k";
+
+    return val.toString();
 };
 
 

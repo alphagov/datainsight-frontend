@@ -94,6 +94,12 @@ describe("Helpers", function () {
             expect(GOVUK.Insights.formatNumericLabel(fiftyFivePointFiveMillion)).toBe('56m');
             expect(GOVUK.Insights.formatNumericLabel(fiftyFivePointFourMillion)).toBe('55m');
             expect(GOVUK.Insights.formatNumericLabel(ninetyNinePointNineMillion)).toBe('100m');
+
+            expect(GOVUK.Insights.formatNumericLabel(9999)).toBe('10k');
+            expect(GOVUK.Insights.formatNumericLabel(999499)).toBe('999k');
+            expect(GOVUK.Insights.formatNumericLabel(999500)).toBe('1m');
+            expect(GOVUK.Insights.formatNumericLabel(999999)).toBe('1m');
+            expect(GOVUK.Insights.formatNumericLabel(9999999)).toBe('10m');
         });
         
         it("should not show .0 for values rounding to an integer number of millions", function () {
@@ -109,6 +115,24 @@ describe("Helpers", function () {
             expect(GOVUK.Insights.formatNumericLabel(7950)).toBe('8k');
             expect(GOVUK.Insights.formatNumericLabel(8049)).toBe('8k');
             expect(GOVUK.Insights.formatNumericLabel(8050)).toBe('8.1k');
+        });
+
+        it("should display entirely numbers from 0 to 100", function() {
+            expect(GOVUK.Insights.formatNumericLabel(0)).toBe('0');
+            expect(GOVUK.Insights.formatNumericLabel(1)).toBe('1');
+            expect(GOVUK.Insights.formatNumericLabel(9)).toBe('9');
+            expect(GOVUK.Insights.formatNumericLabel(10)).toBe('10');
+            expect(GOVUK.Insights.formatNumericLabel(77)).toBe('77');
+            expect(GOVUK.Insights.formatNumericLabel(100)).toBe('100');
+        });
+
+        it("should display numbers from 101 to 999 as fractions of 1k", function() {
+            expect(GOVUK.Insights.formatNumericLabel(101)).toBe('0.1k');
+            expect(GOVUK.Insights.formatNumericLabel(154)).toBe('0.2k');
+            expect(GOVUK.Insights.formatNumericLabel(235)).toBe('0.2k');
+            expect(GOVUK.Insights.formatNumericLabel(398)).toBe('0.4k');
+            expect(GOVUK.Insights.formatNumericLabel(777)).toBe('0.8k');
+            expect(GOVUK.Insights.formatNumericLabel(999)).toBe('1k');
         });
     });
 
