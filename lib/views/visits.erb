@@ -1,6 +1,6 @@
 <% content_for :footer do %>
-    <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag('time-series') } %>
-    <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag("widgets/overlay",'modules/visits') } %>
+    <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag("time-series") } %>
+    <%= erb :_for_svg_supported_browsers, :locals => { :content => javascript_include_tag("modules/visits") } %>
 <% end %>
 
 <div id="visits-module" class="module">
