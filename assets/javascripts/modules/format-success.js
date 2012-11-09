@@ -102,8 +102,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             xPos = (labelX > parseFloat(d3.select(element).attr('cx'))) ? labelX : labelX - (boxWidth - labelBoundingBox.width - 3),
             yPos = (labelY < parseFloat(d3.select(element).attr('cy'))) ? labelY - (boxHeight - labelBoundingBox.height/2) : labelY - labelBoundingBox.height/2,
             rowData = [
-                {left:GOVUK.Insights.formatNumericLabel(d.total), right:'times used'},
-                {left:d.percentageOfSuccess.toFixed(0) + '%', right:'used successfully'}
+                {right:GOVUK.Insights.formatNumericLabel(d.total), left:'Times used'},
+                {right:d.percentageOfSuccess.toFixed(0) + '%', left:'Used successfully'}
             ],
             boxInfo = {
                 xPos: GOVUK.Insights.clamp(xPos,0,WIDTH - boxWidth + 3),

@@ -255,7 +255,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     }
 
                     // show callout
-                    var boxWidth = 145,
+                    var boxWidth = 155,
                         boxHeight = 48,
                         xOffset = -20,
                         yOffset = -60,
@@ -271,8 +271,8 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                             title: formatDate(dateFormat.parse(closest.datum.startDate)) + " - " + formatDate(dateFormat.parse(closest.datum.endDate)),
                             rowData: [
                                 {
-                                    left: GOVUK.Insights.formatNumericLabel(closest.datum.value),
-                                    right: params.series[closest.seriesName].legend.text
+                                    right: GOVUK.Insights.formatNumericLabel(closest.datum.value),
+                                    left: params.series[closest.seriesName].legend.text
                                 }
                             ],
                             boxClass: closest.seriesName

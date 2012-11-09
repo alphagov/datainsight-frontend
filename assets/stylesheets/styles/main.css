@@ -294,10 +294,10 @@ path.vertical, line.vertical {
 /*    stroke-width: 4;*/
 }
 
-.time-series .callout-box.directgov .details-right {
+.time-series .callout-box.directgov .details-left {
     color: #8b5d3b;
 }
-.time-series .callout-box.businesslink .details-right {
+.time-series .callout-box.businesslink .details-left {
     color: #662d91;
 }
 
@@ -443,12 +443,14 @@ span.pink {
 
 .callout-box .details-left {
     float: left;
-    text-align: right;
-    min-width: 40px;
+    text-align: left;
+    
 }
 
 .callout-box .details-right {
-    padding-left: 45px;
+    padding-left: 110px;
+    text-align: right;
+    min-width: 40px;
 }
 
 .callout-box div {
