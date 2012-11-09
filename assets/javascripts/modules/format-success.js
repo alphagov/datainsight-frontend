@@ -177,7 +177,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
     var getFormatName = function(formatId) {
         return {
-            "guide": "Guide",
+            "guide": "Guides",
             "programme": "Benefits",
             "answer": "Answers",
             "smart_answer": "Smart Answers"
