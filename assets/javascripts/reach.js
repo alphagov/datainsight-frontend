@@ -71,7 +71,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     chart.selectAll(".bar")
         .data(yesterdaysData)
         .enter().append("rect")
-        .attr("shape-rendering", "geometricPrecision")
+        .attr("shape-rendering", "crispEdges")
         .attr("class", "bar")
         .attr("x", function(d, i) {
             return xScale(i) + barPadding
