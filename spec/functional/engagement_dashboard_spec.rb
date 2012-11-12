@@ -43,7 +43,7 @@ describe "Engagement Dashboard" do
     # strange xpath syntax is used to get around fact that svg elements are not visible to xpath normally.
     # see: http://stackoverflow.com/questions/5433825/having-trouble-using-capybara-and-selenium-to-find-an-svg-tag-on-a-page
     page.should have_css("#narrative")
-    page.find('#narrative').should have_content("Gov.uk had 3.5 million visitors last week, a decrease of 11% from the week before")
+    page.find('#narrative').should have_content("GOV.UK had 3.5 million visitors last week, a decrease of 11% from the week before")
   end
 
   it "should NOT show the narrative if there was an error" do

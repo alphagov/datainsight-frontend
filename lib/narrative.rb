@@ -22,7 +22,7 @@ class Narrative
   def build_content(visitors_last_week, visitors_the_week_before)
     percentage = ((visitors_last_week / visitors_the_week_before - 1) * 100).round
     change = describe_change(percentage)
-    "Gov.uk had #{(visitors_last_week/1000000).round(1).to_s.sub('.0', '')} million visitors last week, #{change} the week before"
+    "GOV.UK had #{(visitors_last_week/1000000).round(1).to_s.sub('.0', '')} million visitors last week, #{change} the week before"
   end
 
   def describe_change(percentage)
