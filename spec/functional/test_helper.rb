@@ -8,7 +8,13 @@ require "rspec/core/shared_context"
 
 RSpec.configure do |config|
   config.include Capybara::DSL
+
   Capybara.default_driver = :poltergeist
+
+  Capybara.configure do |config|
+    config.default_wait_time = 5
+  end
+
   Capybara.server do |app, port|
     require 'rack/handler/webrick'
     Rack::Handler::WEBrick.run(app, :Port => port, :AccessLog => [], :Logger => WEBrick::Log::new("log/capybara_test.log"))
