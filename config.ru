@@ -1,6 +1,8 @@
 USE_STUB_DATA = ENV["USE_STUB_DATA"] || false
 
 require "./lib/app"
+require "./config/feature_toggles"
+FeatureToggles.configure
 
 # Write the access log to a file. We're not using the normal logger, as the format is different.
 use Rack::CommonLogger, File.new('log/rack-access.log', 'a')

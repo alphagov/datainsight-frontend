@@ -10,6 +10,7 @@ require_relative "config"
 require_relative "sprocket_env"
 require_relative "helpers"
 require_relative "api"
+require_relative "narrative"
 
 unless defined?(USE_STUB_DATA)
   USE_STUB_DATA = false
@@ -63,6 +64,19 @@ class App < Sinatra::Base
   end
 
   def get_narrative()
+    if (FEATURE[:show_weekly_visitors_in_narrative])
+      weekly_visitors_narrative
+    else
+      todays_activity_narrative
+    end
+  end
+
+  def weekly_visitors_narrative
+    weekly_visitors = api(settings.api_urls).weekly_visitors("url is irrelevant")
+    Narrative.new(weekly_visitors).content unless weekly_visitors == :error
+  end
+
+  def todays_activity_narrative
     # we don't care about the id / web_url fields because it's not being published from here
     response = api(settings.api_urls).narrative("do not care")
     if response == :error

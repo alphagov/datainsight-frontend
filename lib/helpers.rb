@@ -46,7 +46,7 @@ module Insight
     end
 
     def displayable(message)
-      message != :error and not message.empty?
+      message != :error and not message.nil? and not message.empty?
     end
 
     def graph_image_tag name
