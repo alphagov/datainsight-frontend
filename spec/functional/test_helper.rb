@@ -12,7 +12,7 @@ RSpec.configure do |config|
   Capybara.default_driver = :poltergeist
 
   Capybara.configure do |config|
-    config.default_wait_time = 5
+    config.default_wait_time = 15
   end
 
   Capybara.server do |app, port|
