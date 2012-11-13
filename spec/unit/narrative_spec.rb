@@ -69,9 +69,12 @@ describe Narrative do
     narrative.content.should == "GOV.UK had 3.3 million visitors last week, <green>an increase of 10%</green> from the week before"
   end
 
-  it "should not mark up the content when the increase or decrease is less than 1%" do
+  it "should not mark up the content when the increase is less than 1%" do
     narrative_for_increase_below_1 = Narrative.new(build_narrative(week_before:3000000, last_week:3014900))
     narrative_for_increase_below_1.content.should == "GOV.UK had 3 million visitors last week, about the same as the week before"
+  end
+
+  it "should not mark up the content when the decrease is less than 1%" do
     narrative_for_decrease_below_1 = Narrative.new(build_narrative(week_before:3000000, last_week:2985001))
     narrative_for_decrease_below_1.content.should == "GOV.UK had 3 million visitors last week, about the same as the week before"
   end

@@ -27,6 +27,7 @@ GOVUK.Insights.numericLabelFormatterFor = function (tickStep) {
     }
 };
 
+// similar function exists in number_format.rb: NumberFormat.human_readable_number
 GOVUK.Insights.formatNumericLabel = function (val) {
     var oneThousand = 1000;
     var tenThousand = 10000;

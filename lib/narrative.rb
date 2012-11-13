@@ -1,3 +1,5 @@
+require_relative "number_format"
+
 class Narrative
   attr_reader :content
 
@@ -22,7 +24,11 @@ class Narrative
   def build_content(visitors_last_week, visitors_the_week_before)
     percentage = ((visitors_last_week / visitors_the_week_before - 1) * 100).round
     change = describe_change(percentage)
-    "GOV.UK had #{(visitors_last_week/1000000).round(1).to_s.sub('.0', '')} million visitors last week, #{change} the week before"
+    "GOV.UK had #{format_number(visitors_last_week)} visitors last week, #{change} the week before"
+  end
+
+  def format_number(visitors_last_week)
+    NumberFormat::human_readable_number(visitors_last_week)
   end
 
   def describe_change(percentage)
