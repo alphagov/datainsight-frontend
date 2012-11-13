@@ -13,7 +13,7 @@ describe "Hourly traffic Graph" do
       page.get_callout_boxes.should have(1).callout_box
     end
 
-    it "should always show ONLY one callout box on mouseover" do
+    it "should show ONLY one callout box on mouseover" do
       page = DashboardPage.new.visit
       graph = page.hourly_traffic_graph
       graph.columns.first.trigger(:mouseover)
