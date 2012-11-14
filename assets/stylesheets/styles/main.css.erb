@@ -62,6 +62,12 @@ article p {
   font-weight: lighter;
 }
 
+<% if FEATURE[:use_tabular_numbers] %>
+#content #datainsight-dashboard * {
+    font-family: ntatabularnumbers, nta, arial, sans-serif;
+}
+<% end %>
+
 .ie7 #content {
   width: 1020px !important;
 }
