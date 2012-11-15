@@ -1,0 +1,68 @@
+<style type="text/css">
+    <!--
+    .datainsight .article-container {
+        margin-right: 0;
+        background-image: url("<%= asset_path('performance_graphs.png') %>");
+        background-repeat: no-repeat;
+        background-position: top right;
+    }
+    -->
+</style>
+
+<header class="page-header group">
+  <hgroup class="full-width">
+    <h1>Welcome to the Performance Platform</h1>
+  </hgroup>
+</header>
+
+<div class="article-container group">
+  <article class="group" role="article">
+    <div class="inner">
+
+      <section class="intro">
+        <p>
+          Government handles over one and a half billion transactions every year, allowing the exchange of information,
+          money, permission, goods and services. We’re using data to improve them.
+        </p>
+
+        <p>
+          On these pages, you can find the full list of transactional services government offers, what the Government
+          Digital Service (GDS) is doing to encourage data-driven delivery across them, and the best practice we are
+          following to achieve it.
+        </p>
+      </section>
+
+      <section class="more">
+
+        <h3><%= link_to "GOV.UK Dashboard", dashboard_path %></h3>
+
+        <p>
+          View the latest data about the performance of the <%= link_to "GOV.UK", "/" %> website.
+        </p>
+
+        <h3><%= link_to "Government Transactional Services", "http://transactionalservices.alphagov.co.uk" %></h3>
+
+        <p>
+          Find out what transactional services local government, departments and their agencies or sponsored public
+          bodies provide.
+        </p>
+
+        <h3><%= link_to "GDS Performance Framework", "/designprinciples/performanceframework" %></h3>
+
+        <p>
+          This document helps teams running government services answer important questions about how those services are
+          performing. The framework is based around seven principles, with easy-to-follow checklists to help people get
+          started.
+        </p>
+
+        <h3><%= link_to "GDS Blog - Performance", "http://digital.cabinetoffice.gov.uk/category/performance" %></h3>
+
+        <p>
+          The latest about what the performance and delivery team at GDS has been up to.
+        </p>
+
+      </section>
+
+    </div>
+  </article>
+</div>
