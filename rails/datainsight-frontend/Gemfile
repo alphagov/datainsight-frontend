@@ -2,9 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.9'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+gem "datainsight_logging"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -34,4 +32,7 @@ end
 
 group :test, :development do
   gem "rspec-rails"
+  gem "capybara"
+  gem "eventmachine" # Ubuntu precise bugfix, needed for poltergeist, see: https://github.com/eventmachine/eventmachine/commit/9473a1b181ed1997e3156d960b2bb2783f508191
+  gem "poltergeist"
 end

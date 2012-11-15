@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Time" tests="6" time="0.001791" failures="0" errors="0" skipped="0">
+  <testcase name="Time should calculate correct suffix for 1st" time="0.000357">
+  </testcase>
+  <testcase name="Time should calculate correct suffix for 2nd" time="0.000147">
+  </testcase>
+  <testcase name="Time should calculate correct suffix for 3rd" time="0.000146">
+  </testcase>
+  <testcase name="Time should calculate correct suffix for 14th" time="0.000139">
+  </testcase>
+  <testcase name="Time should calculate correct suffix for 11th" time="0.000157">
+  </testcase>
+  <testcase name="Time should calculate correct suffix for 12th" time="0.000148">
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+  </system-err>
+</testsuite>

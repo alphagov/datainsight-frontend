@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Engagement Dashboard" tests="3" time="12.458283" failures="0" errors="0" skipped="0">
+  <testcase name="Engagement Dashboard should show the narrative" time="3.025138">
+  </testcase>
+  <testcase name="Engagement Dashboard should NOT show the narrative if it is empty" time="4.727673">
+  </testcase>
+  <testcase name="Engagement Dashboard should NOT show the narrative if there was an error" time="4.704454">
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+  </system-err>
+</testsuite>
