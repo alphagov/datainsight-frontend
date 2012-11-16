@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-DatainsightFrontend::Application.load_tasks
+DataInsightFrontend::Application.load_tasks

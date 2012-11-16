@@ -1,4 +1,4 @@
-DatainsightFrontend::Application.configure do
+DataInsightFrontend::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
