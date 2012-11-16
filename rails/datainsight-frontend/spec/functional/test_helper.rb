@@ -1,5 +1,7 @@
 require_relative "../spec_helper"
 
+require "slimmer/test"
+
 require "capybara"
 require 'capybara/rails'
 require "capybara/dsl"
@@ -35,16 +37,16 @@ module CommonSetup
   #end
 end
 
-#class ClientAPIStubFromMap
-#  def initialize(map)
-#    @map = map
-#  end
-#
-#  def method_missing(m, *args, &block)
-#    @map[m.to_sym]
-#  end
-#end
-#
+class ClientAPIStubFromMap
+  def initialize(map)
+    @map = map
+  end
+
+  def method_missing(m, *args, &block)
+    @map[m.to_sym]
+  end
+end
+
 #class StubApp < App
 #  def initialize(api = Insight::API::ClientStub.new)
 #    super

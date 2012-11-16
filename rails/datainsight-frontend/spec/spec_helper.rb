@@ -2,10 +2,8 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
-require_relative "../config/feature_toggles"
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
-FeatureToggles.configure(:test)
 Datainsight::Logging.configure(:env => :test)
 
 RSpec.configure do |config|

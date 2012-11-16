@@ -1,0 +1,12 @@
+development:
+  weekly_reach_base_url: http://datainsight-weekly-reach-recorder.dev.gov.uk
+  todays_activity_base_url: http://datainsight-todays-activity-recorder.dev.gov.uk
+  format_success_base_url: http://datainsight-format-success-recorder.dev.gov.uk
+preview:
+  weekly_reach_base_url: https://datainsight-weekly-reach-recorder.preview.alphagov.co.uk
+  todays_activity_base_url: https://datainsight-todays-activity-recorder.preview.alphagov.co.uk
+  format_success_base_url: https://datainsight-format-success-recorder.preview.alphagov.co.uk
+production:
+  weekly_reach_base_url: https://datainsight-weekly-reach-recorder.production.alphagov.co.uk
+  todays_activity_base_url: https://datainsight-todays-activity-recorder.production.alphagov.co.uk
+  format_success_base_url: https://datainsight-format-success-recorder.production.alphagov.co.uk

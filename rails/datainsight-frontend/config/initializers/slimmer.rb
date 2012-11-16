@@ -5,6 +5,6 @@ DatainsightFrontend::Application.configure do
   end
 
   if Rails.env.development?
-    config.slimmer.asset_host = ENV["STATIC_DEV"] || Plek.current.find('static')
+    config.slimmer.asset_host = ENV["STATIC_DEV"] || "http://static.dev.gov.uk/"
   end
 end
