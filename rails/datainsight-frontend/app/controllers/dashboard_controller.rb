@@ -34,6 +34,47 @@ class DashboardController < ApplicationController
 
   end
 
+  def visits
+    respond_to do |format|
+      format.html do
+        # get weekly visits
+      end
+      format.png { serve_image("visits") }
+    end
+  end
+
+  def unique_visitors
+    respond_to do |format|
+      format.html do
+        # get weekly visits
+      end
+      format.png { serve_image("unique-visitors") }
+    end
+  end
+
+  def format_success
+    respond_to do |format|
+      format.html do
+        # get weekly visits
+      end
+      format.png { serve_image("format-success") }
+    end
+  end
+
+  def hourly_traffic
+    respond_to do |format|
+      format.html do
+        # get weekly visits
+      end
+      format.png { serve_image("hourly-traffic") }
+    end
+  end
+
+  def serve_image(image_name)
+    headers['X-Slimmer-Skip'] = "true"
+    send_data File.read("#{DataInsightSettings::GRAPHS_IMAGES_DIR}/#{image_name}.png"), type: "image/png", disposition: "inline"
+  end
+
   def narrative
     @narrative = get_narrative
   end

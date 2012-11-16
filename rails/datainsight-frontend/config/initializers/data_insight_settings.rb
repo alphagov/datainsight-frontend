@@ -1,4 +1,8 @@
 module DataInsightSettings
+
+  GRAPHS_IMAGES_DIR = "/var/tmp/graphs"
+  URI_ROOT = "/performance"
+
   # Allows accessing config variables from harmony.yml like so:
   #   Harmony[:domain] => harmonyapp.com
   def self.[](key)
