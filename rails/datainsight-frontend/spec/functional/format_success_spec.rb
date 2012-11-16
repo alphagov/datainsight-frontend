@@ -1,7 +1,7 @@
 require_relative "test_helper"
 
 describe "Format success graph" do
-  include CommonSetup
+  include StubApiFromFixtures
 
   describe "hover" do
     it "should show callout box when hovering over a circle" do

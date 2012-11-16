@@ -9,6 +9,8 @@ require "capybara/poltergeist"
 
 require "rspec/core/shared_context"
 
+require_relative "client_stub"
+
 RSpec.configure do |config|
   config.include Capybara::DSL
 
@@ -24,17 +26,12 @@ RSpec.configure do |config|
   #end
 end
 
-module CommonSetup
+module StubApiFromFixtures
   extend RSpec::Core::SharedContext
 
-  #before(:all) do
-  #  Capybara.app = Rack::URLMap.new(
-  #      {
-  #          "/performance" => App,
-  #          "/performance/assets" => SprocketEnvHolder.instance.environment,
-  #      }
-  #  )
-  #end
+  before(:each) do
+    ClientAPI.stub(:new).and_return(ClientStub.new)
+  end
 end
 
 class ClientAPIStubFromMap

@@ -1,7 +1,7 @@
 require_relative "test_helper"
 
 describe "Hourly traffic Graph" do
-  include CommonSetup
+  include StubApiFromFixtures
 
   describe "hover" do
     pending "until timeout issue on Jenkins is fixed" do
