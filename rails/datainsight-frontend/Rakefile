@@ -5,3 +5,7 @@
 require File.expand_path('../config/application', __FILE__)
 
 DataInsightFrontend::Application.load_tasks
+
+unless ENV["RAILS_ENV"] == "production"
+  require 'ci/reporter/rake/rspec'
+end

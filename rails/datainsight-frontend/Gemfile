@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+source 'https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/'
 
 gem "rails", "3.2.9"
 
@@ -24,6 +25,7 @@ group :test, :development do
   gem "capybara"
   gem "eventmachine" # Ubuntu precise bugfix, needed for poltergeist, see: https://github.com/eventmachine/eventmachine/commit/9473a1b181ed1997e3156d960b2bb2783f508191
   gem "poltergeist"
+  gem "ci_reporter"
 
   gem "jasmine"
   gem "jasmine-phantom"
