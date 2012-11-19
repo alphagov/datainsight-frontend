@@ -1,0 +1,1 @@
+Datainsight::Logging.configure(env: Rails.env) unless Rails.env.test?

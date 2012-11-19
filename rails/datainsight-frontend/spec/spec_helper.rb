@@ -4,8 +4,6 @@ require 'rspec/rails'
 require 'rspec/autorun'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
-Datainsight::Logging.configure(:env => :test)
-
 RSpec.configure do |config|
   # ## Mock Framework
   #
