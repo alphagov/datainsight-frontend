@@ -1,4 +1,9 @@
 class ClientStub
+
+  def initialize(config = nil)
+
+  end
+
   def narrative(url)
     fixture :narrative
   end
@@ -21,7 +26,7 @@ class ClientStub
 
   private
   def fixture(name)
-    fixture_file = File.join(File.dirname(__FILE__), "../fixtures/#{name}.json")
+    fixture_file = File.join(File.dirname(__FILE__), "../../spec/fixtures/#{name}.json")
 
     JSON.parse(load_fixture(fixture_file))
   end

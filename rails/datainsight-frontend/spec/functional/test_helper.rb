@@ -9,8 +9,6 @@ require "capybara/poltergeist"
 
 require "rspec/core/shared_context"
 
-require_relative "client_stub"
-
 RSpec.configure do |config|
   config.include Capybara::DSL
 
@@ -19,11 +17,6 @@ RSpec.configure do |config|
   Capybara.configure do |config|
     config.default_wait_time = 15
   end
-
-  #Capybara.server do |app, port|
-  #  require 'rack/handler/webrick'
-  #  Rack::Handler::WEBrick.run(app, :Port => port, :AccessLog => [], :Logger => WEBrick::Log::new("log/capybara_test.log"))
-  #end
 end
 
 module StubApiFromFixtures
@@ -43,17 +36,6 @@ class ClientAPIStubFromMap
     @map[m.to_sym]
   end
 end
-
-#class StubApp < App
-#  def initialize(api = Insight::API::ClientStub.new)
-#    super
-#    @api = api
-#  end
-#
-#  def api(config)
-#    @api
-#  end
-#end
 
 module SessionAware
   def get_session

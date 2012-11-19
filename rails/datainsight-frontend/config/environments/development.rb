@@ -27,4 +27,8 @@ DataInsightFrontend::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  if ENV["USE_STUB_DATA"]
+    config.client_api = ClientStub
+  end
 end

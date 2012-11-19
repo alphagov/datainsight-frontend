@@ -1,7 +1,7 @@
 class DashboardController < ApplicationController
 
   def api(config)
-    @api ||= ClientAPI.new(config)
+    @api ||= create_client_api(config)
   end
 
   def get_narrative()
