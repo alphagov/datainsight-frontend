@@ -130,6 +130,10 @@ GEM
     rake (10.0.1)
     rdoc (3.12)
       json (~> 1.4)
+    router-client (3.1.0)
+      activesupport
+      builder
+      null_logger
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)
@@ -192,6 +196,7 @@ DEPENDENCIES
   jasmine-phantom
   poltergeist
   rails (= 3.2.9)
+  router-client (= 3.1.0)
   rspec-rails
   sass-rails (~> 3.2.3)
   slimmer
