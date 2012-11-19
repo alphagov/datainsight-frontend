@@ -56,5 +56,7 @@ module DataInsightFrontend
 
     config.assets.prefix = 'datainsight-frontend'
 
+    config.action_dispatch.rack_cache = nil
+
   end
 end
