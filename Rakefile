@@ -1,42 +1,11 @@
-require 'rubygems'
+#!/usr/bin/env rake
+# Add your own tasks in files placed in lib/tasks ending in .rake,
+# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
-Dir.glob('lib/tasks/*.rake').each { |r| import r }
+require File.expand_path('../config/application', __FILE__)
 
-unless ENV["RACK_ENV"] == "production"
-  require 'rspec/core/rake_task'
+DataInsightFrontend::Application.load_tasks
+
+unless ENV["RAILS_ENV"] == "production"
   require 'ci/reporter/rake/rspec'
-  load 'jasmine-phantom/tasks.rake'
-
-  task :default => :spec
-
-  desc "Run RSpec and Jasmine - Test to run before pushing"
-  task :pre_push => [:spec, 'jasmine:ci']
-
-  RSpec::Core::RakeTask.new do |task|
-    task.pattern    = 'spec/**/*_spec.rb'
-    task.rspec_opts = ["--format documentation"]
-  end
-
-  namespace :spec do
-    desc "Run RSpec unit code examples"
-    RSpec::Core::RakeTask.new (:unit) do |task|
-      task.pattern    = "spec/unit/*_spec.rb"
-      task.rspec_opts = ["--format documentation"]
-    end
-
-    desc "Run RSpec functional code examples"
-    RSpec::Core::RakeTask.new(:functional)  do |task|
-      task.pattern = "spec/functional/*_spec.rb"
-      task.rspec_opts = ["--format documentation"]
-    end
-  end
-
-  begin
-    require 'jasmine'
-    load 'jasmine/tasks/jasmine.rake'
-  rescue LoadError
-    task :jasmine do
-      abort "Jasmine is not available. In order to run jasmine, you must: (sudo) gem install jasmine"
-    end
-  end
 end

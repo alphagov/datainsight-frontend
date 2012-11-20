@@ -1,5 +1,4 @@
-require_relative "../test_helper"
-require "helpers"
+require_relative "../spec_helper"
 
 describe "Time" do
 

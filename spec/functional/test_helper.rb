@@ -1,6 +1,9 @@
-require_relative "../test_helper"
+require_relative "../spec_helper"
+
+require "slimmer/test"
 
 require "capybara"
+require 'capybara/rails'
 require "capybara/dsl"
 require "capybara/poltergeist"
 
@@ -14,23 +17,13 @@ RSpec.configure do |config|
   Capybara.configure do |config|
     config.default_wait_time = 15
   end
-
-  Capybara.server do |app, port|
-    require 'rack/handler/webrick'
-    Rack::Handler::WEBrick.run(app, :Port => port, :AccessLog => [], :Logger => WEBrick::Log::new("log/capybara_test.log"))
-  end
 end
 
-module CommonSetup
+module StubApiFromFixtures
   extend RSpec::Core::SharedContext
 
-  before(:all) do
-    Capybara.app = Rack::URLMap.new(
-        {
-            "/performance" => App,
-            "/performance/assets" => SprocketEnvHolder.instance.environment,
-        }
-    )
+  before(:each) do
+    ClientAPI.stub(:new).and_return(ClientStub.new)
   end
 end
 
@@ -41,17 +34,6 @@ class ClientAPIStubFromMap
 
   def method_missing(m, *args, &block)
     @map[m.to_sym]
-  end
-end
-
-class StubApp < App
-  def initialize(api = Insight::API::ClientStub.new)
-    super
-    @api = api
-  end
-
-  def api(config)
-    @api
   end
 end
 

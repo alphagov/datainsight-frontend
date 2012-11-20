@@ -1,5 +1,4 @@
-require_relative "../test_helper"
-require_relative "../../lib/number_format"
+require_relative "../spec_helper"
 
 describe NumberFormat do
 
@@ -23,7 +22,4 @@ describe NumberFormat do
 
     NumberFormat.human_readable_number(123_456_789).should == "123 million"
   end
-
 end
-
-RSpec::Matchers

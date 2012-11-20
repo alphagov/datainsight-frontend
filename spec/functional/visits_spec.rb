@@ -1,7 +1,7 @@
 require_relative "test_helper"
 
 describe "Visits graph" do
-  include CommonSetup
+  include StubApiFromFixtures
 
   describe "hover" do
     it "should show callout box when mouse is in the graph area"

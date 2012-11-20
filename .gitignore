@@ -7,3 +7,4 @@ log
 .idea
 public
 config/initializers/asset_host.rb
+tmp
