@@ -8,6 +8,7 @@ gem "slimmer"
 gem "songkick-transport", :git => "git://github.com/songkick/transport.git"
 gem "httparty"
 gem "airbrake", "3.1.5"
+gem "unicorn"
 
 group :assets do
   gem "sass-rails",   "~> 3.2.3"
