@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
   end
 
   def get_narrative()
-    if (DataInsightSettings.feature_toggles[:show_weekly_visitors_in_narrative])
+    if (Settings.feature_toggles[:show_weekly_visitors_in_narrative])
       weekly_visitors_narrative
     else
       todays_activity_narrative
@@ -13,13 +13,13 @@ class DashboardController < ApplicationController
   end
 
   def weekly_visitors_narrative
-    weekly_visitors = api(DataInsightSettings).weekly_visitors("url is irrelevant")
+    weekly_visitors = api(Settings).weekly_visitors("url is irrelevant")
     Narrative.new(weekly_visitors).content unless weekly_visitors == :error
   end
 
   def todays_activity_narrative
     # we don't care about the id / web_url fields because it's not being published from here
-    response = api(DataInsightSettings).narrative("do not care")
+    response = api(Settings).narrative("do not care")
     if response == :error
       ""
     else
@@ -66,7 +66,7 @@ class DashboardController < ApplicationController
 
   def serve_image(image_name)
     headers['X-Slimmer-Skip'] = "true"
-    send_data File.read("#{DataInsightSettings::GRAPHS_IMAGES_DIR}/#{image_name}.png"), type: "image/png", disposition: "inline"
+    send_data File.read("#{Settings::GRAPHS_IMAGES_DIR}/#{image_name}.png"), type: "image/png", disposition: "inline"
   end
 
   def narrative
@@ -78,7 +78,7 @@ class DashboardController < ApplicationController
 
   def serve_json(endpoint)
     request_url = "#{request.scheme}://#{request.host}#{request.path}".chomp(".json")
-    api = api(DataInsightSettings)
+    api = api(Settings)
     result = api.send(endpoint.to_sym, request_url)
     if result == :error
       render status: 500

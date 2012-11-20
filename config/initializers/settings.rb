@@ -1,4 +1,4 @@
-module DataInsightSettings
+module Settings
 
   GRAPHS_IMAGES_DIR = "/var/tmp/graphs"
   URI_ROOT = "/performance"
@@ -33,5 +33,4 @@ module DataInsightSettings
     end
     @feature_toggles
   end
-
 end

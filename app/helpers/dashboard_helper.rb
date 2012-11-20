@@ -30,9 +30,9 @@ module DashboardHelper
   end
 
   def graph_image_tag name
-    location = "#{DataInsightSettings::GRAPHS_IMAGES_DIR}/#{name}.png"
+    location = "#{Settings::GRAPHS_IMAGES_DIR}/#{name}.png"
     timestamp = File.exist?(location) ? "?#{File.mtime(location).to_i}" : ""
-    uri = "#{DataInsightSettings::URI_ROOT}/dashboard/#{name}.png#{timestamp}"
+    uri = "#{Settings::URI_ROOT}/dashboard/#{name}.png#{timestamp}"
 
     tag(:img, :src => uri)
   end
