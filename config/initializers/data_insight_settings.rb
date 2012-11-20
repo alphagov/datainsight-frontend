@@ -3,12 +3,16 @@ module DataInsightSettings
   GRAPHS_IMAGES_DIR = "/var/tmp/graphs"
   URI_ROOT = "/performance"
 
+  def self.platform
+    ENV['FACTER_govuk_platform'] || Rails.env
+  end
+
   # Allows accessing config variables from harmony.yml like so:
   #   Harmony[:domain] => harmonyapp.com
   def self.[](key)
     unless @api_urls
       raw_config = File.read(Rails.root.join("config", "environments", "api_urls.yml"))
-      @api_urls = YAML.load(raw_config)[Rails.env]
+      @api_urls = YAML.load(raw_config)[platform]
     end
     @api_urls[key]
   end
