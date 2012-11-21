@@ -8,8 +8,8 @@ GOVUK.Insights.scatterplotGraph = function () {
         width:960,
         height:400,
         maxRadius:30,
-        marginTop:20,
-        marginBottom:20,
+        marginTop:10,
+        marginBottom:40,
         marginLeft:10,
         marginRight:10,
         x:function (d) {
@@ -83,7 +83,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .enter().append("svg:g").attr("class", "graph-area");
 
             graphArea
-                .attr("transform", "translate(0, 25)");
+                .attr("transform", "translate(0, 30)");
 
             var usedSuccessfully = plotArea.selectAll("text.title-y").data([config]);
 
@@ -357,7 +357,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .text(config.yAxisLabels.bottom)
                 .attr("class", "label-y-bottom")
                 .attr("y", function (d) {
-                    return d.height - 20;
+                    return d.height;
                 })
                 .attr("x", function (d) {
                     return d.width / 2 - 5;
@@ -374,7 +374,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .attr("height", 12)
                 .attr("width", 12)
                 .attr("y", function (d) {
-                    return d.height - 20 - 6;
+                    return d.height - 6;
                 })
                 .attr("x", function (d) {
                     return d.width / 2 + 7;
