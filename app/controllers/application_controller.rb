@@ -8,11 +8,7 @@ class ApplicationController < ActionController::Base
   private
 
   def client_api_class
-    if DataInsightFrontend::Application.config.respond_to?(:client_api)
-      DataInsightFrontend::Application.config.client_api
-    else
-      ClientAPI
-    end
+    Settings.use_stub_api ? ClientStub : ClientAPI
   end
 
 end

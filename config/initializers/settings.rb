@@ -12,6 +12,10 @@ module Settings
     ENV['FACTER_govuk_platform'] || Rails.env
   end
 
+  def self.use_stub_api
+    true?(ENV["USE_STUB_DATA"])
+  end
+
   def self.api_urls
     @api_urls ||= load_api_urls
   end
@@ -21,6 +25,11 @@ module Settings
   end
 
   private
+
+  def self.true?(str)
+    regex = /^(true|yes|on|1)$/i
+    regex.match(str).present?
+  end
 
   def self.load_feature_toggles
     init_feature_toggles(load_yaml("feature_toggles.yml"))
