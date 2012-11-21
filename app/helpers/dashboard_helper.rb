@@ -37,17 +37,6 @@ module DashboardHelper
     tag(:img, :src => uri)
   end
 
-  #def nav_link_to text, target, options = {}
-  #  if request.path_info == target
-  #    options[:class] = options[:class] ? options[:class] + ' current' : 'current'
-  #  end
-  #  internal_link_to(text, target, options)
-  #end
-  #
-  #def internal_link_to text, target, options={}
-  #  link_to(text, "#{self.class.uri_root}#{target}", options)
-  #end
-
   def test?
     ENV["RAILS_ENV"] == 'test'
   end
