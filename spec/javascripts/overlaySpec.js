@@ -52,7 +52,7 @@ describe("hover overlays", function () {
             
             var box = new CalloutBox(theBox);
             
-            expect($('.format').text()).toBe('test');
+            expect($('.data-point-label').text()).toBe('test');
         });
         
         it("should set the description", function () {
