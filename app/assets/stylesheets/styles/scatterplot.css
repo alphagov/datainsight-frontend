@@ -1,0 +1,23 @@
+/* format success */
+.scatterplot .label-x-right, .scatterplot .label-y-top, .scatterplot .label-y-bottom {
+    text-anchor: end;
+}
+
+.scatterplot .label-x-left {
+    text-anchor: start;
+}
+
+.scatterplot .title-y {
+    text-anchor: middle;
+}
+
+.scatterplot-legend {
+    float: right;
+    shape-rendering: geometricPrecision;
+}
+
+.scatterplot-legend circle.legend {
+    fill: none;
+    stroke: black;
+}
+

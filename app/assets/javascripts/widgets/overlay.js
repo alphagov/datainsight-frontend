@@ -5,7 +5,7 @@ GOVUK.Insights.overlay = function () {
     var overlays = [];
 
     function CalloutBox(boxInfo) {
-        var htmlTemplate = '<div class="callout-box"><div class="format"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>',
+        var htmlTemplate = '<div class="callout-box"><div class="data-point-label"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>',
             element = undefined,
             timeout = undefined,
             defaults = {
@@ -32,7 +32,7 @@ GOVUK.Insights.overlay = function () {
                 element.addClass(boxInfo.boxClass);
             }
             setGeometryCss();
-            element.find('.format').text(boxInfo.title);
+            element.find('.data-point-label').text(boxInfo.title);
 
             for(var i = 0; i < boxInfo.rowData.length; i++) {
                 element.find('.details-left').append(boxInfo.rowData[i].left);

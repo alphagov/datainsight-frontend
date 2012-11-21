@@ -1,0 +1,66 @@
+<% content_for :footer do %>
+    <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("force-positioning", "widgets/scatterplot")} %>
+<% end %>
+
+<div id="inside-gov-format-engagement"></div>
+
+<script>
+    // stub graph data:
+    var RAW_DATA = {
+        "response_info":{"status":"ok"},
+        "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success.json",
+        "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success",
+        "details":{
+            "source":["Google Analytics"],
+            "data":[
+                { "format":"Guides", "entries":57000, "percentage_of_success":35 },
+                { "format":"Transactions", "entries":120000, "percentage_of_success":40},
+                { "format":"Quick Answers", "entries":100000, "percentage_of_success":65},
+                { "format":"small grey", "entries":5000, "percentage_of_success":50},
+                { "format":"mid grey", "entries":50000, "percentage_of_success":50},
+                { "format":"big grey", "entries":100000, "percentage_of_success":50},
+                { "format":"small green", "entries":5000, "percentage_of_success":100},
+                { "format":"mid green", "entries":50000, "percentage_of_success":100},
+                { "format":"big green", "entries":100000, "percentage_of_success":100},
+                { "format":"second", "entries":103000, "percentage_of_success":99},
+                { "format":"small red", "entries":5000, "percentage_of_success":0},
+                { "format":"mid red", "entries":50000, "percentage_of_success":0},
+                { "format":"big red", "entries":100000, "percentage_of_success":0}
+            ]
+        },
+        "updated_at":"2012-10-30T09:27:34+00:00"
+    };
+</script>
+<script>
+
+    var getFormatName = function (format) {
+        return {
+            "guide":"Guides",
+            "programme":"Benefits",
+            "answer":"Answers",
+            "smart_answer":"Smart Answers"
+        }[format] || format;
+    };
+
+    var data = RAW_DATA.details.data.map(function (d) {
+        return {
+            x:d.entries,
+            y:d.percentage_of_success,
+            r:d.entries,
+            colour:d.percentage_of_success,
+            label:getFormatName(d.format)
+        };
+    });
+    var formatSuccess = GOVUK.Insights.scatterplotGraph()
+            .xAxisLabels({description:"Times used", left:"Least used", right:"Most used"})
+            .yAxisLabels({description:"Used successfully", bottom:"0%", top:"100%"})
+            .xScale(d3.scale.linear().domain([0, d3.max(data, function (d) { return d.x; })]))
+            .yScale(d3.scale.linear().domain([0, 100]))
+            .rScale(d3.scale.linear().domain([0, d3.max(data, function (d) { return d.r; })]))
+            .colourScale(d3.scale.linear().domain([100, 50, 0]));
+
+    d3.select('#inside-gov-format-engagement')
+            .datum(data)
+            .call(formatSuccess);
+    GOVUK.Insights.forcePosition.apply("#inside-gov-format-engagement");
+</script>
