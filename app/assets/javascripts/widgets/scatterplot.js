@@ -10,8 +10,8 @@ GOVUK.Insights.scatterplotGraph = function () {
         maxRadius:30,
         marginTop:10,
         marginBottom:40,
-        marginLeft:10,
-        marginRight:10,
+        marginLeft:0,
+        marginRight:0,
         x:function (d) {
             return d.x;
         },
@@ -103,8 +103,8 @@ GOVUK.Insights.scatterplotGraph = function () {
                     boxWidth = 170,
                     boxHeight = 66,
                     label = d3.select('#label-' + d3.select(element).attr('data-point-label')),
-                    labelX = parseFloat(label.attr('x')),
-                    labelY = parseFloat(label.attr('y')) + config.marginTop + 20,
+                    labelX = parseFloat(label.attr('x')) + config.marginLeft,
+                    labelY = parseFloat(label.attr('y')) + config.marginTop + 30,
                     labelBoundingBox = label.node().getBBox(),
                     xPos = (labelX > parseFloat(d3.select(element).attr('cx'))) ? labelX : labelX - (boxWidth - labelBoundingBox.width - 3),
                     yPos = (labelY < parseFloat(d3.select(element).attr('cy'))) ? labelY - (boxHeight - labelBoundingBox.height / 2) : labelY - labelBoundingBox.height / 2,
@@ -124,7 +124,6 @@ GOVUK.Insights.scatterplotGraph = function () {
                         height:boxHeight
                     };
                 d.callout = new GOVUK.Insights.overlay.CalloutBox(boxInfo);
-
                 element.parentNode.insertBefore(element, null);
 
                 var darkerStrokeColor = new GOVUK.Insights.colors(d3.select(element).attr('fill')).multiplyWithSelf().asCSS();

@@ -2,7 +2,15 @@
     <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("force-positioning", "widgets/scatterplot")} %>
 <% end %>
 
-<div id="inside-gov-format-engagement"></div>
+<div id="format-success-module" class="module">
+  <div class="module-header left">
+    <h2 class="graph-info">Format usage last week</h2>
+
+    <p class="graph-heading">How many times each format was used and the percentage of these that were successful</p>
+  </div>
+  <div style="clear: both"></div>
+  <div id="inside-gov-format-engagement" class="graph-container"></div>
+</div>
 
 <script>
     // stub graph data:
