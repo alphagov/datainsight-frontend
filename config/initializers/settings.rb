@@ -17,25 +17,38 @@ module Settings
   end
 
   def self.feature_toggles
-    @feature_toggles ||= init_feature_toggles
+    @feature_toggles ||= load_feature_toggles
   end
 
   private
 
-  def self.init_feature_toggles
-    feature_toggles = {}
-    if Rails.env.development? or Rails.env.test?
-      # Add feature toggles here
-      # feature_toggles[:feature_name] = true
-      feature_toggles[:use_tabular_numbers] = true
+  def self.load_feature_toggles
+    init_feature_toggles(load_yaml("feature_toggles.yml"))
+  end
+
+  def self.init_feature_toggles(yaml)
+    yaml.reduce({}) do |feature_toggles, (feature, activation)|
+      feature_toggles.tap {|ft| ft[feature.to_sym] = toggle_value(activation)}
     end
-    feature_toggles[:show_weekly_visitors_in_narrative] = true
-    feature_toggles
+  end
+
+  def self.toggle_value(activation)
+    case activation
+      when "release"
+        true
+      when "dev"
+        (Rails.env.development? or Rails.env.test?)
+      else
+        false
+    end
   end
 
   def self.load_api_urls
-    api_urls_file = File.read(Rails.root.join("config", "environments", "api_urls.yml"))
-    config = YAML.load(api_urls_file)
+    config = load_yaml("api_urls.yml")
     config[platform]
+  end
+
+  def self.load_yaml(file_name)
+    YAML.load(File.read(Rails.root.join("config", "environments", file_name)))
   end
 end
