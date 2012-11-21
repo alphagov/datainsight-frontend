@@ -208,20 +208,20 @@ PLATFORMS
 
 DEPENDENCIES
   airbrake (= 3.1.5)
-  capybara
-  ci_reporter
-  datainsight_logging
-  eventmachine
-  httparty
-  jasmine
-  jasmine-phantom
-  poltergeist
+  capybara (~> 1.1.2)
+  ci_reporter (~> 1.7.3)
+  datainsight_logging (~> 0.0.2)
+  eventmachine (~> 1.0.0)
+  httparty (~> 0.9.0)
+  jasmine (~> 1.2.0)
+  jasmine-phantom (~> 0.0.6)
+  poltergeist (~> 0.7.0)
   rails (= 3.2.9)
   router-client (= 3.1.0)
-  rspec-rails
+  rspec-rails (~> 2.11.0)
   sass-rails (~> 3.2.3)
-  slimmer
-  songkick-transport!
-  uglifier (>= 1.0.3)
-  unicorn
-  whenever
+  slimmer (~> 3.6.1)
+  songkick-transport (~> 0.1.6)!
+  uglifier (~> 1.3.0)
+  unicorn (~> 4.4.0)
+  whenever (~> 0.8.0)
