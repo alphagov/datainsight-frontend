@@ -1,6 +1,7 @@
 require_relative "rack_test_helper"
 
 describe "Inside Government" do
+
   it "should expose the format success api endpoint" do
     FakeWeb.register_uri(
         :get,

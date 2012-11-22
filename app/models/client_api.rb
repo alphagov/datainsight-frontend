@@ -17,6 +17,10 @@ class ClientAPI
     :error
   end
 
+  def get_json(url, base_url, path)
+    rewrite_urls(url) { transport(base_url).get(path) }
+  end
+
   def narrative(url)
     rewrite_urls(url) { transport(@api_urls['todays_activity_base_url']).get("/narrative") }
   end
@@ -35,10 +39,6 @@ class ClientAPI
 
   def format_success(url)
     rewrite_urls(url) { transport(@api_urls['format_success_base_url']).get("/format-success") }
-  end
-
-  def inside_government_format_success(url)
-    rewrite_urls(url) { transport(@api_urls['inside_government_base_url']).get("/format-success") }
   end
 
   private

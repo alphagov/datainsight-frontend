@@ -16,6 +16,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def serve_json_from(base_url, path)
+    request_url = "#{request.scheme}://#{request.host}#{request.path}".chomp(".json")
+    api = api(Settings.api_urls)
+    result = api.get_json(request_url, base_url, path)
+    if result == :error
+      render status: 500, nothing: true
+    else
+      render json: result
+    end
+  end
+
   def api(config)
     @api ||= create_client_api(config)
   end
