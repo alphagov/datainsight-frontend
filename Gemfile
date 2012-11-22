@@ -22,7 +22,7 @@ end
 
 group :test, :development do
   gem "rspec-rails", "~> 2.11.0"
-  gem "capybara", "~> 1.1.2"
+  gem "capybara", "~> 1.1.3"
   # Ubuntu precise bugfix, needed for poltergeist
   #   see: https://github.com/eventmachine/eventmachine/commit/9473a1b181ed1997e3156d960b2bb2783f508191
   gem "eventmachine", "~> 1.0.0"
