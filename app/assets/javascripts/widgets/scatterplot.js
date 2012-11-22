@@ -85,11 +85,11 @@ GOVUK.Insights.scatterplotGraph = function () {
             graphArea
                 .attr("transform", "translate(0, 30)");
 
-            var usedSuccessfully = plotArea.selectAll("text.title-y").data([config]);
+            var yAxisTitle = plotArea.selectAll("text.title-y").data([config]);
 
-            usedSuccessfully.enter().append("svg:text");
+            yAxisTitle.enter().append("svg:text");
 
-            usedSuccessfully
+            yAxisTitle
                 .text(config.yAxisLabels.description)
                 .attr("class", "title-y")
                 .attr("y", 5)
