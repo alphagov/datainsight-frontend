@@ -1,18 +1,6 @@
-require_relative "test_helper"
+require_relative "rack_test_helper"
 
 describe "Inside Government" do
-  include Rack::Test::Methods
-
-  module Rack
-    module Test
-      DEFAULT_HOST = "datainsight-frontend.dev.gov.uk"
-    end
-  end
-
-  def app
-    DataInsightFrontend::Application
-  end
-
   it "should expose the format success api endpoint" do
     FakeWeb.register_uri(
         :get,
