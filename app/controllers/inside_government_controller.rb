@@ -3,6 +3,6 @@ class InsideGovernmentController < ApplicationController
   end
 
   def format_success
-    render json: {}
+    serve_json("inside_government_format_success")
   end
 end

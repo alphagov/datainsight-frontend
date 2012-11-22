@@ -37,6 +37,10 @@ class ClientAPI
     rewrite_urls(url) { transport(@api_urls['format_success_base_url']).get("/format-success") }
   end
 
+  def inside_government_format_success(url)
+    rewrite_urls(url) { transport(@api_urls['inside_government_base_url']).get("/format-success") }
+  end
+
   private
   def transport(host, args={})
     Transport.new(host, :user_agent => "Data Insight Web", :timeout => args[:timeout] || 5)

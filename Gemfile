@@ -31,4 +31,6 @@ group :test, :development do
 
   gem "jasmine", "~> 1.2.0"
   gem "jasmine-phantom", "~> 0.0.6"
+
+  gem "fakeweb", "~> 1.3.0"
 end

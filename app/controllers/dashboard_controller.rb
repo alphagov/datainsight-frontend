@@ -46,10 +46,6 @@ class DashboardController < ApplicationController
 
   private
 
-  def api(config)
-    @api ||= create_client_api(config)
-  end
-
   def get_narrative
     if (Settings.feature_toggles[:show_weekly_visitors_in_narrative])
       weekly_visitors_narrative
@@ -76,17 +72,6 @@ class DashboardController < ApplicationController
   def serve_image(image_name)
     headers['X-Slimmer-Skip'] = "true"
     send_data File.read("#{Settings.graphs_images_dir}/#{image_name}.png"), type: "image/png", disposition: "inline"
-  end
-
-  def serve_json(endpoint)
-    request_url = "#{request.scheme}://#{request.host}#{request.path}".chomp(".json")
-    api = api(Settings.api_urls)
-    result = api.send(endpoint.to_sym, request_url)
-    if result == :error
-      render status: 500
-    else
-      render json: result
-    end
   end
 
 end
