@@ -7,38 +7,49 @@ class ClientAPI
     @api_urls = config
   end
 
-  def rewrite_urls(url, &block)
-    response = block.yield.data
-    response["id"] = "#{url}.json"
-    response["web_url"] = url
-    response
-  rescue Songkick::Transport::UpstreamError => e
-    logger.error(e)
-    :error
+  def execute(url, &block)
+    add_urls!(url, get_entity(block))
+  end
+
+  def add_urls!(url, entity)
+    unless entity == :error
+      entity["id"] = "#{url}.json"
+      entity["web_url"] = url
+    end
+    entity
+  end
+
+  def get_entity(block)
+    begin
+      block.yield.data
+    rescue Songkick::Transport::UpstreamError => e
+      logger.error(e)
+      :error
+    end
   end
 
   def get_json(url, base_url, path)
-    rewrite_urls(url) { transport(base_url).get(path) }
+    execute(url) { transport(base_url).get(path) }
   end
 
   def narrative(url)
-    rewrite_urls(url) { transport(@api_urls['todays_activity_base_url']).get("/narrative") }
+    get_json(url, @api_urls['todays_activity_base_url'], "/narrative")
   end
 
   def weekly_visits(url)
-    rewrite_urls(url) { transport(@api_urls['weekly_reach_base_url']).get("/weekly-visits") }
+    get_json(url, @api_urls['weekly_reach_base_url'], "/weekly-visits")
   end
 
   def weekly_visitors(url)
-    rewrite_urls(url) { transport(@api_urls['weekly_reach_base_url']).get("/weekly-visitors") }
+    get_json(url, @api_urls['weekly_reach_base_url'], "/weekly-visitors")
   end
 
   def hourly_traffic(url)
-    rewrite_urls(url) { transport(@api_urls['todays_activity_base_url']).get("/todays-activity") }
+    get_json(url, @api_urls['todays_activity_base_url'], "/todays-activity")
   end
 
   def format_success(url)
-    rewrite_urls(url) { transport(@api_urls['format_success_base_url']).get("/format-success") }
+    get_json(url, @api_urls['format_success_base_url'], "/format-success")
   end
 
   private
