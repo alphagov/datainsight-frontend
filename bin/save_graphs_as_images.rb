@@ -1,5 +1,7 @@
 #! /usr/bin/env ruby
-require 'logger'
+require "logger"
+require "airbrake"
+require_relative "../config/initializers/errbit"
 
 LOGGER = Logger.new(STDOUT)
 PORT = ARGV[0]
@@ -27,8 +29,12 @@ def save_as_image(route, output_filename, div_selector)
   LOGGER.info("Saved image to #{output_location}")
 end
 
-save_as_image("performance/dashboard", "hourly-traffic", "#hourly-traffic-module")
-save_as_image("performance/dashboard", "visits", "#visits-module")
-save_as_image("performance/dashboard", "unique-visitors", "#unique-visitors-module")
-save_as_image("performance/dashboard", "format-success", "#format-success-module")
-
+begin
+  save_as_image("performance/dashboard", "hourly-traffic", "#hourly-traffic-module")
+  save_as_image("performance/dashboard", "visits", "#visits-module")
+  save_as_image("performance/dashboard", "unique-visitors", "#unique-visitors-module")
+  save_as_image("performance/dashboard", "format-success", "#format-success-module")
+rescue Exception => e
+  Airbrake.notify(e)
+  raise e
+end
