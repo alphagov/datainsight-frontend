@@ -3,9 +3,11 @@ require_relative "rack_test_helper"
 describe "Inside Government" do
 
   it "should expose the format success api endpoint" do
+    api_base_url = Settings.api_urls['inside_government_base_url']
+
     FakeWeb.register_uri(
         :get,
-        "http://datainsight-inside-government-recorder.dev.gov.uk/format-success",
+        "#{api_base_url}/format-success",
         :body => {my: "json"}.to_json)
 
     get "/performance/dev/inside-government/format-success.json"
