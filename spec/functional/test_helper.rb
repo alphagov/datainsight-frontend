@@ -13,10 +13,6 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   Capybara.default_driver = :poltergeist
-
-  Capybara.configure do |config|
-    config.default_wait_time = 15
-  end
 end
 
 module StubApiFromFixtures

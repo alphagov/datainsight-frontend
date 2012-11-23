@@ -8,24 +8,24 @@ class ClientAPI
   end
 
   def execute(url, &block)
-    add_urls!(url, get_entity(block))
+    result = get_entity(block)
+    return :error unless result
+    add_urls!(url, result)
   end
 
   def add_urls!(url, entity)
-    unless entity == :error
-      entity["id"] = "#{url}.json"
-      entity["web_url"] = url
-    end
+    entity["id"] = "#{url}.json"
+    entity["web_url"] = url
     entity
   end
 
   def get_entity(block)
     begin
-      block.yield.data
+      data = block.yield.data
     rescue Songkick::Transport::UpstreamError => e
       logger.error(e)
-      :error
     end
+    data
   end
 
   def get_json(url, base_url, path)

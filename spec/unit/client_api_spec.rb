@@ -23,4 +23,24 @@ describe ClientAPI do
 
     resource.should be :error
   end
+
+  it "should return an error token when the upstream server returns an empty response" do
+    FakeWeb.register_uri(:get, "http://upstream-server/resource/path", body: "")
+
+    client_api = ClientAPI.new({})
+
+    resource = client_api.get_json("http://frontend/url", "http://upstream-server", "/resource/path")
+
+    resource.should be :error
+  end
+
+  it "should return an error token when the upstream server returns an invalid json" do
+    FakeWeb.register_uri(:get, "http://upstream-server/resource/path", body: "{invalid json")
+
+    client_api = ClientAPI.new({})
+
+    resource = client_api.get_json("http://frontend/url", "http://upstream-server", "/resource/path")
+
+    resource.should be :error
+  end
 end
