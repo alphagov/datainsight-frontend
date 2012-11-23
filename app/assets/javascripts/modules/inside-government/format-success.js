@@ -16,22 +16,16 @@ GOVUK.Insights.InsideGovernment.formatSuccess = function(RAW_DATA) {
             return {
                 x:d.entries,
                 y:d.percentage_of_success,
-                r:d.entries,
                 colour:d.percentage_of_success,
                 label:getFormatName(d.format)
             };
         });
+
         var formatSuccess = GOVUK.Insights.scatterplotGraph()
             .xAxisLabels({description:"Times used", left:"Least used", right:"Most used"})
             .yAxisLabels({description:"Used successfully", bottom:"0%", top:"100%"})
-            .xScale(d3.scale.linear().domain([0, d3.max(data, function (d) {
-            return d.x;
-        })]))
-            .yScale(d3.scale.linear().domain([0, 100]))
-            .rScale(d3.scale.linear().domain([0, d3.max(data, function (d) {
-            return d.r;
-        })]))
-            .colourScale(d3.scale.linear().domain([100, 50, 0]));
+            .r(function (d) { return d.x; })
+            .rScale(d3.scale.pow().exponent(0.5));
 
         d3.select('#inside-gov-format-success')
             .datum(data)

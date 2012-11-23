@@ -19,7 +19,7 @@ GOVUK.Insights.scatterplotGraph = function () {
             return d.y;
         },
         r:function (d) {
-            return d.r;
+            return 1;
         },
         colour:function (d) {
             return d.colour;
@@ -27,10 +27,10 @@ GOVUK.Insights.scatterplotGraph = function () {
         circleLabel:function (d) {
             return d.label;
         },
-        xScale:undefined,
-        yScale:undefined,
-        rScale:undefined,
-        colourScale:undefined
+        xScale:d3.scale.linear(),
+        yScale:d3.scale.linear(),
+        rScale:d3.scale.linear(),
+        colourScale:d3.scale.linear()
     };
 
     var instance = function (selection) {
@@ -39,18 +39,14 @@ GOVUK.Insights.scatterplotGraph = function () {
                 return (scale || d3.scale.linear().domain(d3.extent(data.map(variableExtractorFn))));
             };
 
-            var X = scaleTemplate(config.xScale, config.x).range([0, config.width * 0.95]),
-                Y = scaleTemplate(config.yScale, config.y).range([config.height, 0]),
-                R = scaleTemplate(config.rScale, config.r).range([0, Math.PI * Math.pow(config.maxRadius, 2)]),
-                C = (config.colourScale || d3.scale.linear()).domain([0, 50, 100]).range(["#BF1E2D", "#B3B3B3", "#74B74A"]),
+            var X = config.xScale.domain([0,d3.max(data, config.x)]).range([0,config.width*0.95]),
+                Y = config.yScale.domain([0,100]).range([config.height, 0]),
+                R = config.rScale.domain([0,d3.max(data, config.r)]).range([1,config.maxRadius]),
+                C = config.colourScale.domain([0, 50, 100]).range(["#BF1E2D", "#B3B3B3", "#74B74A"]),
                 overlayBottom = function (d) {
-                    var overlay = config.y(d) + radius(config.r(d)) - config.height;
+                    var overlay = config.y(d) + R(config.r(d)) - config.height;
                     return overlay > 0 ? overlay : 0;
                 };
-
-            var radius = function (total) {
-                return Math.sqrt(R(total) / Math.PI);
-            };
 
             var svg = d3.select(this).selectAll("svg").data([config]);
 
@@ -162,7 +158,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .attr("stroke", "white")
                 .attr("stroke-width", 2)
                 .attr("r", function (d) {
-                    return radius(config.r(d));
+                    return R(config.r(d));
                 })
                 .attr("cy", function (d) {
                     return Y(config.y(d));

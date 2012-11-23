@@ -13,8 +13,18 @@
                 "percentage_of_success":50
             },
             {
+                "format":"small grey",
+                "entries":25000,
+                "percentage_of_success":50
+            },
+            {
                 "format":"mid grey",
                 "entries":50000,
+                "percentage_of_success":50
+            },
+            {
+                "format":"mid grey",
+                "entries":75000,
                 "percentage_of_success":50
             },
             {
