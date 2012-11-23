@@ -56,8 +56,7 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             svg
                 .enter().append("svg")
-                .attr("class", "scatterplot js-graph-area")
-                .style("border", "1px blue dashed");
+                .attr("class", "scatterplot js-graph-area");
 
             svg
                 .attr("width", function (d) {

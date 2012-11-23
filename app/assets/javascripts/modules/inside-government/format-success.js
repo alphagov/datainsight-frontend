@@ -2,22 +2,7 @@ var GOVUK = GOVUK || {};
 GOVUK.Insights = GOVUK.Insights || {};
 GOVUK.Insights.InsideGovernment = GOVUK.Insights.InsideGovernment || {};
 
-GOVUK.Insights.InsideGovernment.formatSuccess = function () {
-    $(function () {
-        var RAW_DATA = {
-            "response_info":{"status":"ok"},
-            "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success.json",
-            "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success",
-            "details":{
-                "source":["Google Analytics"],
-                "data":[
-                    { "format":"news", "entries":57000, "percentage_of_success":35 },
-                    { "format":"detailed_guidance", "entries":120000, "percentage_of_success":40},
-                    { "format":"policy", "entries":100000, "percentage_of_success":65}
-                ]
-            },
-            "updated_at":"2012-10-30T09:27:34+00:00"
-        };
+GOVUK.Insights.InsideGovernment.formatSuccess = function(RAW_DATA) {
 
         var getFormatName = function (format) {
             return {
@@ -52,5 +37,13 @@ GOVUK.Insights.InsideGovernment.formatSuccess = function () {
             .datum(data)
             .call(formatSuccess);
         GOVUK.Insights.forcePosition.apply("#inside-gov-format-success");
+};
+
+$(function () {
+    $.ajax({
+        url: "http://datainsight-frontend.dev.gov.uk/performance/dev/inside-government/format-success.json",
+        success: function (response) {
+            GOVUK.Insights.InsideGovernment.formatSuccess(response);
+        }
     });
-}();
+});
