@@ -1,4 +1,4 @@
-require_relative "test_helper"
+require "functional/test_helper"
 
 describe "Visits graph" do
   include StubApiFromFixtures

@@ -1,4 +1,4 @@
-require_relative "test_helper"
+require "functional/test_helper"
 require "json"
 
 weekly_reach_json = <<-HERE

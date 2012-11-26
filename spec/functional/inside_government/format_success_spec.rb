@@ -1,4 +1,4 @@
-require_relative "rack_test_helper"
+require "functional/rack_test_helper"
 
 describe "Inside Government" do
 

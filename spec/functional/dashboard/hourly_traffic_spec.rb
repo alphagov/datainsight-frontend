@@ -1,4 +1,4 @@
-require_relative "test_helper"
+require "functional/test_helper"
 
 describe "Hourly traffic Graph" do
   include StubApiFromFixtures
