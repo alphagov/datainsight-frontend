@@ -255,7 +255,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     }
 
                     // show callout
-                    var boxWidth = 155,
+                    var boxWidth = 165,
                         boxHeight = 48,
                         xOffset = -20,
                         yOffset = -60,
