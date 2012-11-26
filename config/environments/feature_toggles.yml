@@ -1,4 +1,4 @@
 # Add feature toggles with the format:
 # <feature_name>: off|dev|release
-use_tabular_numbers: dev
+use_tabular_numbers: release
 show_weekly_visitors_in_narrative: release
