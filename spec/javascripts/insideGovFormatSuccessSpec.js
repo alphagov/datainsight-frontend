@@ -28,6 +28,8 @@ describe("inside gov format success graph", function () {
         GOVUK.Insights.InsideGovernment.formatSuccess(STUB_DATA);
 
         expect($("#inside-gov-format-success").length).toBeGreaterThan(0);
+        
+        stubGraphContainer.remove();
     });
 
 });
