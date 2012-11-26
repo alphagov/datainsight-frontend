@@ -38,7 +38,7 @@ GOVUK.Insights.formatNumericLabel = function (val) {
 
     if (val >= tenMillion) return Math.round(val / oneMillion) + "m";
 
-    if (val >= thresholdForRenderingAsMillion) return (val / oneMillion).toFixed(1).replace('.0', '') + "m";
+    if (val >= thresholdForRenderingAsMillion) return (val / oneMillion).toFixed(2) + "m";
 
     if (val >= tenThousand) return Math.round(val / oneThousand) + "k";
 
