@@ -23,7 +23,8 @@ class ClientAPI
     begin
       data = block.yield.data
     rescue Songkick::Transport::UpstreamError => e
-      logger.error(e)
+      logger.error e.message
+      logger.error e.backtrace.join("\n")
     end
     data
   end

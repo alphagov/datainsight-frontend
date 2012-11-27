@@ -1,0 +1,60 @@
+{
+  "response_info":{
+    "status":"ok"
+  },
+  "id":"https://www.gov.uk/performance/dashboard/visits.json",
+  "web_url":"https://www.gov.uk/performance/dashboard/visits",
+  "details":{
+    "source":["Google Analytics","Celebrus","Omniture"],
+    "start_at":"2012-05-20",
+    "end_at":"2012-06-03",
+    "data":[
+      {
+        "policy": {
+          "title": "Addressing climate change and protecting the environment in the developing world",
+          "department": "MOD",
+          "updated_at": "2012-11-26G16:00:07+00:00",
+          "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
+        },
+        "visits": 539000
+      },
+      {
+        "policy": {
+          "title": "Tackling corruption in international trade",
+          "department": "FCO",
+          "updated_at": "2012-11-26G16:00:07+00:00",
+          "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
+        },
+        "visits": 538000
+      },
+      {
+        "policy": {
+          "title": "Keeping young people away from crime",
+          "department": "DfE",
+          "updated_at": "2012-11-26G16:00:07+00:00",
+          "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
+        },
+        "visits": 523000
+      },
+      {
+        "policy": {
+          "title": "Promoting British interests in the European Union: a review of the Balance of Competences",
+          "department": "FCO",
+          "updated_at": "2012-11-26G16:00:07+00:00",
+          "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
+        },
+        "visits": 498000
+      },
+      {
+        "policy": {
+          "title": "Fulfilling standing commitments",
+          "department": "MOD",
+          "updated_at": "2012-11-26G16:00:07+00:00",
+          "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
+        },
+        "visits": 435000
+      }
+    ]
+  },
+  "updated_at":"2012-11-26G16:00:07+00:00"
+}
