@@ -19,15 +19,13 @@
 
       <table>
         <tbody>
+          <% @policies.each do |policy| %>
           <tr>
               <td>
-                  <div class="policy-title"><%= @policies.first.title %></div>
+                  <div class="policy-title"><%= policy.title %></div>
               </td>
           </tr>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
+          <% end %>
         </tbody>
       </table>
     </div>

@@ -15,12 +15,28 @@ def policies_json
 		"data":[
 			{
 				"policy": {
-					"title": "Developing a new high speed rail network",
-					"department": "DFT",
-					"updated_at": "2012-11-20G16:00:07+00:00",
-					"web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
-				},
-				"visits": 539000
+					"title": "Most visited policy"
+				}
+      },
+      {
+				"policy": {
+					"title": "Second most visited policy"
+				}
+      },
+      {
+				"policy": {
+					"title": "#3 most visited policy"
+				}
+      },
+      {
+				"policy": {
+					"title": "#4 most visited policy"
+				}
+      },
+      {
+				"policy": {
+					"title": "#5 most visited policy"
+				}
 			}
 		]
 	},
@@ -52,7 +68,11 @@ describe "Most Visited Policies" do
 
     page.all("#most-visited-policies-module table tr").count.should == 5
 
-    page.all("#most-visited-policies-module table tr .policy-title").first.text.should == "Developing a new high speed rail network"
+    page.all("#most-visited-policies-module table tr .policy-title").first.text.should == "Most visited policy"
+    page.all("#most-visited-policies-module table tr .policy-title").second.text.should == "Second most visited policy"
+    page.all("#most-visited-policies-module table tr .policy-title")[2].text.should == "#3 most visited policy"
+    page.all("#most-visited-policies-module table tr .policy-title")[3].text.should == "#4 most visited policy"
+    page.all("#most-visited-policies-module table tr .policy-title")[4].text.should == "#5 most visited policy"
   end
 
 end
