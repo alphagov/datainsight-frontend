@@ -23,6 +23,8 @@
           <tr>
               <td>
                   <div class="policy-title"><%= policy.title %></div>
+                  <div class="policy-department"><%= policy.department %></div>
+                  <div class="policy-updated-at">Updated <%= policy.update_date.strftime("%d %B %Y") %></div>
               </td>
           </tr>
           <% end %>
