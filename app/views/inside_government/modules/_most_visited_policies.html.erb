@@ -1,0 +1,31 @@
+<div id="most-visited-policies-module" class="module">
+  <h2>Top policies last week</h2>
+
+  <article>
+    <table>
+      <thead>
+        <tr>
+          <th>Top 5 most visited policies on Inside Government</th>
+          <th>Visits</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @policies.each.with_index(1) do |(policy, visits), index| %>
+          <tr>
+            <td class="policy">
+              <div class="policy-index"><%= index %>.</div>
+              <div class="policy-title"><%= link_to policy.title, policy.url, rel: "external" %></div>
+              <div class="details">
+                <span class="policy-department"><%= policy.department %></span> -
+                <span class="policy-updated-at">Updated <%= policy.update_date.strftime("%d %B %Y") %></span>
+              </div>
+            </td>
+            <td class="number">
+              <div class="policy-visits"><%= NumberFormat.short_human_readable_number(visits) %></div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </article>
+</div>

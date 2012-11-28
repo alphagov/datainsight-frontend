@@ -1,50 +1,7 @@
-<% content_for :footer do %>
-    <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("force-positioning", "widgets/scatterplot", "modules/inside-government/format-success")} %>
-<% end %>
-
-
-<div id="format-success-module" class="module">
-  <div class="module-header left">
-    <h2 class="graph-info">Format usage last week</h2>
-
-    <p class="graph-heading">How many times each format was used and the percentage of these that were successful</p>
-  </div>
-  <div style="clear: both"></div>
-  <div id="inside-gov-format-success" class="graph-container"></div>
-</div>
+<%= render partial: "inside_government/modules/format_success" %>
 
 <div class="row">
   <div class="six columns">
-    <div id="most-visited-policies-module" class="module">
-      <h2>Top policies last week</h2>
-
-      <article>
-        <table>
-          <thead>
-            <tr>
-              <th>Top 5 most visited policies on Inside Government</th>
-              <th>Visits</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @policies.each.with_index(1) do |(policy, visits), index| %>
-            <tr>
-                <td class="policy">
-                    <div class="policy-index"><%= index %>.</div>
-                    <div class="policy-title"><%= link_to policy.title, policy.url, rel: "external" %></div>
-                    <div class="details">
-                        <span class="policy-department"><%= policy.department %></span> -
-                        <span class="policy-updated-at">Updated <%= policy.update_date.strftime("%d %B %Y") %></span>
-                    </div>
-                </td>
-                <td class="number">
-                    <div class="policy-visits"><%= NumberFormat.short_human_readable_number(visits) %></div>
-                </td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </article>
-    </div>
+    <%= render partial: "inside_government/modules/most_visited_policies" %>
   </div>
 </div>
