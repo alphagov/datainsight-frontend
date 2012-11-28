@@ -5,8 +5,6 @@ class JsonBuilder
         "response_info" => {
             "status" => "ok"
         },
-        "id" => "https://www.gov.uk/performance/dashboard/visits.json",
-        "web_url" => "https://www.gov.uk/performance/dashboard/visits",
         "details" => {
             "source" => ["Google Analytics", "Celebrus", "Omniture"],
             "start_at" => "2012-05-20",
