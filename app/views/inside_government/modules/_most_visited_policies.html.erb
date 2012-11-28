@@ -17,7 +17,7 @@
               <div class="policy-title"><%= link_to policy.title, policy.url, rel: "external" %></div>
               <div class="details">
                 <span class="policy-department"><%= policy.department %></span> -
-                <span class="policy-updated-at">Updated <%= policy.update_date.strftime("%d %B %Y") %></span>
+                <span class="policy-updated-at">Updated <%= render_date(policy.update_date) %></span>
               </div>
             </td>
             <td class="number">

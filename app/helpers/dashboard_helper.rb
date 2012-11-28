@@ -2,6 +2,13 @@ require "date"
 
 module DashboardHelper
 
+  def render_date(date)
+    return "" if date.nil?
+    return "today" if date.to_date == Date.today
+    return "yesterday" if date.to_date == Date.yesterday
+    date.strftime("%d %B %Y")
+  end
+
   def narrative(text)
     Nokogiri::XML("<narrative>#{text}</narrative>").xpath("./*").children.map { |e|
       case e.node_name
