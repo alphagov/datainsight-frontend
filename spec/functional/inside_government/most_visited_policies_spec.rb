@@ -20,7 +20,8 @@ def most_visited_policies_body(overrides)
       "policy" => {
           "title" => "Default policy title",
           "department" => "ZZZ",
-          "updated_at" => "2000-01-01T12:00:00+00:00"
+          "updated_at" => "2000-01-01T12:00:00+00:00",
+          "web_url" => "https://www.gov.uk/default_policy_url"
       },
       "visits" => 0
   }
@@ -44,7 +45,15 @@ describe "Most Visited Policies" do
 
   before :each do
     serve_most_visited_policies([
-        {"policy" => {"title" => "Most visited policy", "department" => "ABC", "updated_at" => "2012-11-25T16:00:07+00:00"}, "visits" => 567000},
+        {
+            "policy" => {
+                "title" => "Most visited policy",
+                "department" => "ABC",
+                "updated_at" => "2012-11-25T16:00:07+00:00",
+                "web_url"=>"https://www.gov.uk/most_visited_policy"
+            },
+            "visits" => 567000
+        },
         {"policy" => {"title" => "Second most visited policy"}},
         {"policy" => {"title" => "#3 most visited policy"}},
         {"policy" => {"title" => "#4 most visited policy"}},
@@ -63,16 +72,16 @@ describe "Most Visited Policies" do
 
     page.all("#most-visited-policies-module table tr").count.should == 5
 
-    page.all("#most-visited-policies-module table tr .policy-title").first.text.should == "Most visited policy"
+    page.all("#most-visited-policies-module table tr .policy-title").first.should have_link("Most visited policy", href: "https://www.gov.uk/most_visited_policy")
     page.all("#most-visited-policies-module table tr .policy-department").first.text.should == "ABC"
     page.all("#most-visited-policies-module table tr .policy-updated-at").first.text.should == "Updated 25 November 2012"
     page.all("#most-visited-policies-module table tr .policy-visits").first.text.should == "567k"
 
-    page.all("#most-visited-policies-module table tr .policy-title").second.text.should == "Second most visited policy"
+    page.all("#most-visited-policies-module table tr .policy-title").second.should have_link "Second most visited policy"
 
-    page.all("#most-visited-policies-module table tr .policy-title")[2].text.should == "#3 most visited policy"
-    page.all("#most-visited-policies-module table tr .policy-title")[3].text.should == "#4 most visited policy"
-    page.all("#most-visited-policies-module table tr .policy-title")[4].text.should == "#5 most visited policy"
+    page.all("#most-visited-policies-module table tr .policy-title")[2].should have_link "#3 most visited policy"
+    page.all("#most-visited-policies-module table tr .policy-title")[3].should have_link "#4 most visited policy"
+    page.all("#most-visited-policies-module table tr .policy-title")[4].should have_link "#5 most visited policy"
   end
 
 end
