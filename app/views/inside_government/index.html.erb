@@ -2,6 +2,7 @@
     <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("force-positioning", "widgets/scatterplot", "modules/inside-government/format-success")} %>
 <% end %>
 
+
 <div id="format-success-module" class="module">
   <div class="module-header left">
     <h2 class="graph-info">Format usage last week</h2>
@@ -15,24 +16,35 @@
 <div class="row">
   <div class="six columns">
     <div id="most-visited-policies-module" class="module">
-      <h2>Most visited policies</h2>
+      <h2>Top policies last week</h2>
 
-      <table>
-        <tbody>
-          <% @policies.each do |(policy, visits)| %>
-          <tr>
-              <td>
-                  <div class="policy-title"><%= link_to policy.title, policy.url %></div>
-                  <div class="policy-department"><%= policy.department %></div>
-                  <div class="policy-updated-at">Updated <%= policy.update_date.strftime("%d %B %Y") %></div>
-              </td>
-              <td>
-                  <div class="policy-visits"><%= NumberFormat.short_human_readable_number(visits) %></div>
-              </td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <article>
+        <table>
+          <thead>
+            <tr>
+              <th>Top 5 most visited policies on Inside Government</th>
+              <th>Visits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @policies.each.with_index(1) do |(policy, visits), index| %>
+            <tr>
+                <td class="policy">
+                    <div class="policy-index"><%= index %>.</div>
+                    <div class="policy-title"><%= link_to policy.title, policy.url, rel: "external" %></div>
+                    <div class="details">
+                        <span class="policy-department"><%= policy.department %></span> -
+                        <span class="policy-updated-at">Updated <%= policy.update_date.strftime("%d %B %Y") %></span>
+                    </div>
+                </td>
+                <td class="number">
+                    <div class="policy-visits"><%= NumberFormat.short_human_readable_number(visits) %></div>
+                </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </article>
     </div>
   </div>
 </div>

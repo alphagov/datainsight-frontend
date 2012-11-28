@@ -64,24 +64,24 @@ describe "Most Visited Policies" do
   it "should show most visited policies" do
     visit "/performance/dev/inside-government"
 
-    page.find("#most-visited-policies-module h2").text.should == "Most visited policies"
+    page.find("#most-visited-policies-module h2").text.should == "Top policies last week"
   end
 
   it "should show 5 most visited policies" do
     visit "/performance/dev/inside-government"
 
-    page.all("#most-visited-policies-module table tr").count.should == 5
+    page.all("#most-visited-policies-module .policy").count.should == 5
 
-    page.all("#most-visited-policies-module table tr .policy-title").first.should have_link("Most visited policy", href: "https://www.gov.uk/most_visited_policy")
-    page.all("#most-visited-policies-module table tr .policy-department").first.text.should == "ABC"
-    page.all("#most-visited-policies-module table tr .policy-updated-at").first.text.should == "Updated 25 November 2012"
-    page.all("#most-visited-policies-module table tr .policy-visits").first.text.should == "567k"
+    page.all("#most-visited-policies-module .policy-title").first.should have_link("Most visited policy", href: "https://www.gov.uk/most_visited_policy")
+    page.all("#most-visited-policies-module .policy-department").first.text.should == "ABC"
+    page.all("#most-visited-policies-module .policy-updated-at").first.text.should == "Updated 25 November 2012"
+    page.all("#most-visited-policies-module .policy-visits").first.text.should == "567k"
 
-    page.all("#most-visited-policies-module table tr .policy-title").second.should have_link "Second most visited policy"
+    page.all("#most-visited-policies-module .policy-title").second.should have_link "Second most visited policy"
 
-    page.all("#most-visited-policies-module table tr .policy-title")[2].should have_link "#3 most visited policy"
-    page.all("#most-visited-policies-module table tr .policy-title")[3].should have_link "#4 most visited policy"
-    page.all("#most-visited-policies-module table tr .policy-title")[4].should have_link "#5 most visited policy"
+    page.all("#most-visited-policies-module .policy-title")[2].should have_link "#3 most visited policy"
+    page.all("#most-visited-policies-module .policy-title")[3].should have_link "#4 most visited policy"
+    page.all("#most-visited-policies-module .policy-title")[4].should have_link "#5 most visited policy"
   end
 
 end
