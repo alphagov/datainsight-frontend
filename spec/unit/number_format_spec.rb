@@ -22,4 +22,10 @@ describe NumberFormat do
 
     NumberFormat.human_readable_number(123_456_789).should == "123 million"
   end
+
+  it "should format human readable numbers with short suffix" do
+    NumberFormat.short_human_readable_number(1).should == "1"
+    NumberFormat.short_human_readable_number(1_000).should == "1k"
+    NumberFormat.short_human_readable_number(1_000_000).should == "1m"
+  end
 end
