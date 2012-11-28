@@ -19,12 +19,15 @@
 
       <table>
         <tbody>
-          <% @policies.each do |policy| %>
+          <% @policies.each do |(policy, visits)| %>
           <tr>
               <td>
                   <div class="policy-title"><%= policy.title %></div>
                   <div class="policy-department"><%= policy.department %></div>
                   <div class="policy-updated-at">Updated <%= policy.update_date.strftime("%d %B %Y") %></div>
+              </td>
+              <td>
+                  <div class="policy-visits"><%= NumberFormat.short_human_readable_number(visits) %></div>
               </td>
           </tr>
           <% end %>

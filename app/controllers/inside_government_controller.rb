@@ -6,7 +6,7 @@ class InsideGovernmentController < ApplicationController
     data = json["details"]["data"] if json and json["details"]
 
     if data
-      @policies = data.map {|d| Policy.new(d["policy"].symbolize_keys) }
+      @policies = data.map {|d| [Policy.new(d["policy"].symbolize_keys), d["visits"].to_i] }
     end
   end
 

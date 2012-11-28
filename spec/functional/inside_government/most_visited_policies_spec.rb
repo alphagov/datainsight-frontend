@@ -18,35 +18,40 @@ def policies_json
 					"title": "Most visited policy",
           "department": "ABC",
           "updated_at": "2012-11-25T16:00:07+00:00"
-				}
+				},
+        "visits": 567000
       },
       {
 				"policy": {
 					"title": "Second most visited policy",
           "department": "DEF",
           "updated_at": "2012-11-25T16:00:07+00:00"
-				}
+				},
+        "visits": 1
       },
       {
 				"policy": {
 					"title": "#3 most visited policy",
           "department": "GHI",
           "updated_at": "2012-11-24T16:00:07+00:00"
-				}
+				},
+        "visits": 1
       },
       {
 				"policy": {
 					"title": "#4 most visited policy",
           "department": "JKL",
           "updated_at": "2012-11-23T16:00:07+00:00"
-				}
+				},
+        "visits": 1
       },
       {
 				"policy": {
 					"title": "#5 most visited policy",
           "department": "MNO",
           "updated_at": "2012-11-25T16:00:07+00:00"
-				}
+				},
+        "visits": 1
 			}
 		]
 	},
@@ -81,6 +86,7 @@ describe "Most Visited Policies" do
     page.all("#most-visited-policies-module table tr .policy-title").first.text.should == "Most visited policy"
     page.all("#most-visited-policies-module table tr .policy-department").first.text.should == "ABC"
     page.all("#most-visited-policies-module table tr .policy-updated-at").first.text.should == "Updated 25 November 2012"
+    page.all("#most-visited-policies-module table tr .policy-visits").first.text.should == "567k"
 
     page.all("#most-visited-policies-module table tr .policy-title").second.text.should == "Second most visited policy"
 
