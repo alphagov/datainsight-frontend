@@ -13,6 +13,16 @@ describe InsideGovernmentController do
       get :index
     end
 
+    describe "most visited policies api" do
+      it "should return 500 if upstream server fails" do
+        ClientAPI.any_instance.stub(:most_visited_policies).and_raise
+
+        get :most_visited_policies
+
+        response.status.should == 500
+      end
+    end
+
   end
 
 end

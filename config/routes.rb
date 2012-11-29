@@ -14,6 +14,7 @@ DataInsightFrontend::Application.routes.draw do
     if Rails.env.development? or Rails.env.test?
       match "dev/inside-government" => "inside_government#index", via: :get
       match "dev/inside-government/format-success" => "inside_government#format_success", via: :get
+      match "dev/inside-government/most-visited-policies" => "inside_government#most_visited_policies", via: :get
     end
   end
 

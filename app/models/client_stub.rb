@@ -29,6 +29,10 @@ class ClientStub
     fixture :format_success
   end
 
+  def most_visited_policies
+    fixture "most-visited-policies".to_sym
+  end
+
   private
   def fixture(name)
     fixture_file = File.join(File.dirname(__FILE__), "../../spec/fixtures/#{name}.json")

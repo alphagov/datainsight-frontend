@@ -53,6 +53,10 @@ class ClientAPI
     get_json(url, @api_urls['format_success_base_url'], "/format-success")
   end
 
+  def most_visited_policies(&block)
+    transport(@api_urls['inside_government_base_url']).get("/most-visited-policies").data
+  end
+
   private
   def transport(host, args={})
     Transport.new(host, :user_agent => "Data Insight Web", :timeout => args[:timeout] || 5)
