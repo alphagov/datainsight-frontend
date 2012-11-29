@@ -33,6 +33,10 @@ class ClientStub
     fixture "most-visited-policies".to_sym
   end
 
+  def inside_gov_format_success
+    fixture "inside-government-format-success".to_sym
+  end
+
   private
   def fixture(name)
     fixture_file = File.join(File.dirname(__FILE__), "../../spec/fixtures/#{name}.json")

@@ -13,16 +13,26 @@ describe InsideGovernmentController do
       get :index
     end
 
-    describe "most visited policies api" do
-      it "should return 500 if upstream server fails" do
-        ClientAPI.any_instance.stub(:most_visited_policies).and_raise
+  end
 
-        get :most_visited_policies
+  describe "most visited policies api" do
+    it "should return 500 if upstream server fails" do
+      ClientAPI.any_instance.stub(:most_visited_policies).and_raise
 
-        response.status.should == 500
-      end
+      get :most_visited_policies
+
+      response.status.should == 500
     end
+  end
 
+  describe "format success api" do
+    it "should return 500 if upstream server fails" do
+      ClientAPI.any_instance.stub(:inside_gov_format_success).and_raise
+
+      get :format_success
+
+      response.status.should == 500
+    end
   end
 
 end

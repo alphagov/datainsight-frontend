@@ -53,8 +53,12 @@ class ClientAPI
     get_json(url, @api_urls['format_success_base_url'], "/format-success")
   end
 
-  def most_visited_policies(&block)
+  def most_visited_policies
     transport(@api_urls['inside_government_base_url']).get("/most-visited-policies").data
+  end
+
+  def inside_gov_format_success
+    transport(@api_urls['inside_government_base_url']).get("/format-success").data
   end
 
   private
