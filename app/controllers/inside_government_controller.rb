@@ -1,7 +1,7 @@
 class InsideGovernmentController < ApplicationController
 
   def index
-    json = get_json(Settings.api_urls['inside_government_base_url'], "/most-visited-policies")
+    json = api(Settings.api_urls).most_visited_policies
     @policies = PolicyVisits.build(json)
   end
 
