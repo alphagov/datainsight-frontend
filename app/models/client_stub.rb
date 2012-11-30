@@ -2,30 +2,25 @@ class ClientStub
 
   def initialize(config = nil)
     @fixtures = JSON.parse(File.read(File.expand_path(File.join(Rails.root, 'spec', 'fixtures', 'client_stub.json'))))
-    p @fixtures
   end
 
-  def get_json(url, base_url, path)
-    fixture @fixtures[base_url + path].to_sym
-  end
-
-  def narrative(url)
+  def narrative
     fixture :narrative
   end
 
-  def weekly_visits(url)
+  def weekly_visits
     fixture :weekly_visits
   end
 
-  def weekly_visitors(url)
+  def weekly_visitors
     fixture :weekly_visitors
   end
 
-  def hourly_traffic(url)
+  def hourly_traffic
     fixture :hourly_traffic
   end
 
-  def format_success(url)
+  def format_success
     fixture :format_success
   end
 

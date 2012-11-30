@@ -66,7 +66,7 @@ describe "Dashboard API" do
     json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success"
   end
 
-  it "should serve today's activity as json with appropriate fields" do
+  it "should serve hourly traffic as json with appropriate fields" do
     dummy_json = { data: "some data" }.to_json
 
     FakeWeb.register_uri(:get, "#{Settings.api_urls['todays_activity_base_url']}/todays-activity", :body => dummy_json)

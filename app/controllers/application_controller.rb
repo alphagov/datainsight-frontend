@@ -5,33 +5,15 @@ class ApplicationController < ActionController::Base
     client_api_class.new(config)
   end
 
-  def serve_json(endpoint)
-    request_url = "#{request.scheme}://#{request.host}#{request.path}".chomp(".json")
-    api = api(Settings.api_urls)
-    result = api.send(endpoint.to_sym, request_url)
-    if result == :error
-      render status: 500, nothing: true
-    else
-      render json: result
-    end
+  def serve_json
+    json = yield
+    render json: json
+  rescue Exception => e
+    render status: 500, nothing: true
   end
 
-  def serve_json_from(base_url, path)
-    result = get_json(base_url, path)
-    if result == :error
-      render status: 500, nothing: true
-    else
-      render json: result
-    end
-  end
-
-  def get_json(base_url, path)
-    request_url = "#{request.scheme}://#{request.host}#{request.path}".chomp(".json")
-    api(Settings.api_urls).get_json(request_url, base_url, path)
-  end
-
-  def api(config)
-    @api ||= create_client_api(config)
+  def api
+    @api ||= create_client_api(Settings.api_urls)
   end
 
   private

@@ -7,14 +7,28 @@ class DashboardController < ApplicationController
   def narrative
     respond_to do |format|
       format.html { @narrative = get_narrative }
-      format.json { serve_json("narrative") }
+      format.json {
+        serve_json do
+          json = api.narrative
+          json["id"] = url_for :controller => "dashboard", :action => "narrative", :format => :json
+          json["web_url"] = url_for :controller => "dashboard", :action => "narrative"
+          json
+        end
+      }
     end
   end
 
   def visits
     respond_to do |format|
       format.html
-      format.json { serve_json("weekly_visits") }
+      format.json {
+        serve_json do
+          json = api.weekly_visits
+          json["id"] = url_for :controller => "dashboard", :action => "visits", :format => :json
+          json["web_url"] = url_for :controller => "dashboard", :action => "visits"
+          json
+        end
+      }
       format.png { serve_image("visits") }
     end
   end
@@ -22,7 +36,14 @@ class DashboardController < ApplicationController
   def unique_visitors
     respond_to do |format|
       format.html
-      format.json { serve_json("weekly_visitors") }
+      format.json {
+        serve_json do
+          json = api.weekly_visitors
+          json["id"] = url_for :controller => "dashboard", :action => "unique_visitors", :format => :json
+          json["web_url"] = url_for :controller => "dashboard", :action => "unique_visitors"
+          json
+        end
+      }
       format.png { serve_image("unique-visitors") }
     end
   end
@@ -30,7 +51,14 @@ class DashboardController < ApplicationController
   def format_success
     respond_to do |format|
       format.html
-      format.json { serve_json("format_success") }
+      format.json {
+        serve_json do
+          json = api.format_success
+          json["id"] = url_for :controller => "dashboard", :action => "format_success", :format => :json
+          json["web_url"] = url_for :controller => "dashboard", :action => "format_success"
+          json
+        end
+      }
       format.png { serve_image("format-success") }
     end
   end
@@ -38,7 +66,14 @@ class DashboardController < ApplicationController
   def hourly_traffic
     respond_to do |format|
       format.html
-      format.json { serve_json("hourly_traffic") }
+      format.json {
+        serve_json do
+          json = api.hourly_traffic
+          json["id"] = url_for :controller => "dashboard", :action => "hourly_traffic", :format => :json
+          json["web_url"] = url_for :controller => "dashboard", :action => "hourly_traffic"
+          json
+        end
+      }
       format.png { serve_image("hourly-traffic") }
     end
   end
@@ -55,18 +90,17 @@ class DashboardController < ApplicationController
   end
 
   def weekly_visitors_narrative
-    weekly_visitors = api(Settings.api_urls).weekly_visitors("url is irrelevant")
-    Narrative.new(weekly_visitors).content unless weekly_visitors == :error
+    weekly_visitors = api.weekly_visitors
+    Narrative.new(weekly_visitors).content
+  rescue Songkick::Transport::UpstreamError
+    ""
   end
 
   def todays_activity_narrative
-    # we don't care about the id / web_url fields because it's not being published from here
-    response = api(Settings.api_urls).narrative("do not care")
-    if response == :error
-      ""
-    else
-      response["details"]["data"]["content"]
-    end
+    response = api.narrative
+    response["details"]["data"]["content"]
+  rescue Songkick::Transport::UpstreamError
+    ""
   end
 
   def serve_image(image_name)
