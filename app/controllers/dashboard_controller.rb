@@ -7,28 +7,14 @@ class DashboardController < ApplicationController
   def narrative
     respond_to do |format|
       format.html { @narrative = get_narrative }
-      format.json {
-        serve_json do
-          json = api.narrative
-          json["id"] = url_for :controller => "dashboard", :action => "narrative", :format => :json
-          json["web_url"] = url_for :controller => "dashboard", :action => "narrative"
-          json
-        end
-      }
+      format.json { serve_json { api.narrative.merge(uris_for_action("narrative")) } }
     end
   end
 
   def visits
     respond_to do |format|
       format.html
-      format.json {
-        serve_json do
-          json = api.weekly_visits
-          json["id"] = url_for :controller => "dashboard", :action => "visits", :format => :json
-          json["web_url"] = url_for :controller => "dashboard", :action => "visits"
-          json
-        end
-      }
+      format.json { serve_json { api.weekly_visits.merge(uris_for_action("visits")) } }
       format.png { serve_image("visits") }
     end
   end
@@ -36,14 +22,7 @@ class DashboardController < ApplicationController
   def unique_visitors
     respond_to do |format|
       format.html
-      format.json {
-        serve_json do
-          json = api.weekly_visitors
-          json["id"] = url_for :controller => "dashboard", :action => "unique_visitors", :format => :json
-          json["web_url"] = url_for :controller => "dashboard", :action => "unique_visitors"
-          json
-        end
-      }
+      format.json { serve_json { api.weekly_visitors.merge(uris_for_action("unique_visitors")) } }
       format.png { serve_image("unique-visitors") }
     end
   end
@@ -51,14 +30,7 @@ class DashboardController < ApplicationController
   def format_success
     respond_to do |format|
       format.html
-      format.json {
-        serve_json do
-          json = api.format_success
-          json["id"] = url_for :controller => "dashboard", :action => "format_success", :format => :json
-          json["web_url"] = url_for :controller => "dashboard", :action => "format_success"
-          json
-        end
-      }
+      format.json { serve_json { api.format_success.merge(uris_for_action("format_success")) } }
       format.png { serve_image("format-success") }
     end
   end
@@ -66,14 +38,7 @@ class DashboardController < ApplicationController
   def hourly_traffic
     respond_to do |format|
       format.html
-      format.json {
-        serve_json do
-          json = api.hourly_traffic
-          json["id"] = url_for :controller => "dashboard", :action => "hourly_traffic", :format => :json
-          json["web_url"] = url_for :controller => "dashboard", :action => "hourly_traffic"
-          json
-        end
-      }
+      format.json { serve_json { api.hourly_traffic.merge(uris_for_action("hourly_traffic")) } }
       format.png { serve_image("hourly-traffic") }
     end
   end
@@ -107,5 +72,13 @@ class DashboardController < ApplicationController
     headers['X-Slimmer-Skip'] = "true"
     send_data File.read("#{Settings.graphs_images_dir}/#{image_name}.png"), type: "image/png", disposition: "inline"
   end
+
+  def uris_for_action(action)
+    {
+        "id" => url_for(controller: "dashboard", action: action, format: :json),
+        "web_url" => url_for(controller: "dashboard", action: action)
+    }
+  end
+
 
 end

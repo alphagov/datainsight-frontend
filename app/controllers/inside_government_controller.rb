@@ -3,7 +3,7 @@ class InsideGovernmentController < ApplicationController
   def index
     json = api.most_visited_policies
     @policies = PolicyVisits.build(json)
-  rescue Exception => e
+  rescue Exception
     @policies = nil
   end
 
