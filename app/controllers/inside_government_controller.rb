@@ -1,5 +1,7 @@
 class InsideGovernmentController < ApplicationController
 
+  rescue_from Songkick::Transport::UpstreamError, with: :handle_upstream_error
+
   def index
     json = api(Settings.api_urls).most_visited_policies
     @policies = PolicyVisits.build(json)
@@ -12,8 +14,6 @@ class InsideGovernmentController < ApplicationController
     json["web_url"] = url_for :controller => 'inside_government', :action => 'index', :anchor => "format-success-module"
 
     render json: json
-  rescue
-    render status: 500, nothing: true
   end
 
   def most_visited_policies
@@ -23,7 +23,11 @@ class InsideGovernmentController < ApplicationController
     json["web_url"] = url_for :controller => 'inside_government', :action => 'index', :anchor => "most-visited-policies-module"
 
     render json: json
-  rescue
+  end
+
+  private
+  def handle_upstream_error(e)
+    Airbrake.notify(e)
     render status: 500, nothing: true
   end
 
