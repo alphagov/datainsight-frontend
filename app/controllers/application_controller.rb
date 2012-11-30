@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
     json = yield
     render json: json
   rescue Exception => e
+    Airbrake.notify(e)
     render status: 500, nothing: true
   end
 

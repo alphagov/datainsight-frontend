@@ -17,19 +17,23 @@ describe ApplicationController do
   end
 
 
-  describe "serve_json" do
+  describe "handle upstream server failure" do
     controller do
       def index
-        serve_json { raise Exception }
+        serve_json { raise Exception.new }
       end
     end
 
     it "should return 500 when api returns an error" do
-      ClientAPI.any_instance.stub(:get_json).and_return(:error)
-
       get :index
 
       response.status.should == 500
+    end
+
+    it "should log an error to errbit if the upstream server fails" do
+      Airbrake.should_receive(:notify)
+
+      get :index
     end
   end
 end
