@@ -13,6 +13,14 @@ describe InsideGovernmentController do
       get :index
     end
 
+    it "should pass nil policies to view when the upstream server fails" do
+      ClientAPI.any_instance.stub(:most_visited_policies).and_raise(Songkick::Transport::UpstreamError.new "test")
+
+      get :index
+
+      assigns(:policies).should == nil
+    end
+
   end
 
 end

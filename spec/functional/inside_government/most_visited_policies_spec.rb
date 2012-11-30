@@ -51,4 +51,15 @@ describe "Most Visited Policies" do
     page.all("#most-visited-policies-module .policy-title")[4].should have_link "#5 most visited policy"
   end
 
+  it "should not fail if there has been an upstream error" do
+    FakeWeb.register_uri(
+        :get,
+        "#{Settings.api_urls['inside_government_base_url']}/most-visited-policies",
+        :status => 500)
+
+    visit "/performance/dev/inside-government"
+
+    page.status_code.should == 200
+  end
+
 end

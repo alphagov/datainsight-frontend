@@ -37,6 +37,8 @@ class ClientStub
     fixture_file = File.join(File.dirname(__FILE__), "../../spec/fixtures/#{name}.json")
 
     JSON.parse(load_fixture(fixture_file))
+  rescue JSON::ParserError => e
+    raise Songkick::Transport::UpstreamError.new e.message
   end
 
   def load_fixture(fixture_file)
