@@ -35,6 +35,10 @@ class ClientAPI
     transport(@api_urls['inside_government_base_url']).get("/format-success").data
   end
 
+  def inside_gov_weekly_visitors
+    transport(@api_urls['inside_government_base_url']).get("/visitors/weekly").data
+  end
+
   private
   def transport(host, args={})
     Transport.new(host, :user_agent => "Data Insight Web", :timeout => args[:timeout] || 5)
