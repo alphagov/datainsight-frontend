@@ -3,8 +3,16 @@ class InsideGovernmentController < ApplicationController
   def index
     json = api.most_visited_policies
     @policies = PolicyVisits.build(json)
+    @narrative = get_narrative
   rescue Exception
     @policies = nil
+  end
+
+  def narrative
+    respond_to do |format|
+      format.html { @narrative = get_narrative }
+      format.json { redirect_to :controller => "inside_government", :action => "visitors_weekly", :format => :json }
+    end
   end
 
   def visitors_weekly
@@ -34,4 +42,11 @@ class InsideGovernmentController < ApplicationController
     end
   end
 
+  private
+  def get_narrative
+    weekly_visitors = api.inside_gov_weekly_visitors
+    InsideGovNarrative.new(weekly_visitors).content
+  rescue Songkick::Transport::UpstreamError
+    ""
+  end
 end
