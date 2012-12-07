@@ -1,0 +1,33 @@
+<% if @policies.present? %>
+  <div id="most-entered-policies-module" class="module">
+    <h2>Top policies last week</h2>
+
+    <article>
+      <table>
+        <thead>
+          <tr>
+            <th>Top 5 most entered policies on Inside Government</th>
+            <th>Entries</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @policies.each.with_index(1) do |policy_entries, index| %>
+            <tr>
+              <td class="policy">
+                <div class="policy-index"><%= index %>.</div>
+                <div class="policy-title"><%= link_to policy_entries.policy.title, policy_entries.policy.url, rel: "external" %></div>
+                <div class="details">
+                  <span class="policy-department"><%= policy_entries.policy.department %></span> -
+                  <span class="policy-updated-at">Updated <%= render_date(policy_entries.policy.update_date) %></span>
+                </div>
+              </td>
+              <td class="number">
+                <div class="policy-entries"><%= NumberFormat.short_human_readable_number(policy_entries.entries) %></div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </article>
+  </div>
+<% end %>

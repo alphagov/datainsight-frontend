@@ -27,8 +27,8 @@ class ClientAPI
     transport(@api_urls['format_success_base_url']).get("/format-success").data
   end
 
-  def most_visited_policies
-    transport(@api_urls['inside_government_base_url']).get("/most-visited-policies").data
+  def most_entered_policies
+    transport(@api_urls['inside_government_base_url']).get("/entries/weekly/policies").data
   end
 
   def inside_gov_format_success

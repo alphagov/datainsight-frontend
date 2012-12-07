@@ -24,8 +24,8 @@ class ClientStub
     fixture :format_success
   end
 
-  def most_visited_policies
-    fixture "most-visited-policies".to_sym
+  def most_entered_policies
+    fixture "most-entered-policies".to_sym
   end
 
   def inside_gov_format_success

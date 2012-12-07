@@ -1,8 +1,8 @@
 class InsideGovernmentController < ApplicationController
 
   def index
-    json = api.most_visited_policies
-    @policies = PolicyVisits.build(json)
+    json = api.most_entered_policies
+    @policies = PolicyEntries.build(json)
   rescue Exception
     @policies = nil
   end
@@ -25,11 +25,11 @@ class InsideGovernmentController < ApplicationController
     end
   end
 
-  def most_visited_policies
+  def most_entered_policies
     serve_json do
-      json = api.most_visited_policies
-      json["id"] = url_for :controller => 'inside_government', :action => 'most_visited_policies', :format => :json
-      json["web_url"] = url_for :controller => 'inside_government', :action => 'index', :anchor => "most-visited-policies-module"
+      json = api.most_entered_policies
+      json["id"] = url_for :controller => 'inside_government', :action => 'most_entered_policies', :format => :json
+      json["web_url"] = url_for :controller => 'inside_government', :action => 'index', :anchor => "most-entered-policies-module"
       json
     end
   end
