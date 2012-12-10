@@ -4,9 +4,9 @@ describe InsideGovernmentController do
 
   describe "index" do
 
-    it "should retrieve most visited policies from api" do
+    it "should retrieve most entered policies from api" do
       client_api = double("client_api")
-      client_api.should_receive(:most_visited_policies)
+      client_api.should_receive(:most_entered_policies)
 
       ClientAPI.stub(:new).and_return(client_api)
 
@@ -14,7 +14,7 @@ describe InsideGovernmentController do
     end
 
     it "should pass nil policies to view when the upstream server fails" do
-      ClientAPI.any_instance.stub(:most_visited_policies).and_raise(Songkick::Transport::UpstreamError.new "test")
+      ClientAPI.any_instance.stub(:most_entered_policies).and_raise(Songkick::Transport::UpstreamError.new "test")
 
       get :index
 

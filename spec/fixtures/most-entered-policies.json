@@ -14,7 +14,7 @@
           "updated_at": "2012-11-26T16:00:07+00:00",
           "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
         },
-        "visits": 539000
+        "entries": 539000
       },
       {
         "policy": {
@@ -23,7 +23,7 @@
           "updated_at": "2012-11-19T16:00:07+00:00",
           "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
         },
-        "visits": 538000
+        "entries": 538000
       },
       {
         "policy": {
@@ -32,7 +32,7 @@
           "updated_at": "2012-11-23T16:00:07+00:00",
           "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
         },
-        "visits": 523000
+        "entries": 523000
       },
       {
         "policy": {
@@ -41,7 +41,7 @@
           "updated_at": "2012-11-16T16:00:07+00:00",
           "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
         },
-        "visits": 54000
+        "entries": 54000
       },
       {
         "policy": {
@@ -50,7 +50,7 @@
           "updated_at": "2012-11-10T16:00:07+00:00",
           "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
         },
-        "visits": 9000
+        "entries": 9000
       }
     ]
   },

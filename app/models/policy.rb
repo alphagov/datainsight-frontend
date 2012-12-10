@@ -4,7 +4,12 @@ class Policy
   def initialize(properties = {})
     @title = properties[:title]
     @department = properties[:department]
-    @update_date = Date.iso8601(properties[:updated_at])
+    begin
+      @update_date = Date.parse(properties[:updated_at])
+    rescue Exception => e
+      @update_date = "missing"
+      logger.info e
+    end
     @url = properties[:web_url]
   end
 end

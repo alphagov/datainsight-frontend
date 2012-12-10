@@ -1,7 +1,7 @@
 class JsonBuilder
 
-  def self.most_visited_policies(overrides)
-    policy_visits_entity = {
+  def self.most_entered_policies(overrides)
+    policy_entries_entity = {
         "response_info" => {
             "status" => "ok"
         },
@@ -21,14 +21,14 @@ class JsonBuilder
             "updated_at" => "2000-01-01T12:00:00+00:00",
             "web_url" => "https://www.gov.uk/default_policy_url"
         },
-        "visits" => 0
+        "entries" => 0
     }
 
     overrides.each do |policy_data|
-      policy_visits_entity["details"]["data"] << policy_defaults.deep_merge(policy_data)
+      policy_entries_entity["details"]["data"] << policy_defaults.deep_merge(policy_data)
     end
 
-    policy_visits_entity
+    policy_entries_entity
   end
 
 end
