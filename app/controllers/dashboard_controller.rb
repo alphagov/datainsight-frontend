@@ -56,7 +56,7 @@ class DashboardController < ApplicationController
 
   def weekly_visitors_narrative
     weekly_visitors = api.weekly_visitors
-    Narrative.new(weekly_visitors).content
+    GovukNarrative.new(weekly_visitors).content
   rescue Songkick::Transport::UpstreamError
     ""
   end

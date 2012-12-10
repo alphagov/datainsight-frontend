@@ -33,7 +33,7 @@ class ClientStub
   end
 
   def inside_gov_weekly_visitors
-    fixture :"inside-government-visitors-weekly"
+    fixture "inside-government-visitors-weekly".to_sym
   end
 
   private

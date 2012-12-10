@@ -16,6 +16,7 @@ DataInsightFrontend::Application.routes.draw do
       match "dev/inside-government/format-success" => "inside_government#format_success", via: :get
       match "dev/inside-government/most-entered-policies" => "inside_government#most_entered_policies", via: :get
       match "dev/inside-government/visitors/weekly" => "inside_government#visitors_weekly", via: :get
+      match "dev/inside-government/narrative" => "inside_government#narrative", via: :get
     end
   end
 
