@@ -21,10 +21,26 @@ describe "Most Visited Policies" do
             },
             "entries" => 567000
         },
-        {"policy" => {"title" => "Second most entered policy"}},
-        {"policy" => {"title" => "#3 most entered policy"}},
-        {"policy" => {"title" => "#4 most entered policy"}},
-        {"policy" => {"title" => "#5 most entered policy"}}
+        {"policy" => {
+            "title" => "Second most entered policy",
+            "web_url"=>"https://www.gov.uk/second-most-entered-policy"
+          }
+        },
+        {"policy" => {
+            "title" => "#3 most entered policy",
+            "web_url"=>"https://www.gov.uk/three-most-entered-policy"
+          }
+        },
+        {"policy" => {
+            "title" => "#4 most entered policy",
+            "web_url"=>"https://www.gov.uk/four-most-entered-policy"
+          }
+        },
+        {"policy" => {
+            "title" => "#5 most entered policy",
+            "web_url"=>"https://www.gov.uk/five-most-entered-policy"
+          }
+        }
     ])
   end
 
@@ -40,16 +56,14 @@ describe "Most Visited Policies" do
 
     page.all("#most-entered-policies-module .policy").count.should == 5
 
-    page.all("#most-entered-policies-module .policy-title").first.should have_link("Most entered policy", href: "https://www.gov.uk/most-entered-policies")
-    page.all("#most-entered-policies-module .policy-department").first.text.should == "ABC"
-    page.all("#most-entered-policies-module .policy-updated-at").first.text.should == "Updated 25 November 2012"
+    page.all("#most-entered-policies-module .policy-title").first.should have_link("https://www.gov.uk/most-entered-policies", href: "https://www.gov.uk/most-entered-policies")
     page.all("#most-entered-policies-module .policy-entries").first.text.should == "567k"
 
-    page.all("#most-entered-policies-module .policy-title").second.should have_link "Second most entered policy"
+    page.all("#most-entered-policies-module .policy-title").second.should have_link "https://www.gov.uk/second-most-entered-policy"
 
-    page.all("#most-entered-policies-module .policy-title")[2].should have_link "#3 most entered policy"
-    page.all("#most-entered-policies-module .policy-title")[3].should have_link "#4 most entered policy"
-    page.all("#most-entered-policies-module .policy-title")[4].should have_link "#5 most entered policy"
+    page.all("#most-entered-policies-module .policy-title")[2].should have_link "https://www.gov.uk/three-most-entered-policy"
+    page.all("#most-entered-policies-module .policy-title")[3].should have_link "https://www.gov.uk/four-most-entered-policy"
+    page.all("#most-entered-policies-module .policy-title")[4].should have_link "https://www.gov.uk/five-most-entered-policy"
   end
 
   it "should not fail if there has been an upstream error" do

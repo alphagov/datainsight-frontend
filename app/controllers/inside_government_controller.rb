@@ -1,10 +1,11 @@
 class InsideGovernmentController < ApplicationController
 
   def index
-    json = api.most_entered_policies
-    @policies = PolicyEntries.build(json)
-  rescue Exception
-    @policies = nil
+    policies_json = api.most_entered_policies
+    @policies = PolicyEntries.build(policies_json)
+  rescue Exception => e
+    logger.error(e)
+    nil
   end
 
   def visitors_weekly
