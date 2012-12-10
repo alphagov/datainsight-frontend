@@ -1,12 +1,19 @@
 class Narrative
   attr_reader :content
 
-  def initialize(weekly_visitors_data, site_name="GOV.UK")
-    @site_name = site_name
+  def initialize(weekly_visitors_data)
     @content = create_content(weekly_visitors_data)
   end
 
   protected
+  def site_name
+    raise NotImplementedError.new("site_name is abstract")
+  end
+
+  def extract_values(data)
+    raise NotImplementedError.new("extract_values is abstract")
+  end
+
   def describe_change(percentage)
     if percentage == 0
       "about the same as"
@@ -24,7 +31,7 @@ class Narrative
   def build_content(visitors_last_week, visitors_the_week_before)
     percentage = ((visitors_last_week / visitors_the_week_before - 1) * 100).round
     change = describe_change(percentage)
-    "#@site_name had #{format_number(visitors_last_week)} visitors last week, #{change} the week before"
+    "#{site_name} had #{format_number(visitors_last_week)} visitors last week, #{change} the week before"
   end
 
   def create_content(weekly_visitors_data)
@@ -38,11 +45,4 @@ class Narrative
     build_content(values[-1], values[-2])
   end
 
-  def extract_values(data)
-    data["details"]["data"].select {|datum|
-      datum.has_key?("value") && datum["value"].has_key?("govuk")
-    }.last(2).map {|datum|
-      datum["value"]["govuk"]
-    }
-  end
 end

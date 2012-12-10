@@ -1,6 +1,6 @@
 class InsideGovNarrative < Narrative
-  def initialize(weekly_visitors_data)
-    super(weekly_visitors_data, "Inside Government")
+  def site_name
+    "Inside Government"
   end
 
   def extract_values(data)
