@@ -7,7 +7,7 @@ describe "Inside Government API" do
   it "should expose the format success api endpoint" do
     FakeWeb.register_uri(
       :get,
-      "#{BASE_URL}/format-success",
+      "#{BASE_URL}/format-success/weekly",
       :body => {my: "json"}.to_json)
 
     get "/performance/dev/inside-government/format-success.json"

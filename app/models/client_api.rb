@@ -32,7 +32,7 @@ class ClientAPI
   end
 
   def inside_gov_format_success
-    transport(@api_urls['inside_government_base_url']).get("/format-success").data
+    transport(@api_urls['inside_government_base_url']).get("/format-success/weekly").data
   end
 
   def inside_gov_weekly_visitors
