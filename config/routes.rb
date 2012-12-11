@@ -18,6 +18,10 @@ DataInsightFrontend::Application.routes.draw do
       match "dev/inside-government/visitors/weekly" => "inside_government#visitors_weekly", via: :get
       match "dev/inside-government/narrative" => "inside_government#narrative", via: :get
     end
+
+    if ENV["govuk_platform"] == "preview"
+      match "dashboard/government" => "inside_government#index", via: :get
+    end
   end
 
 end
