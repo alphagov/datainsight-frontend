@@ -1,7 +1,6 @@
 class ClientStub
 
   def initialize(config = nil)
-    @fixtures = JSON.parse(File.read(File.expand_path(File.join(Rails.root, 'spec', 'fixtures', 'client_stub.json'))))
   end
 
   def narrative
