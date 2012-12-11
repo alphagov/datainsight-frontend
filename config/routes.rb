@@ -19,9 +19,9 @@ DataInsightFrontend::Application.routes.draw do
       match "dev/inside-government/narrative" => "inside_government#narrative", via: :get
     end
 
-    if ENV["govuk_platform"] == "preview"
-      match "dashboard/government" => "inside_government#index", via: :get
-    end
+
+    match "dashboard/government" => "inside_government#index", via: :get
+
   end
 
 end
