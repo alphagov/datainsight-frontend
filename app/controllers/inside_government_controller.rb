@@ -26,11 +26,16 @@ class InsideGovernmentController < ApplicationController
   end
 
   def format_success
-    serve_json do
-      json = api.inside_gov_format_success
-      json["id"] = url_for :controller => 'inside_government', :action => 'format_success', :format => :json
-      json["web_url"] = url_for :controller => 'inside_government', :action => 'index', :anchor => "format-success-module"
-      json
+    respond_to do |format|
+      format.json do
+        serve_json do
+          json = api.inside_gov_format_success
+          json["id"] = url_for :controller => 'inside_government', :action => 'format_success', :format => :json
+          json["web_url"] = url_for :controller => 'inside_government', :action => 'index', :anchor => "format-success-module"
+          json
+        end
+      end
+      format.png { serve_image("insidegov-format-success") }
     end
   end
 

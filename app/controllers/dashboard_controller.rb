@@ -68,11 +68,6 @@ class DashboardController < ApplicationController
     ""
   end
 
-  def serve_image(image_name)
-    headers['X-Slimmer-Skip'] = "true"
-    send_data File.read("#{Settings.graphs_images_dir}/#{image_name}.png"), type: "image/png", disposition: "inline"
-  end
-
   def uris_for_action(action)
     {
         "id" => url_for(controller: "dashboard", action: action, format: :json),

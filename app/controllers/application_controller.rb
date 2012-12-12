@@ -13,6 +13,11 @@ class ApplicationController < ActionController::Base
     render status: 500, nothing: true
   end
 
+  def serve_image(image_name)
+    headers['X-Slimmer-Skip'] = "true"
+    send_data File.read("#{Settings.graphs_images_dir}/#{image_name}.png"), type: "image/png", disposition: "inline"
+  end
+
   def api
     @api ||= create_client_api(Settings.api_urls)
   end

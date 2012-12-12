@@ -34,6 +34,8 @@ begin
   save_as_image("performance/dashboard", "visits", "#visits-module")
   save_as_image("performance/dashboard", "unique-visitors", "#unique-visitors-module")
   save_as_image("performance/dashboard", "format-success", "#format-success-module")
+
+  save_as_image("performance/dashboard/government", "insidegov-format-success", "#format-success-module")
 rescue Exception => e
   Airbrake.notify(e)
   raise e

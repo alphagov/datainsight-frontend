@@ -42,7 +42,15 @@ $(function () {
     $.ajax({
         url: "/performance/dashboard/government/format-success.json",
         success: function (response) {
-            GOVUK.Insights.InsideGovernment.formatSuccess(response);
+            if (response !== null) {
+                if (GOVUK.isSvgSupported()) {
+                    $("#format-success-module img").remove();
+                    $("#format-success-module .datainsight-hidden").removeClass("datainsight-hidden");
+                    GOVUK.Insights.InsideGovernment.formatSuccess(response);
+                }
+            } else {
+                $("#format-success-module").append(GOVUK.Insights.Helpers.error_div);
+            }
         }
     });
 });
