@@ -50,9 +50,9 @@ GOVUK.Insights.scatterplotGraph = function () {
                 R = scales.R,
                 C = scales.C,
                 overlayBottom = function (d) {
-                var overlay = config.y(d) + R(config.r(d)) - config.height;
-                return overlay > 0 ? overlay : 0;
-            };
+                    var overlay = config.y(d) + R(config.r(d)) - config.height;
+                    return overlay > 0 ? overlay : 0;
+                };
 
             var svg = d3.select(this).selectAll("svg").data([config]);
 
@@ -207,6 +207,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .on('mouseover', function () {
                     var circleElement = d3.select('circle[data-point-label=' + d3.select(this).attr('data-point-label') + ']'),
                         d = circleElement.datum();
+
                     if (d.callout !== undefined) {
                         d.callout.cancelClose();
                     } else {
@@ -437,33 +438,38 @@ GOVUK.Insights.scatterplotGraph = function () {
                 maxCircleRadius = R(dataForLegend.slice(-1)),
                 offset = 15;
 
-            var legend = selection.append("svg")
+            var legend = d3.select(this).selectAll("svg").data([config]);
+
+            legend
+                .enter().append("svg")
                 .attr("width", width)
                 .attr("height", height)
                 .attr("class", "scatterplot-legend")
                 .append("g")
                 .attr("transform", "translate(0, 3)");
 
-            legend
-                .selectAll("text.circle-legend")
-                .data(dataForLegend)
-                .enter().append("svg:text")
+            var legendText = legend.selectAll("text.circle-legend").data(dataForLegend);
+
+            legendText.enter().append("svg:text")
                 .attr("class", "circle-legend")
+                .attr("dy", ".35em")
+                .attr("text-anchor", "end");
+
+            legendText
                 .attr("x", width - 2 * maxCircleRadius - 2 * offset)
                 .attr("y", function (d) {
                     return 2 * R(d) - 5; // offset text to bottom of circles
                 })
-                .attr("dy", ".35em")
-                .attr("text-anchor", "end")
                 .text(function(d) {
                     return GOVUK.Insights.formatNumericLabel(d) + " times used";
                 });
 
-            legend
-                .selectAll("circle.legend")
-                .data(dataForLegend)
-                .enter().append("svg:circle")
-                .attr("class", "legend")
+            var legendCircles = legend.selectAll("circle.legend").data(dataForLegend);
+
+            legendCircles.enter().append("svg:circle")
+                .attr("class", "legend");
+
+            legendCircles
                 .attr("r", function (d) {
                     return R(d);
                 })
