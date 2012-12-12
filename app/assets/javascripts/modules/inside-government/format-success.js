@@ -33,6 +33,7 @@ GOVUK.Insights.InsideGovernment.formatSuccess = function(RAW_DATA) {
         d3.select('#inside-gov-format-success-legend')
             .datum(data)
             .call(formatSuccess.legend);
+        d3.select("#format-success-module").selectAll('text').each(function () { GOVUK.Insights.createTextShade(this) });
 
         GOVUK.Insights.forcePosition.apply("#inside-gov-format-success");
 };
