@@ -22,6 +22,11 @@
         <li id="govuk-performance">
           <%= nav_link_to "GOV.UK Dashboard", {controller: 'dashboard', action: 'index'} %>
         </li>
+        <% if Settings.feature_toggles[:inside_government_dashboard] %>
+          <li id="insidegov-dashboard">
+            <%= nav_link_to "Inside Government Dashboard", {controller: 'inside_government', action: 'index'} %>
+          </li>
+        <% end %>
       </ul>
     </div>
   </nav>
