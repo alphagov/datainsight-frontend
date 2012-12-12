@@ -1,0 +1,13 @@
+<% content_for :footer do %>
+  <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("widgets/timeseries", "modules/inside-government/weekly-visitors")} %>
+<% end %>
+
+<div id="weekly-visitors-module" class="module">
+    <div class="module-header left">
+        <h2 class="graph-info">Weekly visitors...</h2>
+
+        <p class="graph-heading">How many roads must a man walk down...</p>
+    </div>
+    <div style="clear: both"></div>
+    <div id="inside-gov-weekly-visitors" class="graph-container"></div>
+</div>
