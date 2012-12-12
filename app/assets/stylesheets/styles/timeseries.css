@@ -1,0 +1,9 @@
+#inside-gov-weekly-visitors .plotting-area .line {
+    stroke: rgb(52, 100, 98);
+    stroke-width: 4;
+    stroke-linecap: round;
+}
+#inside-gov-weekly-visitors .plotting-area .shade {
+    fill: rgb(221,240,243);
+
+}
