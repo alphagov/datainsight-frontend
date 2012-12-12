@@ -33,16 +33,26 @@ GOVUK.Insights.scatterplotGraph = function () {
         colourScale:d3.scale.linear()
     };
 
+    var getScales = function(data) {
+        return {
+            X: config.xScale.domain([0,d3.max(data, config.x)]).range([0,config.width*0.95]),
+            Y: config.yScale.domain([0,100]).range([config.height, 0]),
+            R: config.rScale.domain([0,d3.max(data, config.r)]).range([1,config.maxRadius]),
+            C: config.colourScale.domain([0, 50, 100]).range(["#BF1E2D", "#B3B3B3", "#74B74A"])
+        }
+    };
+
     var instance = function (selection) {
         selection.each(function (data) {
-            var X = config.xScale.domain([0,d3.max(data, config.x)]).range([0,config.width*0.95]),
-                Y = config.yScale.domain([0,100]).range([config.height, 0]),
-                R = config.rScale.domain([0,d3.max(data, config.r)]).range([1,config.maxRadius]),
-                C = config.colourScale.domain([0, 50, 100]).range(["#BF1E2D", "#B3B3B3", "#74B74A"]),
+            var scales = getScales(data),
+                X = scales.X,
+                Y = scales.Y,
+                R = scales.R,
+                C = scales.C,
                 overlayBottom = function (d) {
-                    var overlay = config.y(d) + R(config.r(d)) - config.height;
-                    return overlay > 0 ? overlay : 0;
-                };
+                var overlay = config.y(d) + R(config.r(d)) - config.height;
+                return overlay > 0 ? overlay : 0;
+            };
 
             var svg = d3.select(this).selectAll("svg").data([config]);
 
@@ -197,7 +207,6 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .on('mouseover', function () {
                     var circleElement = d3.select('circle[data-point-label=' + d3.select(this).attr('data-point-label') + ']'),
                         d = circleElement.datum();
-
                     if (d.callout !== undefined) {
                         d.callout.cancelClose();
                     } else {
@@ -398,6 +407,7 @@ GOVUK.Insights.scatterplotGraph = function () {
         });
     };
 
+    // Add setters and getters for config options
     Object.keys(config).forEach(function (key) {
         instance[key] = function (newValue) {
             if (!arguments.length) return config[key];
@@ -406,6 +416,65 @@ GOVUK.Insights.scatterplotGraph = function () {
         };
     });
 
+    // Add function to render legend
+    instance.legend = function(selection) {
+        selection.each(function(data) {
+            var scales = getScales(data),
+                X = scales.X,
+                R = scales.R;
+
+            var dataForLegend = X.ticks(4).slice(1, 4);
+
+            if (dataForLegend.length > 2) {
+                dataForLegend = [
+                    dataForLegend[0],
+                    dataForLegend[dataForLegend.length - 1]
+                ];
+            }
+
+            var width = 250,
+                height = 80,
+                maxCircleRadius = R(dataForLegend.slice(-1)),
+                offset = 15;
+
+            var legend = selection.append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("class", "scatterplot-legend")
+                .append("g")
+                .attr("transform", "translate(0, 3)");
+
+            legend
+                .selectAll("text.circle-legend")
+                .data(dataForLegend)
+                .enter().append("svg:text")
+                .attr("class", "circle-legend")
+                .attr("x", width - 2 * maxCircleRadius - 2 * offset)
+                .attr("y", function (d) {
+                    return 2 * R(d) - 5; // offset text to bottom of circles
+                })
+                .attr("dy", ".35em")
+                .attr("text-anchor", "end")
+                .text(function(d) {
+                    return GOVUK.Insights.formatNumericLabel(d) + " times used";
+                });
+
+            legend
+                .selectAll("circle.legend")
+                .data(dataForLegend)
+                .enter().append("svg:circle")
+                .attr("class", "legend")
+                .attr("r", function (d) {
+                    return R(d);
+                })
+                .attr("cx", function () {
+                    return width - maxCircleRadius - offset;
+                })
+                .attr("cy", function (d) {
+                    return R(d);
+                });
+        });
+    };
 
     return instance;
 };
