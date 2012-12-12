@@ -15,7 +15,7 @@ class NumberFormat
       (number.to_f / 1_000_000).round(1).to_s.sub(".0", "") + suffixes[:million]
     elsif number >= 10_000
       (number.to_f / 1_000).round.to_s + suffixes[:thousand]
-    elsif number > 100
+    elsif number >= 1000
       (number.to_f / 1_000).round(1).to_s.sub(".0", "") + suffixes[:thousand]
     else
       number.to_s

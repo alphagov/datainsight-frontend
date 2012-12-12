@@ -42,7 +42,7 @@ GOVUK.Insights.formatNumericLabel = function (val) {
 
     if (val >= tenThousand) return Math.round(val / oneThousand) + "k";
 
-    if (val > 100) return (val / oneThousand).toFixed(1).replace('.0', '') + "k";
+    if (val >= 1000) return (val / oneThousand).toFixed(1).replace('.0', '') + "k";
 
     return val.toString();
 };

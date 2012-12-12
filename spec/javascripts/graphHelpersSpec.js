@@ -118,12 +118,12 @@ describe("Helpers", function () {
         });
 
         it("should display numbers from 101 to 999 as fractions of 1k", function() {
-            expect(GOVUK.Insights.formatNumericLabel(101)).toBe('0.1k');
-            expect(GOVUK.Insights.formatNumericLabel(154)).toBe('0.2k');
-            expect(GOVUK.Insights.formatNumericLabel(235)).toBe('0.2k');
-            expect(GOVUK.Insights.formatNumericLabel(398)).toBe('0.4k');
-            expect(GOVUK.Insights.formatNumericLabel(777)).toBe('0.8k');
-            expect(GOVUK.Insights.formatNumericLabel(999)).toBe('1k');
+            expect(GOVUK.Insights.formatNumericLabel(101)).toBe('101');
+            expect(GOVUK.Insights.formatNumericLabel(154)).toBe('154');
+            expect(GOVUK.Insights.formatNumericLabel(235)).toBe('235');
+            expect(GOVUK.Insights.formatNumericLabel(398)).toBe('398');
+            expect(GOVUK.Insights.formatNumericLabel(777)).toBe('777');
+            expect(GOVUK.Insights.formatNumericLabel(999)).toBe('999');
         });
         
         describe("rounding changes", function () {
