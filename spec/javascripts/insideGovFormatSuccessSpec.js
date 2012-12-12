@@ -6,8 +6,8 @@ describe("inside gov format success graph", function () {
         "response_info":{
             "status":"ok"
         },
-        "id":"http://datainsight-frontend.dev.gov.uk/performance/dev/inside-government/format-success.json",
-        "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dev/inside-government/format-success",
+        "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/format-success.json",
+        "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/format-success",
         "details":{
             "source":["Totally made up"],
             "data":[

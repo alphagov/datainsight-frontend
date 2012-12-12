@@ -35,7 +35,7 @@ GOVUK.Insights.InsideGovernment.formatSuccess = function(RAW_DATA) {
 
 $(function () {
     $.ajax({
-        url: "http://datainsight-frontend.dev.gov.uk/performance/dev/inside-government/format-success.json",
+        url: "/performance/dashboard/government/format-success.json",
         success: function (response) {
             GOVUK.Insights.InsideGovernment.formatSuccess(response);
         }

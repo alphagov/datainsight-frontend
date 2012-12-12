@@ -12,11 +12,11 @@ DataInsightFrontend::Application.routes.draw do
     match "dashboard/hourly-traffic" => "dashboard#hourly_traffic", via: :get
 
     if Rails.env.development? or Rails.env.test?
-      match "dev/inside-government" => "inside_government#index", via: :get
-      match "dev/inside-government/format-success" => "inside_government#format_success", via: :get
-      match "dev/inside-government/most-entered-policies" => "inside_government#most_entered_policies", via: :get
-      match "dev/inside-government/visitors/weekly" => "inside_government#visitors_weekly", via: :get
-      match "dev/inside-government/narrative" => "inside_government#narrative", via: :get
+      match "dashboard/government" => "inside_government#index", via: :get
+      match "dashboard/government/format-success" => "inside_government#format_success", via: :get
+      match "dashboard/government/most-entered-policies" => "inside_government#most_entered_policies", via: :get
+      match "dashboard/government/visitors/weekly" => "inside_government#visitors_weekly", via: :get
+      match "dashboard/government/narrative" => "inside_government#narrative", via: :get
     end
 
 

@@ -45,13 +45,13 @@ describe "Most Visited Policies" do
   end
 
   it "should show most entered policies" do
-    visit "/performance/dev/inside-government"
+    visit "/performance/dashboard/government"
 
     page.find("#most-entered-policies-module h2").text.should == "Top policies last week"
   end
 
   it "should show 5 most entered policies" do
-    visit "/performance/dev/inside-government"
+    visit "/performance/dashboard/government"
     page.status_code.should == 200
 
     page.all("#most-entered-policies-module .policy").count.should == 5
@@ -72,7 +72,7 @@ describe "Most Visited Policies" do
         "#{Settings.api_urls['inside_government_base_url']}/entries/weekly/policies",
         :status => 500)
 
-    visit "/performance/dev/inside-government"
+    visit "/performance/dashboard/government"
 
     page.status_code.should == 200
   end
