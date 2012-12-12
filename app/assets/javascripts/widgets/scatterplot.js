@@ -35,10 +35,6 @@ GOVUK.Insights.scatterplotGraph = function () {
 
     var instance = function (selection) {
         selection.each(function (data) {
-            var scaleTemplate = function (scale, variableExtractorFn) {
-                return (scale || d3.scale.linear().domain(d3.extent(data.map(variableExtractorFn))));
-            };
-
             var X = config.xScale.domain([0,d3.max(data, config.x)]).range([0,config.width*0.95]),
                 Y = config.yScale.domain([0,100]).range([config.height, 0]),
                 R = config.rScale.domain([0,d3.max(data, config.r)]).range([1,config.maxRadius]),
@@ -56,8 +52,8 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             svg
                 .attr("width", function (d) {
-                return d.width + d.marginLeft + d.marginRight;
-            })
+                    return d.width + d.marginLeft + d.marginRight;
+                })
                 .attr("height", function (d) {
                     return d.height + d.marginTop + d.marginBottom + d3.max(data, overlayBottom);
                 });
@@ -69,8 +65,8 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             plotArea
                 .attr("transform", function (d) {
-                return "translate(" + d.marginLeft + "," + d.marginTop + ")";
-            });
+                    return "translate(" + d.marginLeft + "," + d.marginTop + ")";
+                });
 
             var graphArea = plotArea.selectAll("g.graph-area").data([config]);
 
@@ -139,15 +135,15 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             circles
                 .on('mouseover', function (d) {
-                if (d.callout !== undefined) {
-                    d.callout.cancelClose();
-                } else {
-                    var self = this;
-                    doHover(d, self, function () {
-                        endHover(d, self);
-                    });
-                }
-            })
+                    if (d.callout !== undefined) {
+                        d.callout.cancelClose();
+                    } else {
+                        var self = this;
+                        doHover(d, self, function () {
+                            endHover(d, self);
+                        });
+                    }
+                })
                 .on('mouseout', function (d) {
                     if (d.callout !== undefined) {
                         d.callout.close();
@@ -182,8 +178,8 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             circlesLabels
                 .text(function (d) {
-                return config.circleLabel(d);
-            })
+                    return config.circleLabel(d);
+                })
                 .attr("id", function (d) {
                     return "label-" + config.circleLabel(d).idify();
                 })
@@ -333,8 +329,7 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             rightXAxisLabel.text(config.xAxisLabels.right)
                 .attr("class", "label-x-right")
-                .attr("x",
-                function (d) {
+                .attr("x", function (d) {
                     return d.width;
                 })
                 .attr("y", function (d) {
