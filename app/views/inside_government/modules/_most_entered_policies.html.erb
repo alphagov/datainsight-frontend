@@ -15,7 +15,10 @@
             <tr>
               <td class="policy">
                 <div class="policy-index"><%= index %>.</div>
-                <div class="policy-title"><%= link_to policy_entries.policy.url, policy_entries.policy.url, rel: "external", target: "_blank" %></div>
+                <div class="policy-title">
+                    <%= link_to allow_line_break_after_slash(policy_entries.policy.url),
+                                policy_entries.policy.url, rel: "external", target: "_blank" %>
+                </div>
               </td>
               <td class="number">
                 <div class="policy-entries"><%= NumberFormat.short_human_readable_number(policy_entries.entries) %></div>
