@@ -17,11 +17,16 @@ class InsideGovernmentController < ApplicationController
   end
 
   def visitors_weekly
-    serve_json do
-      json = api.inside_gov_weekly_visitors
-      json["id"] = url_for :controller => "inside_government", :action => "visitors_weekly", :format => :json
-      json["web_url"] = url_for :controller => "inside_government", :action => "index"
-      json
+    respond_to do |format|
+      format.json do
+        serve_json do
+          json = api.inside_gov_weekly_visitors
+          json["id"] = url_for :controller => "inside_government", :action => "visitors_weekly", :format => :json
+          json["web_url"] = url_for :controller => "inside_government", :action => "index"
+          json
+        end
+      end
+      format.png { serve_image("insidegov-weekly-visitors") }
     end
   end
 

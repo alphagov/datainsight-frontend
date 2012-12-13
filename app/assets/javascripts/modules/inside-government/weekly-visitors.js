@@ -16,7 +16,15 @@ $(function() {
     $.ajax({
         url: "/performance/dashboard/government/visitors/weekly.json",
         success: function (response) {
-            GOVUK.Insights.InsideGovernment.weeklyVisitors(response);
+            if (response !== null) {
+                if (GOVUK.isSvgSupported()) {
+                    $("#weekly-visitors-module img").remove();
+                    $("#weekly-visitors-module .datainsight-hidden").removeClass("datainsight-hidden");
+                    GOVUK.Insights.InsideGovernment.weeklyVisitors(response);
+                }
+            } else {
+                $("#weekly-visitors-module").append(GOVUK.Insights.Helpers.error_div);
+            }
         }
     });
 });
