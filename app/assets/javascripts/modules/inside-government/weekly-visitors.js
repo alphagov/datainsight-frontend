@@ -4,7 +4,8 @@ GOVUK.Insights.InsideGovernment = GOVUK.Insights.InsideGovernment || {};
 
 GOVUK.Insights.InsideGovernment.weeklyVisitors = function (RAW_DATA) {
     var weeklyVisitors = GOVUK.Insights.timeSeriesGraph()
-        .marginRight(30);
+        .marginRight(30)
+        .marginTop(10);
 
     d3.select('#inside-gov-weekly-visitors')
         .datum(RAW_DATA)

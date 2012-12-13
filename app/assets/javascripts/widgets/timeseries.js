@@ -9,7 +9,8 @@ GOVUK.Insights.timeSeriesGraph = function () {
         marginBottom: 0,
         marginLeft: 0,
         marginRight: 0,
-        xScale: d3.time.scale()
+        xScale: d3.time.scale(),
+        yScale: d3.scale.linear()
     };
 
     var AXIS_OFFSET = 40;
@@ -40,7 +41,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
             var maxVisits = data.details.data.map(function(d) {return d.value; }).reduce(function(a,b) { return a > b ? a : b; } );
 
             var xScale = config.xScale.domain([ minDate, maxDate ]).range([AXIS_OFFSET, config.width - config.marginLeft - config.marginRight ]);
-            var yScale = d3.scale.linear().domain([0, maxVisits]).range([config.height - config.marginTop - config.marginBottom - AXIS_OFFSET, 0])
+            var yScale = config.yScale.domain([0, maxVisits]).range([config.height - config.marginTop - config.marginBottom - AXIS_OFFSET, 0])
 
             var xAxis = d3.svg.axis()
                 .scale(xScale)
@@ -92,13 +93,37 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     return yScale(d.value);
                 });
 
-            var areaPath = plottingArea.append("svg:path")
+            plottingArea.append("svg:path")
                 .classed("shade", true)
                 .attr("d", area(data.details.data));
 
-            var path = plottingArea.append("svg:path")
+            plottingArea.append("svg:path")
                 .classed("line", true)
                 .attr("d", line(data.details.data));
+
+            svg.append("svg:rect")
+                .attr("width", config.width)
+                .attr("height", config.height)
+                .on("mousemove", function () {
+                    var mousePoint = GOVUK.Insights.point(d3.mouse(this));
+                    var dataPoint = function(d) {
+                        return GOVUK.Insights.point(xScale(format.parse(d.end_at)), yScale(d.value));
+                    };
+                    var closestPoint = dataPoint(GOVUK.Insights.findClosestDataPointInSeries(mousePoint, data.details.data, dataPoint));
+
+                    plottingArea.select("#dataPointHighlight").remove();
+                    plottingArea.insert("svg:circle", "rect")
+                        .attr("cx", closestPoint.x())
+                        .attr("cy", closestPoint.y())
+                        .attr("r", 3.5)
+                        .attr("id", "dataPointHighlight");
+                })
+                .on("mouseout", function() {
+                    var mousePoint = GOVUK.Insights.point(d3.mouse(this));
+                    if ((mousePoint.x() < 0) || (mousePoint.x() > config.width) || (mousePoint.y() < 0) || (mousePoint.y() > config.height)) {
+                        plottingArea.select("#dataPointHighlight").remove();
+                    }
+                });
         });
     };
 
