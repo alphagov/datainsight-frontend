@@ -3,6 +3,6 @@
 = require styles/main
 = require styles/format-success
 = require styles/scatterplot
-= require styles/timeseries
+= require styles/insidegov/weekly-visitors
 = require styles/sub_navigation
 */
