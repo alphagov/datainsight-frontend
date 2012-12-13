@@ -47,14 +47,14 @@ GOVUK.Insights.timeSeriesGraph = function () {
 
             var xAxis = d3.svg.axis()
                 .scale(xScale)
-                .ticks(d3.time.saturdays, 2)
+                .ticks(d3.time.saturdays)
                 .tickSize(5)
                 .tickPadding(4)
                 .tickFormat(GOVUK.Insights.shortDateFormat);
 
             graphArea.append("svg:g")
                 .classed("x-axis", true)
-                .attr("transform", "translate(0, " + (config.height - config.marginTop - config.marginBottom - AXIS_OFFSET) + ")")
+                .attr("transform", "translate(0, " + (config.height - config.marginTop - config.marginBottom - AXIS_OFFSET + 3) + ")")
                 .call(xAxis);
 
             var yAxis = d3.svg.axis()

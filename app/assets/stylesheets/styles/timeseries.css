@@ -1,3 +1,7 @@
+.insidegov {
+    color: rgb(52, 100, 98);
+}
+
 #inside-gov-weekly-visitors .plotting-area .line {
     stroke: rgb(52, 100, 98);
     stroke-width: 4;
