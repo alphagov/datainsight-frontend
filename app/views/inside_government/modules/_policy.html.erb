@@ -1,0 +1,12 @@
+<% if policy_visits.present? %>
+  <th class="index"><%= index %>.</th>
+  <td class="policy-title">
+    <%= link_to allow_line_break_after_slash(policy_visits.policy.url),
+                policy_visits.policy.url, rel: "external", target: "_blank" %>
+  </td>
+  <td class="policy-visits"><%= NumberFormat.short_human_readable_number(policy_visits.entries) %></td>
+<% else %>
+  <th class="index"></th>
+  <td></td>
+  <td></td>
+<% end %>
