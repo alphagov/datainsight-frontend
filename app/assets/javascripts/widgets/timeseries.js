@@ -41,9 +41,10 @@ GOVUK.Insights.timeSeriesGraph = function () {
             var minDate = data.details.data.map(function(d) {return seriesDateFormat.parse(d.end_at); }).reduce(function(a,b) { return a < b ? a : b; } );
             var maxDate = data.details.data.map(function(d) {return seriesDateFormat.parse(d.end_at); }).reduce(function(a,b) { return a > b ? a : b; } );
             var maxVisits = data.details.data.map(function(d) {return d.value; }).reduce(function(a,b) { return a > b ? a : b; } );
+            var yTicks = GOVUK.Insights.calculateLinearTicks([0, maxVisits], 5);
 
             var xScale = config.xScale.domain([ minDate, maxDate ]).range([AXIS_OFFSET, config.width - config.marginLeft - config.marginRight ]);
-            var yScale = config.yScale.domain([0, maxVisits]).range([config.height - config.marginTop - config.marginBottom - AXIS_OFFSET, 0])
+            var yScale = config.yScale.domain(yTicks.extent).range([config.height - config.marginTop - config.marginBottom - AXIS_OFFSET, 0])
 
             var xAxis = d3.svg.axis()
                 .scale(xScale)
@@ -63,7 +64,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .ticks(10)
                 .tickSize(5)
                 .tickPadding(4)
-                .tickFormat(GOVUK.Insights.numericLabelFormatterFor(maxVisits));
+                .tickFormat(GOVUK.Insights.numericLabelFormatterFor(yTicks.step));
 
             graphArea.append("svg:g")
                 .classed("y-axis", true)
