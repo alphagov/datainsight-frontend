@@ -138,14 +138,11 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
             /* Set up X Axis */
-            function formatDate(date) {
-                return date.getDate() + " " + GOVUK.Insights.SHORT_MONTHS[date.getMonth()];
-            }
             var xAxis = d3.svg.axis()
                 .scale(xScale)
                 .ticks(GOVUK.Insights.months_range, 2)
                 .tickPadding(4)
-                .tickFormat(formatDate);
+                .tickFormat(GOVUK.Insights.shortDateFormat);
 
             graph.append("svg:g")
                 .attr("class", "x-axis")
@@ -253,7 +250,6 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     if (currentCallout) {
                         currentCallout.close();
                     }
-
                     // show callout
                     var boxWidth = 165,
                         boxHeight = 48,
@@ -268,7 +264,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                             width: boxWidth,
                             height: boxHeight,
                             parent: container,
-                            title: formatDate(dateFormat.parse(closest.datum.startDate)) + " - " + formatDate(dateFormat.parse(closest.datum.endDate)),
+                            title: GOVUK.Insights.shortDateFormat(dateFormat.parse(closest.datum.startDate)) + " - " + GOVUK.Insights.shortDateFormat(dateFormat.parse(closest.datum.endDate)),
                             rowData: [
                                 {
                                     right: GOVUK.Insights.formatNumericLabel(closest.datum.value),
@@ -277,6 +273,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                             ],
                             boxClass: closest.seriesName
                         };
+
 
                     currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
                 })

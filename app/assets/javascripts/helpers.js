@@ -5,7 +5,12 @@ GOVUK.Insights.Helpers = {
     error_div:'<div id="error-msg" style="color: red">Sorry, there has been an error.</div>'
 };
 
-GOVUK.Insights.SHORT_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+
+GOVUK.Insights.shortDateFormat = function(date) {
+    var SHORT_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    return date.getDate() + " " + SHORT_MONTHS[date.getMonth()];
+};
+
 
 // Source: http://stackoverflow.com/questions/654112/how-do-you-detect-support-for-vml-or-svg-in-a-browser
 GOVUK.isSvgSupported = function () {
