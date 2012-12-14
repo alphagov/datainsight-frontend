@@ -8,6 +8,9 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData) {
 
     var weeklyVisitors = GOVUK.Insights.timeSeriesGraph()
         .marginRight(30)
+        .marginTop(10)
+        .height(290)
+        .yTicks(5)
         .x(function(d) { return seriesDateFormat.parse(d.end_at); })
         .y(function(d) { return d.value; });
 
