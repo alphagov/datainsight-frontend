@@ -8,7 +8,7 @@ GOVUK.Insights.InsideGovernment.formatSuccess = function(RAW_DATA) {
             return {
                 "news":"News",
                 "detailed_guidance":"Detailed guidance",
-                "policy":"Policy"
+                "policy":"Policies"
             }[format] || format;
         };
 
