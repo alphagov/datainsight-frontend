@@ -435,6 +435,7 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             var width = 250,
                 height = 80,
+                marginTop = 5
                 maxCircleRadius = R(dataForLegend.slice(-1)),
                 offset = 15;
 
@@ -443,7 +444,7 @@ GOVUK.Insights.scatterplotGraph = function () {
             legend
                 .enter().append("svg")
                 .attr("width", width)
-                .attr("height", height)
+                .attr("height", height + marginTop)
                 .attr("class", "scatterplot-legend")
                 .append("g")
                 .attr("transform", "translate(0, 3)");
@@ -458,7 +459,7 @@ GOVUK.Insights.scatterplotGraph = function () {
             legendText
                 .attr("x", width - 2 * maxCircleRadius - 2 * offset)
                 .attr("y", function (d) {
-                    return 2 * R(d) - 5; // offset text to bottom of circles
+                    return 2 * R(d) - 5 + marginTop; // offset text to bottom of circles
                 })
                 .text(function(d) {
                     return GOVUK.Insights.formatNumericLabel(d) + " " + config.xAxisLabels.description.toLowerCase();
@@ -477,7 +478,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return width - maxCircleRadius - offset;
                 })
                 .attr("cy", function (d) {
-                    return R(d);
+                    return R(d) + marginTop;
                 });
         });
     };
