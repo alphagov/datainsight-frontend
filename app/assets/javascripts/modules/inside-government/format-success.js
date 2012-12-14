@@ -22,8 +22,8 @@ GOVUK.Insights.InsideGovernment.formatSuccess = function(RAW_DATA) {
         });
 
         var formatSuccess = GOVUK.Insights.scatterplotGraph()
-            .xAxisLabels({description:"Times used", left:"Least used", right:"Most used"})
-            .yAxisLabels({description:"Used successfully", bottom:"0%", top:"100%"})
+            .xAxisLabels({description:"Views", left:"Least viewed", right:"Most viewed"})
+            .yAxisLabels({description:"Engagement level", bottom:"0%", top:"100%"})
             .r(function (d) { return d.x; })
             .rScale(d3.scale.pow().exponent(0.5));
 

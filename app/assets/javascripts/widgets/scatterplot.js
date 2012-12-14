@@ -461,7 +461,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return 2 * R(d) - 5; // offset text to bottom of circles
                 })
                 .text(function(d) {
-                    return GOVUK.Insights.formatNumericLabel(d) + " times used";
+                    return GOVUK.Insights.formatNumericLabel(d) + " " + config.xAxisLabels.description.toLowerCase();
                 });
 
             var legendCircles = legend.selectAll("circle.legend").data(dataForLegend);
