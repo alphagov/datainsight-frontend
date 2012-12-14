@@ -15,7 +15,7 @@ describe("scatterplot", function () {
     });
     describe("setters and getters", function () {
         it("should set and get", function () {
-            expect(this.scatterplot.width()).toEqual(960);
+            expect(this.scatterplot.width()).toEqual(950);
             this.scatterplot.width(500);
             expect(this.scatterplot.width()).toEqual(500);
         });
@@ -33,7 +33,7 @@ describe("scatterplot", function () {
                 expect(d3.select("#scatterplot svg").attr("height")).toEqual('450');
             });
             it("should have a width including left and right gutter", function() {
-                expect(d3.select("#scatterplot svg").attr("width")).toEqual('960');
+                expect(d3.select("#scatterplot svg").attr("width")).toEqual('950');
             });
             it("should have a height including an extra gutter for large circles", function() {
                 this.data[0].y = 0;

@@ -5,7 +5,7 @@ GOVUK.Insights.scatterplotGraph = function () {
     var config = {
         xAxisLabels:{description:"X", left:"", right:""},
         yAxisLabels:{description:"Y", bottom:"", top:""},
-        width:960,
+        width:950,
         height:400,
         maxRadius:30,
         marginTop:10,
