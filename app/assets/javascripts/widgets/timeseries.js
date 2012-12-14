@@ -10,10 +10,18 @@ GOVUK.Insights.timeSeriesGraph = function () {
         marginLeft: 0,
         marginRight: 0,
         xScale: d3.time.scale(),
-        yScale: d3.scale.linear()
+        yScale: d3.scale.linear(),
+        x: function(d) { return d.x; },
+        y: function(d) { return d.y; }
     };
 
     var AXIS_OFFSET = 40;
+
+    var seriesDateFormat = d3.time.format("%Y-%m-%d");
+
+    var min = function(array) { return array.reduce(function(a,b) { return a < b ? a : b; } ); };
+
+    var max = function(array) { return array.reduce(function(a,b) { return a > b ? a : b; } ); };
 
     var instance = function (selection) {
         var container = this;
@@ -36,14 +44,14 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     return "translate(" + d.marginLeft + "," + d.marginTop + ")";
                 });
 
-            var seriesDateFormat = d3.time.format("%Y-%m-%d");
 
-            var minDate = data.details.data.map(function(d) {return seriesDateFormat.parse(d.end_at); }).reduce(function(a,b) { return a < b ? a : b; } );
-            var maxDate = data.details.data.map(function(d) {return seriesDateFormat.parse(d.end_at); }).reduce(function(a,b) { return a > b ? a : b; } );
-            var maxVisits = data.details.data.map(function(d) {return d.value; }).reduce(function(a,b) { return a > b ? a : b; } );
-            var yTicks = GOVUK.Insights.calculateLinearTicks([0, maxVisits], 5);
+            var minX = min(data.map(function(d) {return config.x(d); }));
+            var maxX = max(data.map(function(d) {return config.x(d); }));
+            var maxY = max(data.map(function(d) {return config.y(d); }));
 
-            var xScale = config.xScale.domain([ minDate, maxDate ]).range([AXIS_OFFSET, config.width - config.marginLeft - config.marginRight ]);
+            var yTicks = GOVUK.Insights.calculateLinearTicks([0, maxY], 5);
+
+            var xScale = config.xScale.domain([ minX, maxX ]).range([AXIS_OFFSET, config.width - config.marginLeft - config.marginRight ]);
             var yScale = config.yScale.domain(yTicks.extent).range([config.height - config.marginTop - config.marginBottom - AXIS_OFFSET, 0])
 
             var xAxis = d3.svg.axis()
@@ -79,30 +87,30 @@ GOVUK.Insights.timeSeriesGraph = function () {
 
             var line = d3.svg.line()
                 .x(function(d) {
-                    return xScale(seriesDateFormat.parse(d.end_at));
+                    return xScale(config.x(d));
                 })
                 .y(function(d) {
-                    return yScale(d.value);
+                    return yScale(config.y(d));
                 });
 
             var area = d3.svg.area()
                 .x(function(d) {
-                    return xScale(seriesDateFormat.parse(d.end_at));
+                    return xScale(config.x(d));
                 })
                 .y0(function(d) {
                     return yScale(0);
                 })
                 .y1(function(d) {
-                    return yScale(d.value);
+                    return yScale(config.y(d));
                 });
 
             plottingArea.append("svg:path")
                 .classed("shade", true)
-                .attr("d", area(data.details.data));
+                .attr("d", area(data));
 
             plottingArea.append("svg:path")
                 .classed("line", true)
-                .attr("d", line(data.details.data));
+                .attr("d", line(data));
 
             var currentCallout = null;
             
@@ -112,9 +120,9 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .on("mousemove", function () {
                     var mousePoint = GOVUK.Insights.point(d3.mouse(this));
                     var dataPoint = function(d) {
-                        return GOVUK.Insights.point(xScale(seriesDateFormat.parse(d.end_at)), yScale(d.value));
+                        return GOVUK.Insights.point(xScale(config.x(d)), yScale(config.y(d)));
                     };
-                    var highlightedDatum = GOVUK.Insights.findClosestDataPointInSeries(mousePoint, data.details.data, dataPoint);
+                    var highlightedDatum = GOVUK.Insights.findClosestDataPointInSeries(mousePoint, data, dataPoint);
                     var highlightedPoint = dataPoint(highlightedDatum);
 
                     plottingArea.select("#dataPointHighlight").remove();
