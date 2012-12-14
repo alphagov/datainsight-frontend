@@ -1,17 +1,15 @@
 .insidegov {
-    color: rgb(52, 100, 98);
+    color: #097F96;
 }
 
-#inside-gov-weekly-visitors .plotting-area .line {
-    stroke: rgb(52, 100, 98);
+#inside-gov-weekly-visitors .plotting-area .line,
+#inside-gov-weekly-visitors .plotting-area circle {
+    stroke: #097F96;
     stroke-width: 4;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
-#inside-gov-weekly-visitors .plotting-area circle {
-    stroke: rgb(52, 100, 98);
-    stroke-width: 4;
-}
+
 #inside-gov-weekly-visitors .plotting-area .shade {
-    fill: rgb(221,240,243);
+    fill: #D7EFF3;
 }
