@@ -10,14 +10,14 @@ describe "Inside Government API" do
       "#{BASE_URL}/format-success/weekly",
       :body => {my: "json"}.to_json)
 
-    get "/performance/dashboard/government/format-success.json"
+    get "/performance/dashboard/government/content-engagement.json"
 
     last_response.status.should == 200
     last_response.content_type.should include "application/json"
 
     json_result = JSON.parse(last_response.body)
     json_result["my"].should == "json"
-    json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/format-success.json"
+    json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/content-engagement.json"
     json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government#format-success-module"
   end
 

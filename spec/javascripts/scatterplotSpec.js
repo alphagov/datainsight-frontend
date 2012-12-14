@@ -1,6 +1,7 @@
 describe("scatterplot", function () {
     beforeEach(function () {
-        this.scatterplot = GOVUK.Insights.scatterplotGraph();
+        this.scatterplot = GOVUK.Insights.scatterplotGraph()
+            .xAxisLabels({description:"Times used", left:"Least used", right:"Most used"});
         this.data = [
             {x: 100000, y: 200, colour: 200, label: "this is 200"},
             {x: 50000, y: 300, colour: 300, label: "this is 300"},

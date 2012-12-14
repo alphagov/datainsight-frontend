@@ -55,15 +55,15 @@ describe "Dashboard API" do
 
     FakeWeb.register_uri(:get, "#{Settings.api_urls['format_success_base_url']}/format-success", :body => dummy_json)
 
-    get "/performance/dashboard/format-success.json"
+    get "/performance/dashboard/content-engagement.json"
 
     last_response.status.should == 200
     last_response.content_type.should include "application/json"
 
     json_result = JSON.parse(last_response.body)
     json_result["data"].should == "some data"
-    json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success"
+    json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/content-engagement.json"
+    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/content-engagement"
   end
 
   it "should serve hourly traffic as json with appropriate fields" do

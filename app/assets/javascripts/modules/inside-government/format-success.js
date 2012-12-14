@@ -40,7 +40,7 @@ GOVUK.Insights.InsideGovernment.formatSuccess = function(RAW_DATA) {
 
 $(function () {
     $.ajax({
-        url: "/performance/dashboard/government/format-success.json",
+        url: "/performance/dashboard/government/content-engagement.json",
         success: function (response) {
             if (response !== null) {
                 if (GOVUK.isSvgSupported()) {
