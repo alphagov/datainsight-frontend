@@ -19,7 +19,7 @@ describe("inside gov format success graph", function () {
             ]
         },
         "updated_at":"2012-10-30T09:27:34+00:00"
-    }
+    };
 
 
     it("should insert an svg onto the page", function () {
