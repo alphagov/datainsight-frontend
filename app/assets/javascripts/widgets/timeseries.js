@@ -17,13 +17,19 @@ GOVUK.Insights.timeSeriesGraph = function () {
         y: function(d) { return d.y; }
     };
 
-    var AXIS_OFFSET = 40;
+
+    var X_AXIS_GAP = 3;
+    var X_AXIS_HEIGHT = 25;
+    var Y_AXIS_WIDTH = 45;
 
     var seriesDateFormat = d3.time.format("%Y-%m-%d");
+    var labelDateFormat = GOVUK.Insights.shortDateFormat;
 
     var min = function(array) { return array.reduce(function(a,b) { return a < b ? a : b; } ); };
-
     var max = function(array) { return array.reduce(function(a,b) { return a > b ? a : b; } ); };
+
+    var height = function() { return config.height - config.marginTop - config.marginBottom; };
+    var width  = function() { return config.width - config.marginLeft - config.marginRight; };
 
     var instance = function (selection) {
         var container = this;
@@ -53,19 +59,19 @@ GOVUK.Insights.timeSeriesGraph = function () {
 
             var yTicks = GOVUK.Insights.calculateLinearTicks([0, maxY], 5);
 
-            var xScale = config.xScale.domain([ minX, maxX ]).range([AXIS_OFFSET, config.width - config.marginLeft - config.marginRight ]);
-            var yScale = config.yScale.domain(yTicks.extent).range([config.height - config.marginTop - config.marginBottom - AXIS_OFFSET, 0])
+            var xScale = config.xScale.domain([ minX, maxX ]).range([Y_AXIS_WIDTH, width() ]);
+            var yScale = config.yScale.domain(yTicks.extent).range([height() - (X_AXIS_HEIGHT + X_AXIS_GAP), 0])
 
             var xAxis = d3.svg.axis()
                 .scale(xScale)
                 .ticks(config.xTicks)
                 .tickSize(5)
                 .tickPadding(4)
-                .tickFormat(GOVUK.Insights.shortDateFormat);
+                .tickFormat(labelDateFormat);
 
             graphArea.append("svg:g")
                 .classed("x-axis", true)
-                .attr("transform", "translate(0, " + (config.height - config.marginTop - config.marginBottom - AXIS_OFFSET + 3) + ")")
+                .attr("transform", "translate(0, " + (height() - X_AXIS_HEIGHT) + ")")
                 .call(xAxis);
 
             var yAxis = d3.svg.axis()
@@ -78,7 +84,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
 
             graphArea.append("svg:g")
                 .classed("y-axis", true)
-                .attr("transform", "translate(" + AXIS_OFFSET + ", 0)")
+                .attr("transform", "translate(" + Y_AXIS_WIDTH + ", 0)")
                 .call(yAxis);
 
             var plottingArea = graphArea.selectAll("g.plotting-area")
@@ -155,7 +161,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                             width:boxWidth,
                             height:boxHeight,
                             parent:"#" + container.attr("id"),
-                            title: GOVUK.Insights.shortDateFormat(seriesDateFormat.parse(highlightedDatum.start_at)) + " - " + GOVUK.Insights.shortDateFormat(seriesDateFormat.parse(highlightedDatum.end_at)),
+                            title: labelDateFormat(seriesDateFormat.parse(highlightedDatum.start_at)) + " - " + labelDateFormat(seriesDateFormat.parse(highlightedDatum.end_at)),
                             rowData: [
                                 {
                                     right: GOVUK.Insights.formatNumericLabel(highlightedDatum.value),
