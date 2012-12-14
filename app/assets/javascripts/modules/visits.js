@@ -40,8 +40,8 @@ GOVUK.Insights.visits = function () {
                                 "class":"",
                                 "text":"GOV.UK",
                                 "anchor": "2012-10-20",
-                                "xOffset": -35,
-                                "yOffset": 30
+                                "xOffset": 50,
+                                "yOffset": 0
                             }
                         }
                     },
