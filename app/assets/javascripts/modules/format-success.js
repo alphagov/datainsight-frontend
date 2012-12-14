@@ -102,8 +102,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             xPos = (labelX > parseFloat(d3.select(element).attr('cx'))) ? labelX : labelX - (boxWidth - labelBoundingBox.width - 3),
             yPos = (labelY < parseFloat(d3.select(element).attr('cy'))) ? labelY - (boxHeight - labelBoundingBox.height/2) : labelY - labelBoundingBox.height/2,
             rowData = [
-                {right:GOVUK.Insights.formatNumericLabel(d.total), left:'Times used'},
-                {right:d.percentageOfSuccess.toFixed(0) + '%', left:'Used successfully'}
+                {right:GOVUK.Insights.formatNumericLabel(d.total), left:'Views'},
+                {right:d.percentageOfSuccess.toFixed(0) + '%', left:'Engagement level'}
             ],
             boxInfo = {
                 xPos: GOVUK.Insights.clamp(xPos,0,WIDTH - boxWidth + 3),
@@ -224,14 +224,14 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
         var drawTickLabels = function (graph) {
             // Place X axis tick labels
             graph.append("svg:text")
-                .text("Least used")
+                .text("Least viewed")
                 .attr("class", "label-x-left")
                 .attr("x", 0)
                 .attr("y", HEIGHT / 2 + 9)
                 .attr("dy", ".71em");
 
             graph.append("svg:text")
-                .text("Most used")
+                .text("Most viewed")
                 .attr("class", "label-x-right")
                 .attr("x", function () {
                     return WIDTH - $(this).width()
@@ -241,7 +241,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
             // Place Y axis tick labels
             panel.append("svg:text")
-                .text("Used successfully")
+                .text("Engagement level")
                 .attr("class", "title-y")
                 .attr("y", 5)
                 .attr("x", WIDTH / 2)
@@ -365,7 +365,7 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             .attr("dy", ".35em")
             .attr("text-anchor", "end")
             .text(function (d) {
-                return GOVUK.Insights.formatNumericLabel(d) + " times used";
+                return GOVUK.Insights.formatNumericLabel(d) + " views";
             });
     };
 
