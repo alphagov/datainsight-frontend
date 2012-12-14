@@ -120,17 +120,20 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .attr("width", config.width)
                 .attr("height", config.height)
                 .on("mousemove", function () {
-                    var mousePoint = GOVUK.Insights.point(d3.mouse(this));
-                    var dataPoint = function(d) {
-                        return GOVUK.Insights.point(xScale(config.x(d)), yScale(config.y(d)));
-                    };
-                    var highlightedDatum = GOVUK.Insights.findClosestDataPointInSeries(mousePoint, data, dataPoint);
-                    var highlightedPoint = dataPoint(highlightedDatum);
+                    var mouse = d3.mouse(this);
+                    var mouseX = mouse[0];
+
+                    var mouseDistanceFrom = function(d) { return Math.abs(xScale(config.x(d)) - mouseX); };
+
+                    var highlightedDatum = data.reduce(function(d1, d2) { return mouseDistanceFrom(d1) < mouseDistanceFrom(d2) ? d1 : d2; });
+
+                    var highlightedPointX = xScale(config.x(highlightedDatum));
+                    var highlightedPointY = yScale(config.y(highlightedDatum));
 
                     plottingArea.select("#dataPointHighlight").remove();
                     plottingArea.insert("svg:circle", "rect")
-                        .attr("cx", highlightedPoint.x())
-                        .attr("cy", highlightedPoint.y())
+                        .attr("cx", highlightedPointX)
+                        .attr("cy", highlightedPointY)
                         .attr("r", 3.5)
                         .attr("id", "dataPointHighlight");
 
@@ -143,9 +146,9 @@ GOVUK.Insights.timeSeriesGraph = function () {
                         boxHeight = 48,
                         xOffset = -20,
                         yOffset = -60,
-                        intendedXPos = highlightedPoint.x() + config.marginLeft + xOffset - boxWidth,
-                        xPos = (intendedXPos < config.marginLeft) ? highlightedPoint.x() + config.marginLeft - xOffset : intendedXPos,
-                        yPos = (highlightedPoint.y() < config.height/2) ? highlightedPoint.y() + config.marginTop - (yOffset + boxHeight) : highlightedPoint.y() + config.marginTop + yOffset,
+                        intendedXPos = highlightedPointX + config.marginLeft + xOffset - boxWidth,
+                        xPos = (intendedXPos < config.marginLeft) ? highlightedPointX + config.marginLeft - xOffset : intendedXPos,
+                        yPos = (highlightedPointY < config.height/2) ? highlightedPointY + config.marginTop - (yOffset + boxHeight) : highlightedPointY + config.marginTop + yOffset,
                         calloutInfo = {
                             xPos:xPos,
                             yPos:yPos,
