@@ -36,7 +36,7 @@ class ClientAPI
   end
 
   def inside_gov_weekly_visitors
-    transport(@api_urls['inside_government_base_url']).get("/visitors/weekly").data
+    transport(@api_urls['inside_government_base_url']).get("/visitors/weekly?limit=12").data
   end
 
   private
