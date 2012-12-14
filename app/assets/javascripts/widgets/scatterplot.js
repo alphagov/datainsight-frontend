@@ -50,7 +50,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 R = scales.R,
                 C = scales.C,
                 overlayBottom = function (d) {
-                    var overlay = config.y(d) + R(config.r(d)) - config.height;
+                    var overlay = Y(config.y(d)) + R(config.r(d)) - config.height;
                     return overlay > 0 ? overlay : 0;
                 };
 

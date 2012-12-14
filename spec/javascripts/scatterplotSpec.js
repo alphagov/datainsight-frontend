@@ -21,10 +21,27 @@ describe("scatterplot", function () {
     });
 
     describe("rendering the graph", function () {
-        it("should not raise an error", function () {
-            d3.select('#scatterplot')
+        beforeEach(function() {
+            d3.select("#scatterplot")
                 .datum(this.data)
                 .call(this.scatterplot);
+        });
+
+        describe("svg dimensions", function() {
+            it("should have a height including top and bottom gutter", function() {
+                expect(d3.select("#scatterplot svg").attr("height")).toEqual('450');
+            });
+            it("should have a width including left and right gutter", function() {
+                expect(d3.select("#scatterplot svg").attr("width")).toEqual('960');
+            });
+            it("should have a height including an extra gutter for large circles", function() {
+                this.data[0].y = 0;
+                // re-render
+                d3.select("#scatterplot")
+                    .datum(this.data)
+                    .call(this.scatterplot);
+                expect(d3.select("#scatterplot svg").attr("height")).toEqual('480');
+            });
         });
     });
 
