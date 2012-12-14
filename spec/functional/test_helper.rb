@@ -101,6 +101,6 @@ class FormatSuccessGraph
   include SessionAware
 
   def circles
-    get_session.find("#format-success").all(".format")
+    get_session.find("#format-success").all(".data-point")
   end
 end

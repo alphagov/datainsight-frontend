@@ -12,12 +12,8 @@ GOVUK.Insights.formatSuccess = function () {
             if (response !== null) {
                 if (GOVUK.isSvgSupported()) {
                     $('#format-success-module img').remove();
-                    GOVUK.Insights.plotFormatSuccessGraph(response.details.data);
-
                     $('#format-success-module .datainsight-hidden').removeClass('datainsight-hidden');
-                    GOVUK.Insights.forcePosition.apply("#format-success");
-
-                    d3.select("#format-success-module").selectAll('text').each(function () { GOVUK.Insights.createTextShade(this) });
+                    GOVUK.Insights.plotFormatSuccessGraph(response.details.data);
                 }
             } else {
                 showError();
@@ -27,353 +23,38 @@ GOVUK.Insights.formatSuccess = function () {
 
 GOVUK.Insights.plotFormatSuccessGraph = function (data) {
 
-    // - Constants -
-    var MIN_Y = 0,
-        MAX_Y = 100,
-        MAX_RADIUS = 30,
-        HEIGHT = 400,
-        GUTTER_Y_TOP = 25;
-
-    // - Derived Constants -
-    var WIDTH = 960;
-
-    var values = data.map(
-        function (formatEvents) {
-            return {
-                formatId:formatEvents["format"],
-                total:formatEvents["entries"],
-                percentageOfSuccess:formatEvents["percentage_of_success"]
-            };
-        });
-
-    var MAX_X = d3.max(values, function (formatData) {
-        return formatData["total"];
-    });
-
-    var radiusScale = d3.scale.linear()
-        .domain([0, MAX_X])
-        .range([0, Math.PI * Math.pow(MAX_RADIUS, 2)]);
-
-    var radius = function (total) {
-        return Math.sqrt(radiusScale(total) / Math.PI);
-    };
-
-    var x = d3.scale.linear()
-            .domain([0, MAX_X + MAX_X * 0.05]) // add 5% buffer to the scale
-            .range([0, WIDTH]),
-        y = d3.scale.linear()
-            .domain([MIN_Y, MAX_Y])
-            .range([HEIGHT, 0]);
-
-    var overlayBottom = function (d) {
-        var overlay = y(d.percentageOfSuccess) + radius(d.total) - HEIGHT;
-        return overlay > 0 ? overlay : 0;
-    };
-
-    var GUTTER_Y_BOTTOM = GUTTER_Y_TOP + d3.max(values, overlayBottom);
-
-    var colorScale = d3.scale.linear()
-        .domain([MIN_Y, MIN_Y + (MAX_Y - MIN_Y) / 2, MAX_Y])
-        .range(["#BF1E2D", "#B3B3B3", "#74B74A"]);
-
-    var svg = d3.select("#format-success")
-        .data(values)
-        .append("svg:svg")
-        .attr("class", "js-graph-area")
-        .attr("width", WIDTH)
-        .attr("height", HEIGHT + GUTTER_Y_TOP + GUTTER_Y_BOTTOM);
-
-    var panel = svg
-        .append("svg:g")
-        .attr("transform", "translate(" + 0 + "," + 20 + ")");
-
-    var graph = panel
-        .append("svg:g")
-        .attr("transform", "translate(" + 0 + "," + GUTTER_Y_TOP + ")");
-
-    var doHover = function (d, element, optionalCallback) {
-        var title = getFormatName(d.formatId),
-            boxWidth = 170,
-            boxHeight = 66,
-            label = d3.select('#label-' + d3.select(element).attr('data-format')),
-            labelX = parseFloat(label.attr('x')),
-            labelY = parseFloat(label.attr('y')) + GUTTER_Y_TOP + 20,
-            labelBoundingBox = label.node().getBBox(),
-            xPos = (labelX > parseFloat(d3.select(element).attr('cx'))) ? labelX : labelX - (boxWidth - labelBoundingBox.width - 3),
-            yPos = (labelY < parseFloat(d3.select(element).attr('cy'))) ? labelY - (boxHeight - labelBoundingBox.height/2) : labelY - labelBoundingBox.height/2,
-            rowData = [
-                {right:GOVUK.Insights.formatNumericLabel(d.total), left:'Views'},
-                {right:d.percentageOfSuccess.toFixed(0) + '%', left:'Engagement level'}
-            ],
-            boxInfo = {
-                xPos: GOVUK.Insights.clamp(xPos,0,WIDTH - boxWidth + 3),
-                yPos: GOVUK.Insights.clamp(yPos,0,HEIGHT + GUTTER_Y_TOP + 20 - boxHeight + labelBoundingBox.height/2),
-                title: title,
-                rowData: rowData,
-                parent: '#format-success',
-                closeDelay: 200,
-                callback: (optionalCallback) ? optionalCallback : undefined,
-                width: boxWidth,
-                height: boxHeight
-            };
-        d.callout = new GOVUK.Insights.overlay.CalloutBox(boxInfo);
-
-        element.parentNode.insertBefore(element,null);
-
-        var darkerStrokeColor = new GOVUK.Insights.colors(d3.select(element).attr('fill')).multiplyWithSelf().asCSS();
-        d3.select(element).attr("stroke", darkerStrokeColor);
-    };
-
-    var endHover = function (d,element) {
-        if (d.callout !== undefined) {
-            d.callout.close();
-        }
-        delete d.callout;
-        d3.select(element).attr("stroke", "white");
-    };
-
-    var plotFormats = function (graph) {
-        // Draw xy scatterplot
-        graph.append("svg:g")
-            .selectAll("circle.format")
-            .data(values)
-            .enter().append("svg:circle")
-            .attr("class", "format js-fixed")
-            .attr("fill", function (d) {
-                return colorScale(d.percentageOfSuccess);
-            })
-            .style("opacity", 0.9)
-            .attr("stroke","white")
-            .attr("stroke-width",2)
-            .attr("cx", function (d) {
-                return x(d.total);
-            })
-            .attr("cy", function (d) {
-                return y(d.percentageOfSuccess);
-            })
-            .attr("r", function (d) {
-                // add half the circle stroke width
-                return radius(d.total) + 1;
-            })
-            .attr("data-format", function (d) {
-                return d.formatId.idify();
-            })
-            .on('mouseover', function (d) {
-                if (d.callout !== undefined) {
-                    d.callout.cancelClose();
-                } else {
-                    var self = this;
-                    doHover(d, self, function() {
-                        endHover(d, self);
-                    });
-                }
-            })
-            .on('mouseout', function (d) {
-                if (d.callout !== undefined) {
-                    d.callout.close();
-                }
-            });
-    };
-
     var getFormatName = function(formatId) {
         return {
             "guide": "Guides",
             "programme": "Benefits",
             "answer": "Answers",
             "smart_answer": "Smart Answers"
-        }[formatId];
+        }[formatId] || formatId;
     };
 
-    var drawAxis = function (graph) {
-        // Draw grid lines
-        var xaxis = graph.append("g")
-            .attr("class", "x axis");
-
-        xaxis.append("line")
-            .attr("class", "domain")
-            .attr("x1", WIDTH / 2)
-            .attr("x2", 0)
-            .attr("y1", HEIGHT / 2)
-            .attr("y2", HEIGHT / 2)
-            .attr("style", "stroke-dashoffset: 2px");
-
-        xaxis.append("line")
-            .attr("class", "domain")
-            .attr("x1", WIDTH / 2)
-            .attr("x2", WIDTH)
-            .attr("y1", HEIGHT / 2)
-            .attr("y2", HEIGHT / 2);
-
-        var yaxis = graph.append("g")
-            .attr("class", "y axis");
-
-        yaxis.append("line")
-            .attr("class", "domain")
-            .attr("x1", WIDTH / 2)
-            .attr("x2", WIDTH / 2)
-            .attr("y1", HEIGHT / 2)
-            .attr("y2", 0);
-        yaxis.append("line")
-            .attr("class", "domain")
-            .attr("x1", WIDTH / 2)
-            .attr("x2", WIDTH / 2)
-            .attr("y1", HEIGHT / 2)
-            .attr("y2", HEIGHT)
-            .attr("style", "stroke-dashoffset: 2px");
-
-        var drawTickLabels = function (graph) {
-            // Place X axis tick labels
-            graph.append("svg:text")
-                .text("Least viewed")
-                .attr("class", "label-x-left")
-                .attr("x", 0)
-                .attr("y", HEIGHT / 2 + 9)
-                .attr("dy", ".71em");
-
-            graph.append("svg:text")
-                .text("Most viewed")
-                .attr("class", "label-x-right")
-                .attr("x", function () {
-                    return WIDTH - $(this).width()
-                })
-                .attr("y", HEIGHT / 2 + 9)
-                .attr("dy", ".71em");
-
-            // Place Y axis tick labels
-            panel.append("svg:text")
-                .text("Engagement level")
-                .attr("class", "title-y")
-                .attr("y", 5)
-                .attr("x", WIDTH / 2)
-                .attr("dy", ".35em");
-
-            graph.append("svg:text")
-                .text(MIN_Y + "%")
-                .attr("class", "label-y-bottom")
-                .attr("y", HEIGHT)
-                .attr("x", WIDTH / 2 - 5)
-                .attr("dy", ".35em");
-
-            graph.append("rect")
-                .attr("height", 12)
-                .attr("width", 12)
-                .attr("y", HEIGHT - 6)
-                .attr("x", WIDTH / 2 + 7)
-                .attr("style", "fill: #BF1E2D");
-
-            graph.append("svg:text")
-                .text(MAX_Y + "%")
-                .attr("class", "label-y-top")
-                .attr("y", 0)
-                .attr("x", WIDTH / 2 - 5)
-                .attr("dy", ".35em");
-
-            graph.append("rect")
-                .attr("height", 12)
-                .attr("width", 12)
-                .attr("y", -6)
-                .attr("x", WIDTH / 2 + 7)
-                .attr("style", "fill: #74B74A");
+    var data = data.map(function (d) {
+        return {
+            x:d.entries,
+            y:d.percentage_of_success,
+            colour:d.percentage_of_success,
+            label:getFormatName(d.format)
         };
-        drawTickLabels(graph);
-    };
+    });
 
-    var drawLabels = function (graph) {
-        graph
-            .selectAll("text.circle-format")
-            .data(values)
-            .enter().append("svg:text")
-            .text(function (d) {
-                return getFormatName(d.formatId);
-            })
-            .attr("class", "circle-format js-floating")
-            .attr("id", function (d) {
-                return "label-" + d.formatId.idify();
-            })
-            .attr("data-format", function (d) {
-                return d.formatId.idify();
-            })
-            .attr("text-anchor", "start")
-            .attr("x", function (d) {
-                return x(d.total);
-            })
-            .attr("y", function (d) {
-                return y(d.percentageOfSuccess);
-            })
-            .attr("dy", ".35em")
-            .on('mouseover', function () {
-                var circleElement = d3.select('circle[data-format=' + d3.select(this).attr('data-format') + ']'),
-                    d = circleElement.datum();
+    var formatSuccess = GOVUK.Insights.scatterplotGraph()
+        .xAxisLabels({description:"Views", left:"Least viewed", right:"Most viewed"})
+        .yAxisLabels({description:"Engagement level", bottom:"0%", top:"100%"})
+        .r(function (d) { return d.x; })
+        .rScale(d3.scale.pow().exponent(0.5));
 
-                if (d.callout !== undefined) {
-                    d.callout.cancelClose();
-                } else {
-                    doHover(d,circleElement.node(),function () {
-                        endHover(d,circleElement.node());
-                    });
-                }
-            })
-            .on("mouseout", function(d) {
-                if (d.callout !== undefined) {
-                    d.callout.close();
-                }
-            })
-    };
-
-
-    var drawLegend = function () {
-        var dataForLegend = x.ticks(4).slice(1, 4);
-
-        if (dataForLegend.length > 2) dataForLegend = dataForLegend.slice(0, 2);
-
-        var maxCircleRadius = radius(dataForLegend.slice(-1)),
-            width = 250,
-            height = 80,
-            offset = 15;
-
-        var legend = d3.select("#format-success-legend")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", "translate(0, 3)");
-
-        legend
-            .selectAll("circle.legend")
-            .data(dataForLegend)
-            .enter().append("svg:circle")
-            .attr("class", "legend")
-            .attr("cx", function () {
-                return width - maxCircleRadius - offset;
-            })
-            .attr("cy", function (d) {
-                return radius(d);
-            })
-            .attr("r", function (d) {
-                return radius(d);
-            });
-
-        legend
-            .selectAll("text.circle-legend")
-            .data(dataForLegend)
-            .enter().append("svg:text")
-            .attr("class", "circle-legend")
-            .attr("x", width - 2 * maxCircleRadius - 2 * offset)
-            .attr("y", function (d) {
-                return 2 * radius(d) - 5; // offset text to bottom of circles
-            })
-            .attr("dy", ".35em")
-            .attr("text-anchor", "end")
-            .text(function (d) {
-                return GOVUK.Insights.formatNumericLabel(d) + " views";
-            });
-    };
-
-    // - Actually draw the graph -
-    plotFormats(graph);
-    drawAxis(graph);
-    drawLabels(graph);
-    drawLegend();
+    d3.select('#format-success')
+        .datum(data)
+        .call(formatSuccess);
+    d3.select('#format-success-legend')
+        .datum(data)
+        .call(formatSuccess.legend);
+    GOVUK.Insights.forcePosition.apply("#format-success");
+    d3.select("#format-success-module").selectAll('text').each(function () { GOVUK.Insights.createTextShade(this) });
 };
 
 // register with jQuery's autorun.

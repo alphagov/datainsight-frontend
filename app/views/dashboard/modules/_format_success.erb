@@ -1,5 +1,5 @@
 <% content_for :footer do %>
-  <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("force-positioning","modules/format-success") } %>
+  <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("force-positioning", "widgets/scatterplot", "modules/format-success") } %>
 <% end %>
 
 <div id="format-success-module" class="module">
@@ -12,14 +12,14 @@
       <p class="graph-heading">How many times each format was used and how well users are thought to have responded to the content.</p>
     </div>
     <div id="format-success-legend"></div>
-
     <div style="clear: both"></div>
+
     <div id="format-success" class="graph-container"></div>
     <div>
       <p class="graph-source">Source: GOV.UK engagement criteria measured with Google Analytics</p>
       <p class="small-text">'Formats' are how we refer to the templates that each page of GOV.UK uses. <br/>
-          'Engagement' is an estimation of how well users are responding to content. It is determined on a page-by-page
-          basis and may include how long users have been on a page, how users interact with content, and other criteria.
+        'Engagement' is an estimation of how well users are responding to content. It is determined on a page-by-page
+        basis and may include how long users have been on a page, how users interact with content, and other criteria.
       </p>
     </div>
   </div>
