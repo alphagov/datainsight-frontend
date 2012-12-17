@@ -19,7 +19,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
 
 
     var X_AXIS_GAP = 3;
-    var X_AXIS_HEIGHT = 25;
+    var X_AXIS_HEIGHT = 22;
     var Y_AXIS_WIDTH = 45;
 
     var seriesDateFormat = d3.time.format("%Y-%m-%d");
@@ -65,7 +65,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
             var xAxis = d3.svg.axis()
                 .scale(xScale)
                 .ticks(config.xTicks)
-                .tickSize(5)
+//                .tickSize(5)
                 .tickPadding(4)
                 .tickFormat(labelDateFormat);
 
