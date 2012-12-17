@@ -5,11 +5,11 @@ GOVUK.Insights.scatterplotGraph = function () {
     var config = {
         xAxisLabels:{description:"X", left:"", right:""},
         yAxisLabels:{description:"Y", bottom:"", top:""},
-        width:950,
-        height:400,
+        width:958,
+        height:450,
         maxRadius:30,
-        marginTop:10,
-        marginBottom:40,
+        marginTop:0,
+        marginBottom:0,
         marginLeft:0,
         marginRight:0,
         x:function (d) {
@@ -33,10 +33,20 @@ GOVUK.Insights.scatterplotGraph = function () {
         colourScale:d3.scale.linear()
     };
 
+    var verticalOffsetForYAxisLabel = 7;
+
+    var plottingAreaOffsetTop = function() {
+        return Math.max(config.maxRadius, 36);
+    }
+
+    var plottingAreaHeight = function(config) {
+        return config.height - plottingAreaOffsetTop();
+    }
+
     var getScales = function(data) {
         return {
             X: config.xScale.domain([0,d3.max(data, config.x)]).range([0,config.width*0.95]),
-            Y: config.yScale.domain([0,100]).range([config.height, 0]),
+            Y: config.yScale.domain([0,100]).range([plottingAreaHeight(config) - verticalOffsetForYAxisLabel, 0]),
             R: config.rScale.domain([0,d3.max(data, config.r)]).range([1,config.maxRadius]),
             C: config.colourScale.domain([0, 50, 100]).range(["#BF1E2D", "#B3B3B3", "#74B74A"])
         }
@@ -49,9 +59,9 @@ GOVUK.Insights.scatterplotGraph = function () {
                 Y = scales.Y,
                 R = scales.R,
                 C = scales.C,
-                overlayBottom = function (d) {
-                    var overlay = Y(config.y(d)) + R(config.r(d)) - config.height;
-                    return overlay > 0 ? overlay : 0;
+                bottomOverflow = function (d) {
+                    var overflow = Y(config.y(d)) + R(config.r(d)) - plottingAreaHeight(config);
+                    return overflow > 0 ? overflow : 0;
                 };
 
             var svg = d3.select(this).selectAll("svg").data([config]);
@@ -65,7 +75,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return d.width + d.marginLeft + d.marginRight;
                 })
                 .attr("height", function (d) {
-                    return d.height + d.marginTop + d.marginBottom + d3.max(data, overlayBottom);
+                    return d.height + d.marginTop + d.marginBottom + d3.max(data, bottomOverflow);
                 });
 
             var plotArea = svg.selectAll("g.plot-area").data([config]);
@@ -84,7 +94,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .enter().append("svg:g").attr("class", "graph-area");
 
             graphArea
-                .attr("transform", "translate(0, 30)");
+                .attr("transform", "translate(0, " + plottingAreaOffsetTop() + ")");
 
             var yAxisTitle = plotArea.selectAll("text.title-y").data([config]);
 
@@ -93,7 +103,7 @@ GOVUK.Insights.scatterplotGraph = function () {
             yAxisTitle
                 .text(config.yAxisLabels.description)
                 .attr("class", "title-y")
-                .attr("y", 5)
+                .attr("y", 11)
                 .attr("x", function (d) {
                     return d.width / 2;
                 })
@@ -242,10 +252,10 @@ GOVUK.Insights.scatterplotGraph = function () {
                 })
                 .attr("x2", 0)
                 .attr("y1", function (d) {
-                    return d.height / 2;
+                    return Y(50);
                 })
                 .attr("y2", function (d) {
-                    return d.height / 2;
+                    return Y(50);
                 })
                 .attr("stroke", "black")
                 .style("stroke-dashoffset", "2px");
@@ -263,10 +273,10 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return d.width;
                 })
                 .attr("y1", function (d) {
-                    return d.height / 2;
+                    return Y(50);
                 })
                 .attr("y2", function (d) {
-                    return d.height / 2;
+                    return Y(50);
                 })
                 .attr("stroke", "black")
                 .style("stroke-dashoffset", "2px");
@@ -291,10 +301,10 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return d.width / 2;
                 })
                 .attr("y1", function (d) {
-                    return d.height / 2;
+                    return Y(50);
                 })
                 .attr("y2", function (d) {
-                    return 0;
+                    return Y(100);
                 })
                 .attr("stroke", "black")
                 .style("stroke-dashoffset", "2px");
@@ -312,10 +322,10 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return d.width / 2;
                 })
                 .attr("y1", function (d) {
-                    return d.height / 2;
+                    return Y(50);
                 })
                 .attr("y2", function (d) {
-                    return d.height;
+                    return Y(0);
                 })
                 .attr("stroke", "black")
                 .style("stroke-dashoffset", "2px");
@@ -329,7 +339,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .attr("class", "label-x-left")
                 .attr("x", 0)
                 .attr("y", function (d) {
-                    return d.height / 2 + 9
+                    return Y(50) + 9
                 })
                 .attr("dy", ".71em");
 
@@ -343,7 +353,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return d.width;
                 })
                 .attr("y", function (d) {
-                    return d.height / 2 + 9;
+                    return Y(50) + 9;
                 })
                 .attr("dy", ".71em");
 
@@ -356,7 +366,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .text(config.yAxisLabels.bottom)
                 .attr("class", "label-y-bottom")
                 .attr("y", function (d) {
-                    return d.height;
+                    return Y(0);
                 })
                 .attr("x", function (d) {
                     return d.width / 2 - 5;
@@ -373,7 +383,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .attr("height", 12)
                 .attr("width", 12)
                 .attr("y", function (d) {
-                    return d.height - 6;
+                    return Y(0) - 6;
                 })
                 .attr("x", function (d) {
                     return d.width / 2 + 7;

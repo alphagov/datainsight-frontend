@@ -10,38 +10,37 @@ describe("scatterplot", function () {
         this.stubGraphElement = $('<div id="scatterplot"></div>');
         this.stubGraphElement.clone().appendTo("body");
     });
+
     afterEach(function () {
         $("#scatterplot").remove();
     });
+
     describe("setters and getters", function () {
         it("should set and get", function () {
-            expect(this.scatterplot.width()).toEqual(950);
             this.scatterplot.width(500);
             expect(this.scatterplot.width()).toEqual(500);
         });
     });
 
     describe("rendering the graph", function () {
-        beforeEach(function() {
-            d3.select("#scatterplot")
-                .datum(this.data)
-                .call(this.scatterplot);
-        });
-
         describe("svg dimensions", function() {
             it("should have a height including top and bottom gutter", function() {
-                expect(d3.select("#scatterplot svg").attr("height")).toEqual('450');
+                this.scatterplot.height(300).marginTop(5).marginBottom(10);
+                d3.select("#scatterplot").datum(this.data).call(this.scatterplot);
+                expect(d3.select("#scatterplot svg").attr("height")).toEqual('315');
             });
+
             it("should have a width including left and right gutter", function() {
-                expect(d3.select("#scatterplot svg").attr("width")).toEqual('950');
+                this.scatterplot.width(600).marginLeft(20).marginRight(10);
+                d3.select("#scatterplot").datum(this.data).call(this.scatterplot);
+                expect(d3.select("#scatterplot svg").attr("width")).toEqual('630');
             });
-            it("should have a height including an extra gutter for large circles", function() {
-                this.data[0].y = 0;
-                // re-render
-                d3.select("#scatterplot")
-                    .datum(this.data)
-                    .call(this.scatterplot);
-                expect(d3.select("#scatterplot svg").attr("height")).toEqual('480');
+
+            it("should have a height including an extra gutter for large circles close to the bottom border", function() {
+                this.scatterplot.height(300).maxRadius(20);
+                var data = [ { x: 5000, y: 0, colour: 400, label: "circle close to bottom border" } ];
+                d3.select("#scatterplot").datum(data).call(this.scatterplot);
+                expect(d3.select("#scatterplot svg").attr("height")).toBeGreaterThan('300'); // 300 + 20 - 6 (6 pixels are for the axis label)
             });
         });
     });
