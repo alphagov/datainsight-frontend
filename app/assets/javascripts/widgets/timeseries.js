@@ -3,7 +3,7 @@ GOVUK.Insights = GOVUK.Insights || {};
 
 GOVUK.Insights.timeSeriesGraph = function () {
     var config = {
-        width:960,
+        width:958,
         height:400,
         marginTop: 0,
         marginBottom: 0,
