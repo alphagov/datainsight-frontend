@@ -22,8 +22,8 @@ GOVUK.Insights.numericLabelFormatterFor = function (tickStep) {
         if (tickValue == 0) {
             return '0';
         }
-        if (tickStep >= 1000000) {
-            return Math.ceil(tickValue / 1000000) + "m";
+        if (tickStep >= 500000) {
+            return (Math.ceil(tickValue / 100000) / 10).toFixed(1).replace(".0", "") + "m";
         }
         if (tickStep >= 1000) {
             return Math.ceil(tickValue / 1000) + "k";

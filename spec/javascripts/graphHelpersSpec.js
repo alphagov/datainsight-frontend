@@ -16,11 +16,11 @@ describe("Helpers", function () {
             it("should return 0 for 0", function() {
                 expect(GOVUK.Insights.numericLabelFormatterFor(1000000)(0)).toBe("0");
             });
-            it("should return 1m for 5000", function() {
-                expect(GOVUK.Insights.numericLabelFormatterFor(1000000)(5000)).toBe("1m");
+            it("should return 0.1m for 5000", function() {
+                expect(GOVUK.Insights.numericLabelFormatterFor(1000000)(5000)).toBe("0.1m");
             });
-            it("should return 2m for 150000", function() {
-                expect(GOVUK.Insights.numericLabelFormatterFor(1000000)(1500000)).toBe("2m");
+            it("should return 1.5m for 150000", function() {
+                expect(GOVUK.Insights.numericLabelFormatterFor(1000000)(1500000)).toBe("1.5m");
             });
         })
     });
