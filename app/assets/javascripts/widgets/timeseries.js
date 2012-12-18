@@ -9,7 +9,6 @@ GOVUK.Insights.timeSeriesGraph = function () {
         marginBottom: 0,
         marginLeft: 0,
         marginRight: 0,
-        xTicks: d3.time.saturdays,
         yTicks: 10,
         xScale: d3.time.scale(),
         yScale: d3.scale.linear(),
@@ -53,9 +52,9 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 });
 
 
-            var minX = min(data.map(function(d) {return config.x(d); }));
-            var maxX = max(data.map(function(d) {return config.x(d); }));
-            var maxY = max(data.map(function(d) {return config.y(d); }));
+            var minX = min(data.map(config.x));
+            var maxX = max(data.map(config.x));
+            var maxY = max(data.map(config.y));
 
             var yTicks = GOVUK.Insights.calculateLinearTicks([0, maxY], 5);
 
@@ -64,8 +63,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
 
             var xAxis = d3.svg.axis()
                 .scale(xScale)
-                .ticks(config.xTicks)
-//                .tickSize(5)
+                .tickValues(data.map(config.x))
                 .tickPadding(4)
                 .tickFormat(labelDateFormat);
 
