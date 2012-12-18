@@ -84,19 +84,9 @@ GOVUK.Insights.forcePosition = function () {
             fixedElements.forEach(drawCircleCollisionBox);
         }
 
-//        for (var i = 0; i < privateConstants.ITERATIONS; i++) {
-//            anIteration(fixedElements, floatingElements, selector);
-//        }
-//
-        var iterations = 0;
-
-        function iterate() {
+        for (var i = 0; i < privateConstants.ITERATIONS; i++) {
             anIteration(fixedElements, floatingElements, selector);
-            if (iterations++ < privateConstants.ITERATIONS)
-                setTimeout(iterate, 200);
         }
-
-        iterate();
     };
 
     var equalRepulsion = function (anElement, anotherElement) {
