@@ -10,8 +10,8 @@ GOVUK.Insights.forcePosition = function () {
     constants.FLOATING_ELEMENT_CLASS = "js-floating";
 
     var privateConstants = {};
-    privateConstants.REPULSION_STRENGTH = 10;
-    privateConstants.ITERATIONS = 30;
+    privateConstants.REPULSION_STRENGTH = 2;
+    privateConstants.ITERATIONS = 50;
 
     var getTranslatedGraphArea = function (svg, element) {
         var matrix = element.getTransformToElement(element);
@@ -26,7 +26,7 @@ GOVUK.Insights.forcePosition = function () {
     var getCircleCollisionBox = function(element) {
         var boundingBox = element.getBBox();
         var fixedBox = new CollisionBox(boundingBox);
-        var adjustment = -(boundingBox.width/2 * 0.2);
+        var adjustment = 2;
         fixedBox.extendBy(adjustment);
         return fixedBox;
     }
@@ -84,9 +84,19 @@ GOVUK.Insights.forcePosition = function () {
             fixedElements.forEach(drawCircleCollisionBox);
         }
 
-        for (var i = 0; i < privateConstants.ITERATIONS; i++) {
+//        for (var i = 0; i < privateConstants.ITERATIONS; i++) {
+//            anIteration(fixedElements, floatingElements, selector);
+//        }
+//
+        var iterations = 0;
+
+        function iterate() {
             anIteration(fixedElements, floatingElements, selector);
+            if (iterations++ < privateConstants.ITERATIONS)
+                setTimeout(iterate, 200);
         }
+
+        iterate();
     };
 
     var equalRepulsion = function (anElement, anotherElement) {
