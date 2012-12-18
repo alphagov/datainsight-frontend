@@ -23,6 +23,14 @@ GOVUK.Insights.forcePosition = function () {
         };
     };
 
+    var getCircleCollisionBox = function(element) {
+        var boundingBox = element.getBBox();
+        var fixedBox = new CollisionBox(boundingBox);
+        var adjustment = -(boundingBox.width/2 * 0.2);
+        fixedBox.extendBy(adjustment);
+        return fixedBox;
+    }
+
     var anIteration = function (fixedElements, floatingElements, selector) {
         for (var i = 0; i < floatingElements.length; i++) {
             for (var j = i + 1; j < floatingElements.length; j++) {
@@ -37,8 +45,7 @@ GOVUK.Insights.forcePosition = function () {
         for (var i = 0; i < floatingElements.length; i++) {
             for (var j = 0; j < fixedElements.length; j++) {
                 var floatingBox = new CollisionBox(floatingElements[i].getBBox());
-                var fixedBox = new CollisionBox(fixedElements[j].getBBox());
-                fixedBox.extendBy(10);
+                var fixedBox = getCircleCollisionBox(fixedElements[j]);
                 if (floatingBox.collidesWith(fixedBox)) {
                     oneWayRepulsion(d3.select(fixedElements[j]), d3.select(floatingElements[i]));
                 }
@@ -54,9 +61,28 @@ GOVUK.Insights.forcePosition = function () {
         }
     };
 
+    var drawCircleCollisionBox = function(element) {
+        var collisionBox = getCircleCollisionBox(element);
+        d3.select(element.parentNode)
+            .append("svg:rect")
+            .attr("width",collisionBox.right - collisionBox.left)
+            .attr("height",collisionBox.bottom - collisionBox.top)
+            .attr("stroke","black")
+            .attr("stroke-width", 1)
+            .attr("fill","none")
+            .attr("x", collisionBox.left)
+            .attr("y", collisionBox.top);
+    };
+
     var apply = function (selector) {
-        var fixedElements = d3.select(selector).selectAll('.' + constants.FIXED_ELEMENT_CLASS)[0];
-        var floatingElements = d3.select(selector).selectAll('.' + constants.FLOATING_ELEMENT_CLASS)[0];
+        var chart = d3.select(selector);
+        var fixedElements = chart.selectAll('.' + constants.FIXED_ELEMENT_CLASS)[0];
+        var floatingElements = chart.selectAll('.' + constants.FLOATING_ELEMENT_CLASS)[0];
+
+        // Add class 'debug' to chart container to enable drawing of bounding boxes
+        if (chart.classed("debug")) {
+            fixedElements.forEach(drawCircleCollisionBox);
+        }
 
         for (var i = 0; i < privateConstants.ITERATIONS; i++) {
             anIteration(fixedElements, floatingElements, selector);
@@ -102,6 +128,10 @@ GOVUK.Insights.forcePosition = function () {
     var moveElement = function (element, x, y) {
         var currentX = parseFloat(element.attr('x')),
             currentY = parseFloat(element.attr('y'));
+
+        if (element.classed("debug")) {
+            console.log([element.attr('id'), currentX, currentY, x, y].join(", "));
+        }
 
         element.attr('x', currentX + x);
         element.attr('y', currentY + y);
