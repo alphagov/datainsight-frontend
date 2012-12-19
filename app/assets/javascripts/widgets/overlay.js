@@ -3,9 +3,10 @@ GOVUK.Insights= GOVUK.Insights || {};
 
 GOVUK.Insights.overlay = function () {
     var overlays = [];
+    var contentTemplate = '<div><div class="data-point-label"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>';
 
     function CalloutBox(boxInfo) {
-        var htmlTemplate = '<div class="callout-box"><div class="data-point-label"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>',
+        var htmlTemplate = '<div class="callout-box"></div>',
             element = undefined,
             timeout = undefined,
             defaults = {
@@ -13,14 +14,16 @@ GOVUK.Insights.overlay = function () {
                 yPos: 0
             },
             shouldUnDraw = false;
-        
+
         var setGeometryCss = function () {
             if (boxInfo.width !== undefined) element.width(boxInfo.width);
             if (boxInfo.height !== undefined) element.height(boxInfo.height);
             (boxInfo.xPos !== undefined) ? element.css({left: boxInfo.xPos}) : element.css({left: defaults.xPos});
             (boxInfo.yPos !== undefined) ? element.css({top: boxInfo.yPos}) : element.css({top: defaults.xPos});
         };
-        
+
+        var content = boxInfo.content || calloutContent(boxInfo.title, boxInfo.rowData);
+
         this.draw = function () {
             overlays.splice(0, overlays.length - 1).forEach(
                 function (unDraw) {
@@ -32,21 +35,14 @@ GOVUK.Insights.overlay = function () {
                 element.addClass(boxInfo.boxClass);
             }
             setGeometryCss();
-            element.find('.data-point-label').text(boxInfo.title);
-
-            for(var i = 0; i < boxInfo.rowData.length; i++) {
-                element.find('.details-left').append(boxInfo.rowData[i].left);
-                element.find('.details-right').append(boxInfo.rowData[i].right);
-                if (i !== boxInfo.rowData.length - 1) {
-                    element.find('.details-left').append("<br>");
-                    element.find('.details-right').append("<br>");
-                }
-            }
 
             if (boxInfo.closeDelay > 0) {
                 element.on('mouseover', this.cancelClose);
                 element.on('mouseout', this.close);
             }
+
+            element.append(content);
+
             element.appendTo(boxInfo.parent);
         };
         
@@ -73,8 +69,25 @@ GOVUK.Insights.overlay = function () {
         // on construction
         this.draw();
     }
+
+    function calloutContent(title, rowData) {
+        var contentElement = $(contentTemplate);
+
+        contentElement.find('.data-point-label').text(title);
+        for (var i = 0; i < rowData.length; i++) {
+            contentElement.find('.details-left').append(rowData[i].left);
+            contentElement.find('.details-right').append(rowData[i].right);
+            if (i !== rowData.length - 1) {
+                contentElement.find('.details-left').append("<br>");
+                contentElement.find('.details-right').append("<br>");
+            }
+        }
+
+        return contentElement.children();
+    }
     
     return {
-        CalloutBox: CalloutBox
+        CalloutBox: CalloutBox,
+        calloutContent: calloutContent
     };
 }();

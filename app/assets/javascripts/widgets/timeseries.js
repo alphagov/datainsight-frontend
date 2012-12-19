@@ -13,7 +13,14 @@ GOVUK.Insights.timeSeriesGraph = function () {
         xScale: d3.time.scale(),
         yScale: d3.scale.linear(),
         x: function(d) { return d.x; },
-        y: function(d) { return d.y; }
+        y: function(d) { return d.y; },
+        callout: {
+            width: 165,
+            height: 48,
+            xOffset: 15,
+            yOffset: 15,
+            content: function(d) { return d.label; }
+        }
     };
 
 
@@ -21,7 +28,6 @@ GOVUK.Insights.timeSeriesGraph = function () {
     var X_AXIS_HEIGHT = 22;
     var Y_AXIS_WIDTH = 45;
 
-    var seriesDateFormat = d3.time.format("%Y-%m-%d");
     var labelDateFormat = GOVUK.Insights.shortDateFormat;
 
     var min = function(array) { return array.reduce(function(a,b) { return a < b ? a : b; } ); };
@@ -76,7 +82,6 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .scale(yScale)
                 .orient("left")
                 .ticks(config.yTicks)
-                .tickSize(5)
                 .tickPadding(4)
                 .tickFormat(GOVUK.Insights.numericLabelFormatterFor(yTicks.step));
 
@@ -147,10 +152,10 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     }
 
                     // show callout
-                    var boxWidth = 165,
-                        boxHeight = 48,
-                        xOffset = 15,
-                        yOffset = 15,
+                    var boxWidth = config.callout.width || 165,
+                        boxHeight= config.callout.height || 48,
+                        xOffset  = config.callout.xOffset || 15,
+                        yOffset  = config.callout.yOffset || 15,
                         xPositionLeftLimit = Y_AXIS_WIDTH + config.marginLeft,
                         xPositionLeftCandidate  = highlightedPointX + config.marginLeft - xOffset - boxWidth,
                         xPositionRightCandidate = highlightedPointX + config.marginLeft + xOffset,
@@ -163,13 +168,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                             width:boxWidth,
                             height:boxHeight,
                             parent:"#" + container.attr("id"),
-                            title: labelDateFormat(seriesDateFormat.parse(highlightedDatum.start_at)) + " - " + labelDateFormat(seriesDateFormat.parse(highlightedDatum.end_at)),
-                            rowData: [
-                                {
-                                    right: GOVUK.Insights.formatNumericLabel(highlightedDatum.value || 0),
-                                    left: "Visitors"
-                                }
-                            ]
+                            content: config.callout.content(highlightedDatum)
                         };
 
                     currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);

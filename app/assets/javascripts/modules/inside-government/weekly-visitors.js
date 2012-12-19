@@ -5,6 +5,18 @@ GOVUK.Insights.InsideGovernment = GOVUK.Insights.InsideGovernment || {};
 GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData) {
 
     var seriesDateFormat = d3.time.format("%Y-%m-%d");
+    var labelDateFormat = GOVUK.Insights.shortDateFormat;
+
+    var calloutContent = function(d) {
+        var title = labelDateFormat(seriesDateFormat.parse(d.start_at)) + " - " + labelDateFormat(seriesDateFormat.parse(d.end_at));
+        var rowData = [
+            {
+                right: GOVUK.Insights.formatNumericLabel(d.value || 0),
+                left: "Visitors"
+            }
+        ];
+        return GOVUK.Insights.overlay.calloutContent(title, rowData);
+    };
 
     var weeklyVisitors = GOVUK.Insights.timeSeriesGraph()
         .marginRight(30)
@@ -12,7 +24,10 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData) {
         .height(290)
         .yTicks(5)
         .x(function(d) { return seriesDateFormat.parse(d.end_at); })
-        .y(function(d) { return d.value; });
+        .y(function(d) { return d.value; })
+        .callout({
+            content: calloutContent
+        });
 
     d3.select('#inside-gov-weekly-visitors')
         .datum(weeklyVisitorsData.details.data)
