@@ -34,7 +34,16 @@ GOVUK.Insights.numericLabelFormatterFor = function (maxValue) {
     }
 };
 
-// similar function exists in number_format.rb: NumberFormat.human_readable_number
+/**
+ * Format a number to be displayed with abbreviated suffixes.
+ * This function is more complicated than it one would think it need be,
+ * this is due to lack of predictability in Number.toPrecision, Number.toFixed
+ * and some rounding issues.
+ *
+ * TESTS: See tests in graphHelpersSpec.js for boundaries and limits.
+ * RUBY: a similar function exists in number_format.rb: NumberFormat.human_readable_number
+ *
+ */
 GOVUK.Insights.formatNumericLabel = function(value) {
     if (value == 0) return "0";
     var magnitude = function(num, n) {
@@ -51,6 +60,7 @@ GOVUK.Insights.formatNumericLabel = function(value) {
         ],
         roundedValue = roundToSignificantFigures(value, 3),
         significantFigures = null;
+
     for (var i = 0; i < thresholds.length; i++) {
         if (roundedValue >= (thresholds[i].value / 2)) {
             if (roundedValue < thresholds[i].value) {
