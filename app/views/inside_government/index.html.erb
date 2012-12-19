@@ -1,27 +1,30 @@
 <div id="datainsight-dashboard">
-    <div class="row first-row">
-      <div class="twelve columns">
-        <%= render partial: "inside_government/modules/narrative" %>
-      </div>
+  <div class="row first-row">
+    <div class="twelve columns">
+      <%= render partial: "inside_government/modules/narrative" %>
     </div>
+  </div>
 
-    <div class="row">
-      <div class="twelve columns">
-        <h1>Web traffic</h1>
-        <%= render partial: "inside_government/modules/weekly_visitors" %>
-      </div>
+  <div class="row">
+    <div class="twelve columns">
+      <h1>Web traffic</h1>
+      <%= render partial: "inside_government/modules/weekly_visitors" %>
+      <%= if Settings.feature_toggles[:inside_government_annotations]
+            render partial: "inside_government/modules/inside_gov_annotations"
+          end %>
     </div>
+  </div>
 
-    <div class="row">
-      <div class="twelve columns">
-        <h1>Content</h1>
-        <%= render partial: "inside_government/modules/most_entered_policies" %>
-      </div>
+  <div class="row">
+    <div class="twelve columns">
+      <h1>Content</h1>
+      <%= render partial: "inside_government/modules/most_entered_policies" %>
     </div>
+  </div>
 
-    <div class="row">
-      <div class="twelve columns">
-        <%= render partial: "inside_government/modules/format_success" %>
-      </div>
+  <div class="row">
+    <div class="twelve columns">
+      <%= render partial: "inside_government/modules/format_success" %>
     </div>
+  </div>
 </div>

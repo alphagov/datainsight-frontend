@@ -1,10 +1,8 @@
 class InsideGovernmentController < ApplicationController
 
   def index
-    policies_json = api.most_entered_policies
-    @policies = PolicyEntries.build(policies_json)
+    @policies = get_policies
     @narrative = get_narrative
-    @annotations = get_annotations
   rescue Exception => e
     logger.error(e)
     nil
@@ -64,12 +62,12 @@ class InsideGovernmentController < ApplicationController
   end
 
 
-
   private
   def get_narrative
     weekly_visitors = api.inside_gov_weekly_visitors
     InsideGovNarrative.new(weekly_visitors).content
-  rescue Songkick::Transport::UpstreamError
+  rescue Songkick::Transport::UpstreamError => e
+    logger.error(e)
     ""
   end
 
@@ -77,5 +75,13 @@ class InsideGovernmentController < ApplicationController
     JSON.parse(File.read(Rails.root.join("config", "annotations", "inside_government_annotations.#{Rails.env}.json")), symbolize_keys: true)
   rescue Exception => e
     logger.error(e)
+  end
+
+  def get_policies
+    policies_json = api.most_entered_policies
+    PolicyEntries.build(policies_json)
+  rescue Songkick::Transport::UpstreamError => e
+    logger.error(e)
+    nil
   end
 end

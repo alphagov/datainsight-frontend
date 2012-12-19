@@ -13,6 +13,8 @@ describe "Inside Government Annotations" do
   end
 
   it "should populate table correctly" do
+
+
     visit "/performance/dashboard/government"
 
     comments = page.find("#inside-gov-annotations table tbody").all(".comment_col").map(&:text)

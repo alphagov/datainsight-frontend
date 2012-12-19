@@ -21,7 +21,7 @@ DataInsightFrontend::Application.routes.draw do
     end
 
     #todo: pull out toggle for annotations
-    if Settings.feature_toggles[:inside_government_dashboard]
+    if Settings.feature_toggles[:inside_government_annotations]
       match "dashboard/government/annotations" => "inside_government#annotations", via: :get
     end
   end
