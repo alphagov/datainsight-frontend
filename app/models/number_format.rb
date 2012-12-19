@@ -1,25 +1,42 @@
+require "bigdecimal"
 class NumberFormat
 
-  # similar function exists in helpers.js: GOVUK.Insights.formatNumericLabel
+  # a similar function exists in helpers.js: GOVUK.Insights.formatNumericLabel
   SUFFIXES = {
       million: " million",
-      thousand: " thousand"
+      thousand: "k"
   }
 
   def self.human_readable_number(number, suffixes = SUFFIXES)
-    threshold_for_rendering_as_millions = 999_500
+    return "0" if number == 0
 
-    if number >= 10_000_000
-      (number.to_f / 1_000_000).round.to_s + suffixes[:million]
-    elsif number >= threshold_for_rendering_as_millions
-      (number.to_f / 1_000_000).round(1).to_s.sub(".0", "") + suffixes[:million]
-    elsif number >= 10_000
-      (number.to_f / 1_000).round.to_s + suffixes[:thousand]
-    elsif number >= 1000
-      (number.to_f / 1_000).round(1).to_s.sub(".0", "") + suffixes[:thousand]
-    else
-      number.to_s
+    thresholds = [
+      {name: :million,  value: 1_000_000},
+      {name: :thousand, value: 1_000}
+    ]
+    rounded_number = BigDecimal.new(number.to_f, 3).to_f
+
+    thresholds.each do |threshold|
+      if rounded_number >= (threshold[:value] / 2)
+        if rounded_number < threshold[:value]
+          significant_figures = 2
+        else
+          significant_figures = 3
+          number = rounded_number
+        end
+        number = BigDecimal.new(number.to_f, significant_figures).to_f / threshold[:value]
+
+        if number < 10
+          number = sprintf("%.2f", number)
+        elsif number < 100
+          number = sprintf("%.1f", number)
+        else
+          number = sprintf("%.0f", number)
+        end
+        return number + suffixes[threshold[:name]]
+      end
     end
+    return number.to_s
   end
 
   def self.short_human_readable_number(number)
