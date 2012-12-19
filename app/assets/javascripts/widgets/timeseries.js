@@ -35,6 +35,11 @@ GOVUK.Insights.timeSeriesGraph = function () {
     var height = function() { return config.height - config.marginTop - config.marginBottom; };
     var width  = function() { return config.width - config.marginLeft - config.marginRight; };
 
+    var mouseOutside = function(svgRect) {
+        var mouse = d3.mouse(svgRect), rect = svgRect.getBBox(), x = mouse[0], y = mouse[1];
+        return x < rect.x || x >= rect.width + rect.x || y < rect.y || y >= rect.height + rect.y;
+    }
+
     var instance = function (selection) {
         var container = this;
 
@@ -175,8 +180,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
                 })
                 .on("mouseout", function() {
-                    var mousePoint = GOVUK.Insights.point(d3.mouse(this));
-                    if ((mousePoint.x() < 0) || (mousePoint.x() > config.width) || (mousePoint.y() < 0) || (mousePoint.y() > config.height)) {
+                    if (mouseOutside(this)) {
                         removeHighlight();
                         removeCallout();
                     }
