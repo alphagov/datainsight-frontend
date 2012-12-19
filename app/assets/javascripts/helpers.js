@@ -35,23 +35,26 @@ GOVUK.Insights.numericLabelFormatterFor = function (maxValue) {
 };
 
 // similar function exists in number_format.rb: NumberFormat.human_readable_number
-GOVUK.Insights.formatNumericLabel = function (val) {
-    var oneThousand = 1000;
-    var tenThousand = 10000;
-    var oneMillion = 1000000;
-    var tenMillion = 10000000;
-
-    var thresholdForRenderingAsMillion = 999500;
-
-    if (val >= tenMillion) return Math.round(val / oneMillion) + "m";
-
-    if (val >= thresholdForRenderingAsMillion) return (val / oneMillion).toFixed(2) + "m";
-
-    if (val >= tenThousand) return Math.round(val / oneThousand) + "k";
-
-    if (val >= 1000) return (val / oneThousand).toFixed(1).replace('.0', '') + "k";
-
-    return val.toString();
+GOVUK.Insights.formatNumericLabel = function(val) {
+    if (val == 0) return "0";
+    var magnitude = function(num, n) {
+            return Math.pow(10, n - Math.ceil(Math.log(num < 0 ? -num : num) / Math.LN10));
+        },
+        sigFigs = function(num, n) {
+            return Math.round(num * magnitude(num, n)) / magnitude(num, n);
+        },
+        oneThousand = 1000,
+        oneMillion = 1000000,
+        thresholds = [[oneMillion, "m"], [oneThousand, "k"]],
+        threeSigFig = sigFigs(val, 3);
+    for (var i = 0; i < thresholds.length; i++) {
+        if (threeSigFig >= (thresholds[i][0] / 2)) {
+            var reducedNum = (threeSigFig / thresholds[i][0]);
+            reducedNum = sigFigs(reducedNum, reducedNum < 1 ? 2 : 3);
+            return reducedNum.toPrecision(reducedNum < 1 ? 2 : 3) + thresholds[i][1];
+        }
+    }
+    return threeSigFig.toString();
 };
 
 

@@ -31,107 +31,50 @@ describe("Helpers", function () {
         });
     });
     describe("formatNumericLabel", function() {
-        it("should convert 1 000 000 to 1m", function () {
-            var number = 1000000;
-
-            var label = GOVUK.Insights.formatNumericLabel(number);
-
-            expect(label).toBe("1.00m");
-        });
-
-        it("should convert 10,000 to 10k", function () {
-           var number = 10000;
-
-            expect(GOVUK.Insights.formatNumericLabel(number)).toBe("10k");
-        });
-
-        it("should keep 100", function () {
-            var number = 100;
-
-            expect(GOVUK.Insights.formatNumericLabel(number)).toBe("100");
-        });
-
-        it("should display millions to two decimal places", function () {
-            var onePointFiveMillion = 5500000;
-            var onePointFiveMillionAndOneOneOneOneOne = 1511111;
-
-            expect(GOVUK.Insights.formatNumericLabel(onePointFiveMillion)).toBe('5.50m');
-            expect(GOVUK.Insights.formatNumericLabel(onePointFiveMillionAndOneOneOneOneOne)).toBe('1.51m');
-        });
-
-        it("should not display decimal place when it would be zero", function() {
-            expect(GOVUK.Insights.formatNumericLabel(7002)).toBe('7k');
-        });
-
-        it("should not use decimal places for ten million or greater", function () {
-            var tenPointFiveMillion = 10500000;
-
-            expect(GOVUK.Insights.formatNumericLabel(tenPointFiveMillion)).toBe('11m');
-        });
-
-        it("should display thousands to one decimal place", function () {
-            var onePointFiveThousand = 1500;
-            var onePointFiveThousandAndOneOne = 1511;
-
-            expect(GOVUK.Insights.formatNumericLabel(onePointFiveThousand)).toBe('1.5k');
-            expect(GOVUK.Insights.formatNumericLabel(onePointFiveThousandAndOneOne)).toBe('1.5k');
-        });
-
-        it("should not use decimal places for ten thousand or greater", function () {
-            var tenPointFiveThousand = 10500;
-
-            expect(GOVUK.Insights.formatNumericLabel(tenPointFiveThousand)).toBe('11k');
-        });
-
-        it("should work for the following edge cases", function () {
-            var fiftyFivePointFiveThousand = 55500;
-            var fiftyFivePointFourThousand = 55400;
-            var ninetyNinePointNineThousand = 99900;
-
-            var fiftyFivePointFiveMillion = 55500000;
-            var fiftyFivePointFourMillion = 55400000;
-            var ninetyNinePointNineMillion = 99900000;
-
-            expect(GOVUK.Insights.formatNumericLabel(fiftyFivePointFiveThousand)).toBe('56k');
-            expect(GOVUK.Insights.formatNumericLabel(fiftyFivePointFourThousand)).toBe('55k');
-            expect(GOVUK.Insights.formatNumericLabel(ninetyNinePointNineThousand)).toBe('100k');
-
-            expect(GOVUK.Insights.formatNumericLabel(fiftyFivePointFiveMillion)).toBe('56m');
-            expect(GOVUK.Insights.formatNumericLabel(fiftyFivePointFourMillion)).toBe('55m');
-            expect(GOVUK.Insights.formatNumericLabel(ninetyNinePointNineMillion)).toBe('100m');
-
-            expect(GOVUK.Insights.formatNumericLabel(9999)).toBe('10k');
-            expect(GOVUK.Insights.formatNumericLabel(999499)).toBe('999k');
-            expect(GOVUK.Insights.formatNumericLabel(999500)).toBe('1.00m');
-            expect(GOVUK.Insights.formatNumericLabel(999999)).toBe('1.00m');
-            expect(GOVUK.Insights.formatNumericLabel(9999999)).toBe('10.00m');
-        });
-
-        it("should not show .0 for values rounding to an integer number of thousands", function () {
-            expect(GOVUK.Insights.formatNumericLabel(7949)).toBe('7.9k');
-            expect(GOVUK.Insights.formatNumericLabel(7950)).toBe('8k');
-            expect(GOVUK.Insights.formatNumericLabel(8049)).toBe('8k');
-            expect(GOVUK.Insights.formatNumericLabel(8050)).toBe('8.1k');
-        });
-
-        it("should display entirely numbers from 0 to 100", function() {
+        it("should display entire numbers from 0 to 499", function() {
             expect(GOVUK.Insights.formatNumericLabel(0)).toBe('0');
             expect(GOVUK.Insights.formatNumericLabel(1)).toBe('1');
             expect(GOVUK.Insights.formatNumericLabel(9)).toBe('9');
             expect(GOVUK.Insights.formatNumericLabel(10)).toBe('10');
             expect(GOVUK.Insights.formatNumericLabel(77)).toBe('77');
             expect(GOVUK.Insights.formatNumericLabel(100)).toBe('100');
+            expect(GOVUK.Insights.formatNumericLabel(398)).toBe('398');
+            expect(GOVUK.Insights.formatNumericLabel(499)).toBe('499');
         });
 
-        it("should display numbers from 101 to 999 as fractions of 1k", function() {
-            expect(GOVUK.Insights.formatNumericLabel(101)).toBe('101');
-            expect(GOVUK.Insights.formatNumericLabel(154)).toBe('154');
-            expect(GOVUK.Insights.formatNumericLabel(235)).toBe('235');
-            expect(GOVUK.Insights.formatNumericLabel(398)).toBe('398');
-            expect(GOVUK.Insights.formatNumericLabel(777)).toBe('777');
-            expect(GOVUK.Insights.formatNumericLabel(999)).toBe('999');
+        it("should display numbers from 500 to 499499 as fractions of 1k", function() {
+            expect(GOVUK.Insights.formatNumericLabel(500)).toBe('0.50k');
+            expect(GOVUK.Insights.formatNumericLabel(777)).toBe('0.78k');
+            expect(GOVUK.Insights.formatNumericLabel(994)).toBe('0.99k');
+            expect(GOVUK.Insights.formatNumericLabel(995)).toBe('1.00k');
+            expect(GOVUK.Insights.formatNumericLabel(996)).toBe('1.00k');
+            expect(GOVUK.Insights.formatNumericLabel(999)).toBe('1.00k');
+            expect(GOVUK.Insights.formatNumericLabel(1000)).toBe('1.00k');
+            expect(GOVUK.Insights.formatNumericLabel(1005)).toBe('1.01k');
+            expect(GOVUK.Insights.formatNumericLabel(1006)).toBe('1.01k');
+            expect(GOVUK.Insights.formatNumericLabel(100000)).toBe('100k');
+            expect(GOVUK.Insights.formatNumericLabel(234568)).toBe('235k');
+            expect(GOVUK.Insights.formatNumericLabel(499499)).toBe('499k');
         });
-        
+
+        it("should display numbers from 499500 and above as fractions of 1m", function() {
+            expect(GOVUK.Insights.formatNumericLabel(499500)).toBe('0.50m');
+            expect(GOVUK.Insights.formatNumericLabel(500000)).toBe('0.50m');
+            expect(GOVUK.Insights.formatNumericLabel(777777)).toBe('0.78m');
+            expect(GOVUK.Insights.formatNumericLabel(994499)).toBe('0.99m');
+            expect(GOVUK.Insights.formatNumericLabel(994599)).toBe('1.00m');
+//            expect(GOVUK.Insights.formatNumericLabel(994999)).toBe('0.99m');
+            expect(GOVUK.Insights.formatNumericLabel(995000)).toBe('1.00m');
+            expect(GOVUK.Insights.formatNumericLabel(995001)).toBe('1.00m');
+            expect(GOVUK.Insights.formatNumericLabel(999900)).toBe('1.00m');
+            expect(GOVUK.Insights.formatNumericLabel(1000000)).toBe('1.00m');
+            expect(GOVUK.Insights.formatNumericLabel(1005000)).toBe('1.01m');
+            expect(GOVUK.Insights.formatNumericLabel(1005001)).toBe('1.01m');
+            expect(GOVUK.Insights.formatNumericLabel(100000000)).toBe('100m');
+            expect(GOVUK.Insights.formatNumericLabel(234568234)).toBe('235m');
+            expect(GOVUK.Insights.formatNumericLabel(499499499)).toBe('499m');
+        });
+
         describe("rounding changes", function () {
            it("should now show millions to two decimal places", function () {
                expect(GOVUK.Insights.formatNumericLabel(1220000)).toBe("1.22m");

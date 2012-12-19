@@ -76,7 +76,7 @@ describe("scatterplot", function () {
 
             var textElement = d3.selectAll("#scatterplot text")[0][0];
             expect(textElement).toBeTruthy();
-            expect(d3.select(textElement).text()).toEqual("20k times used");
+            expect(d3.select(textElement).text()).toEqual("20.0k times used");
         });
 
         it("should add a text element with 60k times used", function() {
@@ -84,7 +84,7 @@ describe("scatterplot", function () {
 
             var textElement = d3.selectAll("#scatterplot text")[0][1];
             expect(textElement).toBeTruthy();
-            expect(d3.select(textElement).text()).toEqual("60k times used");
+            expect(d3.select(textElement).text()).toEqual("60.0k times used");
         });
 
         it("should add a circle with radius 580001", function () {
