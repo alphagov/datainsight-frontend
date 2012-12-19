@@ -177,7 +177,10 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                     yPos: GOVUK.Insights.clamp(d3.mouse(this)[1] - boxHeight, boxShadow, height - margin.bottom - boxHeight),
                     parent: '#reach',
                     title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
-                    rowData: [{right:(d/1000).toFixed(1) + "k",left:'Unique visitors'},{right:(averageData[hour]/1000).toFixed(1) + "k",left:'<span class="pink">Average last week</span>'}],
+                    rowData: [
+                        {right:GOVUK.Insights.formatNumericLabel(d),left:'Unique visitors'},
+                        {right:GOVUK.Insights.formatNumericLabel(averageData[hour]),left:'<span class="pink">Average last week</span>'}
+                    ],
                     width: boxWidth,
                     height: boxHeight,
                     closeDelay: 0
