@@ -35,29 +35,35 @@ GOVUK.Insights.numericLabelFormatterFor = function (maxValue) {
 };
 
 // similar function exists in number_format.rb: NumberFormat.human_readable_number
-GOVUK.Insights.formatNumericLabel = function(val) {
-    if (val == 0) return "0";
+GOVUK.Insights.formatNumericLabel = function(value) {
+    if (value == 0) return "0";
     var magnitude = function(num, n) {
             return Math.pow(10, n - Math.ceil(Math.log(num < 0 ? -num : num) / Math.LN10));
         },
-        sigFigs = function(num, n) {
+        roundToSignificantFigures = function(num, n) {
             return Math.round(num * magnitude(num, n)) / magnitude(num, n);
         },
         oneThousand = 1000,
         oneMillion = 1000000,
-        thresholds = [[oneMillion, "m"], [oneThousand, "k"]],
-        threeSigFig = sigFigs(val, 3);
+        thresholds = [
+            {value: oneMillion, suffix:"m"},
+            {value: oneThousand, suffix:"k"}
+        ],
+        roundedValue = roundToSignificantFigures(value, 3),
+        significantFigures = null;
     for (var i = 0; i < thresholds.length; i++) {
-        if (threeSigFig >= (thresholds[i][0] / 2)) {
-            var sigFig = threeSigFig < thresholds[i][0] ? 2 : 3;
-            var val = sigFig == 2 ? val : threeSigFig;
-            var val2 = sigFigs(val, sigFig) / thresholds[i][0];
-            sigFig = val2 < 1 ? 2 : 3;
-            return val2.toPrecision(sigFig) + thresholds[i][1];
+        if (roundedValue >= (thresholds[i].value / 2)) {
+            if (roundedValue < thresholds[i].value) {
+                significantFigures = 2;
+            } else {
+                significantFigures = 3;
+                value = roundedValue;
+            }
+            value = roundToSignificantFigures(value, significantFigures) / thresholds[i].value;
+            return value.toPrecision(value < 1 ? 2 : 3) + thresholds[i].suffix;
         }
-
     }
-    return threeSigFig.toString();
+    return roundedValue.toString();
 };
 
 
