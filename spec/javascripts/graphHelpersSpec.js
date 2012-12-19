@@ -62,8 +62,7 @@ describe("Helpers", function () {
             expect(GOVUK.Insights.formatNumericLabel(500000)).toBe('0.50m');
             expect(GOVUK.Insights.formatNumericLabel(777777)).toBe('0.78m');
             expect(GOVUK.Insights.formatNumericLabel(994499)).toBe('0.99m');
-            expect(GOVUK.Insights.formatNumericLabel(994599)).toBe('1.00m');
-//            expect(GOVUK.Insights.formatNumericLabel(994999)).toBe('0.99m');
+            expect(GOVUK.Insights.formatNumericLabel(994999)).toBe('0.99m');
             expect(GOVUK.Insights.formatNumericLabel(995000)).toBe('1.00m');
             expect(GOVUK.Insights.formatNumericLabel(995001)).toBe('1.00m');
             expect(GOVUK.Insights.formatNumericLabel(999900)).toBe('1.00m');
@@ -73,6 +72,76 @@ describe("Helpers", function () {
             expect(GOVUK.Insights.formatNumericLabel(100000000)).toBe('100m');
             expect(GOVUK.Insights.formatNumericLabel(234568234)).toBe('235m');
             expect(GOVUK.Insights.formatNumericLabel(499499499)).toBe('499m');
+        });
+
+        describe("generative tests", function() {
+            var createTest = function(i, expectation) {
+                    it("should correctly format " + i + " as " + expectation, createExpectation(i, expectation));
+                },
+                createExpectation = function(i, expectation) {
+                    return function() {
+                        expect(GOVUK.Insights.formatNumericLabel(i)).toBe(expectation);
+                    }
+                };
+
+
+            var i;
+            for (i = 0; i < 500; i++) {
+                createTest(i, i.toString());
+            }
+            for (i = 500; i < 700; i++) {
+                createTest(i, "0." + Math.round(i / 10) + "k");
+            }
+            for (i = 900; i < 995; i++) {
+                createTest(i, "0." + Math.round(i / 10) + "k");
+            }
+            for (i = 995; i < 1000; i++) {
+                var expected = "1." + (Math.round(i / 10) - 100);
+                if (expected.length < 4) {
+                    expected += "0";
+                }
+                createTest(i, expected + "k")
+            }
+            for (i = 1000; i < 1200; i++) {
+                createTest(i, (Math.round(i / 10) / 100).toPrecision(3) + "k");
+            }
+            for (i = 50450; i < 50500; i++) {
+                createTest(i, (Math.round(i / 100) / 10).toPrecision(3) + "k");
+            }
+            for (i = 9400; i < 10000; i++) {
+                createTest(i, (Math.round(i / 10) / 100).toPrecision(3) + "k");
+            }
+            for (i = 10000; i < 11500; i++) {
+                createTest(i, (Math.round(i / 100) / 10).toPrecision(3) + "k");
+            }
+            for (i = 98500; i < 100000; i++) {
+                createTest(i, (Math.round(i / 100) / 10).toPrecision(3) + "k");
+            }
+            for (i = 100000; i < 101000; i++) {
+                createTest(i, (Math.round(i / 1000)).toPrecision(3) + "k");
+            }
+            for (i = 499000; i < 499500; i++) {
+                createTest(i, (Math.round(i / 1000)).toPrecision(3) + "k");
+            }
+            for (i = 499500; i < 500000; i++) {
+                createTest(i, (Math.round(i / 10000) / 100).toPrecision(2) + "m");
+            }
+            for (i = 504500; i < 506000; i+=100) {
+                createTest(i, (Math.round(i / 10000) / 100).toPrecision(2) + "m");
+            }
+            for (i = 700000; i < 800000; i+=100) {
+                createTest(i, (Math.round(i / 10000) / 100).toPrecision(2) + "m");
+            }
+            for (i = 994499; i < 995000; i+=100) {
+                createTest(i, (Math.round(i / 10000) / 100).toPrecision(2) + "m");
+            }
+            for (i = 995000; i < 999999; i+=100) {
+                createTest(i, (Math.round(i / 10000) / 100).toPrecision(3) + "m");
+            }
+            for (i = 999999; i < 9999999; i+=1000) {
+                createTest(i, (Math.round(i / 10000) / 100).toPrecision(3) + "m");
+            }
+
         });
 
         describe("rounding changes", function () {
@@ -88,7 +157,6 @@ describe("Helpers", function () {
            })
         });
     });
-
     describe("calculateLinearTicks", function() {
         it("should return valid ticks for 0-7000 with step of 5", function() {
             var ticks = GOVUK.Insights.calculateLinearTicks([0, 7000], 5);

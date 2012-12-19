@@ -49,10 +49,13 @@ GOVUK.Insights.formatNumericLabel = function(val) {
         threeSigFig = sigFigs(val, 3);
     for (var i = 0; i < thresholds.length; i++) {
         if (threeSigFig >= (thresholds[i][0] / 2)) {
-            var reducedNum = (threeSigFig / thresholds[i][0]);
-            reducedNum = sigFigs(reducedNum, reducedNum < 1 ? 2 : 3);
-            return reducedNum.toPrecision(reducedNum < 1 ? 2 : 3) + thresholds[i][1];
+            var sigFig = threeSigFig < thresholds[i][0] ? 2 : 3;
+            var val = sigFig == 2 ? val : threeSigFig;
+            var val2 = sigFigs(val, sigFig) / thresholds[i][0];
+            sigFig = val2 < 1 ? 2 : 3;
+            return val2.toPrecision(sigFig) + thresholds[i][1];
         }
+
     }
     return threeSigFig.toString();
 };
