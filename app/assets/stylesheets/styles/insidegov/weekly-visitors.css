@@ -5,9 +5,13 @@
 #inside-gov-weekly-visitors .plotting-area .line,
 #inside-gov-weekly-visitors .plotting-area circle {
     stroke: #097F96;
-    stroke-width: 4;
+    stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
+}
+
+#inside-gov-weekly-visitors .plotting-area .highlighted {
+    stroke-width: 3.5;
 }
 
 #inside-gov-weekly-visitors .plotting-area .shade {

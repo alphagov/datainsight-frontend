@@ -96,23 +96,13 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .attr("class", "plotting-area");
 
             var line = d3.svg.line()
-                .x(function(d) {
-                    return xScale(config.x(d));
-                })
-                .y(function(d) {
-                    return yScale(config.y(d));
-                });
+                .x(function(d) { return xScale(config.x(d)); })
+                .y(function(d) { return yScale(config.y(d)); });
 
             var area = d3.svg.area()
-                .x(function(d) {
-                    return xScale(config.x(d));
-                })
-                .y0(function(d) {
-                    return yScale(0);
-                })
-                .y1(function(d) {
-                    return yScale(config.y(d));
-                });
+                .x(function(d) { return xScale(config.x(d)); })
+                .y0(function(d) { return yScale(0); })
+                .y1(function(d) { return yScale(config.y(d)); });
 
             plottingArea.append("svg:path")
                 .classed("shade", true)
@@ -122,8 +112,19 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .classed("line", true)
                 .attr("d", line(data));
 
+            function removeHighlight() {
+                plottingArea.select(".highlighted").classed("highlighted", false);
+                plottingArea.select("#dataPointHighlight").remove();
+            }
+
             var currentCallout = null;
-            
+
+            function removeCallout() {
+                if (currentCallout) {
+                    currentCallout.close();
+                }
+            }
+
             svg.append("svg:rect")
                 .attr("width", config.width)
                 .attr("height", config.height)
@@ -138,23 +139,24 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     var highlightedPointX = xScale(config.x(highlightedDatum));
                     var highlightedPointY = yScale(config.y(highlightedDatum));
 
-                    plottingArea.select("#dataPointHighlight").remove();
+                    removeHighlight();
+
+                    plottingArea.select(".line")
+                        .classed("highlighted", true);
                     plottingArea.insert("svg:circle", "rect")
                         .attr("cx", highlightedPointX)
                         .attr("cy", highlightedPointY)
                         .attr("r", 3.5)
-                        .attr("id", "dataPointHighlight");
+                        .attr("id", "dataPointHighlight")
+                        .classed("highlighted", true);
 
-                    // hide callout
-                    if (currentCallout) {
-                        currentCallout.close();
-                    }
+                    removeCallout();
 
                     // show callout
-                    var boxWidth = config.callout.width || 165,
-                        boxHeight= config.callout.height || 48,
-                        xOffset  = config.callout.xOffset || 15,
-                        yOffset  = config.callout.yOffset || 15,
+                    var boxWidth  = config.callout.width || 165,
+                        boxHeight = config.callout.height || 48,
+                        xOffset   = config.callout.xOffset || 15,
+                        yOffset   = config.callout.yOffset || 15,
                         xPositionLeftLimit = Y_AXIS_WIDTH + config.marginLeft,
                         xPositionLeftCandidate  = highlightedPointX + config.marginLeft - xOffset - boxWidth,
                         xPositionRightCandidate = highlightedPointX + config.marginLeft + xOffset,
@@ -175,10 +177,8 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .on("mouseout", function() {
                     var mousePoint = GOVUK.Insights.point(d3.mouse(this));
                     if ((mousePoint.x() < 0) || (mousePoint.x() > config.width) || (mousePoint.y() < 0) || (mousePoint.y() > config.height)) {
-                        plottingArea.select("#dataPointHighlight").remove();
-                        if (currentCallout) {
-                            currentCallout.close();
-                        }
+                        removeHighlight();
+                        removeCallout();
                     }
                 });
         });
