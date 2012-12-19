@@ -284,10 +284,13 @@ path.vertical, line.vertical {
     opacity: 0.0;
 }
 
-    /* main focus line for a time series */
+.time-series path {
+  stroke-width: 2.5;
+}
+
+/* main focus line for a time series */
 .time-series .main-line {
     stroke: #999;
-    stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
@@ -338,7 +341,6 @@ path.vertical, line.vertical {
 }
 
 .time-series .main-line.highlight {
-    stroke-width: 4;
     stroke: #5b5b5b;
 }
 
