@@ -98,7 +98,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .scale(yScale)
         .orient("left")
         .tickValues(yTicks.values)
-        .tickFormat(GOVUK.Insights.numericLabelFormatterFor(yTicks.step));
+        .tickFormat(GOVUK.Insights.numericLabelFormatterFor(d3.max(yTicks.values)));
 
     svg.append("g")
         .attr("class", "y axis")

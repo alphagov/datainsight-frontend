@@ -17,16 +17,18 @@ GOVUK.isSvgSupported = function () {
     return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 };
 
-GOVUK.Insights.numericLabelFormatterFor = function (tickStep) {
+GOVUK.Insights.numericLabelFormatterFor = function (maxValue) {
+    var oneThousand = 1000,
+        oneMillion = 1000000;
     return function (tickValue) {
         if (tickValue == 0) {
             return '0';
         }
-        if (tickStep >= 500000) {
+        if (maxValue >= oneMillion) {
             return (Math.ceil(tickValue / 100000) / 10).toFixed(1).replace(".0", "") + "m";
         }
-        if (tickStep >= 1000) {
-            return Math.ceil(tickValue / 1000) + "k";
+        if (maxValue >= oneThousand) {
+            return (Math.ceil(tickValue / 100) / 10).toFixed(1).replace(".0", "") + "k";
         }
         return "" + tickValue;
     }

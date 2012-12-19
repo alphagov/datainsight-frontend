@@ -1,28 +1,34 @@
 describe("Helpers", function () {
     describe("numericLabelFormatterFor", function() {
-        describe("tick step of 1000", function() {
+        describe("max value of 1000", function() {
+            beforeEach(function() {
+                this.formatter = GOVUK.Insights.numericLabelFormatterFor(1000);
+            });
             it("should return 0 for 0", function() {
-                expect(GOVUK.Insights.numericLabelFormatterFor(1000)(0)).toBe("0");
+                expect(this.formatter(0)).toBe("0");
             });
-            it("should return 1k for 400", function() {
-                expect(GOVUK.Insights.numericLabelFormatterFor(1000)(400)).toBe("1k");
+            it("should return 0.4k for 400", function() {
+                expect(this.formatter(400)).toBe("0.4k");
             });
-            it("should return 2k for 1500", function() {
-                expect(GOVUK.Insights.numericLabelFormatterFor(1000)(1500)).toBe("2k");
+            it("should return 1.5k for 1500", function() {
+                expect(this.formatter(1500)).toBe("1.5k");
             });
         });
 
-        describe("tick step of 1000000", function() {
+        describe("max value of 1000000", function() {
+            beforeEach(function() {
+                this.formatter = GOVUK.Insights.numericLabelFormatterFor(1000000);
+            });
             it("should return 0 for 0", function() {
-                expect(GOVUK.Insights.numericLabelFormatterFor(1000000)(0)).toBe("0");
+                expect(this.formatter(0)).toBe("0");
             });
             it("should return 0.1m for 5000", function() {
-                expect(GOVUK.Insights.numericLabelFormatterFor(1000000)(5000)).toBe("0.1m");
+                expect(this.formatter(5000)).toBe("0.1m");
             });
             it("should return 1.5m for 150000", function() {
-                expect(GOVUK.Insights.numericLabelFormatterFor(1000000)(1500000)).toBe("1.5m");
+                expect(this.formatter(1500000)).toBe("1.5m");
             });
-        })
+        });
     });
     describe("formatNumericLabel", function() {
         it("should convert 1 000 000 to 1m", function () {
