@@ -108,22 +108,22 @@ describe("Helpers", function () {
             for (i = 50450; i < 50500; i++) {
                 createTest(i, (Math.round(i / 100) / 10).toPrecision(3) + "k");
             }
-            for (i = 9400; i < 10000; i++) {
+            for (i = 9400; i < 10000; i+=10) {
                 createTest(i, (Math.round(i / 10) / 100).toPrecision(3) + "k");
             }
-            for (i = 10000; i < 11500; i++) {
+            for (i = 10000; i < 11500; i+=10) {
                 createTest(i, (Math.round(i / 100) / 10).toPrecision(3) + "k");
             }
-            for (i = 98500; i < 100000; i++) {
+            for (i = 98500; i < 100000; i+=10) {
                 createTest(i, (Math.round(i / 100) / 10).toPrecision(3) + "k");
             }
-            for (i = 100000; i < 101000; i++) {
+            for (i = 100000; i < 101000; i+=10) {
                 createTest(i, (Math.round(i / 1000)).toPrecision(3) + "k");
             }
-            for (i = 499000; i < 499500; i++) {
+            for (i = 499000; i < 499500; i+=10) {
                 createTest(i, (Math.round(i / 1000)).toPrecision(3) + "k");
             }
-            for (i = 499500; i < 500000; i++) {
+            for (i = 499500; i < 500000; i+=10) {
                 createTest(i, (Math.round(i / 10000) / 100).toPrecision(2) + "m");
             }
             for (i = 504500; i < 506000; i+=100) {
@@ -138,7 +138,7 @@ describe("Helpers", function () {
             for (i = 995000; i < 999999; i+=100) {
                 createTest(i, (Math.round(i / 10000) / 100).toPrecision(3) + "m");
             }
-            for (i = 999999; i < 9999999; i+=1000) {
+            for (i = 999999; i < 1999999; i+=1000) {
                 createTest(i, (Math.round(i / 10000) / 100).toPrecision(3) + "m");
             }
 
