@@ -145,29 +145,33 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     if (currentCallout) {
                         currentCallout.close();
                     }
+
                     // show callout
                     var boxWidth = 165,
                         boxHeight = 48,
-                        xOffset = -20,
-                        yOffset = -60,
-                        intendedXPos = highlightedPointX + config.marginLeft + xOffset - boxWidth,
-                        xPos = (intendedXPos < config.marginLeft) ? highlightedPointX + config.marginLeft - xOffset : intendedXPos,
-                        yPos = (highlightedPointY < config.height/2) ? highlightedPointY + config.marginTop - (yOffset + boxHeight) : highlightedPointY + config.marginTop + yOffset,
+                        xOffset = 15,
+                        yOffset = 15,
+                        xPositionLeftLimit = Y_AXIS_WIDTH + config.marginLeft,
+                        xPositionLeftCandidate  = highlightedPointX + config.marginLeft - xOffset - boxWidth,
+                        xPositionRightCandidate = highlightedPointX + config.marginLeft + xOffset,
+                        yPositionTopLimit = config.marginTop,
+                        yPositionAboveCandidate = highlightedPointY + config.marginTop - yOffset - boxHeight,
+                        yPositionBelowCandidate = highlightedPointY + config.marginTop + yOffset,
                         calloutInfo = {
-                            xPos:xPos,
-                            yPos:yPos,
+                            xPos:(xPositionLeftCandidate < xPositionLeftLimit ? xPositionRightCandidate : xPositionLeftCandidate),
+                            yPos:(yPositionAboveCandidate < yPositionTopLimit ? yPositionBelowCandidate : yPositionAboveCandidate),
                             width:boxWidth,
                             height:boxHeight,
                             parent:"#" + container.attr("id"),
                             title: labelDateFormat(seriesDateFormat.parse(highlightedDatum.start_at)) + " - " + labelDateFormat(seriesDateFormat.parse(highlightedDatum.end_at)),
                             rowData: [
                                 {
-                                    right: GOVUK.Insights.formatNumericLabel(highlightedDatum.value),
+                                    right: GOVUK.Insights.formatNumericLabel(highlightedDatum.value || 0),
                                     left: "Visitors"
                                 }
                             ]
                         };
-                    
+
                     currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
                 })
                 .on("mouseout", function() {
