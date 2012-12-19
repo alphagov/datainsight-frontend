@@ -3,6 +3,9 @@ class InsideGovernmentController < ApplicationController
   def index
     @policies = get_policies
     @narrative = get_narrative
+    if Settings.feature_toggles[:inside_government_annotations]
+      @annotations = get_annotations
+    end
   rescue Exception => e
     logger.error(e)
     nil
