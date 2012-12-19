@@ -13,9 +13,10 @@ describe "Inside Government Annotations" do
   end
 
   it "should populate table correctly" do
-
-
     visit "/performance/dashboard/government"
+
+    # will be invisible because of SVG support
+    page.execute_script("$('#inside-gov-annotations').show()")
 
     comments = page.find("#inside-gov-annotations table tbody").all(".comment_col").map(&:text)
     dates = page.find("#inside-gov-annotations table tbody").all(".date_col").map(&:text)
