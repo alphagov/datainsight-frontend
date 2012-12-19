@@ -1,0 +1,23 @@
+<% if @annotations.present? %>
+<article id="inside-gov-annotations">
+  <h2>Significant dates for <span class="insidegov">Inside Government</span></h2>
+
+  <p class="graph-heading">Events which may have changed web traffic</p>
+  <table>
+    <thead>
+    <tr>
+      <th class="comment_col">Event</th>
+      <th class="data_col">Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @annotations["annotations"].each do |annotation| %>
+        <tr>
+          <td class="comment_col"><%= annotation["comment"] %>&nbsp;<a href=<%= annotation["link"] %>>...more</a></td>
+          <td class="date_col"><%= annotation["date"] %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</article>
+<% end %>

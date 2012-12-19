@@ -4,6 +4,7 @@ class InsideGovernmentController < ApplicationController
     policies_json = api.most_entered_policies
     @policies = PolicyEntries.build(policies_json)
     @narrative = get_narrative
+    @annotations = get_annotations
   rescue Exception => e
     logger.error(e)
     nil
@@ -53,11 +54,28 @@ class InsideGovernmentController < ApplicationController
     end
   end
 
+  def annotations
+    serve_json do
+      json = get_annotations
+      json["id"] = url_for controller: "inside_government", action: "annotations", format: :json
+      json["web_rul"] = url_for controller: "inside_government", action: "index", anchor: "inside-gov-annotations"
+      json
+    end
+  end
+
+
+
   private
   def get_narrative
     weekly_visitors = api.inside_gov_weekly_visitors
     InsideGovNarrative.new(weekly_visitors).content
   rescue Songkick::Transport::UpstreamError
     ""
+  end
+
+  def get_annotations
+    JSON.parse(File.read(Rails.root.join("config", "annotations", "inside_government_annotations.#{Rails.env}.json")), symbolize_keys: true)
+  rescue Exception => e
+    logger.error(e)
   end
 end
