@@ -43,8 +43,4 @@ module DashboardHelper
 
     tag(:img, :src => uri)
   end
-
-  def test?
-    ENV["RAILS_ENV"] == 'test'
-  end
 end
