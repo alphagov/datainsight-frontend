@@ -39,7 +39,7 @@ describe "The Narrative" do
   it "should show the narrative on the narrative end point" do
     FakeWeb.register_uri(:get, "#{Settings.api_urls['weekly_reach_base_url']}/weekly-visitors", :body => weekly_reach_json)
     visit "/performance/dashboard/narrative"
-    page.find("#narrative").text.should == "GOV.UK had 3.5 million visitors last week, a decrease of 11% from the week before"
+    page.find("#narrative").text.should == "GOV.UK had 3.51 million visitors last week, a decrease of 11% from the week before"
   end
 
   it "should NOT show the narrative if there was an error" do

@@ -82,7 +82,7 @@ describe "Most Visited Policies" do
     page.all("#most-entered-policies-module .policy-title").count.should == 10
 
     page.all("#most-entered-policies-module .policy-title").first.should have_link("https://www.gov.uk/most-entered-policies".gsub("/", "/\u200B"), href: "https://www.gov.uk/most-entered-policies")
-    page.all("#most-entered-policies-module .policy-visits").first.text.should == "567k"
+    page.all("#most-entered-policies-module .policy-visits").first.text.should == "0.57m"
 
     page.all("#most-entered-policies-module .policy-title").second.should have_link "https://www.gov.uk/six-most-entered-policy".gsub("/", "/\u200B")
 
