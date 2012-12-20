@@ -1,5 +1,4 @@
-describe("Data Insight utility functions", function () {
-
+describe("String helpers", function() {
     describe("String extensions", function () {
         it("should remove all bad characters", function () {
             var testString = "%^&&foo";
@@ -12,13 +11,13 @@ describe("Data Insight utility functions", function () {
 
             expect(testString.idify()).toBe("a-b-c-d-e");
 
-        })
+        });
 
         it("should make a lower case version", function () {
             var testString = "WARNING!";
 
             expect(testString.idify()).toBe('warning');
-        })
+        });
 
         it("should take care of german umlauts", function () {
             var testString = "Änderungs Vereinbarung"
@@ -26,6 +25,4 @@ describe("Data Insight utility functions", function () {
             expect(testString.idify()).toBe("nderungs-vereinbarung");
         });
     });
-
-
 });

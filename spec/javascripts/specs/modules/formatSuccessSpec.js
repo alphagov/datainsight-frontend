@@ -4,7 +4,7 @@ describe("format success graph", function () {
     var jsonResponse = {};
     var stubAjaxResponder = function (successFunction) {
         successFunction(jsonResponse);
-    }
+    };
 
     beforeEach(function () {
         jsonResponse = {

@@ -1,0 +1,3 @@
+describe("SVG helpers", function() {
+
+});
