@@ -12,6 +12,7 @@
 #
 src_files:
     - app/assets/javascripts/helpers.js
+    - app/assets/javascripts/helpers/*.js
     - app/assets/javascripts/**/*.js
 
 # stylesheets
