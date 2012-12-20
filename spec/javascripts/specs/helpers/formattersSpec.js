@@ -89,18 +89,15 @@ describe("Data insight formatting helpers", function () {
         });
 
         describe("generative tests", function() {
-            var createTest = function(i, expectation) {
-                    it("should correctly format " + i + " as " + expectation, createExpectation(i, expectation));
-                },
-                createTests = function(start, end, increment, format) {
-                    for (var i = start; i < end; i+=increment) {
-                        createTest(i, format(i));
-                    }
+            var createTests = function(start, end, increment, format) {
+                    it("should correctly format numbers in the range " + start + "-" + end, function() {
+                        for (var i = start; i < end; i+=increment) {
+                            createExpectation(i, format(i));
+                        }
+                    })
                 },
                 createExpectation = function(i, expectation) {
-                    return function() {
-                        expect(GOVUK.Insights.formatNumericLabel(i)).toBe(expectation);
-                    }
+                    expect(GOVUK.Insights.formatNumericLabel(i)).toBe(expectation);
                 };
 
 

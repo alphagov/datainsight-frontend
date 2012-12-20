@@ -47,69 +47,69 @@ describe NumberFormat do
     end
 
     describe "generative tests" do
-      (0...500).each do |number|
-        it "should correctly format #{number} as #{number.to_s}" do
+      it "should correctly format numbers in the range 0-20" do
+        (0...20).each do |number|
           NumberFormat.human_readable_number(number).should == number.to_s
         end
       end
 
-      (500...700).each do |number|
-        expected = "0.#{(number.to_f / 10).round}k"
-        it "should correctly format #{number} as #{expected}" do
+      it "should correctly format numbers in the range 500-600" do
+        (500...600).each do |number|
+          expected = "0.#{(number.to_f / 10).round}k"
           NumberFormat.human_readable_number(number).should == expected
         end
       end
 
-      (900...995).each do |number|
-        expected = "0.#{(number.to_f / 10).round}k"
-        it "should correctly format #{number} as #{expected}" do
+      it "should correctly format numbers in the range 980-995" do
+        (980...995).each do |number|
+          expected = "0.#{(number.to_f / 10).round}k"
           NumberFormat.human_readable_number(number).should == expected
         end
       end
 
-      (995...1000).each do |number|
-        expected = "1.#{(number.to_f / 10).round - 100}"
-        if expected.length < 4
-          expected += "0"
-        end
-        expected += "k"
-        it "should correctly format #{number} as #{expected}" do
+      it "should correctly format numbers in the range 995-1000" do
+        (995...1000).each do |number|
+          expected = "1.#{(number.to_f / 10).round - 100}"
+          if expected.length < 4
+            expected += "0"
+          end
+          expected += "k"
           NumberFormat.human_readable_number(number).should == expected
         end
       end
 
-      (1000...1200).each do |number|
-        expected = "#{sprintf("%.2f", (number.to_f / 10).round.to_f / 100)}k"
-        it "should correctly format #{number} as #{expected}" do
+      it "should correctly format numbers in the range 1000-1100" do
+        (1000...1100).each do |number|
+          expected = "#{sprintf("%.2f", (number.to_f / 10).round.to_f / 100)}k"
           NumberFormat.human_readable_number(number).should == expected
         end
       end
 
-      (50450...50500).each do |number|
-        expected = "#{sprintf("%.1f", (number.to_f / 10).round.to_f / 100)}k"
-        it "should correctly format #{number} as #{expected}" do
+      it "should correctly format numbers in the range 9400-10000" do
+        (9400...10000).step(10).each do |number|
+          expected = (number.to_f / 10).round.to_f / 100
+          expected = "#{sprintf("%.#{expected >= 10 ? 1 : 2}f", expected)}k"
           NumberFormat.human_readable_number(number).should == expected
         end
       end
 
-      (9400...10000).each do |number|
-        expected = (number.to_f / 10).round.to_f / 100
-        expected = "#{sprintf("%.#{expected >= 10 ? 1 : 2}f", expected)}k"
-        it "should correctly format #{number} as #{expected}" do
+      it "should correctly format numbers in the range 50450-50500" do
+        (50450...50500).step(10).each do |number|
+          expected = "#{sprintf("%.1f", (number.to_f / 10).round.to_f / 100)}k"
           NumberFormat.human_readable_number(number).should == expected
         end
       end
 
-      (700000...800000).step(100).each do |number|
-        expected = "#{sprintf("%.2f", (number.to_f / 10000).round.to_f / 100)} million"
-        it "should correctly format #{number} as #{expected}" do
+      it "should correctly format numbers in the range 700000-800000" do
+        (700000...800000).step(100).each do |number|
+          expected = "#{sprintf("%.2f", (number.to_f / 10000).round.to_f / 100)} million"
           NumberFormat.human_readable_number(number).should == expected
         end
       end
 
-      (999999...1999999).step(1000).each do |number|
-        expected = "#{sprintf("%.2f", (number.to_f / 10000).round.to_f / 100)} million"
-        it "should correctly format #{number} as #{expected}" do
+      it "should correctly format numbers in the range 999999-1999999" do
+        (999999...1999999).step(1000).each do |number|
+          expected = "#{sprintf("%.2f", (number.to_f / 10000).round.to_f / 100)} million"
           NumberFormat.human_readable_number(number).should == expected
         end
       end
