@@ -78,6 +78,11 @@ describe("Helpers", function () {
             var createTest = function(i, expectation) {
                     it("should correctly format " + i + " as " + expectation, createExpectation(i, expectation));
                 },
+                createTests = function(start, end, increment, format) {
+                    for (var i = start; i < end; i+=increment) {
+                        createTest(i, format(i));
+                    }
+                },
                 createExpectation = function(i, expectation) {
                     return function() {
                         expect(GOVUK.Insights.formatNumericLabel(i)).toBe(expectation);
@@ -85,63 +90,28 @@ describe("Helpers", function () {
                 };
 
 
-            var i;
-            for (i = 0; i < 500; i++) {
-                createTest(i, i.toString());
-            }
-            for (i = 500; i < 700; i++) {
-                createTest(i, "0." + Math.round(i / 10) + "k");
-            }
-            for (i = 900; i < 995; i++) {
-                createTest(i, "0." + Math.round(i / 10) + "k");
-            }
-            for (i = 995; i < 1000; i++) {
+            createTests(0,   20,   1, function(i) { return i.toString(); });
+            createTests(500, 600,  1, function(i) { return "0." + Math.round(i / 10) + "k"; });
+            createTests(980, 995,  1, function(i) { return "0." + Math.round(i / 10) + "k"; });
+            createTests(995, 1000, 1, function(i) {
                 var expected = "1." + (Math.round(i / 10) - 100);
                 if (expected.length < 4) {
                     expected += "0";
                 }
-                createTest(i, expected + "k")
-            }
-            for (i = 1000; i < 1200; i++) {
-                createTest(i, (Math.round(i / 10) / 100).toPrecision(3) + "k");
-            }
-            for (i = 50450; i < 50500; i++) {
-                createTest(i, (Math.round(i / 100) / 10).toPrecision(3) + "k");
-            }
-            for (i = 9400; i < 10000; i+=10) {
-                createTest(i, (Math.round(i / 10) / 100).toPrecision(3) + "k");
-            }
-            for (i = 10000; i < 11500; i+=10) {
-                createTest(i, (Math.round(i / 100) / 10).toPrecision(3) + "k");
-            }
-            for (i = 98500; i < 100000; i+=10) {
-                createTest(i, (Math.round(i / 100) / 10).toPrecision(3) + "k");
-            }
-            for (i = 100000; i < 101000; i+=10) {
-                createTest(i, (Math.round(i / 1000)).toPrecision(3) + "k");
-            }
-            for (i = 499000; i < 499500; i+=10) {
-                createTest(i, (Math.round(i / 1000)).toPrecision(3) + "k");
-            }
-            for (i = 499500; i < 500000; i+=10) {
-                createTest(i, (Math.round(i / 10000) / 100).toPrecision(2) + "m");
-            }
-            for (i = 504500; i < 506000; i+=100) {
-                createTest(i, (Math.round(i / 10000) / 100).toPrecision(2) + "m");
-            }
-            for (i = 700000; i < 800000; i+=100) {
-                createTest(i, (Math.round(i / 10000) / 100).toPrecision(2) + "m");
-            }
-            for (i = 994499; i < 995000; i+=100) {
-                createTest(i, (Math.round(i / 10000) / 100).toPrecision(2) + "m");
-            }
-            for (i = 995000; i < 999999; i+=100) {
-                createTest(i, (Math.round(i / 10000) / 100).toPrecision(3) + "m");
-            }
-            for (i = 999999; i < 1999999; i+=1000) {
-                createTest(i, (Math.round(i / 10000) / 100).toPrecision(3) + "m");
-            }
-
+                return expected + "k";
+            });
+            createTests(1000,   1100,    1,    function(i) { return (Math.round(i / 10) / 100).toPrecision(3) + "k"; });
+            createTests(9400,   10000,   10,   function(i) { return (Math.round(i / 10) / 100).toPrecision(3) + "k"; });
+            createTests(10000,  11500,   10,   function(i) { return (Math.round(i / 100) / 10).toPrecision(3) + "k"; });
+            createTests(50450,  50500,   10,   function(i) { return (Math.round(i / 100) / 10).toPrecision(3) + "k"; });
+            createTests(100000, 101000,  10,   function(i) { return Math.round(i / 1000).toPrecision(3) + "k"; });
+            createTests(499000, 499500,  100,  function(i) { return Math.round(i / 1000).toPrecision(3) + "k"; });
+            createTests(499500, 500000,  100,  function(i) { return (Math.round(i / 10000) / 100).toPrecision(2) + "m"; });
+            createTests(504500, 506000,  150,  function(i) { return (Math.round(i / 10000) / 100).toPrecision(2) + "m"; });
+            createTests(700000, 800000,  150,  function(i) { return (Math.round(i / 10000) / 100).toPrecision(2) + "m"; });
+            createTests(994499, 995000,  150,  function(i) { return (Math.round(i / 10000) / 100).toPrecision(2) + "m"; });
+            createTests(995000, 999999,  150,  function(i) { return (Math.round(i / 10000) / 100).toPrecision(3) + "m"; });
+            createTests(999999, 1999999, 10000, function(i) { return (Math.round(i / 10000) / 100).toPrecision(3) + "m"; });
         });
 
         describe("rounding changes", function () {
