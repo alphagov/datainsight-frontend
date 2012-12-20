@@ -62,4 +62,12 @@ describe("geometry helpers", function() {
         });
     });
 
+    describe("clamp function", function () {
+        it("should clamp a a value to a given range", function () {
+            expect(GOVUK.Insights.clamp(10,4,6)).toBe(6);
+            expect(GOVUK.Insights.clamp(1,4,6)).toBe(4);
+            expect(GOVUK.Insights.clamp(10,4,16)).toBe(10);
+        });
+
+    })
 });

@@ -51,11 +51,7 @@ GOVUK.Insights.extensions = function () {
 
 
 
-GOVUK.Insights.clamp = function (value, min, max) {
-    if (value > max) return max;
-    if (value < min) return min;
-    return value;
-};
+
 
 GOVUK.Insights.createTextShade = function(textElement) {
     var shade = document.createElementNS("http://www.w3.org/2000/svg", "text");
