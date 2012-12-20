@@ -12,8 +12,12 @@
 #
 src_files:
     - app/assets/javascripts/vendors/*.js
-    - app/assets/javascripts/helpers.js
-    - app/assets/javascripts/helpers/*.js
+    - app/assets/javascripts/helpers/formatters.js
+    - app/assets/javascripts/helpers/geometry.js
+    - app/assets/javascripts/helpers/force-positioning.js
+    - app/assets/javascripts/helpers/graph.js
+    - app/assets/javascripts/helpers/string.js
+    - app/assets/javascripts/helpers/svg.js
     - app/assets/javascripts/**/*.js
 
 # stylesheets
