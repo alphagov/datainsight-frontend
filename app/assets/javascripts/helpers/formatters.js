@@ -103,3 +103,21 @@ GOVUK.Insights.colors = function () {
 
     return HexColor;
 }();
+
+GOVUK.Insights.convertTo12HourTime = function (hour) {
+    if (hour >= 24) {
+        hour = 0;
+    }
+
+    var suffix = (hour >= 12) ? 'pm' : 'am';
+
+    if (hour > 12) {
+        hour = hour - 12;
+    };
+
+    if (hour === 0) {
+        hour = 12;
+    }
+
+    return hour + suffix;
+};
