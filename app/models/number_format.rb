@@ -14,7 +14,7 @@ class NumberFormat
       {name: :million,  value: 1_000_000},
       {name: :thousand, value: 1_000}
     ]
-    rounded_number = BigDecimal.new(number.to_f, 3).to_f
+    rounded_number = BigDecimal.new(number.to_s).mult(1, 3).to_f
 
     thresholds.each do |threshold|
       if rounded_number >= (threshold[:value] / 2)
@@ -24,7 +24,7 @@ class NumberFormat
           significant_figures = 3
           number = rounded_number
         end
-        number = BigDecimal.new(number.to_f, significant_figures).to_f / threshold[:value]
+        number = BigDecimal.new(number.to_s).mult(1, significant_figures).to_f / threshold[:value]
 
         if number < 10
           number = sprintf("%.2f", number)
