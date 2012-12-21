@@ -421,14 +421,7 @@ GOVUK.Insights.scatterplotGraph = function () {
         });
     };
 
-    // Add setters and getters for config options
-    Object.keys(config).forEach(function (key) {
-        instance[key] = function (newValue) {
-            if (!arguments.length) return config[key];
-            if (arguments.length === 1) config[key] = newValue;
-            return instance;
-        };
-    });
+    GOVUK.Insights.utils.createGettersAndSetters(config, instance);
 
     // Add function to render legend
     instance.legend = function(selection) {
