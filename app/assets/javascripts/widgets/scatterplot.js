@@ -27,6 +27,9 @@ GOVUK.Insights.scatterplotGraph = function () {
         circleLabel:function (d) {
             return d.label;
         },
+        circleId: function(d) {
+            return d.id;
+        },
         xScale:d3.scale.linear(),
         yScale:d3.scale.linear(),
         rScale:d3.scale.linear(),
@@ -186,7 +189,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return C(config.colour(d));
                 })
                 .attr("data-point-label", function (d) {
-                    return config.circleLabel(d).idify();
+                    return config.circleId(d);
                 });
 
             circles.exit().remove();
@@ -201,10 +204,10 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return config.circleLabel(d);
                 })
                 .attr("id", function (d) {
-                    return "label-" + config.circleLabel(d).idify();
+                    return "label-" + config.circleId(d);
                 })
                 .attr("data-point-label", function (d) {
-                    return config.circleLabel(d).idify();
+                    return config.circleId(d);
                 })
                 .attr("text-anchor", "start")
                 .attr("x", function (d) {

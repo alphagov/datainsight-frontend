@@ -37,7 +37,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             x:d.entries,
             y:d.percentage_of_success,
             colour:d.percentage_of_success,
-            label:getFormatName(d.format)
+            label:getFormatName(d.format),
+            id:d.format
         };
     });
 
