@@ -3,3 +3,4 @@
 //= require helpers/force-positioning
 //= require helpers/graph
 //= require helpers/svg
+//= require helpers/utils
