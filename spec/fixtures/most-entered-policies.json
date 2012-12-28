@@ -10,7 +10,7 @@
       {
         "policy": {
           "title": "Addressing climate change and protecting the environment in the developing world",
-          "department": "MOD",
+          "organisations":[{"abbreviation":"MOD", "name":"Ministry of defence"}],
           "updated_at": "2012-11-26T16:00:07+00:00",
           "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
         },
@@ -19,7 +19,7 @@
       {
         "policy": {
           "title": "Tackling corruption in international trade",
-          "department": "FCO",
+          "organisations":[{"abbreviation":"MOD", "name":"Ministry of defence"}],
           "updated_at": "2012-11-19T16:00:07+00:00",
           "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
         },
@@ -28,7 +28,7 @@
       {
         "policy": {
           "title": "Keeping young people away from crime",
-          "department": "DfE",
+          "organisations":[{"abbreviation":"MOD", "name":"Ministry of defence"}],
           "updated_at": "2012-11-23T16:00:07+00:00",
           "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
         },
@@ -37,7 +37,7 @@
       {
         "policy": {
           "title": "Promoting British interests in the European Union: a review of the Balance of Competences",
-          "department": "FCO",
+          "organisations":[{"abbreviation":"MOD", "name":"Ministry of defence"}],
           "updated_at": "2012-11-16T16:00:07+00:00",
           "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
         },
@@ -46,7 +46,7 @@
       {
         "policy": {
           "title": "Fulfilling standing commitments",
-          "department": "MOD",
+          "organisations":[{"abbreviation":"MOD", "name":"Ministry of defence"}],
           "updated_at": "2012-11-10T16:00:07+00:00",
           "web_url": "https://www.gov.uk/government/policies/developing-a-new-high-speed-rail-network"
         },
