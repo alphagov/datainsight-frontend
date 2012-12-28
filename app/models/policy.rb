@@ -3,7 +3,7 @@ class Policy
 
   def initialize(properties = {})
     @title = properties[:title]
-    @department = properties[:department]
+    @department = properties[:department] #properties[:organisations].first["abbreviation"]
     begin
       @update_date = Date.parse(properties[:updated_at])
     rescue Exception => e

@@ -81,14 +81,14 @@ describe "Most Visited Policies" do
 
     page.all("#most-entered-policies-module .policy-title").count.should == 10
 
-    page.all("#most-entered-policies-module .policy-title").first.should have_link("https://www.gov.uk/most-entered-policies".gsub("/", "/\u200B"), href: "https://www.gov.uk/most-entered-policies")
+    page.all("#most-entered-policies-module .policy-title").first.should have_link("Most entered policy", href: "https://www.gov.uk/most-entered-policies")
     page.all("#most-entered-policies-module .policy-visits").first.text.should == "0.57m"
 
-    page.all("#most-entered-policies-module .policy-title").second.should have_link "https://www.gov.uk/six-most-entered-policy".gsub("/", "/\u200B")
+    page.all("#most-entered-policies-module .policy-title").second.should have_link "Second most entered policy"
 
-    page.all("#most-entered-policies-module .policy-title")[2].should have_link "https://www.gov.uk/second-most-entered-policy".gsub("/", "/\u200B")
-    page.all("#most-entered-policies-module .policy-title")[3].should have_link "https://www.gov.uk/seven-most-entered-policy".gsub("/", "/\u200B")
-    page.all("#most-entered-policies-module .policy-title")[4].should have_link "https://www.gov.uk/three-most-entered-policy".gsub("/", "/\u200B")
+    page.all("#most-entered-policies-module .policy-title")[2].should have_link "#3 most entered policy"
+    page.all("#most-entered-policies-module .policy-title")[3].should have_link "#4 most entered policy"
+    page.all("#most-entered-policies-module .policy-title")[4].should have_link "#5 most entered policy"
   end
 
   it "should not fail if there has been an upstream error" do
