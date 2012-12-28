@@ -15,7 +15,7 @@ describe "Most Visited Policies" do
         {
             "policy" => {
                 "title" => "Most entered policy",
-                "department" => "ABC",
+                "organisations" => [{"abbreviation" => "ABC", "name" => "The A B C"}],
                 "updated_at" => "2012-11-25T16:00:07+00:00",
                 "web_url"=>"https://www.gov.uk/most-entered-policies"
             },
@@ -23,6 +23,8 @@ describe "Most Visited Policies" do
         },
         {"policy" => {
             "title" => "Second most entered policy",
+            "organisations" => "invalid",
+            "updated_at" => "invalid",
             "web_url"=>"https://www.gov.uk/second-most-entered-policy"
           }
         },
@@ -75,20 +77,25 @@ describe "Most Visited Policies" do
     page.find("#most-entered-policies-module h2").text.should == "Top policies last week"
   end
 
-  it "should show 5 most entered policies" do
+  it "should show entered policies" do
     visit "/performance/dashboard/government"
     page.status_code.should == 200
 
-    page.all("#most-entered-policies-module .policy-title").count.should == 10
+    within("#most-entered-policies-module") do
+      page.all(".policy-title").count.should == 10
 
-    page.all("#most-entered-policies-module .policy-title").first.should have_link("Most entered policy", href: "https://www.gov.uk/most-entered-policies")
-    page.all("#most-entered-policies-module .policy-visits").first.text.should == "0.57m"
+      page.all(".policy-title")[0].should have_link("Most entered policy", href: "https://www.gov.uk/most-entered-policies")
+      page.all(".policy-department")[0].text.should == "ABC"
+      page.all(".policy-update-date")[0].text.should == "25 November 2012"
+      page.all(".policy-visits")[0].text.should == "0.57m"
 
-    page.all("#most-entered-policies-module .policy-title").second.should have_link "Second most entered policy"
-
-    page.all("#most-entered-policies-module .policy-title")[2].should have_link "#3 most entered policy"
-    page.all("#most-entered-policies-module .policy-title")[3].should have_link "#4 most entered policy"
-    page.all("#most-entered-policies-module .policy-title")[4].should have_link "#5 most entered policy"
+      page.all(".policy-title")[2].should have_link "Second most entered policy"
+      # page.all(".policy-department")[2].text.should == ""
+      # page.all(".policy-update-date")[2].text.should == ""
+      page.all(".policy-title")[4].should have_link "#3 most entered policy"
+      page.all(".policy-title")[6].should have_link "#4 most entered policy"
+      page.all(".policy-title")[8].should have_link "#5 most entered policy"
+    end
   end
 
   it "should not fail if there has been an upstream error" do

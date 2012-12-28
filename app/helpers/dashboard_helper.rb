@@ -3,7 +3,7 @@ require "date"
 module DashboardHelper
 
   def render_date(date)
-    return "" if date.nil?
+    return "" unless date.kind_of? Date
     return "today" if date.to_date == Date.today
     return "yesterday" if date.to_date == Date.yesterday
     date.strftime("%d %B %Y")

@@ -3,13 +3,28 @@ class Policy
 
   def initialize(properties = {})
     @title = properties[:title]
-    @department = properties[:department] #properties[:organisations].first["abbreviation"]
-    begin
-      @update_date = Date.parse(properties[:updated_at])
-    rescue Exception => e
-      @update_date = "missing"
-      logger.info e
-    end
+    @department = get_department(properties[:organisations])
+    @update_date = get_update_date(properties[:updated_at])
     @url = properties[:web_url]
+  end
+
+  private
+
+  def get_department(organisations)
+    begin
+      organisations.first["abbreviation"] || ""
+    rescue StandardError => e
+      logger.error e
+      ""
+    end
+  end
+
+  def get_update_date(updated_at)
+    begin
+      Date.parse(updated_at)
+    rescue StandardError => e
+      logger.error e
+      "missing"
+    end
   end
 end
