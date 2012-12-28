@@ -3,7 +3,7 @@ require "date"
 module DashboardHelper
 
   def render_date(date)
-    return "" unless date.kind_of? Date
+    return "" unless date.respond_to?(:to_date) and date.respond_to?(:strftime)
     return "today" if date.to_date == Date.today
     return "yesterday" if date.to_date == Date.yesterday
     date.strftime("%d %B %Y")
