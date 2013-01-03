@@ -1,7 +1,7 @@
 <% if policy_visits.present? %>
   <th class="index"><%= index %>.</th>
   <td class="policy-title">
-    <%= link_to policy_visits.policy.title,
+    <%= link_to policy_visits.policy.title.strip,
                 policy_visits.policy.url, rel: "external", target: "_blank" %>
     <div class="policy-details small-text">
       <span class="policy-department"><%= policy_visits.policy.department %></span> - 
