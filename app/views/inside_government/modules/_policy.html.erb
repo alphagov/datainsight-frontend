@@ -4,8 +4,7 @@
     <%= link_to policy_visits.policy.title.strip,
                 policy_visits.policy.url, rel: "external", target: "_blank" %>
     <div class="policy-details small-text">
-      <span class="policy-department"><%= policy_visits.policy.department %></span> - 
-      <span class="policy-update-date">updated <%= render_date(policy_visits.policy.update_date) %></span>
+      <span class="policy-department"><%= policy_visits.policy.department %></span>
     </div>
   </td>
   <td class="policy-visits"><%= NumberFormat.short_human_readable_number(policy_visits.entries) %></td>
