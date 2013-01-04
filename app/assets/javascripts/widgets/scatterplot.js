@@ -445,6 +445,8 @@ GOVUK.Insights.scatterplotGraph = function () {
                 maxCircleRadius = R(dataForLegend.slice(-1)),
                 offset = 15;
 
+            var numberFormatter = GOVUK.Insights.numericLabelFormatterFor(d3.max(dataForLegend))
+
             var legend = d3.select(this).selectAll("svg").data([config]);
 
             legend
@@ -468,7 +470,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return 2 * R(d) - 5 + marginTop; // offset text to bottom of circles
                 })
                 .text(function(d) {
-                    return GOVUK.Insights.formatNumericLabel(d) + " " + config.xAxisLabels.description.toLowerCase();
+                    return numberFormatter(d) + " " + config.xAxisLabels.description.toLowerCase();
                 });
 
             var legendCircles = legend.selectAll("circle.legend").data(dataForLegend);
