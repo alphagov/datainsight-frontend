@@ -18,7 +18,7 @@ GOVUK.Insights.InsideGovernment.formatSuccess = function(RAW_DATA) {
                 y:d.percentage_of_success,
                 colour:d.percentage_of_success,
                 label:getFormatName(d.format),
-                id:d.format
+                id:d.format.replace(/\s/g, "-")
             };
         });
 
