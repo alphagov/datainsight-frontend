@@ -135,14 +135,20 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .data(annotationData);
 
             annotations.enter()
-                .append("svg:rect")
+                .append("svg:g")
                 .attr("class", "annotation")
-                .attr("width", 50)
-                .attr("height", 70)
-                .style("color", "blue")
-                .style("fill", "red")
-                .attr("x", function(d) { return xScale(d.x) - (d3.select(this).attr("width") / 2); })
-                .attr("y", function(d) { return yScale(d.y) - d3.select(this).attr("height"); });
+                .attr("transform",
+                function (d) {
+                    var shiftAnnotationMarkALittleUp = 0;
+                    var x = xScale(d.x) - (40 / 2);
+                    var y = yScale(d.y) - 40 - shiftAnnotationMarkALittleUp;
+                    return "translate(" + x + ", " + y + ")";
+                    }
+                )
+                .append("svg:path")
+                    .attr("d", "M20,40L10,30C5,25 5,15 10,10C15,5 25,5 30,10C35,15 35,25 30,30Z")
+                    .attr("stroke", "black")
+                    .attr("fill", "none");
 
             var currentCallout = null;
 
