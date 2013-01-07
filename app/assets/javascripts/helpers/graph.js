@@ -30,3 +30,26 @@ GOVUK.Insights.calculateLinearTicks = function(extent, minimumTickCount) {
         step:step
     };
 };
+
+GOVUK.Insights.findDateRangeContaining = function (datePoints, date) {
+    for (var i = 0; i < datePoints.length; i++) {
+        if (date > datePoints[i] && date < datePoints[i + 1]) {
+            return [datePoints[i], datePoints[i + 1]];
+        }
+    }
+    throw new Error("Date `" + date + "` is not within a range.");
+};
+
+GOVUK.Insights.findY = function (data, x) {
+    var xToY = {};
+    data.forEach(function (d) {
+       xToY[d.x] = d.y;
+    });
+    return xToY[x];
+};
+
+GOVUK.Insights.interpolateY = function (dataPoints, dateRange) {
+    var startY = GOVUK.Insights.findY(dataPoints, dateRange[0]);
+    var endY = GOVUK.Insights.findY(dataPoints, dateRange[1]);
+    return startY + ((endY - startY) / GOVUK.Insights.numberOfDaysBetween(dateRange[0], dateRange[1]));
+};

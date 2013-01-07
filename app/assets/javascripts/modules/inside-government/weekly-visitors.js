@@ -33,7 +33,8 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData) {
     d3.select('#inside-gov-weekly-visitors')
         .datum(weeklyVisitorsData.details.data)
         .call(weeklyVisitors);
-}
+
+};
 
 $(function() {
     $.ajax({

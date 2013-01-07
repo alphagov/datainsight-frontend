@@ -44,4 +44,48 @@ describe("Helpers", function () {
                 .toThrow(new Error("Upper bound must be larger than lower."));
         });
     });
+
+    describe("findDateRangeContaining", function () {
+        var dates = [new Date(2012, 1, 1), new Date(2012, 1, 8), new Date(2012, 1, 15), new Date(2012, 1, 22)];
+
+        it("should find a date within the first range", function() {
+            var dateRange = GOVUK.Insights.findDateRangeContaining(dates, new Date(2012, 1, 3));
+            expect(dateRange[0]).toEqual(new Date(2012, 1, 1));
+            expect(dateRange[1]).toEqual(new Date(2012, 1, 8));
+        });
+
+        it("should find a date within the last range", function() {
+            var dateRange = GOVUK.Insights.findDateRangeContaining(dates, new Date(2012, 1, 18));
+            expect(dateRange[0]).toEqual(new Date(2012, 1, 15));
+            expect(dateRange[1]).toEqual(new Date(2012, 1, 22));
+        });
+
+        it("should fail with a reasonable error if a date is not within range (before the first date)", function() {
+            expect(function() { GOVUK.Insights.findDateRangeContaining(dates, new Date(2011, 12, 1))})
+                .toThrow(new Error("Date `Sun Jan 01 2012 00:00:00 GMT+0000 (GMT)` is not within a range."));
+        });
+
+        it("should fail with a reasonable error if a date is not within range (after the last date)", function() {
+            expect(function() { GOVUK.Insights.findDateRangeContaining(dates, new Date(2012, 2, 1))})
+                .toThrow(new Error("Date `Thu Mar 01 2012 00:00:00 GMT+0000 (GMT)` is not within a range."));
+        });
+    });
+
+    describe("findY", function () {
+        it("should find a value in a simple one element array", function () {
+            var y = GOVUK.Insights.findY([{x: 0, y: 0}], 0);
+
+            expect(y).toEqual(0);
+        });
+
+        it("should find a value in a two element element array", function () {
+            var y = GOVUK.Insights.findY([{x: 0, y: 0}, {x: 1, y: 1}], 1);
+
+            expect(y).toEqual(1);
+        });
+    });
+
+    describe("interpolateY", function () {
+        it("sho")
+    });
 });

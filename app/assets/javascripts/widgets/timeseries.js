@@ -122,6 +122,28 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 plottingArea.select("#dataPointHighlight").remove();
             }
 
+            var annotationData = [];
+
+            annotationData = annotationData.map(function (each) {
+                var dataPoints = data.map(function (d) { return {x: config.x(d), y: config.y(d)} });
+                var dateRange = GOVUK.Insights.findDateRangeContaining(data.map(config.x), each.date);
+                var y = GOVUK.Insights.interpolateY(dataPoints, dateRange);
+                return {x: each.date, y: y};
+            });
+
+            var annotations = svg.selectAll("rect.annotation")
+                .data(annotationData);
+
+            annotations.enter()
+                .append("svg:rect")
+                .attr("class", "annotation")
+                .attr("width", 50)
+                .attr("height", 70)
+                .style("color", "blue")
+                .style("fill", "red")
+                .attr("x", function(d) { return xScale(d.x) - (d3.select(this).attr("width") / 2); })
+                .attr("y", function(d) { return yScale(d.y) - d3.select(this).attr("height"); });
+
             var currentCallout = null;
 
             function removeCallout() {
@@ -131,6 +153,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
             }
 
             svg.append("svg:rect")
+                .attr("class", "callout-area")
                 .attr("width", config.width)
                 .attr("height", config.height)
                 .on("mousemove", function () {
