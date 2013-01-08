@@ -26,6 +26,7 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData) {
         .xAxisLabelFormat(labelDateFormat)
         .x(function(d) { return seriesDateFormat.parse(d.end_at); })
         .y(function(d) { return d.value; })
+        .annotations(weeklyVisitorsData.details.annotations || [])
         .callout({
             content: calloutContent
         });

@@ -15,6 +15,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
         xAxisLabelFormat: d3.time.format("%e %b"),
         x: function(d) { return d.x; },
         y: function(d) { return d.y; },
+        annotations: [],
         callout: {
             width: 165,
             height: 48,
@@ -60,7 +61,6 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .attr("transform", function (d) {
                     return "translate(" + d.marginLeft + "," + d.marginTop + ")";
                 });
-
 
             var minX = min(data.map(config.x));
             var maxX = max(data.map(config.x));
@@ -122,13 +122,12 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 plottingArea.select("#dataPointHighlight").remove();
             }
 
-            var annotationData = [];
-
-            annotationData = annotationData.map(function (each) {
+            var annotationData = config.annotations.map(function (each) {
+                var date = d3.time.format("%Y-%m-%d").parse(each.date);
                 var dataPoints = data.map(function (d) { return {x: config.x(d), y: config.y(d)} });
-                var dateRange = GOVUK.Insights.findDateRangeContaining(data.map(config.x), each.date);
+                var dateRange = GOVUK.Insights.findDateRangeContaining(data.map(config.x), date);
                 var y = GOVUK.Insights.interpolateY(dataPoints, dateRange);
-                return {x: each.date, y: y};
+                return {x: date, y: y};
             });
 
             var annotations = svg.selectAll("rect.annotation")
