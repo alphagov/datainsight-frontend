@@ -145,15 +145,13 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .append("svg:g")
                 .attr("class", "annotation")
                 .attr("transform", function (d) {
-                    var distanceFromLine = 10;
-                    var annotationMarkerWidth = 40;
-                    var annotationMarkerHeight = 40;
-                    var x = d.x - (annotationMarkerWidth / 2);
-                    var y = d.y - annotationMarkerHeight - distanceFromLine;
+                    var verticalOffset = -10;
+                    var x = d.x;
+                    var y = d.y + verticalOffset;
                     return "translate(" + x + ", " + y + ")";
                 })
                 .append("svg:path")
-                    .attr("d", "M20,40L10,30C5,25 5,15 10,10C15,5 25,5 30,10C35,15 35,25 30,30Z")
+                    .attr("d", "M0,0 L-10,-10 C-15,-15 -15,-25 -10,-30 C-5,-35 5,-35 10,-30 C15,-25 15,-15 10,-10 Z")
                     .attr("stroke", "black")
                     .style("fill", "silver  ");
 
