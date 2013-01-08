@@ -29,6 +29,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
     var X_AXIS_GAP = 3;
     var X_AXIS_HEIGHT = 22;
     var Y_AXIS_WIDTH = 45;
+    var ANNOTATION_VERTICAL_OFFSET = -10;
 
     var min = function(array) { return array.reduce(function(a,b) { return a < b ? a : b; } ); };
     var max = function(array) { return array.reduce(function(a,b) { return a > b ? a : b; } ); };
@@ -145,10 +146,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .append("svg:g")
                 .attr("class", "annotation")
                 .attr("transform", function (d) {
-                    var verticalOffset = -10;
-                    var x = d.x;
-                    var y = d.y + verticalOffset;
-                    return "translate(" + x + ", " + y + ")";
+                    return GOVUK.Insights.translate(d.x, d.y + ANNOTATION_VERTICAL_OFFSET);
                 });
 
             annotationMarker.append("svg:path")

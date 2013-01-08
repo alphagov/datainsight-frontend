@@ -21,3 +21,7 @@ GOVUK.Insights.createTextShade = function(textElement) {
         .attr("stroke-width", 2);
     textElement.parentNode.insertBefore(shade, textElement);
 };
+
+GOVUK.Insights.translate = function(x, y) {
+    return "translate(" + x + "," + y + ")";
+}
