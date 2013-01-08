@@ -138,17 +138,18 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 return {x: config.xScale(date), y: y, text: each.text, date: each.date};
             });
 
-            var annotations = svg.selectAll("rect.annotation")
+            var annotations = graphArea.selectAll("rect.annotation")
                 .data(annotationData);
 
             annotations.enter()
                 .append("svg:g")
                 .attr("class", "annotation")
                 .attr("transform", function (d) {
+                    var distanceFromLine = 10;
                     var annotationMarkerWidth = 40;
                     var annotationMarkerHeight = 40;
                     var x = d.x - (annotationMarkerWidth / 2);
-                    var y = d.y - annotationMarkerHeight;
+                    var y = d.y - annotationMarkerHeight - distanceFromLine;
                     return "translate(" + x + ", " + y + ")";
                 })
                 .append("svg:path")
