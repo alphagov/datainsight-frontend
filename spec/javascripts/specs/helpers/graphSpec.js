@@ -90,6 +90,12 @@ describe("Helpers", function () {
     });
 
     describe("interpolateY", function () {
-        it("sho")
+        it("should return the y coordinate for a given x included between two known points", function () {
+           expect(GOVUK.Insights.interpolateY(5, {x: 0, y: 0}, {x: 10, y: 10})).toEqual(5);
+           expect(GOVUK.Insights.interpolateY(5, {x: 0, y: 0}, {x: 10, y: 0})).toEqual(0);
+           expect(GOVUK.Insights.interpolateY(12, {x: 10, y: 10}, {x: 20, y: 15})).toEqual(11);
+           expect(GOVUK.Insights.interpolateY(15, {x: 10, y: 10}, {x: 20, y: 15})).toEqual(12.5);
+           expect(GOVUK.Insights.interpolateY(15, {x: 20, y: 20}, {x: 10, y: 10})).toEqual(15);
+        });
     });
 });

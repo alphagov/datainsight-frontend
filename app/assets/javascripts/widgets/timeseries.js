@@ -126,8 +126,16 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 var date = d3.time.format("%Y-%m-%d").parse(each.date);
                 var dataPoints = data.map(function (d) { return {x: config.x(d), y: config.y(d)} });
                 var dateRange = GOVUK.Insights.findDateRangeContaining(data.map(config.x), date);
-                var y = GOVUK.Insights.interpolateY(dataPoints, dateRange);
-                return {x: date, y: y};
+
+                var referencePoints = dateRange.map(function (d) {
+                    return {
+                        x: config.xScale(d),
+                        y: config.yScale(GOVUK.Insights.findY(dataPoints, d))
+                    }
+                });
+                var y = GOVUK.Insights.interpolateY(config.xScale(date), referencePoints[0], referencePoints[1]);
+
+                return {x: config.xScale(date), y: y};
             });
 
             var annotations = svg.selectAll("rect.annotation")
@@ -138,9 +146,10 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .attr("class", "annotation")
                 .attr("transform",
                 function (d) {
-                    var shiftAnnotationMarkALittleUp = 0;
-                    var x = xScale(d.x) - (40 / 2);
-                    var y = yScale(d.y) - 40 - shiftAnnotationMarkALittleUp;
+                    var annotationMarkerWidth = 40;
+                    var annotationMarkerHeight = 40;
+                    var x = d.x - (annotationMarkerWidth / 2);
+                    var y = d.y - annotationMarkerHeight;
                     return "translate(" + x + ", " + y + ")";
                     }
                 )

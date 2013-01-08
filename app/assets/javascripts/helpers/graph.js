@@ -48,8 +48,6 @@ GOVUK.Insights.findY = function (data, x) {
     return xToY[x];
 };
 
-GOVUK.Insights.interpolateY = function (dataPoints, dateRange) {
-    var startY = GOVUK.Insights.findY(dataPoints, dateRange[0]);
-    var endY = GOVUK.Insights.findY(dataPoints, dateRange[1]);
-    return startY + ((endY - startY) / GOVUK.Insights.numberOfDaysBetween(dateRange[0], dateRange[1]));
+GOVUK.Insights.interpolateY = function (x, point1, point2) {
+    return (point2.y - point1.y) / (point2.x - point1.x) * (x - point1.x) + point1.y;
 };
