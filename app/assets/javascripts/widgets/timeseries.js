@@ -141,7 +141,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
             var annotations = graphArea.selectAll("rect.annotation")
                 .data(annotationData);
 
-            annotations.enter()
+            var annotationMarker = annotations.enter()
                 .append("svg:g")
                 .attr("class", "annotation")
                 .attr("transform", function (d) {
@@ -149,11 +149,24 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     var x = d.x;
                     var y = d.y + verticalOffset;
                     return "translate(" + x + ", " + y + ")";
-                })
-                .append("svg:path")
-                    .attr("d", "M0,0 L-10,-10 C-15,-15 -15,-25 -10,-30 C-5,-35 5,-35 10,-30 C15,-25 15,-15 10,-10 Z")
-                    .attr("stroke", "black")
-                    .style("fill", "silver  ");
+                });
+
+            annotationMarker.append("svg:path")
+                .attr("d", "M0,0 L-10,-10 C-15,-15 -15,-25 -10,-30 C-5,-35 5,-35 10,-30 C15,-25 15,-15 10,-10 Z")
+                .attr("stroke", "none")
+                .style("fill", "silver  ");
+            annotationMarker.append("svg:line")
+                .attr("x1", -8).attr("y1", -24)
+                .attr("x2",  8).attr("y2", -24)
+                .attr("stroke", "black");
+            annotationMarker.append("svg:line")
+                .attr("x1", -8).attr("y1", -19)
+                .attr("x2",  4).attr("y2", -19)
+                .attr("stroke", "black");
+            annotationMarker.append("svg:line")
+                .attr("x1", -8).attr("y1", -14)
+                .attr("x2",  6).attr("y2", -14)
+                .attr("stroke", "black");
 
             var currentCallout = null;
 
