@@ -61,13 +61,17 @@ describe("Helpers", function () {
         });
 
         it("should fail with a reasonable error if a date is not within range (before the first date)", function() {
-            expect(function() { GOVUK.Insights.findDateRangeContaining(dates, new Date(2011, 12, 1))})
-                .toThrow(new Error("Date `Sun Jan 01 2012 00:00:00 GMT+0000 (GMT)` is not within a range."));
+            var date = new Date(2011, 12, 1);
+            expect(function() {
+                GOVUK.Insights.findDateRangeContaining(dates, date)})
+                    .toThrow(new Error("Date `" + date + "` is not within a range."));
         });
 
         it("should fail with a reasonable error if a date is not within range (after the last date)", function() {
-            expect(function() { GOVUK.Insights.findDateRangeContaining(dates, new Date(2012, 2, 1))})
-                .toThrow(new Error("Date `Thu Mar 01 2012 00:00:00 GMT+0000 (GMT)` is not within a range."));
+            var date = new Date(2012, 2, 1);
+            expect(function() {
+                GOVUK.Insights.findDateRangeContaining(dates, date)})
+                    .toThrow(new Error("Date `" + date + "` is not within a range."));
         });
     });
 
