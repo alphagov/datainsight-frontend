@@ -152,21 +152,16 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 });
 
             annotationMarker.append("svg:path")
-                .attr("d", "M0,0 L-10,-10 C-15,-15 -15,-25 -10,-30 C-5,-35 5,-35 10,-30 C15,-25 15,-15 10,-10 Z")
-                .attr("stroke", "none")
-                .style("fill", "silver  ");
+                .attr("d", "M0,0 L-10,-10 C-15,-15 -15,-25 -10,-30 C-5,-35 5,-35 10,-30 C15,-25 15,-15 10,-10 Z");
             annotationMarker.append("svg:line")
                 .attr("x1", -8).attr("y1", -24)
-                .attr("x2",  8).attr("y2", -24)
-                .attr("stroke", "black");
+                .attr("x2",  8).attr("y2", -24);
             annotationMarker.append("svg:line")
                 .attr("x1", -8).attr("y1", -19)
-                .attr("x2",  4).attr("y2", -19)
-                .attr("stroke", "black");
+                .attr("x2",  4).attr("y2", -19);
             annotationMarker.append("svg:line")
                 .attr("x1", -8).attr("y1", -14)
-                .attr("x2",  6).attr("y2", -14)
-                .attr("stroke", "black");
+                .attr("x2",  6).attr("y2", -14);
 
             var currentCallout = null;
 

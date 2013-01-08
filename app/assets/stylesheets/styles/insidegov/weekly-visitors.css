@@ -17,3 +17,13 @@
 #inside-gov-weekly-visitors .plotting-area .shade {
     fill: #D7EFF3;
 }
+
+#inside-gov-weekly-visitors .annotation path {
+    fill: #DEE0E2;
+}
+
+#inside-gov-weekly-visitors .annotation line {
+    stroke: #0B0C0C;
+    stroke-width: 2.5px;
+    stroke-linecap: round;
+}
