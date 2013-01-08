@@ -60,6 +60,13 @@ describe("Helpers", function () {
             expect(dateRange[1]).toEqual(new Date(2012, 1, 22));
         });
 
+        it("should find a date that's one of the dates defining a date range", function() {
+            var dateRange = GOVUK.Insights.findDateRangeContaining(dates, new Date(2012, 1, 8));
+            expect(dateRange[0]).toEqual(new Date(2012, 1, 8));
+            expect(dateRange[1]).toEqual(new Date(2012, 1, 15));
+        });
+
+
         it("should fail with a reasonable error if a date is not within range (before the first date)", function() {
             var date = new Date(2011, 12, 1);
             expect(function() {

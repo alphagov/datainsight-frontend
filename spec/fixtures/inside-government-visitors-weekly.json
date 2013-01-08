@@ -1,58 +1,99 @@
-{"response_info":{
-  "status":"ok"
-}, "id":"/visitors/weekly", "web_url":"", "details":{
-  "source":["Google Analytics"],
-  "data":[
-    {
-      "start_at":"2012-10-07",
-      "end_at":"2012-10-13",
-      "value":546
+{
+    "response_info":{
+        "status":"ok"
     },
-    {
-      "start_at":"2012-10-14",
-      "end_at":"2012-10-20",
-      "value":2115
+    "id":"/visitors/weekly",
+    "web_url":"",
+    "details":{
+        "source":["Google Analytics"],
+        "data":[
+            {
+                "start_at":"2012-10-14",
+                "end_at":"2012-10-20",
+                "value":2115
+            },
+            {
+                "start_at":"2012-10-21",
+                "end_at":"2012-10-27",
+                "value":1461
+            },
+            {
+                "start_at":"2012-10-28",
+                "end_at":"2012-11-03",
+                "value":1135
+            },
+            {
+                "start_at":"2012-11-04",
+                "end_at":"2012-11-10",
+                "value":1350
+            },
+            {
+                "start_at":"2012-11-11",
+                "end_at":"2012-11-17",
+                "value":63679
+            },
+            {
+                "start_at":"2012-11-18",
+                "end_at":"2012-11-24",
+                "value":133767
+            },
+            {
+                "start_at":"2012-11-25",
+                "end_at":"2012-12-01",
+                "value":123743
+            },
+            {
+                "start_at":"2012-12-02",
+                "end_at":"2012-12-08",
+                "value":118119
+            },
+            {
+                "start_at":"2012-12-09",
+                "end_at":"2012-12-15",
+                "value":181739
+            },
+            {
+                "start_at":"2012-12-16",
+                "end_at":"2012-12-22",
+                "value":246417
+            },
+            {
+                "start_at":"2012-12-23",
+                "end_at":"2012-12-29",
+                "value":112822
+            },
+            {
+                "start_at":"2012-12-30",
+                "end_at":"2013-01-05",
+                "value":204039
+            }
+        ],
+        "annotations":[
+            {
+                "date":"2012-10-20",
+                "text":"Something happened.."
+            },
+            {
+                "date":"2012-11-10",
+                "text":"Something happened.."
+            },
+            {
+                "date":"2012-11-30",
+                "text":"Something happened.."
+            },
+            {
+                "date":"2012-12-10",
+                "text":"Something else happened.."
+            },
+            {
+                "date":"2012-12-21",
+                "text":"The end of the world"
+            },
+            {
+                "date":"2012-12-25",
+                "text":"Merry Christmas!"
+            }
+        ]
     },
-    {
-      "start_at":"2012-10-21",
-      "end_at":"2012-10-27",
-      "value":1461
-    },
-    {
-      "start_at":"2012-10-28",
-      "end_at":"2012-11-03",
-      "value":1135
-    },
-    {
-      "start_at":"2012-11-04",
-      "end_at":"2012-11-10",
-      "value":1350
-    },
-    {
-      "start_at":"2012-11-11",
-      "end_at":"2012-11-17",
-      "value":63679
-    },
-    {
-      "start_at":"2012-11-18",
-      "end_at":"2012-11-24",
-      "value":133767
-    },
-    {
-      "start_at":"2012-11-25",
-      "end_at":"2012-12-01",
-      "value":123743
-    }
-  ],
-  "annotations": [
-      {
-          "date":"2012-10-29"
-      },
-      {
-          "date":"2012-11-15"
-      },
-      {
-          "date":"2012-11-20"
-      }
-  ]
-}, "updated_at":"2012-12-06T16:33:36+00:00"}
+    "updated_at":"2012-12-06T16:33:36+00:00"
+}

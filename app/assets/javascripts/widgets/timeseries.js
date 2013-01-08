@@ -135,7 +135,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 });
                 var y = GOVUK.Insights.interpolateY(config.xScale(date), referencePoints[0], referencePoints[1]);
 
-                return {x: config.xScale(date), y: y};
+                return {x: config.xScale(date), y: y, text: each.text, date: each.date};
             });
 
             var annotations = svg.selectAll("rect.annotation")
@@ -144,19 +144,17 @@ GOVUK.Insights.timeSeriesGraph = function () {
             annotations.enter()
                 .append("svg:g")
                 .attr("class", "annotation")
-                .attr("transform",
-                function (d) {
+                .attr("transform", function (d) {
                     var annotationMarkerWidth = 40;
                     var annotationMarkerHeight = 40;
                     var x = d.x - (annotationMarkerWidth / 2);
                     var y = d.y - annotationMarkerHeight;
                     return "translate(" + x + ", " + y + ")";
-                    }
-                )
+                })
                 .append("svg:path")
                     .attr("d", "M20,40L10,30C5,25 5,15 10,10C15,5 25,5 30,10C35,15 35,25 30,30Z")
                     .attr("stroke", "black")
-                    .attr("fill", "none");
+                    .style("fill", "silver  ");
 
             var currentCallout = null;
 
@@ -166,57 +164,107 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 }
             }
 
+            function annotationCalloutInfo(hoveredAnnotation) {
+                var annotation = hoveredAnnotation.datum();
+
+                var labelDateFormat = d3.time.format("%d %B %Y");
+
+                var title = labelDateFormat(d3.time.format("%Y-%m-%d").parse(annotation.date));
+                var rowData = [
+                    {
+                        right:"",
+                        left:annotation.text
+                    }
+                ];
+
+                // show callout
+                var boxWidth = config.callout.width || 165,
+                    boxHeight = config.callout.height || 48,
+                    xOffset = -20,
+                    yOffset = 15,
+                    xPositionLeftLimit = Y_AXIS_WIDTH + config.marginLeft,
+                    xPositionRightCandidate = annotation.x + config.marginLeft + xOffset,
+                    xPositionLeftCandidate = annotation.x + config.marginLeft - xOffset - boxWidth,
+                    yPositionAboveCandidate = annotation.y + config.marginTop - yOffset - boxHeight;
+
+                var calloutInfo = {
+                    xPos:(xPositionLeftCandidate < xPositionLeftLimit ? xPositionRightCandidate : xPositionLeftCandidate),
+                    yPos:yPositionAboveCandidate,
+                    width:boxWidth,
+                    height:boxHeight,
+                    parent:"#" + container.attr("id"),
+                    content:GOVUK.Insights.overlay.calloutContent(title, rowData)
+                };
+
+                return calloutInfo;
+            }
+
+            function seriesCalloutInfo(highlightedPointX, highlightedPointY, highlightedDatum) {
+                // show callout
+                var boxWidth = config.callout.width || 165,
+                    boxHeight = config.callout.height || 48,
+                    xOffset = config.callout.xOffset || 15,
+                    yOffset = config.callout.yOffset || 15,
+                    xPositionLeftLimit = Y_AXIS_WIDTH + config.marginLeft,
+                    xPositionLeftCandidate = highlightedPointX + config.marginLeft - xOffset - boxWidth,
+                    xPositionRightCandidate = highlightedPointX + config.marginLeft + xOffset,
+                    yPositionTopLimit = config.marginTop,
+                    yPositionAboveCandidate = highlightedPointY + config.marginTop - yOffset - boxHeight,
+                    yPositionBelowCandidate = highlightedPointY + config.marginTop + yOffset;
+
+                var calloutInfo = {
+                    xPos:(xPositionLeftCandidate < xPositionLeftLimit ? xPositionRightCandidate : xPositionLeftCandidate),
+                    yPos:(yPositionAboveCandidate < yPositionTopLimit ? yPositionBelowCandidate : yPositionAboveCandidate),
+                    width:boxWidth,
+                    height:boxHeight,
+                    parent:"#" + container.attr("id"),
+                    content:config.callout.content(highlightedDatum)
+                };
+                return calloutInfo;
+            }
+
             svg.append("svg:rect")
                 .attr("class", "callout-area")
                 .attr("width", config.width)
                 .attr("height", config.height)
                 .on("mousemove", function () {
-                    var mouse = d3.mouse(this);
-                    var mouseX = mouse[0];
-
-                    var mouseDistanceFrom = function(d) { return Math.abs(xScale(config.x(d)) - mouseX); };
-
-                    var highlightedDatum = data.reduce(function(d1, d2) { return mouseDistanceFrom(d1) < mouseDistanceFrom(d2) ? d1 : d2; });
-
-                    var highlightedPointX = xScale(config.x(highlightedDatum));
-                    var highlightedPointY = yScale(config.y(highlightedDatum));
-
                     removeHighlight();
-
-                    plottingArea.select(".line")
-                        .classed("highlighted", true);
-                    plottingArea.insert("svg:circle", "rect")
-                        .attr("cx", highlightedPointX)
-                        .attr("cy", highlightedPointY)
-                        .attr("r", 3.5)
-                        .attr("id", "dataPointHighlight")
-                        .classed("highlighted", true);
-
                     removeCallout();
 
-                    // show callout
-                    var boxWidth  = config.callout.width || 165,
-                        boxHeight = config.callout.height || 48,
-                        xOffset   = config.callout.xOffset || 15,
-                        yOffset   = config.callout.yOffset || 15,
-                        xPositionLeftLimit = Y_AXIS_WIDTH + config.marginLeft,
-                        xPositionLeftCandidate  = highlightedPointX + config.marginLeft - xOffset - boxWidth,
-                        xPositionRightCandidate = highlightedPointX + config.marginLeft + xOffset,
-                        yPositionTopLimit = config.marginTop,
-                        yPositionAboveCandidate = highlightedPointY + config.marginTop - yOffset - boxHeight,
-                        yPositionBelowCandidate = highlightedPointY + config.marginTop + yOffset,
-                        calloutInfo = {
-                            xPos:(xPositionLeftCandidate < xPositionLeftLimit ? xPositionRightCandidate : xPositionLeftCandidate),
-                            yPos:(yPositionAboveCandidate < yPositionTopLimit ? yPositionBelowCandidate : yPositionAboveCandidate),
-                            width:boxWidth,
-                            height:boxHeight,
-                            parent:"#" + container.attr("id"),
-                            content: config.callout.content(highlightedDatum)
-                        };
+                    var calloutInfo;
+                    var hoveredAnnotation = d3.selectAll(".annotation")
+                        .filter(function() { return !mouseOutside(this) });
+
+                    if (!hoveredAnnotation.empty()) {
+                        calloutInfo = annotationCalloutInfo(hoveredAnnotation);
+                    } else {
+                        var mouse = d3.mouse(this);
+                        var mouseX = mouse[0];
+
+                        var mouseDistanceFrom = function(d) { return Math.abs(xScale(config.x(d)) - mouseX); };
+
+                        var highlightedDatum = data.reduce(function(d1, d2) { return mouseDistanceFrom(d1) < mouseDistanceFrom(d2) ? d1 : d2; });
+
+                        var highlightedPointX = xScale(config.x(highlightedDatum));
+                        var highlightedPointY = yScale(config.y(highlightedDatum));
+
+
+                        plottingArea.select(".line")
+                            .classed("highlighted", true);
+                        plottingArea.insert("svg:circle", "rect")
+                            .attr("cx", highlightedPointX)
+                            .attr("cy", highlightedPointY)
+                            .attr("r", 3.5)
+                            .attr("id", "dataPointHighlight")
+                            .classed("highlighted", true);
+
+                        calloutInfo = seriesCalloutInfo(highlightedPointX, highlightedPointY, highlightedDatum);
+                    }
 
                     currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
                 })
                 .on("mouseout", function() {
+                    console.log("mouseout")
                     if (mouseOutside(this)) {
                         removeHighlight();
                         removeCallout();
