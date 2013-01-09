@@ -219,6 +219,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             var currentSelectedSeries;
              
             plottingArea.append("svg:rect")
+                .attr("class", "callout-area")
                 .attr("x", 0)
                 .attr("y", 0)
                 .attr("width", plottingAreaWidth)
