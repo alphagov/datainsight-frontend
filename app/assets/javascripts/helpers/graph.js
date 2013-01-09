@@ -32,8 +32,8 @@ GOVUK.Insights.calculateLinearTicks = function(extent, minimumTickCount) {
 };
 
 GOVUK.Insights.findDateRangeContaining = function (datePoints, date) {
-    for (var i = 0; i < datePoints.length; i++) {
-        if (date >= datePoints[i] && date < datePoints[i + 1]) {
+    for (var i = datePoints.length - 2; i >= 0; --i) {
+        if (date >= datePoints[i] && date <= datePoints[i + 1]) {
             return [datePoints[i], datePoints[i + 1]];
         }
     }

@@ -66,6 +66,12 @@ describe("Helpers", function () {
             expect(dateRange[1]).toEqual(new Date(2012, 1, 15));
         });
 
+        it("should find the last date within the last range", function() {
+            var dateRange = GOVUK.Insights.findDateRangeContaining(dates, new Date(2012, 1, 22));
+            expect(dateRange[0]).toEqual(new Date(2012, 1, 15));
+            expect(dateRange[1]).toEqual(new Date(2012, 1, 22));
+        });
+
 
         it("should fail with a reasonable error if a date is not within range (before the first date)", function() {
             var date = new Date(2011, 12, 1);
