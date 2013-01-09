@@ -33,10 +33,8 @@ GOVUK.Insights.overlay = function () {
             }
             setGeometryCss();
 
-            if (boxInfo.closeDelay > 0) {
-                element.on('mouseover', this.cancelClose);
-                element.on('mouseout', this.close);
-            }
+            element.on('mouseover', this.cancelClose);
+            element.on('mouseout', this.close);
 
             element.append(content);
 
