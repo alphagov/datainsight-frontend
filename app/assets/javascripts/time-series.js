@@ -213,7 +213,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             for (var i = 0; i < seriesLastValue.length; ++i) {
                 createTextLabel(seriesLastValue[i]);
             }
-            plottingArea.selectAll('text').each(function () { GOVUK.Insights.createTextShade(this) });
+            plottingArea.selectAll('text').each(function () { GOVUK.Insights.svg.createTextShade(this) });
 
             var currentCallout = null;
             var currentSelectedSeries;

@@ -1,12 +1,13 @@
 var GOVUK = GOVUK || {};
 GOVUK.Insights = GOVUK.Insights || {};
+GOVUK.Insights.svg = GOVUK.Insights.svg || {};
 
 // Source: http://stackoverflow.com/questions/654112/how-do-you-detect-support-for-vml-or-svg-in-a-browser
 GOVUK.isSvgSupported = function () {
     return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 };
 
-GOVUK.Insights.createTextShade = function(textElement) {
+GOVUK.Insights.svg.createTextShade = function(textElement) {
     var shade = document.createElementNS("http://www.w3.org/2000/svg", "text");
     var text = d3.select(textElement);
     d3.select(shade)
@@ -22,6 +23,27 @@ GOVUK.Insights.createTextShade = function(textElement) {
     textElement.parentNode.insertBefore(shade, textElement);
 };
 
-GOVUK.Insights.translate = function(x, y) {
+GOVUK.Insights.svg.createShadowFilter = function(filterId, svgElement) {
+    var svg = d3.select(svgElement);
+    var defs = svg.select("defs");
+
+    if (defs.empty()) {
+        defs = svg.append("svg:defs");
+    }
+
+    var filter = defs.append("filter")
+        .attr("id", filterId)
+        .attr("height", "130%");
+
+    filter.append("feGaussianBlur")
+        .attr("in", "SourceAlpha")
+        .attr("stdDeviation", "2");
+
+    var feMerge = filter.append("feMerge");
+    feMerge.append("feMergeNode");
+    feMerge.append("feMergeNode").attr("in", "SourceGraphic");
+}
+
+GOVUK.Insights.svg.translate = function(x, y) {
     return "translate(" + x + "," + y + ")";
 }

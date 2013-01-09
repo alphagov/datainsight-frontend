@@ -35,7 +35,7 @@ GOVUK.Insights.InsideGovernment.formatSuccess = function(RAW_DATA) {
             .datum(data)
             .call(formatSuccess.legend);
         GOVUK.Insights.forcePosition.apply("#inside-gov-format-success");
-        d3.select("#format-success-module").selectAll('text').each(function () { GOVUK.Insights.createTextShade(this) });
+        d3.select("#format-success-module").selectAll('text').each(function () { GOVUK.Insights.svg.createTextShade(this) });
 };
 
 $(function () {

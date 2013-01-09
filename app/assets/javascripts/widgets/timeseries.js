@@ -54,6 +54,8 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .attr("width", function (d) { return d.width; })
                 .attr("height", function (d) { return d.height; });
 
+            GOVUK.Insights.svg.createShadowFilter("shadow", svg.node());
+
             var graphArea = svg.selectAll("g.graph-area")
                 .data([config])
                 .enter()
@@ -146,11 +148,12 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .append("svg:g")
                 .attr("class", "annotation")
                 .attr("transform", function (d) {
-                    return GOVUK.Insights.translate(d.x, d.y + ANNOTATION_VERTICAL_OFFSET);
+                    return GOVUK.Insights.svg.translate(d.x, d.y + ANNOTATION_VERTICAL_OFFSET);
                 });
 
             annotationMarker.append("svg:path")
-                .attr("d", "M0,0 L-10,-10 C-15,-15 -15,-25 -10,-30 C-5,-35 5,-35 10,-30 C15,-25 15,-15 10,-10 Z");
+                .attr("d", "M0,0 L-10,-10 C-15,-15 -15,-25 -10,-30 C-5,-35 5,-35 10,-30 C15,-25 15,-15 10,-10 Z")
+                .attr("filter", "url(#shadow)");
             annotationMarker.append("svg:line")
                 .attr("x1", -8).attr("y1", -24)
                 .attr("x2",  8).attr("y2", -24);
