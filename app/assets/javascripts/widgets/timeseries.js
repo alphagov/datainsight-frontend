@@ -204,7 +204,10 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 return calloutInfo;
             }
 
-            function seriesCalloutInfo(highlightedPointX, highlightedPointY, highlightedDatum) {
+            function seriesCalloutInfo(datum) {
+                var highlightedPointX = xScale(config.x(datum));
+                var highlightedPointY = yScale(config.y(datum));
+
                 // show callout
                 var boxWidth = config.callout.width || 165,
                     boxHeight = config.callout.height || 48,
@@ -223,9 +226,27 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     width:boxWidth,
                     height:boxHeight,
                     parent:"#" + container.attr("id"),
-                    content:config.callout.content(highlightedDatum)
+                    content:config.callout.content(datum)
                 };
                 return calloutInfo;
+            }
+
+            function highlight(highlightedDatum) {
+                plottingArea.select(".line")
+                    .classed("highlighted", true);
+                plottingArea.insert("svg:circle", "rect")
+                    .attr("cx", xScale(config.x(highlightedDatum)))
+                    .attr("cy", yScale(config.y(highlightedDatum)))
+                    .attr("r", 3.5)
+                    .attr("id", "dataPointHighlight")
+                    .classed("highlighted", true);
+            }
+
+            function findClosestDataPoint() {
+                var mouse = d3.mouse(plottingArea.node());
+                var mouseX = mouse[0];
+                var mouseDistanceFrom = function (d) { return Math.abs(xScale(config.x(d)) - mouseX); };
+                return data.reduce(function (d1, d2) { return mouseDistanceFrom(d1) < mouseDistanceFrom(d2) ? d1 : d2; });
             }
 
             svg.append("svg:rect")
@@ -237,33 +258,14 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     removeCallout();
 
                     var calloutInfo;
-                    var hoveredAnnotation = d3.selectAll(".annotation")
-                        .filter(function() { return !mouseOutside(this) });
+                    var hoveredAnnotation = d3.selectAll(".annotation").filter(function() { return !mouseOutside(this) });
 
                     if (!hoveredAnnotation.empty()) {
                         calloutInfo = annotationCalloutInfo(hoveredAnnotation);
                     } else {
-                        var mouse = d3.mouse(this);
-                        var mouseX = mouse[0];
-
-                        var mouseDistanceFrom = function(d) { return Math.abs(xScale(config.x(d)) - mouseX); };
-
-                        var highlightedDatum = data.reduce(function(d1, d2) { return mouseDistanceFrom(d1) < mouseDistanceFrom(d2) ? d1 : d2; });
-
-                        var highlightedPointX = xScale(config.x(highlightedDatum));
-                        var highlightedPointY = yScale(config.y(highlightedDatum));
-
-
-                        plottingArea.select(".line")
-                            .classed("highlighted", true);
-                        plottingArea.insert("svg:circle", "rect")
-                            .attr("cx", highlightedPointX)
-                            .attr("cy", highlightedPointY)
-                            .attr("r", 3.5)
-                            .attr("id", "dataPointHighlight")
-                            .classed("highlighted", true);
-
-                        calloutInfo = seriesCalloutInfo(highlightedPointX, highlightedPointY, highlightedDatum);
+                        var closestDataPoint = findClosestDataPoint.call(this);
+                        highlight(closestDataPoint);
+                        calloutInfo = seriesCalloutInfo(closestDataPoint);
                     }
 
                     currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
