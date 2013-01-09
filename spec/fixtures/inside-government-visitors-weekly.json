@@ -71,27 +71,38 @@
         "annotations":[
             {
                 "date":"2012-10-20",
-                "text":"Something happened.."
+                "text":"Beginning of history",
+                "link":"http://en.wikipedia.org/wiki/Big_bang"
             },
             {
                 "date":"2012-11-10",
-                "text":"Something happened.."
+                "text":"GOV.UK website launched, including Inside Government holding page",
+                "link":"http://digital.cabinetoffice.gov.uk/2012/10/17/why-gov-uk-matters/"
             },
             {
-                "date":"2012-11-30",
-                "text":"Something happened.."
+                "date":"2012-11-15",
+                "text":"Inside Government launched with 6 organisations, including DCLG and DfT",
+                "link":"http://digital.cabinetoffice.gov.uk/2012/11/15/a-quick-tour-of-inside-government/"
             },
             {
-                "date":"2012-12-10",
-                "text":"Something else happened.."
+                "date":"2012-12-13",
+                "text":"AGO, BIS, FCO, MOD and 13 other organisations transition to Inside Government",
+                "link":"https://www.gov.uk/government/news/the-new-home-on-the-web-for-fco-mod-bis-and-ago"
             },
             {
                 "date":"2012-12-21",
-                "text":"The end of the world"
+                "text":"The end of the world",
+                "link":"https://www.google.co.uk/search?q=mayan+prophecy"
             },
             {
                 "date":"2012-12-25",
-                "text":"Merry Christmas!"
+                "text":"Merry Christmas!",
+                "link":"https://www.google.co.uk/search?q=christmas+2012"
+            },
+            {
+                "date":"2013-01-05",
+                "text":"End of history",
+                "link":"http://en.wikipedia.org/wiki/End_of_history"
             }
         ]
     },

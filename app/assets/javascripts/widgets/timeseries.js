@@ -125,8 +125,8 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 plottingArea.select("#dataPointHighlight").remove();
             }
 
-            var annotationData = config.annotations.map(function (each) {
-                var date = d3.time.format("%Y-%m-%d").parse(each.date);
+            var annotationData = config.annotations.map(function (annotation) {
+                var date = d3.time.format("%Y-%m-%d").parse(annotation.date);
                 var dataPoints = data.map(function (d) { return {x: config.x(d), y: config.y(d)} });
                 var dateRange = GOVUK.Insights.findDateRangeContaining(data.map(config.x), date);
 
@@ -138,7 +138,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 });
                 var y = GOVUK.Insights.interpolateY(config.xScale(date), referencePoints[0], referencePoints[1]);
 
-                return {x: config.xScale(date), y: y, text: each.text, date: each.date};
+                return {x: config.xScale(date), y: y, text: annotation.text, date: annotation.date, link: annotation.link};
             });
 
             var annotations = graphArea.selectAll("rect.annotation")
@@ -175,33 +175,27 @@ GOVUK.Insights.timeSeriesGraph = function () {
             function annotationCalloutInfo(hoveredAnnotation) {
                 var annotation = hoveredAnnotation.datum();
 
-                var labelDateFormat = d3.time.format("%d %B %Y");
-
-                var title = labelDateFormat(d3.time.format("%Y-%m-%d").parse(annotation.date));
-                var rowData = [
-                    {
-                        right:"",
-                        left:annotation.text
-                    }
-                ];
+                var content = function(annotation) {
+                    var labelDateFormat = d3.time.format("%d %B %Y");
+                    var title = labelDateFormat(d3.time.format("%Y-%m-%d").parse(annotation.date));
+                    return '<div class="data-point-label">'+title+'</div><div class="details"><div>'+annotation.text+'</div><div class="link"><a href="'+annotation.link+'" rel="external">More info</a></div></div>';
+                }
 
                 // show callout
-                var boxWidth = config.callout.width || 165,
-                    boxHeight = config.callout.height || 48,
+                var boxWidth = 270,
                     xOffset = -20,
-                    yOffset = 15,
+                    yOffset = 18,
                     xPositionLeftLimit = Y_AXIS_WIDTH + config.marginLeft,
                     xPositionRightCandidate = annotation.x + config.marginLeft + xOffset,
                     xPositionLeftCandidate = annotation.x + config.marginLeft - xOffset - boxWidth,
-                    yPositionAboveCandidate = annotation.y + config.marginTop - yOffset - boxHeight;
+                    bottomBorderPosition = config.height - (annotation.y + config.marginTop - yOffset) + 4;
 
                 var calloutInfo = {
                     xPos:(xPositionLeftCandidate < xPositionLeftLimit ? xPositionRightCandidate : xPositionLeftCandidate),
-                    yPos:yPositionAboveCandidate,
+                    bottom: bottomBorderPosition,
                     width:boxWidth,
-                    height:boxHeight,
                     parent:"#" + container.attr("id"),
-                    content:GOVUK.Insights.overlay.calloutContent(title, rowData)
+                    content:content(annotation)
                 };
 
                 return calloutInfo;

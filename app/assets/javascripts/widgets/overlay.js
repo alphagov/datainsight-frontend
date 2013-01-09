@@ -9,17 +9,14 @@ GOVUK.Insights.overlay = function () {
         var htmlTemplate = '<div class="callout-box"></div>',
             element = undefined,
             timeout = undefined,
-            defaults = {
-                xPos: 0,
-                yPos: 0
-            },
             shouldUnDraw = false;
 
         var setGeometryCss = function () {
-            if (boxInfo.width !== undefined) element.width(boxInfo.width);
+            if (boxInfo.width !== undefined)  element.width(boxInfo.width);
             if (boxInfo.height !== undefined) element.height(boxInfo.height);
-            (boxInfo.xPos !== undefined) ? element.css({left: boxInfo.xPos}) : element.css({left: defaults.xPos});
-            (boxInfo.yPos !== undefined) ? element.css({top: boxInfo.yPos}) : element.css({top: defaults.xPos});
+            if (boxInfo.xPos !== undefined)   element.css({left: boxInfo.xPos});
+            if (boxInfo.yPos !== undefined)   element.css({top: boxInfo.yPos});
+            if (boxInfo.bottom !== undefined) element.css({bottom: boxInfo.bottom});
         };
 
         var content = boxInfo.content || calloutContent(boxInfo.title, boxInfo.rowData);

@@ -465,20 +465,20 @@ span.pink {
     background-color: #F1F1F1;
     box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.35);
 
-    white-space: nowrap;
     z-index: 1000;
 }
 
 .callout-box .details-left {
     float: left;
     text-align: left;
-
+    white-space: nowrap;
 }
 
 .callout-box .details-right {
     padding-left: 110px;
     text-align: right;
     min-width: 40px;
+    white-space: nowrap;
 }
 
 .callout-box div {
@@ -488,13 +488,18 @@ span.pink {
 
 .callout-box .data-point-label {
     background-color: #E6E5E5;
+    white-space: nowrap;
 }
 
 .callout-box .data-point-label, .callout-box .details {
     padding: 5px 9px 2px 8px;
 }
 
-    /* top policies */
+.callout-box .link {
+    text-align: right;
+}
+
+  /* top policies */
 #most-entered-policies-module td .details {
     font-size: 13px;
     font-size: 1.3rem;
