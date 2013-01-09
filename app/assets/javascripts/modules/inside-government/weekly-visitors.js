@@ -2,7 +2,7 @@ var GOVUK = GOVUK || {};
 GOVUK.Insights = GOVUK.Insights || {};
 GOVUK.Insights.InsideGovernment = GOVUK.Insights.InsideGovernment || {};
 
-GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData) {
+GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData, annotations) {
 
     var seriesDateFormat = d3.time.format("%Y-%m-%d");
     var labelDateFormat = GOVUK.Insights.shortDateFormat;
@@ -26,7 +26,7 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData) {
         .xAxisLabelFormat(labelDateFormat)
         .x(function(d) { return seriesDateFormat.parse(d.end_at); })
         .y(function(d) { return d.value; })
-        .annotations(weeklyVisitorsData.details.annotations || [])
+        .annotations(annotations.annotations || [])
         .callout({
             content: calloutContent
         });
@@ -38,18 +38,20 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData) {
 };
 
 $(function() {
-    $.ajax({
-        url: "/performance/dashboard/government/visitors/weekly.json",
-        success: function (response) {
-            if (response !== null) {
-                if (GOVUK.isSvgSupported()) {
-                    $("#weekly-visitors-module img").remove();
-                    $("#weekly-visitors-module .datainsight-hidden").removeClass("datainsight-hidden");
-                    GOVUK.Insights.InsideGovernment.weeklyVisitors(response);
-                }
-            } else {
-                $("#weekly-visitors-module").append(GOVUK.Insights.Helpers.error_div);
-            }
+    function renderGraph(weeklyVisitors, annotations) {
+        if (GOVUK.isSvgSupported()) {
+            $("#weekly-visitors-module img").remove();
+            $("#weekly-visitors-module .datainsight-hidden").removeClass("datainsight-hidden");
+            GOVUK.Insights.InsideGovernment.weeklyVisitors(weeklyVisitors[0], annotations[0]);
         }
-    });
+    }
+
+    function renderError() {
+        $("#weekly-visitors-module").append(GOVUK.Insights.Helpers.error_div);
+    }
+
+    $.when(
+        $.ajax("/performance/dashboard/government/visitors/weekly.json"),
+        $.ajax("/performance/dashboard/government/annotations.json")
+    ).done(renderGraph).fail(renderError);
 });
