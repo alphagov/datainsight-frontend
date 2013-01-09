@@ -40,7 +40,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
     var mouseOutside = function(svgRect) {
         var mouse = d3.mouse(svgRect), rect = svgRect.getBBox(), x = mouse[0], y = mouse[1];
         return x < rect.x || x >= rect.width + rect.x || y < rect.y || y >= rect.height + rect.y;
-    }
+    };
 
     var instance = function (selection) {
         var container = this;
