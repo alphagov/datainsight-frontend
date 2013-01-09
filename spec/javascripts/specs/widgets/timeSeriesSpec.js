@@ -72,9 +72,47 @@ describe("time series", function () {
                 }
             ];
 
-            timeseries.annotations(annotations)
+            timeseries.annotations(annotations);
             render();
             expect(graphSelection().selectAll("g.annotation")[0].length).toEqual(2);
+        });
+
+        it("should not render annotation markers before graph range", function () {
+            var annotations = [
+                {
+                    date:"2012-09-01",
+                    text:"Annotation outside graph range",
+                    link:"#"
+                },
+                {
+                    date:"2012-12-10",
+                    text:"Annotation inside graph range",
+                    link:"#"
+                }
+            ];
+
+            timeseries.annotations(annotations);
+            render();
+            expect(graphSelection().selectAll("g.annotation")[0].length).toEqual(1);
+        });
+
+        it("should not render annotation markers after graph range", function () {
+            var annotations = [
+                {
+                    date:"2012-12-10",
+                    text:"Annotation inside graph range",
+                    link:"#"
+                },
+                {
+                    date:"2013-01-10",
+                    text:"Annotation outside graph range",
+                    link:"#"
+                }
+            ];
+
+            timeseries.annotations(annotations);
+            render();
+            expect(graphSelection().selectAll("g.annotation")[0].length).toEqual(1);
         });
     });
 

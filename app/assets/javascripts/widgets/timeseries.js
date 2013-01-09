@@ -125,8 +125,13 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 plottingArea.select("#dataPointHighlight").remove();
             }
 
-            var annotationData = config.annotations.map(function (annotation) {
-                var date = d3.time.format("%Y-%m-%d").parse(annotation.date);
+            var annotationDateFormat = d3.time.format("%Y-%m-%d");
+            var relevantAnnotations = config.annotations.filter(function(annotation) {
+                var date = annotationDateFormat.parse(annotation.date);
+                return date >= minX && date <= maxX;
+            });
+            var annotationData = relevantAnnotations.map(function (annotation) {
+                var date = annotationDateFormat.parse(annotation.date);
                 var dataPoints = data.map(function (d) { return {x: config.x(d), y: config.y(d)} });
                 var dateRange = GOVUK.Insights.findDateRangeContaining(data.map(config.x), date);
 
@@ -179,7 +184,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     var labelDateFormat = d3.time.format("%d %B %Y");
                     var title = labelDateFormat(d3.time.format("%Y-%m-%d").parse(annotation.date));
                     return '<div class="data-point-label">'+title+'</div><div class="details"><div>'+annotation.text+'</div><div class="link"><a href="'+annotation.link+'" rel="external">More info</a></div></div>';
-                }
+                };
 
                 // show callout
                 var boxWidth = 270,
