@@ -13,6 +13,7 @@ describe "Inside Government Annotations" do
   end
 
   it "should populate table correctly" do
+    pending "Design for the table is needed"
     visit "/performance/dashboard/government"
 
     # will be invisible because of SVG support

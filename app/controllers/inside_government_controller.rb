@@ -58,8 +58,9 @@ class InsideGovernmentController < ApplicationController
   def annotations
     serve_json do
       json = get_annotations
+      json["response_info"] = {"status" => "ok"}
       json["id"] = url_for controller: "inside_government", action: "annotations", format: :json
-      json["web_rul"] = url_for controller: "inside_government", action: "index", anchor: "inside-gov-annotations"
+      json["web_url"] = url_for controller: "inside_government", action: "index"
       json
     end
   end
@@ -75,9 +76,13 @@ class InsideGovernmentController < ApplicationController
   end
 
   def get_annotations
-    JSON.parse(File.read(Rails.root.join("config", "annotations", "inside_government_annotations.#{Rails.env}.json")), symbolize_keys: true)
+    JSON.parse(File.read(annotation_filepath), symbolize_keys: true)
   rescue Exception => e
     logger.error(e)
+  end
+
+  def annotation_filepath
+    Rails.root.join("config", "annotations", "inside_government_annotations.#{Rails.env}.json")
   end
 
   def get_policies

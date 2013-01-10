@@ -11,7 +11,7 @@
     </tr>
     </thead>
     <tbody>
-    <% @annotations["annotations"].each do |annotation| %>
+    <% @annotations["details"].each do |annotation| %>
         <tr>
           <td class="comment_col"><%= annotation["comment"] %>&nbsp;<a href=<%= annotation["link"] %>>...more</a></td>
           <td class="date_col"><%= annotation["date"] %></td>

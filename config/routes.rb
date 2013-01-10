@@ -20,7 +20,6 @@ DataInsightFrontend::Application.routes.draw do
       match "dashboard/government" => "inside_government#index", via: :get
     end
 
-    #todo: pull out toggle for annotations
     if Settings.feature_toggles[:inside_government_annotations]
       match "dashboard/government/annotations" => "inside_government#annotations", via: :get
     end

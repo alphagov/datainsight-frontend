@@ -31,7 +31,7 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData, a
         .y(function (d) {
             return d.value;
         })
-        .annotations(annotations.annotations || [])
+        .annotations(annotations.details || [])
         .callout({
             yOffset: -50,
             content:calloutContent
@@ -49,7 +49,7 @@ $(function () {
         if (GOVUK.isSvgSupported()) {
             $("#weekly-visitors-module img").remove();
             $("#weekly-visitors-module .datainsight-hidden").removeClass("datainsight-hidden");
-            GOVUK.Insights.InsideGovernment.weeklyVisitors(weeklyVisitors[0], annotations[0]);
+            GOVUK.Insights.InsideGovernment.weeklyVisitors(weeklyVisitors, annotations);
         }
     }
 
@@ -57,8 +57,22 @@ $(function () {
         $("#weekly-visitors-module").append(GOVUK.Insights.Helpers.error_div);
     }
 
-    $.when(
-        $.ajax("/performance/dashboard/government/visitors/weekly.json"),
-        $.ajax("/performance/dashboard/government/annotations.json")
-    ).done(renderGraph).fail(renderError);
+    <% if Settings.feature_toggles[:inside_government_annotations] %>
+
+        $.when(
+            $.ajax("/performance/dashboard/government/visitors/weekly.json"),
+            $.ajax("/performance/dashboard/government/annotations.json")
+        )
+        .done(function(r1, r2) {renderGraph(r1[0], r2[0]);})
+        .fail(renderError);
+
+    <% else %>
+
+        $.ajax({
+            url: "/performance/dashboard/government/visitors/weekly.json",
+            success: renderGraph,
+            error: renderError
+        });
+
+    <% end %>
 });
