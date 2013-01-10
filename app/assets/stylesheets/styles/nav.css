@@ -5,7 +5,7 @@ nav span.beta-tag {
     color: white;
 }
 
-nav a:hover span.beta-tag {
+nav a:hover .beta-tag {
     text-decoration: none;
 }
 
@@ -47,6 +47,14 @@ nav.performance-nav a.top-level {
     display: inline;
     padding: 0 35px 0 35px;
     float: left;
+}
+
+nav.performance-nav a.top-level:hover {
+    text-decoration: none;
+}
+
+nav.performance-nav a.top-level:hover .top-level-link {
+    text-decoration: underline;
 }
 
 nav.performance-nav li.sub-level a.current {
