@@ -1,30 +1,33 @@
 <% if @policies.present? %>
-  <div id="most-entered-policies-module" class="module">
-    <h2 class="graph-info">Top policies last week</h2>
-    <p class="graph-heading">Top 10 most viewed policies on Inside Government</p>
+    <article class="dashboard table-article">
+      <div id="most-entered-policies-module" class="module">
+        <h1 class="graph-info">Top policies last week</h1>
 
-    <article class="table-article">
-      <table>
-        <thead>
-        <tr>
-          <th class="index_col">&nbsp;</th>
-          <th class="policy_col">Policy</th>
-          <th class="views_col">Views</th>
-          <th class="index_col">&nbsp;</th>
-          <th class="policy_col">Policy</th>
-          <th class="views_col">Views</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% (0...5).each do |index| %>
-          <tr>
-            <%= render partial: "inside_government/modules/policy", locals: {policy_visits: @policies[index], index: index+1} %>
-            <%= render partial: "inside_government/modules/policy", locals: {policy_visits: @policies[index+5], index: index+6} %>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-      <p class="graph-source">Source: Google Analytics</p>
+        <p class="graph-heading">Top 10 most viewed policies on Inside Government</p>
+
+        <!--<article class="table-article">-->
+          <table>
+            <thead>
+            <tr>
+              <th class="index_col">&nbsp;</th>
+              <th class="policy_col">Policy</th>
+              <th class="views_col">Views</th>
+              <th class="index_col">&nbsp;</th>
+              <th class="policy_col">Policy</th>
+              <th class="views_col">Views</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% (0...5).each do |index| %>
+                <tr>
+                  <%= render partial: "inside_government/modules/policy", locals: {policy_visits: @policies[index], index: index+1} %>
+                  <%= render partial: "inside_government/modules/policy", locals: {policy_visits: @policies[index+5], index: index+6} %>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <p class="graph-source">Source: Google Analytics</p>
+        <!--</article>-->
+      </div>
     </article>
-  </div>
 <% end %>

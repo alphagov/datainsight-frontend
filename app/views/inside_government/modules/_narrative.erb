@@ -1,5 +1,9 @@
-<% if displayable(@narrative) %>
-  <h1 id="narrative" class="module">
-    <%= narrative(@narrative).html_safe %>
-  </h1>
-<% end %>
+<header>
+  <hgroup class="dashboard">
+    <% if displayable(@narrative) %>
+        <h1 id="narrative" class="module">
+          <%= narrative(@narrative).html_safe %>
+        </h1>
+    <% end %>
+  </hgroup>
+</header>

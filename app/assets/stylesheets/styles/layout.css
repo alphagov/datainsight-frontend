@@ -1,0 +1,12 @@
+header hgroup.dashboard {
+    margin: 0;
+    padding: 0;
+}
+
+header hgroup.dashboard h1 {
+    padding: 0;
+}
+
+header hgroup.dashboard h1 span {
+    display: inline;
+}

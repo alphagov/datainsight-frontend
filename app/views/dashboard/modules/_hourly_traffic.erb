@@ -11,12 +11,13 @@
     <%= render partial:  "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("reach", "modules/govuk/hourly-traffic")} %>
 <% end %>
 
+<article class="dashboard">
 <div id="hourly-traffic-module" class="module">
   <%= graph_image_tag 'hourly-traffic' %>
 
   <div class="datainsight-hidden">
     <div class="module-header left">
-      <h2 class="graph-info">GOV.UK's traffic yesterday</h2>
+      <h1 class="graph-info">GOV.UK's traffic yesterday</h1>
 
       <p class="graph-heading">Hourly unique visitors on <span class="for_date"></span> compared with the<br/>
         <strong>average last week</strong></p>
@@ -47,3 +48,4 @@
     </div>
   </div>
 </div>
+</article>

@@ -71,10 +71,10 @@ describe "Most Visited Policies" do
     ])
   end
 
-  it "should show most entered policies" do
+  it "should show most entered policies article if everything went okay" do
     visit "/performance/dashboard/government"
 
-    page.find("#most-entered-policies-module h2").text.should == "Top policies last week"
+    page.find("#most-entered-policies-module h1")
   end
 
   it "should show entered policies" do

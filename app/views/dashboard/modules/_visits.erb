@@ -3,13 +3,14 @@
     <%= render partial:  "shared/for_svg_supported_browsers", :locals => { :content => javascript_include_tag("modules/govuk/visits") } %>
 <% end %>
 
+<article class="dashboard">
 <div id="visits-module" class="module">
   <%= graph_image_tag 'visits' %>
 
   <div class="datainsight-hidden">
     <div class="module-header">
       <div>
-        <h2 class="graph-info">Weekly visits</h2>
+        <h1 class="graph-info">Weekly visits</h1>
 
         <p class="graph-heading">Visits to GOV.UK for the last 6 months compared with <span class="brown-text">Directgov</span> and <span class="purple-text">Business Link</span></p>
       </div>
@@ -21,3 +22,4 @@
     </div>
   </div>
 </div>
+</article>
