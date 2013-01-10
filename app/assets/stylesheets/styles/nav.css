@@ -39,6 +39,7 @@ nav.performance-nav ul {
 }
 
 nav.performance-nav li.sub-level {
+    padding: 0 0 0 5px;
     display: inline-block;
     float: right;
 }
