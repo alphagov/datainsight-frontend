@@ -22,10 +22,12 @@
 
 
   <nav class="performance-nav">
+    <%= link_to({controller: 'root', action: 'index'}, class: "top-level") do %>
+        Performance Platform
+        <span class="beta-tag">BETA</span>
+    <% end %>
     <div class="inner-nav">
       <ul id="navigation">
-        <li class="top-level"><%= nav_link_to "Performance Platform", {controller: 'root', action: 'index'} %>
-          <span class="beta-tag">BETA</span></li>
         <li class="sub-level"><%= nav_link_to "GOV.UK Dashboard", {controller: 'dashboard', action: 'index'} %></li>
         <li class="sub-level"><%= nav_link_to "Inside Government Dashboard", {controller: 'inside_government', action: 'index'} %></li>
       </ul>
