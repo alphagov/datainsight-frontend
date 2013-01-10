@@ -20,7 +20,6 @@ nav.performance-nav .inner-nav {
 nav.performance-nav a {
     color: #333;
     padding: 10px 8px 13px 8px;
-    font-family: "nta", "GDS-Regular", sans-serif;
     text-decoration: none;
 }
 
@@ -44,13 +43,15 @@ nav.performance-nav li.top-level {
     float: left;
 }
 
-nav.performance-nav li.sub-level .current {
-    background-color: #fff;
+nav.performance-nav li.sub-level a.current {
+    background-color: black;
+    color: white;
 }
 
 @media (max-width: 850px) {
     nav.performance-nav {
         height: auto;
+        margin: 0 15px 0 15px;
     }
 
     nav.performance-nav .inner-nav {
@@ -58,22 +59,35 @@ nav.performance-nav li.sub-level .current {
     }
 
     nav.performance-nav a {
-        padding: 2px;
+        padding: 10px 8px 10px 8px;
+    }
+
+    nav.performance-nav .top-level a {
+        display: inline-block;
+        display: inline-block;
+        padding-left: 0px;
+    }
+
+    nav.performance-nav .sub-level a {
+        display: block;
         width: auto;
+        padding-left: 8px;
     }
 
     nav.performance-nav ul {
-        margin: 8px 0 8px 0;
+        margin: 8px 0 3px 0;
     }
 
     nav.performance-nav li.top-level {
+        padding: 0;
         float: none;
         display: block;
     }
 
     nav.performance-nav li.sub-level {
-        padding: 0 35px 0 42px;
+        padding: 0;
         float: none;
         display: block;
+        background-color: #108095;
     }
 }
