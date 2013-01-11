@@ -1,3 +1,4 @@
+/* remove GOV.UK default styles */
 header hgroup.dashboard {
     margin: 0;
     padding: 0;

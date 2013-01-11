@@ -1,0 +1,57 @@
+/* datainsight 3-up grid */
+section.content-group {
+    max-width: 960px;
+    margin: 32px 32px 32px 32px;
+}
+
+/*section.content-group article {*/
+    /*margin-bottom: 32px;*/
+/*}*/
+
+section.content-group .start {
+    clear: left;
+}
+
+section.content-group .right {
+    float: right;
+}
+
+section.content-group .one-up,
+section.content-group .two-up,
+section.content-group .three-up {
+    padding-right: 32px;
+}
+
+section.content-group .one-up {
+    width: 100%;
+}
+
+section.content-group .two-up {
+    width: 50%;
+}
+
+section.content-group .three-up {
+    width: 33.33%;
+}
+
+@media (max-width: 700px) {
+    section.content-group {
+        margin: 0 15px 0 15px;
+    }
+
+    section.content-group article {
+        margin-bottom: 15px;
+    }
+
+    section.content-group .one-up,
+    section.content-group .two-up,
+    section.content-group .three-up {
+        padding-right: 15px;
+    }
+
+    section.content-group .two-up,
+    section.content-group .three-up {
+        width: 100%;
+    }
+}
+/* end grid */
