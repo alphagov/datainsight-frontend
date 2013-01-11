@@ -51,8 +51,9 @@ GOVUK.Insights.timeSeriesGraph = function () {
 
             svg.enter().append("svg")
                 .attr("class", "time-series js-graph-area")
-                .attr("width", function (d) { return d.width; })
-                .attr("height", function (d) { return d.height; });
+                .attr("viewBox", function(d) { return "0 0 " + d.width + " " + d.height})
+                .style("width","100%")
+                .style("height","100%");
 
             GOVUK.Insights.svg.createShadowFilter("shadow", svg.node());
 

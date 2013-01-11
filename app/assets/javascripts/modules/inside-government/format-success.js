@@ -41,14 +41,6 @@ GOVUK.Insights.InsideGovernment.formatSuccess = function (RAW_DATA) {
         GOVUK.Insights.svg.createTextShade(this)
     });
 
-    $(window).on("resize", function () {
-        var newWidth = $("#inside-gov-format-success").width();
-        formatSuccess.width(newWidth);
-        $("#inside-gov-format-success").html("");
-        d3.select('#inside-gov-format-success')
-            .datum(data)
-            .call(formatSuccess);
-    });
 };
 
 $(function () {

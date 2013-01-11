@@ -40,14 +40,6 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData, a
         .datum(weeklyVisitorsData.details.data)
         .call(weeklyVisitors);
 
-    $(window).on("resize", function () {
-        var newWidth = $("#inside-gov-weekly-visitors").width();
-        weeklyVisitors.width(newWidth);
-        $("#inside-gov-weekly-visitors").html("");
-        d3.select('#inside-gov-weekly-visitors')
-            .datum(weeklyVisitorsData.details.data)
-            .call(weeklyVisitors);
-    });
 
 };
 
