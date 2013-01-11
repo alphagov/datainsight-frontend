@@ -1,31 +1,23 @@
-<% content_for :title do %>GOV.UK Dashboard - Performance Platform - GOV.UK<% end %>
+<% content_for :title do %>GOV.UK Dashboard - Performance Platform - GOV.UK
+<% end %>
 
 <div id="datainsight-dashboard">
-  <div class="row first-row">
-    <div class="twelve columns">
-      <%= render partial: "dashboard/modules/narrative" %>
-    </div>
-  </div>
-  <div class="row offset-by-one">
-    <div class="twelve columns">
-      <h2>Web traffic</h2>
-      <%= render partial: "dashboard/modules/hourly_traffic" %>
-    </div>
-  </div>
+  <section class="content-group">
+    <%= render partial: "dashboard/modules/narrative" %>
+  </section>
 
-  <div class="row">
-    <div class="six columns">
-      <%= render partial: "dashboard/modules/visits" %>
-    </div>
+  <section class="content-group">
+    <h2>Web traffic</h2>
+    <%= render partial: "dashboard/modules/hourly_traffic" %>
+  </section>
 
-    <div class="six columns">
-      <%= render partial: "dashboard/modules/unique_visitors" %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="twelve columns">
-      <h2>Content</h2>
-      <%= render partial: "dashboard/modules/format_success" %>
-    </div>
-  </div>
+  <section class="content-group">
+    <%= render partial: "dashboard/modules/visits" %>
+    <%= render partial: "dashboard/modules/unique_visitors" %>
+  </section>
+
+  <section class="content-group">
+    <h2 class="one-up">Content</h2>
+    <%= render partial: "dashboard/modules/format_success" %>
+  </section>
 </div>

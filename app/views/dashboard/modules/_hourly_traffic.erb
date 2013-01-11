@@ -11,7 +11,7 @@
     <%= render partial:  "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("reach", "modules/govuk/hourly-traffic")} %>
 <% end %>
 
-<article class="dashboard">
+<article class="dashboard one-up static">
 <div id="hourly-traffic-module" class="module">
   <%= graph_image_tag 'hourly-traffic' %>
 

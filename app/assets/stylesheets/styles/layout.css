@@ -11,3 +11,7 @@ header hgroup.dashboard h1 {
 header hgroup.dashboard h1 span {
     display: inline;
 }
+
+section.content-group article {
+    margin: 0;
+}
