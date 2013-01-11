@@ -74,12 +74,11 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .attr("class", "scatterplot js-graph-area");
 
             svg
-                .attr("width", function (d) {
-                    return d.width + d.marginLeft + d.marginRight;
+                .attr("viewBox", function (d) {
+                    return "0 0 " +  (d.width + d.marginLeft + d.marginRight) + " " + (d.height + d.marginTop + d.marginBottom + d3.max(data, bottomOverflow));
                 })
-                .attr("height", function (d) {
-                    return d.height + d.marginTop + d.marginBottom + d3.max(data, bottomOverflow);
-                });
+                .style("width","100%")
+                .style("height","100%");
 
             var plotArea = svg.selectAll("g.plot-area").data([config]);
 

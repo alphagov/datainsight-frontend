@@ -1,6 +1,6 @@
 /* datainsight 3-up grid */
 section.content-group {
-    min-width: 960px;
+    max-width: 960px;
     margin: 32px 32px 32px 32px;
     clear: left;
 }

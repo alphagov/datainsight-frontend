@@ -132,8 +132,9 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
             graph = d3.select(container)
                 .append("svg:svg")
-                .attr("width", width)
-                .attr("height", height)
+                .style("height","100%")
+                .style("width","100%")
+                .attr("viewBox","0 0 " + width + " " + height)
                 .append("svg:g")
                     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
