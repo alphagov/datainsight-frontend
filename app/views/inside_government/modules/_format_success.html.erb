@@ -2,27 +2,22 @@
   <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("widgets/scatterplot", "modules/inside-government/format-success")} %>
 <% end %>
 
-<article class="dashboard">
-<div id="format-success-module" class="module">
+<article id="format-success-module" class="dashboard">
   <%= graph_image_tag "government/content-engagement" %>
-
   <div class="datainsight-hidden">
-    <div class="module-header left">
+    <hgroup class="module-header left">
       <h1 class="graph-info">Content engagement last week</h1>
 
-      <p class="graph-heading">How many times each format was used and how well users are thought to have responded to the content.</p>
-    </div>
+      <h2 class="graph-heading">How many times each format was used and how well users are thought to have responded to the content.</h2>
+    </hgroup>
     <div id="inside-gov-format-success-legend"></div>
-    <div style="clear: both"></div>
 
-    <div id="inside-gov-format-success" class="graph-container"></div>
-    <div>
+    <figure id="inside-gov-format-success" class="graph-container"></figure>
+    <figcaption>
       <p class="graph-source">Source: GOV.UK engagement criteria measured with Google Analytics</p>
-      <p class="small-text">'Formats' are how we refer to the templates that each page of GOV.UK uses. <br/>
-        'Engagement' is an estimation of how well users are responding to content. It is determined on a page-by-page
-        basis and may include how long users have been on a page, how users interact with content, and other criteria.
-      </p>
-    </div>
+      <p class="small-text">'Formats' are how we refer to the templates that each page of GOV.UK uses.</p>
+      <p class="small-text">'Engagement' is an estimation of how well users are responding to content. It is determined on a page-by-page
+        basis and may include how long users have been on a page, how users interact with content, and other criteria.</p>
+    </figcaption>
   </div>
-</div>
 </article>

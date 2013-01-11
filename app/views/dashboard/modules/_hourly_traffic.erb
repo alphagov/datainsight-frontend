@@ -8,20 +8,18 @@
 <% end %>
 
 <% content_for :footer do %>
-    <%= render partial:  "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("reach", "modules/govuk/hourly-traffic")} %>
+    <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("reach", "modules/govuk/hourly-traffic")} %>
 <% end %>
 
-<article class="dashboard one-up">
-<div id="hourly-traffic-module" class="module">
+<article id="hourly-traffic-module" class="dashboard one-up">
   <%= graph_image_tag 'hourly-traffic' %>
-
   <div class="datainsight-hidden">
-    <div class="module-header left">
+    <hgroup class="module-header left">
       <h1 class="graph-info">GOV.UK's traffic yesterday</h1>
 
-      <p class="graph-heading">Hourly unique visitors on <span class="for_date"></span> compared with the<br/>
-        <strong>average last week</strong></p>
-    </div>
+      <h2 class="graph-heading">Hourly unique visitors on <span class="for_date"></span> compared with the
+        <strong>average last week</strong></h2>
+    </hgroup>
     <div class="right small-text">
       <div class="legend">
         <div class="legend-row">
@@ -30,22 +28,18 @@
             <div class="small-text right" style="width: 8px; text-align: center">+</div>
             <div class="small-text right legend-label">Change from</div>
           </div>
-        <br style="clear: both"/>
+          <br style="clear: both"/>
 
-        <div class="small-shim">
-          <div class="right small-square graph-red"></div>
-          <div class="small-text right" style="width: 8px; text-align: center">-</div>
-          <div class="small-text right legend-label">average last week</div>
-        </div>
-        <br style="clear: both"/>
+          <div class="small-shim">
+            <div class="right small-square graph-red"></div>
+            <div class="small-text right" style="width: 8px; text-align: center">-</div>
+            <div class="small-text right legend-label">average last week</div>
+          </div>
+          <br style="clear: both"/>
         </div>
       </div>
     </div>
-    <div style="clear: both"></div>
-    <div id="reach" class="graph-container"></div>
-    <div>
-      <p class="graph-source">Source: Google Analytics</p>
-    </div>
+    <figure id="reach" class="graph-container"></figure>
+    <p class="graph-source">Source: Google Analytics</p>
   </div>
-</div>
 </article>

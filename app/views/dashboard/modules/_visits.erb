@@ -1,23 +1,20 @@
 <% content_for :footer do %>
-    <%= render partial:  "shared/for_svg_supported_browsers", :locals => { :content => javascript_include_tag("time-series") } %>
-    <%= render partial:  "shared/for_svg_supported_browsers", :locals => { :content => javascript_include_tag("modules/govuk/visits") } %>
+    <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("time-series")} %>
+    <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("modules/govuk/visits")} %>
 <% end %>
 
-<article class="dashboard two-up start">
-<div id="visits-module" class="module">
+<article id="visits-module" class="dashboard two-up start">
   <%= graph_image_tag 'visits' %>
   <div class="datainsight-hidden">
-    <div class="module-header">
-      <div>
-        <h1 class="graph-info">Weekly visits</h1>
-        <p class="graph-heading">Visits to GOV.UK for the last 6 months compared with <span class="brown-text">Directgov</span> and <span class="purple-text">Business Link</span></p>
-      </div>
-    </div>
-    <div style="clear: both"></div>
-    <div id="visits" class="time-series graph-container"></div>
-    <div>
-      <p class="graph-source">Sources: Google Analytics, Celebrus, Omniture</p>
-    </div>
+    <hgroup class="module-header">
+      <h1 class="graph-info">Weekly visits</h1>
+
+      <h2 class="graph-heading">
+        Visits to GOV.UK for the last 6 months compared with
+        <span class="brown-text">Directgov</span> and <span class="purple-text">Business Link</span>
+      </h2>
+    </hgroup>
+    <figure id="visits" class="time-series graph-container"></figure>
+    <p class="graph-source">Sources: Google Analytics, Celebrus, Omniture</p>
   </div>
-</div>
 </article>

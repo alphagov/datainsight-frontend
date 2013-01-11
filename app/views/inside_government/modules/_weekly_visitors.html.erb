@@ -2,21 +2,16 @@
     <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("time-series.js", "widgets/timeseries", "modules/inside-government/weekly-visitors")} %>
 <% end %>
 
-<article class="dashboard one-up">
-  <div id="weekly-visitors-module" class="module">
+<article id="weekly-visitors-module" class="dashboard one-up">
     <%= graph_image_tag "government/visitors/weekly" %>
 
     <div class="datainsight-hidden">
-      <div class="module-header left">
+      <hgroup class="module-header left">
         <h1 class="graph-info">Weekly unique visitors</h1>
 
         <p class="graph-heading">Unique visitors per week to <span class="insidegov">Inside Government</span></p>
-      </div>
-      <div style="clear: both"></div>
-      <div id="inside-gov-weekly-visitors" class="graph-container"></div>
-      <div>
-        <p class="graph-source">Source: Google Analytics</p>
-      </div>
+      </hgroup>
+      <figure id="inside-gov-weekly-visitors" class="graph-container"></figure>
+      <p class="graph-source">Source: Google Analytics</p>
     </div>
-  </div>
 </article>
