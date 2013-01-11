@@ -32,15 +32,6 @@ section.content-group .three-up {
 }
 
 @media (max-width: 960px) {
-    section.content-group {
-        margin: 0 15px 0 15px;
-        min-width: 0;
-    }
-
-    section.content-group article {
-        margin-bottom: 15px;
-    }
-
     section.content-group .one-up,
     section.content-group .two-up,
     section.content-group .three-up {
@@ -51,6 +42,17 @@ section.content-group .three-up {
     section.content-group .two-up,
     section.content-group .three-up {
         width: 100%;
+    }
+}
+
+@media (max-width: 700px) {
+    section.content-group {
+    margin: 15px 15px 15px 15px;
+    min-width: 0;
+    }
+
+    section.content-group article {
+    margin-bottom: 15px;
     }
 }
 /* end grid */
