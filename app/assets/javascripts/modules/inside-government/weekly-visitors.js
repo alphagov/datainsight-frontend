@@ -7,16 +7,17 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData, a
     var seriesDateFormat = d3.time.format("%Y-%m-%d");
     var labelDateFormat = GOVUK.Insights.shortDateFormat;
 
-    var calloutContent = function(d) {
+    var calloutContent = function (d) {
         var title = labelDateFormat(seriesDateFormat.parse(d.start_at)) + " - " + labelDateFormat(seriesDateFormat.parse(d.end_at));
         var rowData = [
             {
-                right: GOVUK.Insights.formatNumericLabel(d.value || 0),
-                left: "Visitors"
+                right:GOVUK.Insights.formatNumericLabel(d.value || 0),
+                left:"Visitors"
             }
         ];
         return GOVUK.Insights.overlay.calloutContent(title, rowData);
     };
+
 
     var weeklyVisitors = GOVUK.Insights.timeSeriesGraph()
         .marginRight(30)
@@ -24,20 +25,33 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData, a
         .height(290)
         .yTicks(5)
         .xAxisLabelFormat(labelDateFormat)
-        .x(function(d) { return seriesDateFormat.parse(d.end_at); })
-        .y(function(d) { return d.value; })
+        .x(function (d) {
+            return seriesDateFormat.parse(d.end_at);
+        })
+        .y(function (d) {
+            return d.value;
+        })
         .annotations(annotations.annotations || [])
         .callout({
-            content: calloutContent
+            content:calloutContent
         });
 
     d3.select('#inside-gov-weekly-visitors')
         .datum(weeklyVisitorsData.details.data)
         .call(weeklyVisitors);
 
+    $(window).on("resize", function () {
+        var newWidth = $("#inside-gov-weekly-visitors").width();
+        weeklyVisitors.width(newWidth);
+        $("#inside-gov-weekly-visitors").html("");
+        d3.select('#inside-gov-weekly-visitors')
+            .datum(weeklyVisitorsData.details.data)
+            .call(weeklyVisitors);
+    });
+
 };
 
-$(function() {
+$(function () {
     function renderGraph(weeklyVisitors, annotations) {
         if (GOVUK.isSvgSupported()) {
             $("#weekly-visitors-module img").remove();

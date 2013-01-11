@@ -273,7 +273,6 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
                 })
                 .on("mouseout", function() {
-                    console.log("mouseout")
                     if (mouseOutside(this)) {
                         removeHighlight();
                         removeCallout();

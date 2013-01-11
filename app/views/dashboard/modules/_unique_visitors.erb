@@ -3,7 +3,7 @@
     <%= render partial:  "shared/for_svg_supported_browsers", :locals => { :content => javascript_include_tag("time-series") } %>
 <% end %>
 
-<article class="dashboard two-up static">
+<article class="dashboard two-up">
 <div id="unique-visitors-module" class="module">
   <%= graph_image_tag 'unique-visitors' %>
 
