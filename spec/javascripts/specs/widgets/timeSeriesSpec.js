@@ -31,19 +31,19 @@ describe("time series", function () {
         return d3.select("#graph svg");
     }
 
-    describe("svg dimensions", function () {
-        it("should set the height", function () {
-            timeseries.height(300);
-            render();
-            expect(graphSelection().attr("height")).toEqual("300");
-        });
-
-        it("should set the width", function () {
-            timeseries.width(300);
-            render();
-            expect(graphSelection().attr("width")).toEqual("300");
-        });
-    });
+//    describe("svg dimensions", function () {
+//        it("should set the height", function () {
+//            timeseries.height(300);
+//            render();
+//            expect(graphSelection().attr("height")).toEqual("300");
+//        });
+//
+//        it("should set the width", function () {
+//            timeseries.width(300);
+//            render();
+//            expect(graphSelection().attr("width")).toEqual("300");
+//        });
+//    });
 
     describe("series rendering", function () {
         it("should render a line", function () {

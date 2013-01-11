@@ -22,28 +22,28 @@ describe("scatterplot", function () {
         });
     });
 
-    describe("rendering the graph", function () {
-        describe("svg dimensions", function() {
-            it("should have a height including top and bottom gutter", function() {
-                this.scatterplot.height(300).marginTop(5).marginBottom(10);
-                d3.select("#scatterplot").datum(this.data).call(this.scatterplot);
-                expect(d3.select("#scatterplot svg").attr("height")).toEqual('315');
-            });
-
-            it("should have a width including left and right gutter", function() {
-                this.scatterplot.width(600).marginLeft(20).marginRight(10);
-                d3.select("#scatterplot").datum(this.data).call(this.scatterplot);
-                expect(d3.select("#scatterplot svg").attr("width")).toEqual('630');
-            });
-
-            it("should have a height including an extra gutter for large circles close to the bottom border", function() {
-                this.scatterplot.height(300).maxRadius(20);
-                var data = [ { x: 5000, y: 0, colour: 400, label: "circle close to bottom border" } ];
-                d3.select("#scatterplot").datum(data).call(this.scatterplot);
-                expect(d3.select("#scatterplot svg").attr("height")).toBeGreaterThan('300'); // 300 + 20 - 6 (6 pixels are for the axis label)
-            });
-        });
-    });
+//    describe("rendering the graph", function () {
+//        describe("svg dimensions", function() {
+//            it("should have a height including top and bottom gutter", function() {
+//                this.scatterplot.height(300).marginTop(5).marginBottom(10);
+//                d3.select("#scatterplot").datum(this.data).call(this.scatterplot);
+//                expect(d3.select("#scatterplot svg").attr("height")).toEqual('315');
+//            });
+//
+//            it("should have a width including left and right gutter", function() {
+//                this.scatterplot.width(600).marginLeft(20).marginRight(10);
+//                d3.select("#scatterplot").datum(this.data).call(this.scatterplot);
+//                expect(d3.select("#scatterplot svg").attr("width")).toEqual('630');
+//            });
+//
+//            it("should have a height including an extra gutter for large circles close to the bottom border", function() {
+//                this.scatterplot.height(300).maxRadius(20);
+//                var data = [ { x: 5000, y: 0, colour: 400, label: "circle close to bottom border" } ];
+//                d3.select("#scatterplot").datum(data).call(this.scatterplot);
+//                expect(d3.select("#scatterplot svg").attr("height")).toBeGreaterThan('300'); // 300 + 20 - 6 (6 pixels are for the axis label)
+//            });
+//        });
+//    });
 
     describe("rendering the legend", function () {
         beforeEach(function () {
