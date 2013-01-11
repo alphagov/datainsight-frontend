@@ -25,7 +25,7 @@
     <%= link_to({controller: 'root', action: 'index'}, class: "top-level") do %>
         <span class="top-level-link">Performance Platform</span>
         <span class="beta-tag">BETA</span>
-    <% end %>
+    <% end %><a id="menu-toggle" href="#" data-hide-or-show="sub-level">menu</a>
     <div class="inner-nav">
       <ul id="navigation">
         <li class="sub-level"><%= nav_link_to "GOV.UK Dashboard", {controller: 'dashboard', action: 'index'} %></li>
@@ -41,7 +41,7 @@
 </body>
 
 <footer>
-  <%= javascript_include_tag 'vendor', 'helpers' %>
+  <%= javascript_include_tag 'vendor', 'helpers', 'widgets/toggle' %>
   <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("vendor/d3.v2", "widgets/overlay")} %>
   <%= yield :footer %>
 </footer>

@@ -1,3 +1,20 @@
+nav.performance-nav #menu-toggle {
+    display: none;
+}
+
+nav.performance-nav #menu-toggle:after {
+    display: inline-block;
+    font-size: 8px;
+    height: 8px;
+    padding-left: 5px;
+    vertical-align: middle;
+    content: " \25BC";
+}
+
+nav.performance-nav #menu-toggle.open:after {
+    content: " \25B2";
+}
+
 nav span.beta-tag {
     padding: 2px 5px 2px 5px;
     margin-left: 5px;
@@ -64,14 +81,26 @@ nav.performance-nav li.sub-level a.current {
 }
 
 @media (max-width: 700px) {
+    nav.performance-nav #menu-toggle {
+        display: inline-block;
+        padding-right: 23px;
+        padding-left: 15px;
+        float: right;
+        width: auto;
+        background-color: #E6E6E6;
+    }
+
+    nav.performance-nav #menu-toggle.open {
+        background-color: #EAEDEF;
+    }
+
     nav.performance-nav {
         height: auto;
-        background-color: white;
+        background-color: #EAEDEF;
     }
 
     nav.performance-nav .inner-nav {
         height: auto;
-        margin: 0 15px 0 15px;
     }
 
     nav.performance-nav a {
@@ -79,7 +108,7 @@ nav.performance-nav li.sub-level a.current {
     }
 
     nav.performance-nav a.top-level {
-        display: block;
+        display: inline-block;
         float: none;
         width: auto;
         margin: 0;
@@ -91,18 +120,19 @@ nav.performance-nav li.sub-level a.current {
         display: block;
         width: auto;
         padding-left: 8px;
-        color: white;
-        background-color: #108095;
+        color: black;
+        background-color: #e6e6e6;
     }
 
     nav.performance-nav ul {
         display: block;
         height: auto;
         margin: 0 0 0 0;
-        background-color: white;
+        background-color: #e6e6e6;
     }
 
     nav.performance-nav li.sub-level {
+        margin: 0 15px 0 15px;
         padding: 0;
         float: none;
         display: block;
