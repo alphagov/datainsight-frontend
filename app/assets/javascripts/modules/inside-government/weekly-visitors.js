@@ -33,6 +33,7 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData, a
         })
         .annotations(annotations.annotations || [])
         .callout({
+            yOffset: -50,
             content:calloutContent
         });
 

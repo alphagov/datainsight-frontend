@@ -40,11 +40,11 @@ GOVUK.Insights.scatterplotGraph = function () {
 
     var plottingAreaOffsetTop = function() {
         return Math.max(config.maxRadius, 36);
-    }
+    };
 
     var plottingAreaHeight = function(config) {
         return config.height - plottingAreaOffsetTop();
-    }
+    };
 
     var getScales = function(data) {
         return {
@@ -115,7 +115,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 var title = config.circleLabel(d),
                     boxWidth = 170,
                     boxHeight = 66,
-                    topShift = 35, // a fudge factor for the box y position
+                    topShift = 125, // a fudge factor for the box y position
                     label = d3.select('#label-' + d3.select(element).attr('data-point-label')),
                     labelX = parseFloat(label.attr('x')) + config.marginLeft,
                     labelY = parseFloat(label.attr('y')) + config.marginTop + topShift,

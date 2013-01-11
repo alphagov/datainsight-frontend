@@ -17,8 +17,8 @@ GOVUK.Insights.forcePosition = function () {
         var matrix = element.getTransformToElement(element);
         return {
             top:0,
-            bottom:parseFloat(svg.attr('height') - matrix.f),
-            right:parseFloat(svg.attr('width') - matrix.e),
+            bottom:parseFloat($(svg.node()).height() - matrix.f),
+            right:parseFloat($(svg.node()).width() - matrix.e),
             left:0
         };
     };
@@ -29,7 +29,7 @@ GOVUK.Insights.forcePosition = function () {
         var adjustment = 2;
         fixedBox.extendBy(adjustment);
         return fixedBox;
-    }
+    };
 
     var anIteration = function (fixedElements, floatingElements, selector) {
         for (var i = 0; i < floatingElements.length; i++) {

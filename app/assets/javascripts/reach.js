@@ -172,10 +172,11 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                 offsetSoTheUserCantCatchTheBox = 5,
                 boxShadow = 4,
                 xPos = xScale(hour) - boxWidth - offsetSoTheUserCantCatchTheBox,
+                yPos = d3.mouse(this)[1] + 60,
                 actualXPos = (xPos > 0) ? xPos : xPos + boxWidth + barWidth + offsetSoTheUserCantCatchTheBox + boxShadow,
                 calloutInfo = {
                     xPos: actualXPos + margin.left,
-                    yPos: GOVUK.Insights.clamp(d3.mouse(this)[1] - boxHeight, boxShadow, height - margin.bottom - boxHeight),
+                    yPos: GOVUK.Insights.clamp(yPos - boxHeight, boxShadow, height - margin.bottom - boxHeight),
                     parent: '#reach',
                     title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
                     rowData: [
