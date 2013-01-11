@@ -31,7 +31,7 @@ section.content-group .three-up {
     width: 31.11%;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 960px) {
     section.content-group {
         margin: 0 15px 0 15px;
         min-width: 0;
