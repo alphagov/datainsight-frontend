@@ -15,7 +15,7 @@ GOVUK.Insights.svg.createTextShade = function(textElement) {
         .attr("y", text.attr("y"))
         .attr("dx", text.attr("dx"))
         .attr("dy", text.attr("dy"))
-        .attr("class", text.attr("class") + " text-shade")
+        .attr("class", (text.attr("class") || "") + " text-shade")
         .attr("text-anchor", text.attr("text-anchor"))
         .text(text.text())
         .attr("stroke", "#fff")
