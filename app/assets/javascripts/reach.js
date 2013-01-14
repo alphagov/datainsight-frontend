@@ -54,7 +54,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr("width",width)
         .attr("height",height);
 
-    GOVUK.Insights.svg.resizeIfPossible(svg);
+    GOVUK.Insights.svg.resizeIfPossible(svg, width, height);
 
     var chart = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");

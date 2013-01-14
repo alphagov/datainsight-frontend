@@ -55,7 +55,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .attr("height", function(d) { return d.height; })
                 .attr("width", function(d) { return d.width; });
 
-            GOVUK.Insights.svg.resizeIfPossible(svg);
+            GOVUK.Insights.svg.resizeIfPossible(svg, width, height);
 
             GOVUK.Insights.svg.createShadowFilter("shadow", svg.node());
 

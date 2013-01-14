@@ -139,7 +139,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             graph = svg.append("svg:g")
                 .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
-            GOVUK.Insights.svg.resizeIfPossible(svg);
+            GOVUK.Insights.svg.resizeIfPossible(svg, width, height);
 
             /* Set up X Axis */
             var xAxis = d3.svg.axis()

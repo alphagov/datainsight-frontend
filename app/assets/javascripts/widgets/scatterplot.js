@@ -80,7 +80,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .attr("height", function(d) { return d.height; })
                 .attr("width", function(d) { return d.width; });
 
-            GOVUK.Insights.svg.resizeIfPossible(svg);
+            GOVUK.Insights.svg.resizeIfPossible(svg, config.width, config.height);
 
             var plotArea = svg.selectAll("g.plot-area").data([config]);
 

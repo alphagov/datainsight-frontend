@@ -48,7 +48,7 @@ GOVUK.Insights.svg.translate = function(x, y) {
     return "translate(" + x + "," + y + ")";
 }
 
-GOVUK.Insights.svg.resizeIfPossible = function (svg) {
+GOVUK.Insights.svg.resizeIfPossible = function (svg, width, height) {
     var supportsResizing = function () {
         return !($('#wrapper').hasClass("ie9"));
     };
@@ -56,7 +56,7 @@ GOVUK.Insights.svg.resizeIfPossible = function (svg) {
         svg
             .attr("width","100%")
             .attr("height","100%")
-            .style("width","100%")
-            .style("height","100%");
+            .style("max-width",width)
+            .style("max-height",height);
     }
 };
