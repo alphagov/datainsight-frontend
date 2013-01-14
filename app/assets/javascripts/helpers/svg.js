@@ -47,3 +47,16 @@ GOVUK.Insights.svg.createShadowFilter = function(filterId, svgElement) {
 GOVUK.Insights.svg.translate = function(x, y) {
     return "translate(" + x + "," + y + ")";
 }
+
+GOVUK.Insights.svg.resizeIfPossible = function (svg) {
+    var supportsResizing = function () {
+        return !($('#wrapper').hasClass("ie9"));
+    };
+    if (supportsResizing()) {
+        svg
+            .attr("width","100%")
+            .attr("height","100%")
+            .style("width","100%")
+            .style("height","100%");
+    }
+};

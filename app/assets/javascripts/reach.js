@@ -50,9 +50,12 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     // Create the svg panel
     var svg = d3.select("#" + id)
         .append("svg")
-        .style("height","100%")
-        .style("width","100%")
-        .attr("viewBox","0 0 " + width + " " + height);
+        .attr("preserveAspectRatio","xMinYMin slice")
+        .attr("viewBox","0 0 " + width + " " + height)
+        .attr("width",width)
+        .attr("height",height);
+
+    GOVUK.Insights.svg.resizeIfPossible(svg);
 
     var chart = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");

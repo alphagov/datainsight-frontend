@@ -130,13 +130,16 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     return yScale(d.value);
                 }),
 
-            graph = d3.select(container)
+            svg = d3.select(container)
                 .append("svg:svg")
-                .style("height","100%")
-                .style("width","100%")
-                .attr("viewBox","0 0 " + width + " " + height)
-                .append("svg:g")
-                    .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+                .attr("width",width)
+                .attr("height",height)
+                .attr("viewBox","0 0 " + width + " " + height),
+
+            graph = svg.append("svg:g")
+                .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+            GOVUK.Insights.svg.resizeIfPossible(svg);
 
             /* Set up X Axis */
             var xAxis = d3.svg.axis()
