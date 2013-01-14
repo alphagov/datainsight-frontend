@@ -1,0 +1,20 @@
+{
+  "details":[
+    {
+      "date":"2012-10-17",
+      "text":"GOV.UK website launched, including Inside Government holding page",
+      "link":"http://digital.cabinetoffice.gov.uk/2012/10/17/why-gov-uk-matters/"
+    },
+    {
+      "date":"2012-11-15",
+      "text":"Inside Government launched with 6 organisations, including DCLG and DfT",
+      "link":"http://digital.cabinetoffice.gov.uk/2012/11/15/a-quick-tour-of-inside-government/"
+    },
+    {
+      "date":"2012-12-13",
+      "text":"AGO, BIS, FCO, MOD and 13 other organisations transition to Inside Government",
+      "link":"https://www.gov.uk/government/news/the-new-home-on-the-web-for-fco-mod-bis-and-ago"
+    }
+  ],
+  "updated_at": "2013-01-14T15:00:00+00:00"
+}
