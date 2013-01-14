@@ -50,7 +50,6 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     // Create the svg panel
     var svg = d3.select("#" + id)
         .append("svg")
-        .attr("preserveAspectRatio","xMinYMin slice")
         .attr("viewBox","0 0 " + width + " " + height)
         .attr("width",width)
         .attr("height",height);
