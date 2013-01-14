@@ -68,7 +68,7 @@ describe "Inside Government API" do
     json_result["response_info"]["status"].should == "ok"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/annotations.json"
     json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government"
-    lambda { DateTime.parse(json_result["updated_at"]) }.should_not raise_error
+    json_result["updated_at"].should represent_a_valid DateTime
     json_result["details"].should have(2).annotations
 
   end
