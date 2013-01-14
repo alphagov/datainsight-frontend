@@ -1,0 +1,95 @@
+/* nav bar */
+nav.performance-nav {
+    width: 100%;
+}
+
+nav.performance-nav .inner-nav {
+    width: 100%;
+}
+
+nav.performance-nav ul {
+    border-bottom: none;
+}
+
+nav.performance-nav #menu-toggle {
+    display: block;
+    padding-right: 23px;
+    padding-left: 15px;
+    float: right;
+    width: auto;
+    background-color: #E6E6E6;
+}
+
+nav.performance-nav #menu-toggle.open {
+    background-color: #EAEDEF;
+}
+
+nav.performance-nav {
+    height: auto;
+    background-color: #EAEDEF;
+}
+
+nav.performance-nav .inner-nav {
+    height: auto;
+}
+
+nav.performance-nav a {
+    padding: 10px 8px 10px 8px;
+}
+
+nav.performance-nav a.top-level {
+    display: block;
+    float: left;
+    width: auto;
+    margin: 0;
+    padding: 10px 8px 10px 15px;
+    background-color: #EAEDEF;
+}
+
+nav.performance-nav .sub-level a {
+    display: block;
+    width: auto;
+    padding-left: 8px;
+    color: black;
+    background-color: #e6e6e6;
+}
+
+nav.performance-nav ul {
+    display: block;
+    height: auto;
+    margin: 0 0 0 0;
+    background-color: #e6e6e6;
+}
+
+nav.performance-nav li.sub-level {
+    margin: 0 15px 0 15px;
+    padding: 0;
+    float: none;
+    display: block;
+    background-color: #000;
+}
+
+/* grid */
+section#content.group {
+    width: 100%;
+    padding: 0 16px 0 16px;
+}
+
+article#datainsight-dashboard {
+    width: 100%;
+    margin: 0;
+}
+
+section.content-group {
+    width: 83.33%;
+    margin: 0 auto 2em auto;
+}
+
+section.content-group img {
+    display: block;
+    margin: 0 auto 0 auto;
+}
+
+section.content-group .two-up {
+    width: 45%;
+}
