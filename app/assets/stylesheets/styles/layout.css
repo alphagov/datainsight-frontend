@@ -13,5 +13,40 @@ header hgroup.dashboard h1 span {
 }
 
 section.content-group article {
-    margin: 0;
+    margin: 0 0 2em 0;
+}
+
+section.content-group > h1 {
+    border-bottom: 5px solid #108095;
+    padding: 16px 0 8px 0;
+    margin: 16px 0 16px 0;
+}
+
+article.dashboard {
+    min-height: 0;
+}
+
+.module-header {
+    width: 50%;
+}
+
+.two-up .module-header, .three-up .module-header {
+    width: 100%;
+}
+
+.datainsight article p, p.small-text {
+    max-width: 100%;
+}
+
+@media (max-width: 700px) {
+    section.content-group > h1 {
+        border-bottom: 3px solid #108095;
+        padding-bottom: 8px;
+    }
+}
+
+@media (max-width: 960px) {
+    .module-header {
+        width: 100%;
+    }
 }

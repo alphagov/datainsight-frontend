@@ -42,6 +42,7 @@ section.content-group .three-up {
     section.content-group .two-up,
     section.content-group .three-up {
         width: 100%;
+        min-width: 480px;
     }
 }
 
