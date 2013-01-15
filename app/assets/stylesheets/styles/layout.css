@@ -1,4 +1,8 @@
 /* remove GOV.UK default styles */
+.header-wrapper {
+    min-width: 480px;
+}
+
 header hgroup.dashboard {
     margin: 0;
     padding: 0;

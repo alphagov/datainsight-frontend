@@ -87,7 +87,7 @@ nav.performance-nav li.sub-level a.current {
         padding-left: 15px;
         float: right;
         width: auto;
-        background-color: #E6E6E6;
+        background-color: #DEE0E2;
     }
 
     nav.performance-nav #menu-toggle.open {
@@ -96,6 +96,7 @@ nav.performance-nav li.sub-level a.current {
 
     nav.performance-nav {
         height: auto;
+        min-width: 480px;
         background-color: #EAEDEF;
     }
 
