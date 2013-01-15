@@ -169,16 +169,17 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr('fill', '#000')
         .attr('opacity',0.0)
         .on('mouseover',function (d,hour) {
-            var boxWidth = 170,
+            var scaleFactor = $(svg.node()).width() / width,
+                boxWidth = 170,
                 boxHeight = 66,
                 offsetSoTheUserCantCatchTheBox = 5,
                 boxShadow = 4,
-                xPos = xScale(hour) - boxWidth - offsetSoTheUserCantCatchTheBox,
-                yPos = d3.mouse(this)[1] + 60,
-                actualXPos = (xPos > 0) ? xPos : xPos + boxWidth + barWidth + offsetSoTheUserCantCatchTheBox + boxShadow,
+                xPos = (xScale(hour) - offsetSoTheUserCantCatchTheBox)*scaleFactor - boxWidth,
+                yPos = (d3.mouse(this)[1] + 60)*scaleFactor,
+                actualXPos = (xPos > 0) ? xPos : xPos + boxWidth + barWidth*scaleFactor + offsetSoTheUserCantCatchTheBox + boxShadow,
                 calloutInfo = {
-                    xPos: actualXPos + margin.left,
-                    yPos: GOVUK.Insights.clamp(yPos - boxHeight, boxShadow, height - margin.bottom - boxHeight),
+                    xPos: actualXPos + margin.left*scaleFactor,
+                    yPos: GOVUK.Insights.clamp(yPos - boxHeight, boxShadow, height - margin.bottom*scaleFactor - boxHeight),
                     parent: '#reach',
                     title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
                     rowData: [
