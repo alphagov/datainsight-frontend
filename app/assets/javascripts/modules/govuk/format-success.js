@@ -28,7 +28,8 @@ GOVUK.Insights.plotFormatSuccessGraph = function (data) {
             "guide": "Guides",
             "programme": "Benefits",
             "answer": "Answers",
-            "smart_answer": "Smart Answers"
+            "smart_answer": "Smart answers",
+            "transaction": "Transaction"
         }[formatId] || formatId;
     };
 
