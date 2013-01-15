@@ -124,7 +124,8 @@ GOVUK.Insights.scatterplotGraph = function () {
             drawAxes(axesGroup, axesLabelsGroup);
 
             var doHover = function (d, element, optionalCallback) {
-                var title = config.circleLabel(d),
+                var scaleFactor = $(svg.node()).width() / config.width,
+                    title = config.circleLabel(d),
                     boxWidth = 170,
                     boxHeight = 66,
                     label = d3.select('#label-' + d3.select(element).attr('data-point-label')),
@@ -138,8 +139,8 @@ GOVUK.Insights.scatterplotGraph = function () {
                         {right:config.y(d).toFixed(0) + '%', left:config.yAxisLabels.description}
                     ],
                     boxInfo = {
-                        xPos:GOVUK.Insights.clamp(xPos, 0, width - boxWidth + 3),
-                        yPos:GOVUK.Insights.clamp(yPos, 0, height - boxHeight) + GOVUK.Insights.geometry.gap(svg.node(), svg.node().parentNode),
+                        xPos:GOVUK.Insights.clamp(xPos * scaleFactor, 0, (width + 3) * scaleFactor - boxWidth),
+                        yPos:GOVUK.Insights.clamp(yPos * scaleFactor, 0, height * scaleFactor - boxHeight) + GOVUK.Insights.geometry.gap(svg.node(), svg.node().parentNode),
                         title:title,
                         rowData:rowData,
                         parent:"#" + selection.attr("id"),
