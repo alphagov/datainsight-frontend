@@ -21,3 +21,6 @@
     stroke: black;
 }
 
+.no-scale, .tick {
+    vector-effect: non-scaling-stroke;
+}

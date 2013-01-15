@@ -270,6 +270,7 @@ GOVUK.Insights.scatterplotGraph = function () {
 
                 drawSemiAxis(xAxis)
                     .classed("x-left", true)
+                    .classed("no-scale", true)
                     .attr("x1", centerX)
                     .attr("y1", centerY)
                     .attr("x2", left)
@@ -277,6 +278,7 @@ GOVUK.Insights.scatterplotGraph = function () {
 
                 drawSemiAxis(xAxis)
                     .classed("x-right", true)
+                    .classed("no-scale", true)
                     .attr("x1", centerX)
                     .attr("y1", centerY)
                     .attr("x2", right)
@@ -287,6 +289,7 @@ GOVUK.Insights.scatterplotGraph = function () {
 
                 drawSemiAxis(yAxis)
                     .classed("y-top", true)
+                    .classed("no-scale", true)
                     .attr("x1", centerX)
                     .attr("y1", centerY)
                     .attr("x2", centerX)
@@ -294,6 +297,7 @@ GOVUK.Insights.scatterplotGraph = function () {
 
                 drawSemiAxis(yAxis)
                     .classed("y-bottom", true)
+                    .classed("no-scale", true)
                     .attr("x1", centerX)
                     .attr("y1", centerY)
                     .attr("x2", centerX)

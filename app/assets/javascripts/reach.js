@@ -94,7 +94,8 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
 
     chart.append("path")
         .attr("d", line(averageData))
-        .attr("class", "dashed-line pink");
+        .attr("class", "dashed-line pink")
+        .classed("no-scale", true);
 
     // Create the Y-Axis
     var yAxis = d3.svg.axis()
@@ -135,7 +136,8 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr("x2", xPos)
         .attr("y1", yStart - 5)
         .attr("y2", yScale(maxLast4) - 10)
-        .attr("class", "label-line vertical pink");
+        .attr("class", "label-line vertical pink")
+        .classed("no-scale", true);
     
     chart.append("svg:text")
         .attr("class", "pink")

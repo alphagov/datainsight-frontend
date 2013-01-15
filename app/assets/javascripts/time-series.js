@@ -175,7 +175,8 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 var path = plottingArea.append("svg:path")
                     .attr("d", line(data[name]))
                     .classed(params.series[name].lineClass, true)
-                    .classed(name, true);
+                    .classed(name, true)
+                    .classed("no-scale", true);
             });
 
 
