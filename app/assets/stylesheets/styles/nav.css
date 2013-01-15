@@ -121,14 +121,14 @@ nav.performance-nav li.sub-level a.current {
         width: auto;
         padding-left: 8px;
         color: black;
-        background-color: #e6e6e6;
+        background-color: #DEE0E2;
     }
 
     nav.performance-nav ul {
         display: block;
         height: auto;
         margin: 0 0 0 0;
-        background-color: #e6e6e6;
+        background-color: #DEE0E2;;
     }
 
     nav.performance-nav li.sub-level {
