@@ -184,9 +184,16 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 var annotation = hoveredAnnotation.datum();
 
                 var content = function(annotation) {
-                    var labelDateFormat = d3.time.format("%d %B %Y");
-                    var title = labelDateFormat(d3.time.format("%Y-%m-%d").parse(annotation.date));
-                    return '<div class="data-point-label">'+title+'</div><div class="details"><div>'+annotation.text+'</div><div class="link"><a href="'+annotation.link+'" rel="external">More info</a></div></div>';
+                    var template = '<div><div class="data-point-label"></div><div class="details"><div class="text"></div><div class="link"><a rel="external">More info</a></div></div></div>';
+                    var displayFormat = d3.time.format("%d %B %Y");
+                    var parseFormat = d3.time.format("%Y-%m-%d");
+
+                    var content = $(template);
+                    content.find(".data-point-label").text(displayFormat(parseFormat.parse(annotation.date)));
+                    content.find(".text").text(annotation.text);
+                    content.find("a").attr("href", annotation.link).attr("target", annotation.target || "_blank");
+
+                    return content;
                 };
 
                 // show callout
