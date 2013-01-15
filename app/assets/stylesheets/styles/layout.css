@@ -42,6 +42,10 @@ article.dashboard {
     max-width: 100%;
 }
 
+#about-performance-platform p {
+    max-width: 24em;
+}
+
 @media (max-width: 700px) {
     section.content-group > h1 {
         border-bottom: 3px solid #108095;
