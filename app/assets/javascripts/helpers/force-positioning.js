@@ -104,9 +104,18 @@ GOVUK.Insights.forcePosition = function () {
         return quadrantFloat = parseFloat(theta / (Math.PI / 2));
     };
 
+    var center = function(element) {
+        var box = element.getBBox();
+        return {
+            x: box.x + box.width/2,
+            y: box.y + box.height/2
+        }
+    }
+
     var oneWayRepulsion = function (anElement, anElementThatGetsPushed) {
-        var dX = parseFloat(anElementThatGetsPushed.attr('x')) - parseFloat(anElement.attr('cx')),
-            dY = parseFloat(anElementThatGetsPushed.attr('y')) - parseFloat(anElement.attr('cy')),
+        var fixedCenter = center(anElement.node());
+        var dX = parseFloat(anElementThatGetsPushed.attr('x')) - fixedCenter.x,
+            dY = parseFloat(anElementThatGetsPushed.attr('y')) - fixedCenter.y,
             theta = Math.atan2(dY, dX),
             xMovement = (privateConstants.REPULSION_STRENGTH * Math.cos(theta)),
             yMovement = (privateConstants.REPULSION_STRENGTH * Math.sin(theta));

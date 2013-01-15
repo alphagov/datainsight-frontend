@@ -36,6 +36,10 @@ GOVUK.Insights.scatterplotGraph = function () {
         colourScale:d3.scale.linear()
     };
 
+    var RED = "#BF1E2D",
+        GREEN = "#74B74A",
+        GRAY = "#B3B3B3";
+
     var verticalOffsetForYAxisLabel = 7;
 
     var plottingAreaOffsetTop = function() {
@@ -48,10 +52,10 @@ GOVUK.Insights.scatterplotGraph = function () {
 
     var getScales = function(data) {
         return {
-            X: config.xScale.domain([0,d3.max(data, config.x)]).range([0,config.width*0.95]),
+            X: config.xScale.domain([0,d3.max(data, config.x)]).range([50, config.width - 50]),
             Y: config.yScale.domain([0,100]).range([plottingAreaHeight(config) - verticalOffsetForYAxisLabel, 0]),
             R: config.rScale.domain([0,d3.max(data, config.r)]).range([1,config.maxRadius]),
-            C: config.colourScale.domain([0, 50, 100]).range(["#BF1E2D", "#B3B3B3", "#74B74A"])
+            C: config.colourScale.domain([0, 50, 100]).range([RED, GRAY, GREEN])
         }
     };
 
@@ -65,7 +69,9 @@ GOVUK.Insights.scatterplotGraph = function () {
                 bottomOverflow = function (d) {
                     var overflow = Y(config.y(d)) + R(config.r(d)) - plottingAreaHeight(config);
                     return overflow > 0 ? overflow : 0;
-                };
+                },
+                width = (config.width + config.marginLeft + config.marginRight),
+                height = (config.height + config.marginTop + config.marginBottom + d3.max(data, bottomOverflow));
 
             var svg = d3.select(this).selectAll("svg").data([config]);
 
@@ -74,13 +80,11 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .attr("class", "scatterplot js-graph-area");
 
             svg
-                .attr("viewBox", function (d) {
-                    return "0 0 " +  (d.width + d.marginLeft + d.marginRight) + " " + (d.height + d.marginTop + d.marginBottom + d3.max(data, bottomOverflow));
-                })
-                .attr("height", function(d) { return d.height; })
-                .attr("width", function(d) { return d.width; });
+                .attr("viewBox", "0 0 " +  width + " " + height)
+                .attr("height", height)
+                .attr("width", width);
 
-            GOVUK.Insights.svg.resizeIfPossible(svg, config.width, config.height);
+            GOVUK.Insights.svg.resizeIfPossible(svg, width, height);
 
             var plotArea = svg.selectAll("g.plot-area").data([config]);
 
@@ -113,24 +117,29 @@ GOVUK.Insights.scatterplotGraph = function () {
                 })
                 .attr("dy", ".35em");
 
+            var axesGroup = graphArea.append("svg:g").classed("axes", true);
+            var circlesGroup = graphArea.append("svg:g").classed("data-area", true);
+            var axesLabelsGroup = graphArea.append("svg:g").classed("axesLabels", true);
+
+            drawAxes(axesGroup, axesLabelsGroup);
+
             var doHover = function (d, element, optionalCallback) {
                 var title = config.circleLabel(d),
                     boxWidth = 170,
                     boxHeight = 66,
-                    topShift = 125, // a fudge factor for the box y position
                     label = d3.select('#label-' + d3.select(element).attr('data-point-label')),
                     labelX = parseFloat(label.attr('x')) + config.marginLeft,
-                    labelY = parseFloat(label.attr('y')) + config.marginTop + topShift,
+                    labelY = parseFloat(label.attr('y')) + config.marginTop + plottingAreaOffsetTop(),
                     labelBoundingBox = label.node().getBBox(),
-                    xPos = (labelX > parseFloat(d3.select(element).attr('cx'))) ? labelX : labelX - (boxWidth - labelBoundingBox.width - 3),
+                    xPos = (labelX > parseFloat(d3.select(element).attr('cx'))) ? labelX - 3 : labelX - (boxWidth - labelBoundingBox.width - 3),
                     yPos = (labelY < parseFloat(d3.select(element).attr('cy'))) ? labelY - (boxHeight - labelBoundingBox.height / 2) : labelY - labelBoundingBox.height / 2,
                     rowData = [
                         {right:GOVUK.Insights.formatNumericLabel(config.x(d)), left:config.xAxisLabels.description},
                         {right:config.y(d).toFixed(0) + '%', left:config.yAxisLabels.description}
                     ],
                     boxInfo = {
-                        xPos:GOVUK.Insights.clamp(xPos, 0, config.width - boxWidth + 3),
-                        yPos:GOVUK.Insights.clamp(yPos, 0, config.height + config.marginTop + 20 - boxHeight + labelBoundingBox.height / 2),
+                        xPos:GOVUK.Insights.clamp(xPos, 0, width - boxWidth + 3),
+                        yPos:GOVUK.Insights.clamp(yPos, 0, height - boxHeight) + GOVUK.Insights.geometry.gap(svg.node(), svg.node().parentNode),
                         title:title,
                         rowData:rowData,
                         parent:"#" + selection.attr("id"),
@@ -154,7 +163,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 d3.select(element).attr("stroke", "white");
             };
 
-            var circles = graphArea.selectAll("circle").data(data);
+            var circles = circlesGroup.selectAll("circle").data(data);
 
             circles.enter().append("svg:circle");
 
@@ -196,7 +205,7 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             circles.exit().remove();
 
-            var circlesLabels = graphArea.selectAll("text.circle-label").data(data);
+            var circlesLabels = circlesGroup.selectAll("text.circle-label").data(data);
 
             circlesLabels.enter().append("svg:text")
                 .attr("class", "circle-label js-floating");
@@ -239,187 +248,122 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             circlesLabels.exit().remove();
 
-            var xAxis = graphArea.selectAll("g.x").data([config]);
+            function drawAxes(group, labelsGroup) {
 
-            xAxis.enter().append("g");
+                var left    = 0,
+                    right   = config.width,
+                    top     = Y(100),
+                    bottom  = Y(0),
+                    centerX = (right - left) / 2,
+                    centerY = (bottom - top) / 2;
 
-            xAxis
-                .attr("class", "x axis");
+                function drawSemiAxis(group) {
+                    return group.append("svg:line")
+                        .classed("domain", true)
+                        .attr("stroke", "black")
+                        .style("stroke-dashoffset", "2px");
+                }
 
-            var xAxisLeft = xAxis.selectAll("line.x-left").data([config]);
+                var xAxis = group.append("g")
+                    .attr("class", "x axis");
 
-            xAxisLeft.enter().append("line");
+                drawSemiAxis(xAxis)
+                    .classed("x-left", true)
+                    .attr("x1", centerX)
+                    .attr("y1", centerY)
+                    .attr("x2", left)
+                    .attr("y2", centerY);
 
-            xAxisLeft
-                .attr("class", "domain x-left")
-                .attr("x1", function (d) {
-                    return d.width / 2;
-                })
-                .attr("x2", 0)
-                .attr("y1", function (d) {
-                    return Y(50);
-                })
-                .attr("y2", function (d) {
-                    return Y(50);
-                })
-                .attr("stroke", "black")
-                .style("stroke-dashoffset", "2px");
+                drawSemiAxis(xAxis)
+                    .classed("x-right", true)
+                    .attr("x1", centerX)
+                    .attr("y1", centerY)
+                    .attr("x2", right)
+                    .attr("y2", centerY);
 
-            var xAxisRight = xAxis.selectAll("line.x-right").data([config]);
+                var yAxis = group.append("g")
+                    .attr("class", "y axis");
 
-            xAxisRight.enter().append("line");
+                drawSemiAxis(yAxis)
+                    .classed("y-top", true)
+                    .attr("x1", centerX)
+                    .attr("y1", centerY)
+                    .attr("x2", centerX)
+                    .attr("y2", top);
 
-            xAxisRight
-                .attr("class", "domain x-right")
-                .attr("x1", function (d) {
-                    return d.width / 2;
-                })
-                .attr("x2", function (d) {
-                    return d.width;
-                })
-                .attr("y1", function (d) {
-                    return Y(50);
-                })
-                .attr("y2", function (d) {
-                    return Y(50);
-                })
-                .attr("stroke", "black")
-                .style("stroke-dashoffset", "2px");
+                drawSemiAxis(yAxis)
+                    .classed("y-bottom", true)
+                    .attr("x1", centerX)
+                    .attr("y1", centerY)
+                    .attr("x2", centerX)
+                    .attr("y2", bottom);
 
-            var yAxis = graphArea.selectAll("g.y").data([config]);
+                // Place X axis tick labels
+                var leftXAxisLabel = labelsGroup.selectAll("text.label-x-left").data([config]);
 
-            yAxis.enter().append("g");
+                leftXAxisLabel.enter().append("svg:text");
 
-            yAxis
-                .attr("class", "y axis");
+                leftXAxisLabel.text(config.xAxisLabels.left)
+                    .attr("class", "label-x-left")
+                    .attr("x", left)
+                    .attr("y", centerY + 9)
+                    .attr("dy", ".71em");
 
-            var yAxisTop = yAxis.selectAll("line.y-top").data([config]);
+                var rightXAxisLabel = labelsGroup.selectAll("text.label-x-right").data([config]);
 
-            yAxisTop.enter().append("line");
+                rightXAxisLabel.enter().append("svg:text");
 
-            yAxisTop
-                .attr("class", "domain y-top")
-                .attr("x1", function (d) {
-                    return d.width / 2;
-                })
-                .attr("x2", function (d) {
-                    return d.width / 2;
-                })
-                .attr("y1", function (d) {
-                    return Y(50);
-                })
-                .attr("y2", function (d) {
-                    return Y(100);
-                })
-                .attr("stroke", "black")
-                .style("stroke-dashoffset", "2px");
+                rightXAxisLabel.text(config.xAxisLabels.right)
+                    .attr("class", "label-x-right")
+                    .attr("x", right)
+                    .attr("y", centerY + 9)
+                    .attr("dy", ".71em");
 
-            var yAxisBottom = yAxis.selectAll("line.y-bottom").data([config]);
+                // Place Y axis tick labels
+                function drawYAxisLabelSquare(parent) {
+                    return parent.append("rect")
+                        .classed("js-fixed", true)
+                        .attr("stroke", "white")
+                        .attr("stroke-width", 1)
+                        .attr("height", 12)
+                        .attr("width", 12);
+                }
 
-            yAxisBottom.enter().append("line");
+                drawYAxisLabelSquare(labelsGroup)
+                    .classed("label-y-bottom", true)
+                    .attr("fill", RED)
+                    .attr("y", bottom - 6)
+                    .attr("x", centerX + 7);
 
-            yAxisBottom
-                .attr("class", "domain y-bottom")
-                .attr("x1", function (d) {
-                    return d.width / 2;
-                })
-                .attr("x2", function (d) {
-                    return d.width / 2;
-                })
-                .attr("y1", function (d) {
-                    return Y(50);
-                })
-                .attr("y2", function (d) {
-                    return Y(0);
-                })
-                .attr("stroke", "black")
-                .style("stroke-dashoffset", "2px");
+                var bottomYAxisLabel = labelsGroup.selectAll("text.label-y-bottom").data([config]);
 
-            // Place X axis tick labels
-            var leftXAxisLabel = graphArea.selectAll("text.label-x-left").data([config]);
+                bottomYAxisLabel.enter().append("svg:text");
 
-            leftXAxisLabel.enter().append("svg:text");
+                bottomYAxisLabel
+                    .text(config.yAxisLabels.bottom)
+                    .attr("class", "label-y-bottom")
+                    .attr("y", bottom)
+                    .attr("x", centerX - 5)
+                    .attr("dy", ".35em");
 
-            leftXAxisLabel.text(config.xAxisLabels.left)
-                .attr("class", "label-x-left")
-                .attr("x", 0)
-                .attr("y", function (d) {
-                    return Y(50) + 9
-                })
-                .attr("dy", ".71em");
+                drawYAxisLabelSquare(labelsGroup)
+                    .classed("label-y-top", true)
+                    .attr("fill", GREEN)
+                    .attr("y", -6)
+                    .attr("x", centerX + 7);
 
-            var rightXAxisLabel = graphArea.selectAll("text.label-x-right").data([config]);
+                var topYAxisLabel = labelsGroup.selectAll("text.label-y-top").data([config]);
 
-            rightXAxisLabel.enter().append("svg:text");
+                topYAxisLabel.enter().append("svg:text");
 
-            rightXAxisLabel.text(config.xAxisLabels.right)
-                .attr("class", "label-x-right")
-                .attr("x", function (d) {
-                    return d.width;
-                })
-                .attr("y", function (d) {
-                    return Y(50) + 9;
-                })
-                .attr("dy", ".71em");
+                topYAxisLabel
+                    .text(config.yAxisLabels.top)
+                    .attr("class", "label-y-top")
+                    .attr("y", top)
+                    .attr("x", centerX - 5)
+                    .attr("dy", ".35em");
 
-            // Place Y axis tick labels
-            var bottomYAxisLabel = graphArea.selectAll("text.label-y-bottom").data([config]);
-
-            bottomYAxisLabel.enter().append("svg:text");
-
-            bottomYAxisLabel
-                .text(config.yAxisLabels.bottom)
-                .attr("class", "label-y-bottom")
-                .attr("y", function (d) {
-                    return Y(0);
-                })
-                .attr("x", function (d) {
-                    return d.width / 2 - 5;
-                })
-                .attr("dy", ".35em");
-
-            var bottomYAxisLabelSquare = graphArea.selectAll("rect.label-y-bottom").data([config]);
-
-            bottomYAxisLabelSquare.enter().append("rect");
-
-            bottomYAxisLabelSquare
-                .attr("fill", "#BF1E2D")
-                .attr("class", "label-y-bottom")
-                .attr("height", 12)
-                .attr("width", 12)
-                .attr("y", function (d) {
-                    return Y(0) - 6;
-                })
-                .attr("x", function (d) {
-                    return d.width / 2 + 7;
-                });
-
-            var topYAxisLabel = graphArea.selectAll("text.label-y-top").data([config]);
-
-            topYAxisLabel.enter().append("svg:text");
-
-            topYAxisLabel
-                .text(config.yAxisLabels.top)
-                .attr("class", "label-y-top")
-                .attr("y", 0)
-                .attr("x", function (d) {
-                    return d.width / 2 - 5;
-                })
-                .attr("dy", ".35em");
-
-            var topYAxisLabelSquare = graphArea.selectAll("rect.label-y-top").data([config]);
-
-            topYAxisLabelSquare.enter().append("rect");
-
-            topYAxisLabelSquare
-                .style("fill", "#74B74A")
-                .attr("class", "label-y-top")
-                .attr("height", 12)
-                .attr("width", 12)
-                .attr("y", -6)
-                .attr("x", function (d) {
-                    return d.width / 2 + 7;
-                });
+            }
         });
     };
 

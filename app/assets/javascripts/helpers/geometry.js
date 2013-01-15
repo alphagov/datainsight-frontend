@@ -36,8 +36,16 @@ GOVUK.Insights.geometry = function () {
         this.right += value;
     };
 
+    function gap(anElement, otherElement) {
+        function top(element) {
+            return $(element).offset().top;
+        }
+        return Math.abs(top(anElement) - top(otherElement));
+    }
+
     return {
-        CollisionBox: CollisionBox
+        CollisionBox: CollisionBox,
+        gap: gap
     };
 }();
 
