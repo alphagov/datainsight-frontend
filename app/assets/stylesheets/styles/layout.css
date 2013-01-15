@@ -1,6 +1,6 @@
 /* remove GOV.UK default styles */
 .header-wrapper {
-    min-width: 480px;
+    width: auto;
 }
 
 header hgroup.dashboard {

@@ -96,7 +96,7 @@ nav.performance-nav li.sub-level a.current {
 
     nav.performance-nav {
         height: auto;
-        min-width: 480px;
+        width: auto;
         background-color: #EAEDEF;
     }
 
