@@ -3,7 +3,7 @@ GOVUK.Insights = GOVUK.Insights || {};
 
 GOVUK.Insights.timeSeriesGraph = function () {
     var config = {
-        width:958,
+        width:956,
         height:400,
         marginTop: 0,
         marginBottom: 0,
@@ -55,7 +55,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .attr("height", function(d) { return d.height; })
                 .attr("width", function(d) { return d.width; });
 
-            GOVUK.Insights.svg.resizeIfPossible(svg, width, height);
+            GOVUK.Insights.svg.resizeIfPossible(svg, config.width, config.height);
 
             GOVUK.Insights.svg.createShadowFilter("shadow", svg.node());
 
@@ -203,7 +203,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     xPositionLeftLimit = Y_AXIS_WIDTH + config.marginLeft,
                     xPositionRightCandidate = annotation.x + config.marginLeft + xOffset,
                     xPositionLeftCandidate = annotation.x + config.marginLeft - xOffset - boxWidth,
-                    bottomBorderPosition = config.height - (annotation.y + config.marginTop - yOffset) + 4;
+                    bottomBorderPosition = config.height - (annotation.y + config.marginTop - yOffset) + 10;
 
                 var calloutInfo = {
                     xPos:(xPositionLeftCandidate < xPositionLeftLimit ? xPositionRightCandidate : xPositionLeftCandidate),
