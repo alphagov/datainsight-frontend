@@ -390,7 +390,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 ];
             }
 
-            var width = 250,
+            var width = 960,
                 height = 80,
                 marginTop = 5
                 maxCircleRadius = R(dataForLegend.slice(-1)),
@@ -402,11 +402,14 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             legend
                 .enter().append("svg")
+                .attr("viewBox", "0 0 " +  960 + " " + (height + marginTop))
                 .attr("width", width)
                 .attr("height", height + marginTop)
                 .attr("class", "scatterplot-legend")
                 .append("g")
                 .attr("transform", "translate(0, 3)");
+
+            GOVUK.Insights.svg.resizeIfPossible(legend, 960, height + marginTop);
 
             var legendText = legend.selectAll("text.circle-legend").data(dataForLegend);
 
