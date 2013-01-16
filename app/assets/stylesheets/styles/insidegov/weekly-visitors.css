@@ -27,3 +27,7 @@
     stroke-width: 2.5px;
     stroke-linecap: round;
 }
+
+.annotation.highlighted {
+    opacity: 0;
+}

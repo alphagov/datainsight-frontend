@@ -124,7 +124,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .attr("d", line(data));
 
             function removeHighlight() {
-                plottingArea.select(".highlighted").classed("highlighted", false);
+                svg.selectAll(".highlighted").classed("highlighted", false);
                 plottingArea.select("#dataPointHighlight").remove();
             }
 
@@ -183,8 +183,8 @@ GOVUK.Insights.timeSeriesGraph = function () {
             function annotationCalloutInfo(hoveredAnnotation) {
                 var annotation = hoveredAnnotation.datum();
 
-                var content = function(annotation) {
-                    var template = '<div><div class="data-point-label"></div><div class="details"><div class="text"></div><div class="link"><a rel="external">More info</a></div></div></div>';
+                var content = function(annotation, tailX) {
+                    var template = '<div><div class="data-point-label"></div><div class="details"><div class="text"></div><div class="link"><a rel="external">More info</a></div></div><div class="tail"></div></div>';
                     var displayFormat = d3.time.format("%d %B %Y");
                     var parseFormat = d3.time.format("%Y-%m-%d");
 
@@ -192,6 +192,14 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     content.find(".data-point-label").text(displayFormat(parseFormat.parse(annotation.date)));
                     content.find(".text").text(annotation.text);
                     content.find("a").attr("href", annotation.link).attr("target", annotation.target || "_blank");
+                    content.find(".tail").css({
+                        "position": "absolute",
+                        "bottom": -14,
+                        "left": tailX,
+                        "height": 14,
+                        "width": 22,
+                        "background-image": "url(/datainsight-frontend/tail.png)"
+                    });
 
                     return content;
                 };
@@ -201,17 +209,20 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     boxWidth = 270,
                     xOffset = -20,
                     yOffset = 18,
-                    xPositionLeftLimit = Y_AXIS_WIDTH + config.marginLeft,
+                    xTipPosition = (annotation.x + config.marginLeft) * scaleFactor,
+                    xPositionLeftLimit = (Y_AXIS_WIDTH + config.marginLeft) * scaleFactor,
                     xPositionRightCandidate = (annotation.x + config.marginLeft + xOffset)*scaleFactor,
                     xPositionLeftCandidate = (annotation.x + config.marginLeft - xOffset)*scaleFactor - boxWidth,
-                    bottomBorderPosition = (config.height - (annotation.y + config.marginTop - yOffset) + 10)*scaleFactor;
+                    xPosition = (xPositionLeftCandidate < xPositionLeftLimit ? xPositionRightCandidate : xPositionLeftCandidate),
+                    xTailPosition = xTipPosition - xPosition - 11,
+                    bottomBorderPosition = (config.height - (annotation.y + config.marginTop - yOffset) + 8)*scaleFactor;
 
                 var calloutInfo = {
-                    xPos:(xPositionLeftCandidate < xPositionLeftLimit ? xPositionRightCandidate : xPositionLeftCandidate),
+                    xPos:xPosition,
                     bottom: bottomBorderPosition,
                     width:boxWidth,
                     parent:"#" + container.attr("id"),
-                    content:content(annotation)
+                    content:content(annotation, xTailPosition)
                 };
 
                 return calloutInfo;
@@ -275,6 +286,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     var hoveredAnnotation = d3.selectAll(".annotation").filter(function() { return !mouseOutside(this) });
 
                     if (!hoveredAnnotation.empty()) {
+                        hoveredAnnotation.classed("highlighted", true);
                         calloutInfo = annotationCalloutInfo(hoveredAnnotation);
                     } else {
                         var closestDataPoint = findClosestDataPoint.call(this);
