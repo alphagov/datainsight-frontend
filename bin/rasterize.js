@@ -15,21 +15,34 @@ if (phantom.args.length < 2 || phantom.args.length > 4) {
     selector = phantom.args[2];
     page.viewportSize = { width: 1280, height: 1024 };
     page.open(address, function (status) {
+
+        function hideAnnotationMarkers() {
+            $("#inside-gov-weekly-visitors .annotation").hide();
+        };
+
+        function getClipRect(selector) {
+            return document.querySelector(selector).getBoundingClientRect();
+        };
+
+        function exit(success) {
+            if (!success) {
+                phantom.exit(2);
+            } else {
+                phantom.exit();
+            }
+        }
+
+        function processPage() {
+            page.evaluate(hideAnnotationMarkers);
+            page.clipRect = page.evaluate(getClipRect, selector);
+            var saved = page.render(output);
+            exit(saved);
+        };
+
         if (status !== 'success') {
             console.log('Unable to load the address!');
         } else {
-            window.setTimeout(function () {
-                var clipRect = page.evaluate(function (selector) {
-                    return document.querySelector(selector).getBoundingClientRect();
-                }, selector);
-                page.clipRect = clipRect;
-                var imageSaved = page.render(output);
-                if (!imageSaved) {
-                  phantom.exit(2);
-                } else {
-                  phantom.exit();
-                }
-            }, 200);
+            window.setTimeout(processPage, 200);
         }
     });
 }
