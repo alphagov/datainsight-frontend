@@ -48,15 +48,21 @@ GOVUK.Insights.svg.translate = function(x, y) {
     return "translate(" + x + "," + y + ")";
 }
 
+GOVUK.Insights.svg.supportsResizing = function () {
+    return !($('#wrapper').hasClass("ie9"));
+};
+
 GOVUK.Insights.svg.resizeIfPossible = function (svg, width, height) {
-    var supportsResizing = function () {
-        return !($('#wrapper').hasClass("ie9"));
-    };
-    if (supportsResizing()) {
+    if (GOVUK.Insights.svg.supportsResizing()) {
+        console.log("addin' classes", svg.node())
         svg
             .attr("width","100%")
             .attr("height","100%")
-            .style("max-width",width)
-            .style("max-height",height);
+            .style("max-width",width + 'px')
+            .style("max-height",height + 'px');
     }
+};
+
+GOVUK.Insights.svg.scaleFactor = function (svg, fullWidth) {
+    return GOVUK.Insights.svg.supportsResizing() ? ($(svg.node()).parent().width() / fullWidth) : 1;
 };
