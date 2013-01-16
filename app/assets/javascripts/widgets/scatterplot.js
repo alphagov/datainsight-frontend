@@ -262,7 +262,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return group.append("svg:line")
                         .classed("domain", true)
                         .attr("stroke", "black")
-                        .style("stroke-dashoffset", "2px");
+                        .style("stroke-dashoffset", "-4px");
                 }
 
                 var xAxis = group.append("g")
