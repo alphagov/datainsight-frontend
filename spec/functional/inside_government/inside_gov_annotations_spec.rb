@@ -13,23 +13,21 @@ describe "Inside Government Annotations" do
   end
 
   it "should populate table correctly" do
-    pending "Design for the table is needed"
     visit "/performance/dashboard/government"
 
     # will be invisible because of SVG support
     page.execute_script("$('#inside-gov-annotations').show()")
 
-    comments = page.find("#inside-gov-annotations table tbody").all(".comment_col").map(&:text)
-    dates = page.find("#inside-gov-annotations table tbody").all(".date_col").map(&:text)
-    links = page.find("#inside-gov-annotations table tbody").all(".comment_col a").map{|link| link["href"]}
+    comments = page.all("#inside-gov-annotations table tbody td:nth-child(2)").map(&:text)
+    dates = page.all("#inside-gov-annotations table tbody td:nth-child(1)").map(&:text)
+    links = page.all("#inside-gov-annotations table tbody td:nth-child(2) a").map{|link| link["href"]}
 
-    pp comments[0]
     comments[0].should  include("this is the first comment")
-    dates[0].should == "12/12/12"
+    dates[0].should == "12 December 2012"
     links[0].should == "bar"
 
     comments[1].should include("this is the second comment")
-    dates[1].should == "13/12/12"
+    dates[1].should == "13 December 2012"
     links[1].should == "foobar"
   end
 end

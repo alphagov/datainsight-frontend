@@ -1,8 +1,10 @@
 <% if @annotations.present? %>
-<article id="inside-gov-annotations">
-  <h2>Significant dates for <span class="insidegov">Inside Government</span></h2>
+<article id="inside-gov-annotations" class="one-up">
+  <hgroup>
+    <h1>Significant dates for <span class="insidegov">Inside Government</span></h1>
+    <h2>Events which may have changed web traffic</h2>
+  </hgroup>
 
-  <p class="graph-heading">Events which may have changed web traffic</p>
   <table>
     <thead>
     <tr>
@@ -13,8 +15,8 @@
     <tbody>
     <% @annotations["details"].each do |annotation| %>
         <tr>
-          <td class="comment_col"><%= annotation["comment"] %>&nbsp;<a href=<%= annotation["link"] %>>...more</a></td>
-          <td class="date_col"><%= annotation["date"] %></td>
+          <td><%= Date.parse(annotation["date"]).strftime("%e %B %Y") %></td>
+          <td><%= annotation["text"] %>&nbsp;<a href="<%= annotation["link"] %>" rel="external">More info</a></td>
         </tr>
     <% end %>
     </tbody>
