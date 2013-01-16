@@ -1,10 +1,10 @@
 /* nav bar */
 nav.performance-nav {
-    width: 100%;
+    width: 960px;
 }
 
 nav.performance-nav .inner-nav {
-    width: 100%;
+    width: 960px;
 }
 
 nav.performance-nav ul {
@@ -71,25 +71,28 @@ nav.performance-nav li.sub-level {
 
 /* grid */
 section#content.group {
-    width: 100%;
-    padding: 0 16px 0 16px;
+    width: 960px;
+    margin: 0 auto;
 }
 
 article#datainsight-dashboard {
-    width: 100%;
-    margin: 0;
+    width: 960px;
+    margin: 0 auto;
 }
 
 section.content-group {
-    width: 83.33%;
+    width: 928px;
     margin: 0 auto 2em auto;
 }
 
-section.content-group img {
+section.content-group .two-up, section.content-group .one-up {
     display: block;
-    margin: 0 auto 0 auto;
+    margin: 0 auto;
+    width: 928px;
 }
 
-section.content-group .two-up {
-    width: 45%;
+section.content-group .one-up img {
+    display: block;
+    width: 928px;
+    margin: 0 auto;
 }
