@@ -19,21 +19,10 @@ if (phantom.args.length < 2 || phantom.args.length > 4) {
             console.log('Unable to load the address!');
         } else {
             window.setTimeout(function () {
-                var clipRect = page.evaluate(function (s) {
-                      function hideGovUKBetaOverlayMessage() {
-                        $("#popup").hide();
-                        $("#mask").hide();
-                      }
-
-                      hideGovUKBetaOverlayMessage();
-                      return document.querySelector(s).getBoundingClientRect();
-                    }, selector);
-                page.clipRect = {
-                   top:    clipRect.top,
-                   left:   clipRect.left,
-                   width:  clipRect.width,
-                   height: clipRect.height
-                  };
+                var clipRect = page.evaluate(function (selector) {
+                    return document.querySelector(selector).getBoundingClientRect();
+                }, selector);
+                page.clipRect = clipRect;
                 var imageSaved = page.render(output);
                 if (!imageSaved) {
                   phantom.exit(2);
