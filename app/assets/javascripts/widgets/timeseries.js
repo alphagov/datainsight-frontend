@@ -222,14 +222,15 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     xPositionLeftCandidate = (annotation.x + config.marginLeft - xOffset)*scaleFactor - boxWidth,
                     xPosition = (xPositionLeftCandidate < xPositionLeftLimit ? xPositionRightCandidate : xPositionLeftCandidate),
                     xTailPosition = xTipPosition - xPosition - 11,
-                    bottomBorderPosition = (config.height - (annotation.y + config.marginTop - yOffset) + 8)*scaleFactor;
+                    bottomBorderPosition = (config.height - (annotation.y + config.marginTop - yOffset))*scaleFactor + 10;
 
                 var calloutInfo = {
                     xPos:xPosition,
                     bottom: bottomBorderPosition,
                     width:boxWidth,
                     parent:"#" + container.attr("id"),
-                    content:content(annotation, xTailPosition)
+                    content:content(annotation, xTailPosition),
+                    callback: removeHighlight
                 };
 
                 return calloutInfo;
@@ -258,7 +259,8 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     width:boxWidth,
                     height:boxHeight,
                     parent:"#" + container.attr("id"),
-                    content:config.callout.content(datum)
+                    content:config.callout.content(datum),
+                    callback: removeHighlight
                 };
                 return calloutInfo;
             }
