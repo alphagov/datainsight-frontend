@@ -19,7 +19,7 @@
 }
 
 #inside-gov-weekly-visitors .annotation path {
-    fill: #DEE0E2;
+    fill: #f1f1f1;
 }
 
 #inside-gov-weekly-visitors .annotation line {
@@ -28,6 +28,6 @@
     stroke-linecap: round;
 }
 
-.annotation.highlighted {
+#inside-gov-weekly-visitors .annotation.highlighted {
     opacity: 0;
 }
