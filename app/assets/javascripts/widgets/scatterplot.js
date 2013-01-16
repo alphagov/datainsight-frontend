@@ -124,7 +124,7 @@ GOVUK.Insights.scatterplotGraph = function () {
             drawAxes(axesGroup, axesLabelsGroup);
 
             var doHover = function (d, element, optionalCallback) {
-                var scaleFactor = $(svg.node()).width() / config.width,
+                var scaleFactor = $(svg.node()).parent().width() / config.width,
                     title = config.circleLabel(d),
                     boxWidth = 170,
                     boxHeight = 66,

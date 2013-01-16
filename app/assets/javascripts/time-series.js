@@ -257,13 +257,14 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                         currentCallout.close();
                     }
                     // show callout
-                    var boxWidth = 165,
+                    var scaleFactor = ($(svg.node()).parent().width() / width),
+                        boxWidth = 165,
                         boxHeight = 48,
                         xOffset = -20,
                         yOffset = -60,
-                        intendedXPos = closest.dataPoint.x() + margins.left + xOffset - boxWidth,
-                        xPos = (intendedXPos < margins.left) ? closest.dataPoint.x() + margins.left - xOffset : intendedXPos,
-                        yPos = (closest.dataPoint.y() < height/2) ? closest.dataPoint.y() + margins.top - (yOffset + boxHeight) : closest.dataPoint.y() + margins.top + yOffset,
+                        intendedXPos = (closest.dataPoint.x() + margins.left + xOffset)*scaleFactor - boxWidth,
+                        xPos = (intendedXPos < margins.left) ? (closest.dataPoint.x() + margins.left - xOffset)*scaleFactor : intendedXPos,
+                        yPos = (closest.dataPoint.y() < height/2) ? (closest.dataPoint.y() + margins.top - yOffset)*scaleFactor - boxHeight : (closest.dataPoint.y() + margins.top + yOffset)*scaleFactor,
                         calloutInfo = {
                             xPos: xPos,
                             yPos: yPos,
@@ -279,7 +280,6 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                             ],
                             boxClass: closest.seriesName
                         };
-
 
                     currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
                 })

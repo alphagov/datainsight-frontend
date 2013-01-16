@@ -197,7 +197,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 };
 
                 // show callout
-                var scaleFactor = ($(svg.node()).width() / config.width),
+                var scaleFactor = ($(svg.node()).parent().width() / config.width),
                     boxWidth = 270,
                     xOffset = -20,
                     yOffset = 18,
@@ -222,7 +222,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 var highlightedPointY = yScale(config.y(datum));
 
                 // show callout
-                var scaleFactor = ($(svg.node()).width() / config.width),
+                var scaleFactor = ($(svg.node()).parent().width() / config.width),
                     boxWidth = config.callout.width || 165,
                     boxHeight = config.callout.height || 48,
                     xOffset = config.callout.xOffset || 15,
