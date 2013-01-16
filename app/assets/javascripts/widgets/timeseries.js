@@ -25,6 +25,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
         }
     };
 
+    var markerShadowUri = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAoCAYAAACb3CikAAADd0lEQVRYCb2YDXPTMAyG28IYjAE7Dv7/D4TBwQZsK1t5H1evcT6Xukl1p9mJHemxpDju1rvdblUja4meQ0uRuTqD66nPheONvKIvitYwrOhR+lS0T1PBngURgB2fycF5KH3UQOpmgK366H0o/UcBATgogyARARzh/I30bSj9V1KDtCOC4wfpH+mvUPqAAdRbC70gAYGjC+l76Qfpu7gG7KUUyLJOcOD0/FUfx7+lN9If0p9xve2DwWBDAoIVX0o/hgLjSLhOdKtbrNyUkAbmsxAiScsCvklv5eOhDdMAKSIBxKfQK7WvpcwtI6DLjjhNrh1aIsvCeJ5FIDfy1YhMA0QTeBB6IvFZCgQr4z5iR/ur8b+eCwgAXoTfqlvdI4VJMkhEg/CRBkCoC0PYqG4dJH6OhWCLGvIbtZXPXLwOFdaBYjIAwJAODNiYutWCDWxhE9teZA5EAilqg8Li7QAoT1J/LvFiqUF8nYXvXDwAkRZXOMXFKuaIhswksT1vC9QiflIwnBpabhIJgLieE0LmkmCTFOGj9JUjwiAgTCB8BlR3dsE2UcEXPvG92kSOPAhEGmBwQcEHMOnVhsErZ8DqXC7FYfv2R5trgUGgaE8lpc8ckVM5H/RDFPzVZOulfyrBl33uXCOcrKwGWwrI9u2PdrWJzzFkfAP4CKUBtUsKPvCHpuNkGRFOVRxmgAFsKfGi8YXPfUTCG4M+3jGB6yXqBZs4xoePj2nRjggXDHLG5HgHlHOp7ixie6QDH/bzHyTqhAmAcMaENh9a1J9LsIltDkX4yqe08lPvSRx0yy8jO9+xG51TcidbHKLx0VhsBiEq2vJJDxP5IKXvgNpjD0hAOPXY/i6lvY9MqNs9/FBI5I7TtiPhw7OvNTRZ2hDXehIQfKS3xZZyRLgRUaFWyKELmaEaGENQ+EQACBZIDebaUD9JA4Q7AeOH97P2fw+BaUN8lQkUoM5vGsx3QLh5JEwb4otMAkGB3sl2el3Vb0gvCDMqYaog8DcIUgFTDfEsyAEwTCXkrq1J6eAhy2hEPGlCmtjwqiHwMwmEiSMw/HIDhC3bb8doYWpeRyaD8GQPDHVBJNhz2B/YKw6G0DOr3n/UMDAm8ROE3ySXUn4dAsJuyUY4+IpqbFCqQLAWMHyPiCqp4aPJjtm7T2hsVKpBsBowqas/ZI5UVck/LBKUaR57MhEAAAAASUVORK5CYII=";
 
     var X_AXIS_GAP = 3;
     var X_AXIS_HEIGHT = 22;
@@ -159,9 +160,14 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     return GOVUK.Insights.svg.translate(d.x, d.y + ANNOTATION_VERTICAL_OFFSET);
                 });
 
+            annotationMarker.append("svg:image")
+                .attr("x", -17)
+                .attr("y", -37)
+                .attr("width", 34)
+                .attr("height", 40)
+                .attr("xlink:href", markerShadowUri);
             annotationMarker.append("svg:path")
-                .attr("d", "M0,0 L-10,-10 C-15,-15 -15,-25 -10,-30 C-5,-35 5,-35 10,-30 C15,-25 15,-15 10,-10 Z")
-                .attr("filter", "url(#shadow)");
+                .attr("d", "M0,0 L-10,-10 C-15,-15 -15,-25 -10,-30 C-5,-35 5,-35 10,-30 C15,-25 15,-15 10,-10 Z");
             annotationMarker.append("svg:line")
                 .attr("x1", -8).attr("y1", -24)
                 .attr("x2",  8).attr("y2", -24);
