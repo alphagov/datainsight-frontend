@@ -9,7 +9,13 @@ describe "Inside Government Annotations" do
   it "should render table of annotations" do
     visit "/performance/dashboard/government"
 
-    page.should have_selector("#inside-gov-annotations table")
+    page.should have_selector("#inside-gov-annotations")
+  end
+
+  it "should hide annotations table by default" do
+    visit "/performance/dashboard/government"
+
+    page.find("#inside-gov-annotations").should_not be_visible
   end
 
   it "should populate table correctly" do
@@ -18,16 +24,18 @@ describe "Inside Government Annotations" do
     # will be invisible because of SVG support
     page.execute_script("$('#inside-gov-annotations').show()")
 
-    comments = page.all("#inside-gov-annotations table tbody td:nth-child(2)").map(&:text)
-    dates = page.all("#inside-gov-annotations table tbody td:nth-child(1)").map(&:text)
-    links = page.all("#inside-gov-annotations table tbody td:nth-child(2) a").map{|link| link["href"]}
+    annotations = page.all("#inside-gov-annotations tbody tr").map do |tr|
+      {
+          date: tr.find("td:nth-child(1)"),
+          comment: tr.find("td:nth-child(2)"),
+      }
+    end
 
-    comments[0].should  include("this is the first comment")
-    dates[0].should == "12 December 2012"
-    links[0].should == "bar"
+    annotations.first[:date].should have_content "12 December 2012"
+    annotations.first[:comment].should have_link "this is the first comment", href: "bar"
 
-    comments[1].should include("this is the second comment")
-    dates[1].should == "13 December 2012"
-    links[1].should == "foobar"
+    annotations.second[:date].should have_content "13 December 2012"
+    annotations.second[:comment].should have_link "this is the second comment", href: "foobar"
+
   end
 end

@@ -11,9 +11,6 @@
   <section class="content-group">
     <h1 class="dashboard">Web traffic</h1>
     <%= render partial: "inside_government/modules/weekly_visitors" %>
-    <%= if Settings.feature_toggles[:inside_government_annotations]
-          render partial: "inside_government/modules/inside_gov_annotations"
-        end %>
   </section>
 
   <section class="content-group">

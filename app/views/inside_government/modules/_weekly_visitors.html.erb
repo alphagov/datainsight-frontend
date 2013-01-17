@@ -14,4 +14,6 @@
       <figure id="inside-gov-weekly-visitors" class="graph-container"></figure>
       <p class="graph-source">Source: Google Analytics</p>
     </div>
+
+    <%= render partial: "inside_government/modules/inside_gov_annotations" if Settings.feature_toggles[:inside_government_annotations] %>
 </article>
