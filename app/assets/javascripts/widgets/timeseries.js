@@ -295,15 +295,16 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     var hoveredAnnotation = d3.selectAll(".annotation").filter(function() { return !mouseOutside(this) });
 
                     if (!hoveredAnnotation.empty()) {
-                        hoveredAnnotation.classed("highlighted", true);
                         calloutInfo = annotationCalloutInfo(hoveredAnnotation);
+                        currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
+                        hoveredAnnotation.classed("highlighted", true);
                     } else {
                         var closestDataPoint = findClosestDataPoint.call(this);
-                        highlight(closestDataPoint);
                         calloutInfo = seriesCalloutInfo(closestDataPoint);
+                        currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
+                        highlight(closestDataPoint);
                     }
 
-                    currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
                 })
                 .on("mouseout", function() {
                     if (mouseOutside(this)) {
