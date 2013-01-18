@@ -31,12 +31,23 @@ class JsonBuilder
     policy_entries_entity
   end
 
-  def self.inside_gov_weekly_visitors(start_date, end_date)
-    week_start_dates = (Date.parse(start_date)..Date.parse(end_date)).step(7)
+  def self.inside_gov_weekly_visitors(opts)
 
-    data = week_start_dates.map do |start_at|
-      end_at = start_at + 6
-      { "start_at" => start_at.strftime, "end_at" => end_at.strftime, "value" => 1}
+    if opts[:values]
+      start_date = opts[:start_date] || Date.new(2012, 1, 1)
+      data = opts[:values].each_with_index.map do |value, index|
+        start_at = start_date + (index * 7)
+        end_at = start_at + 6
+        {"start_at" => start_at.strftime, "end_at" => end_at.strftime, "value" => value}
+      end
+    end
+
+    if opts[:start_date] && opts[:end_date]
+      week_start_dates = (Date.parse(opts[:start_date])..Date.parse(opts[:end_date])).step(7)
+      data = week_start_dates.map do |start_at|
+        end_at = start_at + 6
+        {"start_at" => start_at.strftime, "end_at" => end_at.strftime, "value" => 1}
+      end
     end
 
     {

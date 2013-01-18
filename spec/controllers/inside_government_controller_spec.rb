@@ -22,25 +22,50 @@ describe InsideGovernmentController do
     end
 
     it "should assign annotations included in the time range of visible weekly visitors" do
+      Annotations.stub(:load).and_return(AnnotationsBuilder.new.add_annotation("date" => "2013-12-15").add_annotation("date" => "2013-01-06").add_annotation("date" => "2013-01-23").add_annotation("date" => "2013-02-02").add_annotation("date" => "2013-02-15").build)
 
-      Annotations.stub(:load).and_return(AnnotationsBuilder.new
-                                            .add_annotation("date" => "2013-12-15")
-                                            .add_annotation("date" => "2013-01-06")
-                                            .add_annotation("date" => "2013-01-23")
-                                            .add_annotation("date" => "2013-02-02")
-                                            .add_annotation("date" => "2013-02-15").build)
-
-      ClientAPI.any_instance.stub(:inside_gov_weekly_visitors).and_return(JsonBuilder.inside_gov_weekly_visitors("2013-01-06", "2013-02-02"))
+      ClientAPI.any_instance.stub(:inside_gov_weekly_visitors).and_return(JsonBuilder.inside_gov_weekly_visitors(start_date: "2013-01-06", end_date: "2013-02-02"))
 
       get :index
 
-      annotations2 = assigns(:annotations)
+      annotations = assigns(:annotations)
 
-      annotations2.should have(3).annotations
-      annotations2.first[:date].should == "2013-01-06"
-      annotations2.second[:date].should == "2013-01-23"
-      annotations2.third[:date].should == "2013-02-02"
+      annotations.should have(3).annotations
+      annotations.first[:date].should == "2013-01-06"
+      annotations.second[:date].should == "2013-01-23"
+      annotations.third[:date].should == "2013-02-02"
     end
+
+    it "should assign empty annotations if load fails" do
+      Annotations.stub(:load).and_raise
+
+      ClientAPI.any_instance.stub(:inside_gov_weekly_visitors).and_return(JsonBuilder.inside_gov_weekly_visitors(start_date: "2013-01-06", end_date: "2013-02-02"))
+
+      get :index
+
+      assigns(:annotations).should == []
+    end
+
+    it "should assign empty annotations if retrieval of weekly visitors data fails" do
+      Annotations.stub(:load).and_return(AnnotationsBuilder.new.add_annotation.build)
+
+      ClientAPI.any_instance.stub(:inside_gov_weekly_visitors).and_raise(Songkick::Transport::UpstreamError.new(nil))
+
+      get :index
+
+      assigns(:annotations).should == []
+    end
+
+    it "should assign empty annotations if weekly visitors are empty" do
+      Annotations.stub(:load).and_return(AnnotationsBuilder.new.add_annotation.build)
+
+      ClientAPI.any_instance.stub(:inside_gov_weekly_visitors).and_return(JsonBuilder.inside_gov_weekly_visitors(values: []))
+
+      get :index
+
+      assigns(:annotations).should == []
+    end
+
   end
 
 end
