@@ -1,5 +1,6 @@
 require "songkick/transport"
 
+Songkick::Transport.logger = Rails.logger
 Transport = Songkick::Transport::HttParty
 
 class ClientAPI
