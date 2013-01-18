@@ -31,4 +31,19 @@ class JsonBuilder
     policy_entries_entity
   end
 
+  def self.inside_gov_weekly_visitors(start_date, end_date)
+    week_start_dates = (Date.parse(start_date)..Date.parse(end_date)).step(7)
+
+    data = week_start_dates.map do |start_at|
+      end_at = start_at + 6
+      { "start_at" => start_at.strftime, "end_at" => end_at.strftime, "value" => 1}
+    end
+
+    {
+        "details" => {
+            "data" => data
+        }
+    }
+  end
+
 end

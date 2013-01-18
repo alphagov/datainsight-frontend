@@ -4,7 +4,7 @@ class InsideGovernmentController < ApplicationController
     @policies = get_policies
     @narrative = get_narrative
     if Settings.feature_toggles[:inside_government_annotations]
-      @annotations = get_annotations
+      @annotations = annotations_in_range(weekly_visitors_date_range)
     end
   rescue Exception => e
     logger.error(e)
@@ -67,6 +67,18 @@ class InsideGovernmentController < ApplicationController
 
 
   private
+
+  def annotations_in_range(date_range)
+    get_annotations["details"].select { |annotation| date_range.cover? Date.parse(annotation["date"]) }
+  end
+
+  def weekly_visitors_date_range
+    weekly_visitors_data = api.inside_gov_weekly_visitors
+    start_date = weekly_visitors_data["details"]["data"].map { |d| Date.parse(d["start_at"]) }.min
+    end_date = weekly_visitors_data["details"]["data"].map { |d| Date.parse(d["end_at"]) }.max
+    (start_date..end_date)
+  end
+
   def get_narrative
     weekly_visitors = api.inside_gov_weekly_visitors
     InsideGovNarrative.new(weekly_visitors).content

@@ -7,7 +7,7 @@
     </tr>
     </thead>
     <tbody>
-    <% @annotations["details"].each do |annotation| %>
+    <% @annotations.each do |annotation| %>
         <tr>
           <td><%= Date.parse(annotation["date"]).strftime("%e %B %Y") %></td>
           <td><a href="<%= annotation["link"] %>" rel="external"><%= annotation["text"] %></a></td>
