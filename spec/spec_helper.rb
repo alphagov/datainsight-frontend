@@ -1,4 +1,6 @@
-ENV["RAILS_ENV"] = 'test'
+ENV["RAILS_ENV"] = "test"
+ENV["GOVUK_APP_DOMAIN"] = "dev.gov.uk"
+ENV["GOVUK_APP_DOMAIN"] = "http://static.dev.gov.uk"
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
