@@ -4,7 +4,7 @@ source "https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/"
 gem "rails", "3.2.11"
 
 gem "datainsight_logging", "~> 0.0.2"
-gem "slimmer", "~> 3.6.1"
+gem "slimmer", "~> 3.10.0"
 gem "songkick-transport", "~> 0.1.6", :git => "git://github.com/songkick/transport.git"
 gem "httparty", "~> 0.10.0"
 gem "airbrake", "3.1.5"
