@@ -16,30 +16,18 @@
   <div class="datainsight-hidden">
     <hgroup class="module-header left">
       <h1 class="graph-info">GOV.UK's traffic yesterday</h1>
-
       <h2 class="graph-heading">Hourly unique visitors on <span class="for_date"></span> compared with the
         <strong>average last week</strong></h2>
     </hgroup>
-    <div class="right small-text">
-      <div class="legend">
-        <div class="legend-row">
-          <div class="small-shim">
-            <div class="right small-square graph-green"></div>
-            <div class="small-text right" style="width: 8px; text-align: center">+</div>
-            <div class="small-text right legend-label">Change from</div>
-          </div>
-          <br style="clear: both"/>
-
-          <div class="small-shim">
-            <div class="right small-square graph-red"></div>
-            <div class="small-text right" style="width: 8px; text-align: center">-</div>
-            <div class="small-text right legend-label">average last week</div>
-          </div>
-          <br style="clear: both"/>
-        </div>
-      </div>
-    </div>
-    <figure id="reach" class="graph-container"></figure>
+    <figure id="reach" class="graph-container">
+      <figcaption id="reach-legend">
+        <h2 class="datainsight">Change from average last week</h2>
+        <ul>
+          <li class="datainsight">&#43;<span class="increase-legend">&nbsp;</span></li>
+          <li class="datainsight">&minus;<span class="decrease-legend">&nbsp;</span></li>
+        </ul>
+      </figcaption>
+    </figure>
     <p class="graph-source">Source: Google Analytics</p>
   </div>
 </article>

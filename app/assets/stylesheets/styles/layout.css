@@ -46,6 +46,51 @@ article.dashboard {
     max-width: 24em;
 }
 
+#reach-legend {
+    width: 200px;
+    float: right;
+    margin-top: 16px;
+}
+
+#reach-legend h2 {
+    margin: 0;
+    width: 70%;
+    float: left;
+    line-height: 1.6em;
+}
+
+#reach-legend ul {
+    float: right;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#reach-legend li {
+    margin: 0;
+    line-height: 1.6em;
+    clear: right;
+    float: right;
+}
+
+#reach-legend li .increase-legend {
+    display: inline-block;
+    background-color: #74B74A;
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+#reach-legend li .decrease-legend {
+    display: inline-block;
+    background-color: #BF1E2D;
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
 @media (max-width: 700px) {
     section.content-group > h1 {
         border-bottom: 3px solid #108095;
