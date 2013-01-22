@@ -73,22 +73,20 @@ article.dashboard {
     float: right;
 }
 
-#reach-legend li .increase-legend {
+#reach-legend li .legend-block {
     display: inline-block;
-    background-color: #74B74A;
-    width: 16px;
-    height: 16px;
+    width: 1em;
+    height: 1em;
     margin-left: 6px;
     vertical-align: middle;
 }
 
-#reach-legend li .decrease-legend {
-    display: inline-block;
+#reach-legend li .decrease {
     background-color: #BF1E2D;
-    width: 16px;
-    height: 16px;
-    margin-left: 6px;
-    vertical-align: middle;
+}
+
+#reach-legend li .increase {
+    background-color: #74B74A;
 }
 
 @media (max-width: 700px) {
