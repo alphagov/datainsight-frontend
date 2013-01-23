@@ -54,8 +54,6 @@ GOVUK.Insights.svg.supportsResizing = function () {
         isMobile = (navigator.userAgent.toLowerCase().indexOf("mobile") !== -1),
         isDesktopSafari = isSafari && !isMobile;
 
-    console.log(isDesktopSafari);
-
     if ($('#wrapper').hasClass("ie9") || isDesktopSafari) {
         return false;
     } else {
