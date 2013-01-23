@@ -5,6 +5,11 @@
                 policy_visits.policy.url, rel: "external", target: "_blank" %>
     <div class="policy-details small-text">
       <span class="policy-department"><%= policy_visits.policy.department %></span>
+      <% if Settings.feature_toggles[:show_update_date_in_most_entered_policies] %>
+        <% if policy_visits.policy.update_date.present? %>
+          - <span class="policy-update-date">Updated <%= render_date(policy_visits.policy.update_date) %></span>
+        <% end %>
+      <% end %>
     </div>
   </td>
   <td class="policy-visits"><%= NumberFormat.short_human_readable_number(policy_visits.entries) %></td>

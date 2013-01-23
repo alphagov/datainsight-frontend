@@ -24,7 +24,7 @@ class Policy
       Date.parse(updated_at)
     rescue StandardError => e
       logger.error e
-      "missing"
+      nil
     end
   end
 end
