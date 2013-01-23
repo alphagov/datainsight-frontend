@@ -11,7 +11,7 @@ GOVUK.Insights.forcePosition = function () {
 
     var privateConstants = {};
     privateConstants.REPULSION_STRENGTH = 2;
-    privateConstants.ITERATIONS = 50;
+    privateConstants.ITERATIONS = 75;
 
     var getTranslatedGraphArea = function (svg, element) {
         var matrix = element.getTransformToElement(element);
@@ -71,7 +71,8 @@ GOVUK.Insights.forcePosition = function () {
             .attr("stroke-width", 1)
             .attr("fill","none")
             .attr("x", collisionBox.left)
-            .attr("y", collisionBox.top);
+            .attr("y", collisionBox.top)
+            .attr("class","js-debug");
     };
 
     var apply = function (selector) {
@@ -86,6 +87,10 @@ GOVUK.Insights.forcePosition = function () {
 
         for (var i = 0; i < privateConstants.ITERATIONS; i++) {
             anIteration(fixedElements, floatingElements, selector);
+            if (chart.classed("debug")) {
+                d3.selectAll(".js-debug").attr("stroke","#888");
+                floatingElements.forEach(drawCircleCollisionBox);
+            }
         }
     };
 
