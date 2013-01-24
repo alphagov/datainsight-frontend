@@ -81,7 +81,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
 
             var xAxis = d3.svg.axis()
                 .scale(xScale)
-                .tickValues(data.map(config.x))
+                .tickValues(data.map(config.x).filter(function(d, i) { return i % 2 === 0}))
                 .tickPadding(4)
                 .tickFormat(config.xAxisLabelFormat);
 
