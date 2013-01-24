@@ -43,7 +43,7 @@ describe "Inside Government API" do
   it "should expose visitors api endpoint" do
     FakeWeb.register_uri(
       :get,
-      "#{BASE_URL}/visitors/weekly?limit=12",
+      "#{BASE_URL}/visitors/weekly?limit=25",
       :body => {data: "some data"}.to_json
     )
 
