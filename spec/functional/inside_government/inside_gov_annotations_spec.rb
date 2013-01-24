@@ -4,7 +4,7 @@ describe "Inside Government Annotations" do
   before do
     FakeWeb.register_uri(
         :get,
-        "#{Settings.api_urls['inside_government_base_url']}/visitors/weekly?limit=12",
+        "#{Settings.api_urls['inside_government_base_url']}/visitors/weekly?limit=25",
         :body => JsonBuilder.inside_gov_weekly_visitors(start_date: "2012-12-02", end_date: "2013-01-19").to_json
     )
   end
