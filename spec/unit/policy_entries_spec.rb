@@ -21,7 +21,7 @@ describe PolicyEntries do
     policy = policy_entries_list.first.policy
     policy.title.should == "a policy"
     policy.url.should == "https://www.gov.uk/most-entered-policies"
-    policy.department.should == "ABC"
+    policy.department.abbreviation.should == "ABC"
     policy.update_date.should == DateTime.new(2012, 11, 25)
     policy_entries_list.first.entries.should == 100
   end

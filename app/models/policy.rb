@@ -12,11 +12,16 @@ class Policy
 
   def get_department(organisations)
     begin
-      organisations.first["abbreviation"] || ""
+      Department.new(organisations.first) if valid_organisations_list?(organisations)
     rescue StandardError => e
       logger.error e
-      ""
+      nil
     end
+  end
+
+  def valid_organisations_list?(organisations)
+    org = organisations.first
+    org["name"].present? && org["abbreviation"].present?
   end
 
   def get_update_date(updated_at)
@@ -25,6 +30,15 @@ class Policy
     rescue StandardError => e
       logger.error e
       nil
+    end
+  end
+
+  class Department
+    attr_reader :name, :abbreviation
+
+    def initialize(properties)
+      @name = properties["name"]
+      @abbreviation = properties["abbreviation"]
     end
   end
 end

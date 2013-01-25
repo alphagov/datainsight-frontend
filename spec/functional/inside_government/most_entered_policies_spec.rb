@@ -85,7 +85,8 @@ describe "Most Visited Policies" do
       page.all(".policy-title").count.should == 10
 
       page.all(".policy-title")[0].should have_link("Most entered policy", href: "https://www.gov.uk/most-entered-policies")
-      page.all(".policy-department")[0].text.should == "ABC"
+      page.all("abbr.policy-department")[0].text.should == "ABC"
+      page.all("abbr.policy-department")[0][:title].should == "The A B C"
       page.all(".policy-update-date")[0].text.should == "Updated 25 November 2012"
       page.all(".policy-visits")[0].text.should == "0.57m"
 
