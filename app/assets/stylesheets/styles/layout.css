@@ -42,10 +42,6 @@ article.dashboard {
     max-width: 100%;
 }
 
-#about-performance-platform p {
-    max-width: 24em;
-}
-
 #reach-legend {
     width: 200px;
     float: right;
@@ -99,5 +95,11 @@ article.dashboard {
 @media (max-width: 960px) {
     .module-header {
         width: 100%;
+    }
+}
+
+@media (min-width: 960px) {
+    #about-performance-platform p {
+        max-width: 24em;
     }
 }
