@@ -25,7 +25,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
             return item.value.yesterday;
         }),
         averageData = $.map(raw_data, function(item) {
-            return item.value.last_week_average;
+            return item.value.historical_average;
         }),
         maxValue = d3.max([].concat(yesterdaysData).concat(averageData)),
         maxLast4 = d3.max([d3.max(averageData.slice(-4)), d3.max(yesterdaysData.slice(-4))]);
