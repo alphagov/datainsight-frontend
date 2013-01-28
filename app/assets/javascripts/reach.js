@@ -143,9 +143,9 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr("class", "pink")
         .attr("width", 110)
         .attr("height", 80)
-        .attr("x", xPos - 100)
+        .attr("x", xPos - 80)
         .attr("y", yScale(maxLast4) - 25)
-        .text("Average last week");
+        .text("The average");
 
     var reverseBarLookUp = function (hour) {
         return d3.select(d3.selectAll('.bar')[0][hour]);
@@ -186,7 +186,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                     title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
                     rowData: [
                         {right:GOVUK.Insights.formatNumericLabel(d),left:'Unique visitors'},
-                        {right:GOVUK.Insights.formatNumericLabel(averageData[hour]),left:'<span class="pink">Average last week</span>'}
+                        {right:GOVUK.Insights.formatNumericLabel(averageData[hour]),left:'<span class="pink">The average</span>'}
                     ],
                     width: boxWidth,
                     height: boxHeight,
