@@ -14,6 +14,9 @@ if (phantom.args.length < 2 || phantom.args.length > 4) {
     output = phantom.args[1];
     selector = phantom.args[2];
     page.viewportSize = { width: 1280, height: 1024 };
+    page.onConsoleMessage = function(msg, line, source) {
+      console.log('page logs ' + source + ':' + line + ' - ' + msg);
+    };
     page.open(address, function (status) {
 
         function hideAnnotationMarkers() {
@@ -22,18 +25,18 @@ if (phantom.args.length < 2 || phantom.args.length > 4) {
 
         function base64EncodeFont(filename) {
             var fs = require("fs"),
-                fontFile = fs.open("fonts/" + filename, "r");
+                fontFile = fs.open("fonts/" + filename, "rb");
 
-            return "data:application/octet-stream;base64," + btoa(unescape(encodeURIComponent(fontFile.read())))
+            return "data:application/octet-stream;base64," + btoa(fontFile.read());
         }
 
 
         function updateFonts(fonts) {
           function createFontFaceStyle(fontFamily, fontData) {
-            return '@font-face { font-family: "' + fontFamily + '"; src: url("' + fontData + '") format("truetype"); font-weight: normal; font-style: normal; }';
+            return '@font-face { font-family: "' + fontFamily + '"; src: url(' + fontData + ') format("truetype"); font-weight: normal; font-style: normal; }';
           }
 
-          var style = "<style>" + createFontFaceStyle("nta", fonts["nta"]) + " " + createFontFaceStyle("ntatabularnumbers", fonts["ntatabularnumbers"]) + "</style>";
+          var style = "<style>" + createFontFaceStyle("nta", fonts["nta"]) + " " + createFontFaceStyle("ntatabularnumbers", fonts["ntatabularnumbers"]) +  "</style>";
           $("html > head").append($(style));
         }
 
@@ -50,12 +53,6 @@ if (phantom.args.length < 2 || phantom.args.length > 4) {
         }
 
         function processPage() {
-            var fonts = {
-              "nta":               base64EncodeFont("GDSTransportWebsite.ttf"),
-              "ntatabularnumbers": base64EncodeFont("NTATabularNumbers-Light.ttf")
-            };
-            page.evaluate(hideAnnotationMarkers);
-            page.evaluate(updateFonts, fonts);
             page.clipRect = page.evaluate(getClipRect, selector);
             var saved = page.render(output);
             exit(saved);
@@ -64,7 +61,13 @@ if (phantom.args.length < 2 || phantom.args.length > 4) {
         if (status !== 'success') {
             console.log('Unable to load the address!');
         } else {
-            window.setTimeout(processPage, 200);
+            var fonts = {
+              "nta":               base64EncodeFont("GDSTransportWebsite.ttf"),
+              "ntatabularnumbers": base64EncodeFont("GDSTransportWebsite.ttf")
+            };
+            page.evaluate(hideAnnotationMarkers);
+            page.evaluate(updateFonts, fonts);
+            window.setTimeout(processPage, 2000);
         }
     });
 }
