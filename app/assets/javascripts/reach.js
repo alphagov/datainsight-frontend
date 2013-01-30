@@ -28,7 +28,8 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
             return item.historical_average;
         }),
         maxValue = d3.max([].concat(yesterdaysData).concat(averageData)),
-        maxLast4 = d3.max([d3.max(averageData.slice(-4)), d3.max(yesterdaysData.slice(-4))]);
+        maxLast4 = d3.max([d3.max(averageData.slice(-4)), d3.max(yesterdaysData.slice(-4))]),
+        day = moment(raw_data[0].start_at).format("dddd");
 
     // Colours
     var calculateFill = GOVUK.Insights.Reach.fillCalculator(averageData, GOVUK.Insights.Reach.COLOURS);
@@ -145,7 +146,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr("height", 80)
         .attr("x", xPos - 80)
         .attr("y", yScale(maxLast4) - 25)
-        .text("The average");
+        .text("Average " + day);
 
     var reverseBarLookUp = function (hour) {
         return d3.select(d3.selectAll('.bar')[0][hour]);
@@ -186,7 +187,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                     title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
                     rowData: [
                         {right:GOVUK.Insights.formatNumericLabel(d),left:'Unique visitors'},
-                        {right:GOVUK.Insights.formatNumericLabel(averageData[hour]),left:'<span class="pink">The average</span>'}
+                        {right:GOVUK.Insights.formatNumericLabel(averageData[hour]),left:'<span class="pink">Average ' + day + '</span>'}
                     ],
                     width: boxWidth,
                     height: boxHeight,
