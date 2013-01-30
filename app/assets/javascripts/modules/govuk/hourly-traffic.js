@@ -18,7 +18,7 @@ GOVUK.Insights.hourlyTraffic = function () {
                 }
                 var for_date = moment(response.details.data[0].start_at, "YYYY-MM-DD");
                 $("#hourly-traffic-module .for_date").text(for_date.format("D MMMM"));
-                $("#hourly-traffic-module .graph-heading strong").text("average of the previous six " + for_date.format("dddd") + "s");
+                $("#hourly-traffic-module .for_day").text(for_date.format("dddd"));
             } else {
                 showError();
             }
