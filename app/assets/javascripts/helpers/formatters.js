@@ -24,6 +24,41 @@ GOVUK.Insights.numericLabelFormatterFor = function (maxValue) {
 };
 
 /**
+ * Returns a number formatting function whose actual format depends on the values passed as argument.
+ * The formatter can then be used to format all the number in the series applying the same format, regardless of the
+ * individual values. This is especially useful for graph axes, where a homogeneous formatting of the labels is
+ * required.
+ *
+ * @param values
+ * @return {Function}
+ */
+GOVUK.Insights.numberListFormatter = function (values) {
+
+    function format(value, magnitude, decimalPlaces) {
+        magnitude = magnitude || 1;
+        decimalPlaces = decimalPlaces || 0;
+        var unit = (magnitude === 1000000) ? "m" : (magnitude === 1000) ? "k" : "";
+        return (value / magnitude).toFixed(decimalPlaces).toString() + unit;
+    }
+
+    function exactMultipleOf(value) {
+        return function(n) {
+            return n % value === 0;
+        };
+    }
+
+    var max = values.reduce(function(a,b) {return a > b ? a : b});
+
+    var magnitude = (max >= 1000000) ? 1000000 : (max >= 1000) ? 1000 : 1;
+    var decimalPlaces = values.every(exactMultipleOf(magnitude)) ? 0 : 1;
+
+    return function(value) {
+        if (value === 0) return "0"
+        return format(value, magnitude, decimalPlaces);
+    };
+}
+
+/**
  * Format a number to be displayed with abbreviated suffixes.
  * This function is more complicated than it one would think it need be,
  * this is due to lack of predictability in Number.toPrecision, Number.toFixed

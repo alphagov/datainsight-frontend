@@ -95,7 +95,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 .orient("left")
                 .ticks(config.yTicks)
                 .tickPadding(4)
-                .tickFormat(GOVUK.Insights.numericLabelFormatterFor(yTicks.extent[1]));
+                .tickFormat(GOVUK.Insights.numberListFormatter(yTicks.values));
 
             graphArea.append("svg:g")
                 .classed("y-axis", true)
