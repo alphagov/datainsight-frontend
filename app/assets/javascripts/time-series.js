@@ -158,7 +158,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 .scale(yScale)
                 .tickValues(yTicks.values)
                 .orient("left")
-                .tickFormat(GOVUK.Insights.numericLabelFormatterFor(d3.max(yTicks.values)));
+                .tickFormat(GOVUK.Insights.numberListFormatter(yTicks.values));
             graph.append("svg:g")
                 .attr("class", "y-axis")
                 .attr("transform", "translate(-3,0)")

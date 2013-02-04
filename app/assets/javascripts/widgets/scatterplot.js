@@ -396,7 +396,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 maxCircleRadius = R(dataForLegend.slice(-1)),
                 offset = 15;
 
-            var numberFormatter = GOVUK.Insights.numericLabelFormatterFor(d3.max(dataForLegend))
+            var numberFormatter = GOVUK.Insights.numberListFormatter(dataForLegend);
 
             var legend = d3.select(this).selectAll("svg").data([config]);
 

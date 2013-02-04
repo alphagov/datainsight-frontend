@@ -13,38 +13,6 @@ describe("Data insight formatting helpers", function () {
         }
     });
 
-    describe("numericLabelFormatterFor", function () {
-        describe("max value of 1000", function () {
-            beforeEach(function () {
-                this.formatter = GOVUK.Insights.numericLabelFormatterFor(1000);
-            });
-            it("should return 0 for 0", function () {
-                expect(this.formatter(0)).toBe("0");
-            });
-            it("should return 0.4k for 400", function () {
-                expect(this.formatter(400)).toBe("0.4k");
-            });
-            it("should return 1.5k for 1500", function () {
-                expect(this.formatter(1500)).toBe("1.5k");
-            });
-        });
-
-        describe("max value of 1000000", function () {
-            beforeEach(function () {
-                this.formatter = GOVUK.Insights.numericLabelFormatterFor(1000000);
-            });
-            it("should return 0 for 0", function () {
-                expect(this.formatter(0)).toBe("0");
-            });
-            it("should return 0.1m for 5000", function () {
-                expect(this.formatter(5000)).toBe("0.1m");
-            });
-            it("should return 1.5m for 150000", function () {
-                expect(this.formatter(1500000)).toBe("1.5m");
-            });
-        });
-    });
-
     describe ("numberListFormatter", function() {
         describe("when all label are lower than 1000", function() {
             it("should format all labels as units", function() {

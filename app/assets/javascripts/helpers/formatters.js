@@ -6,23 +6,6 @@ GOVUK.Insights.shortDateFormat = function(date) {
     return date.getDate() + " " + SHORT_MONTHS[date.getMonth()];
 };
 
-GOVUK.Insights.numericLabelFormatterFor = function (maxValue) {
-    var oneThousand = 1000,
-        oneMillion = 1000000;
-    return function (tickValue) {
-        if (tickValue == 0) {
-            return '0';
-        }
-        if (maxValue >= oneMillion) {
-            return (Math.ceil(tickValue / 100000) / 10).toFixed(1).replace(".0", "") + "m";
-        }
-        if (maxValue >= oneThousand) {
-            return (Math.ceil(tickValue / 100) / 10).toFixed(1).replace(".0", "") + "k";
-        }
-        return "" + tickValue;
-    }
-};
-
 /**
  * Returns a number formatting function whose actual format depends on the values passed as argument.
  * The formatter can then be used to format all the number in the series applying the same format, regardless of the
