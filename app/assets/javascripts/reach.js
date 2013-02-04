@@ -158,6 +158,17 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
             y: yScale(averageData[hour])
         }
     };
+    
+    // ensures callout is closed and resets bar appearance
+    var resetBar = function(d, hour) {
+        if (callouts[hour]) {
+            callouts[hour].close();
+            delete callouts[hour];
+        }
+        d3.selectAll('.js-temp').remove(); 
+        reverseBarLookUp(hour).attr('stroke-width','0');
+        d3.select(this).attr('opacity',0.0);
+    };
         
     // Add the hover panels
     chart.selectAll('.hover-panel')
@@ -172,6 +183,8 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr('fill', '#000')
         .attr('opacity',0.0)
         .on('mouseover',function (d,hour) {
+            var that = this;
+            
             var scaleFactor = GOVUK.Insights.svg.scaleFactor(svg, width),
                 boxWidth = 170,
                 boxHeight = 66,
@@ -191,7 +204,11 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
                     ],
                     width: boxWidth,
                     height: boxHeight,
-                    closeDelay: 0
+                    closeDelay: 0,
+                    callback: function () {
+                        // reset bar appearance if callout is closed
+                        resetBar.call(that, d, hour);
+                    }
                 };
             callouts[hour] = new Callout(calloutInfo);
             
@@ -210,12 +227,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
             
             d3.select(this).attr('opacity',0.08);
         })
-        .on('mouseout', function(d,hour) {
-           callouts[hour].close();
-           d3.selectAll('.js-temp').remove(); 
-           reverseBarLookUp(hour).attr('stroke-width','0');
-           d3.select(this).attr('opacity',0.0);
-        });
+        .on('mouseout', resetBar);
     chart.selectAll('text').each(function () { GOVUK.Insights.svg.createTextShade(this) });
 };
 

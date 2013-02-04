@@ -35,24 +35,34 @@ GOVUK.Insights.overlay = function () {
 
             element.on('mouseover', this.cancelClose);
             element.on('mouseout', this.close);
-
+            element.on('touchend', this.close);
+            $('html').one('touchend', this.htmlTouchHandler);
+            
             element.append(content);
 
             element.appendTo(boxInfo.parent);
         };
         
-        var unDraw = function () {
+        var unDraw = function (onTouch) {
             if (shouldUnDraw) {
-                if (boxInfo.callback) boxInfo.callback();
+                if (boxInfo.callback) boxInfo.callback(onTouch);
                 element.remove();
                 shouldUnDraw = false;
             }
         };
         overlays.push(unDraw);
         
+        this.htmlTouchHandler = function (e) {
+            shouldUnDraw = true;
+            unDraw(true);
+            return false;
+        };
+        
         this.close = function () {
+            $('html').off('touchend', this.htmlTouchHandler);
             shouldUnDraw = true;
             timeout = setTimeout(unDraw, boxInfo.closeDelay);
+            return false;
         };
 
         this.cancelClose = function () {

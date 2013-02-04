@@ -222,7 +222,17 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
             var currentCallout = null;
             var currentSelectedSeries;
-             
+            
+            var resetPath = function(dontReset) {
+                plottingArea.select(".highlight").classed("highlight", false);
+                plottingArea.select("#dataPointHighlight").remove();
+                
+                if (currentCallout) {
+                    currentCallout.close();
+                    currentCallout = null;
+                }
+            };
+            
             plottingArea.append("svg:rect")
                 .attr("class", "callout-area")
                 .attr("x", 0)
@@ -256,6 +266,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     if (currentCallout) {
                         currentCallout.close();
                     }
+                    
                     // show callout
                     var boxWidth = 165,
                         boxHeight = 48,
@@ -277,7 +288,16 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                                     left: params.series[closest.seriesName].legend.text
                                 }
                             ],
-                            boxClass: closest.seriesName
+                            boxClass: closest.seriesName,
+                            callback: function (onTouch) {
+                                // reset path appearance only when callback
+                                // close was triggered by the document-wide
+                                // touchend handler. desktop browsers are
+                                // handled via mouseout.
+                                if (onTouch) {
+                                    resetPath();
+                                }
+                            }
                         };
 
                     currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
@@ -285,11 +305,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 .on("mouseout", function() {
                     var mousePoint = GOVUK.Insights.point(d3.mouse(this));
                     if ((mousePoint.x() < 0) || (mousePoint.x() > plottingAreaWidth) || (mousePoint.y() < 0) || (mousePoint.y() > plottingAreaHeight)) {
-                        plottingArea.select(".highlight").classed("highlight", false);
-                        plottingArea.select("#dataPointHighlight").remove();
-                        if (currentCallout) {
-                            currentCallout.close();
-                        }
+                        resetPath();
                     }
                 });
         }

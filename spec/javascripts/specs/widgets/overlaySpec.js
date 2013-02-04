@@ -65,6 +65,66 @@ describe("hover overlays", function () {
 
             expect($('.callout-box').hasClass("my-class")).toBeTruthy();
         });
+        
+        describe("touch behaviour", function() {
+            
+            var params, oneSpy, offSpy;
+            beforeEach(function() {
+                params = {
+                    xPos:15,
+                    yPos:45,
+                    parent:'#test-div',
+                    content:'test',
+                    callback: jasmine.createSpy()
+                };
+
+                // spy on jQuery
+                oneSpy = jasmine.createSpy();
+                offSpy = jasmine.createSpy();
+                window.$ = jasmine.createSpy().andReturn({
+                    css: jasmine.createSpy(),
+                    append: jasmine.createSpy(),
+                    appendTo: jasmine.createSpy(),
+                    remove: jasmine.createSpy(),
+                    on: jasmine.createSpy(),
+                    one: oneSpy,
+                    off: offSpy
+                });
+                
+            });
+            
+            afterEach(function() {
+                // restore jQuery
+                window.$ = window.jQuery;
+            });
+            
+            it("should add a one-off touchend handler to the document", function() {
+                var box = new CalloutBox(params);
+
+                expect(window.$).toHaveBeenCalledWith('html');
+                expect(oneSpy).toHaveBeenCalledWith(
+                    'touchend', box.htmlTouchHandler
+                );
+                expect(offSpy).not.toHaveBeenCalled();
+            });
+            
+            it("should remove the touchend handler from the document", function() {
+                var box = new CalloutBox(params);
+                box.close()
+
+                expect(offSpy).toHaveBeenCalledWith(
+                    'touchend', box.htmlTouchHandler
+                );
+            });
+            
+            it("should call the callback with 'touch' option on document touchend", function() {
+                var box = new CalloutBox(params);
+                
+                box.htmlTouchHandler();
+                expect(params.callback).toHaveBeenCalledWith(true);
+            });
+        });
+        
     });
 
     describe("Callout content", function () {
