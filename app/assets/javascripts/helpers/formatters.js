@@ -2,10 +2,28 @@ var GOVUK = GOVUK || {};
 GOVUK.Insights = GOVUK.Insights || {};
 
 (function() {
+    var ONE_THOUSAND = 1000;
+    var ONE_MILLION = 1000000;
+    var magnitudes = {
+        million:  {value: ONE_MILLION, suffix:"m"},
+        thousand: {value: ONE_THOUSAND, suffix:"k"},
+        unit:     {value: 1, suffix:""}
+    };
+
     GOVUK.Insights.shortDateFormat = function(date) {
         var SHORT_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
         return date.getDate() + " " + SHORT_MONTHS[date.getMonth()];
     };
+
+    function magnitudeFor(value) {
+        if (value >= ONE_MILLION)  return magnitudes.million;
+        if (value >= ONE_THOUSAND) return magnitudes.thousand;
+        return magnitudes.unit;
+    };
+
+    function format(value, magnitude, decimalPlaces) {
+        return (value / magnitude.value).toFixed(decimalPlaces || 0).toString() + magnitude.suffix;
+    }
 
     /**
      * Returns a number formatting function whose actual format depends on the values passed as argument.
@@ -17,27 +35,16 @@ GOVUK.Insights = GOVUK.Insights || {};
      * @return {Function}
      */
     GOVUK.Insights.numberListFormatter = function (values) {
-
-        function format(value, magnitude, decimalPlaces) {
-            magnitude = magnitude || 1;
-            decimalPlaces = decimalPlaces || 0;
-            var unit = (magnitude === 1000000) ? "m" : (magnitude === 1000) ? "k" : "";
-            return (value / magnitude).toFixed(decimalPlaces).toString() + unit;
-        }
-
-        function exactMultipleOf(value) {
-            return function(n) {
-                return n % value === 0;
-            };
+        function isAnExactMultipleOf(value) {
+            return function(n) { return n % value === 0; };
         }
 
         var max = values.reduce(function(a,b) {return a > b ? a : b});
-
-        var magnitude = (max >= 1000000) ? 1000000 : (max >= 1000) ? 1000 : 1;
-        var decimalPlaces = values.every(exactMultipleOf(magnitude)) ? 0 : 1;
+        var magnitude = magnitudeFor(max);
+        var decimalPlaces = values.every(isAnExactMultipleOf(magnitude.value))? 0 : 1;
 
         return function(value) {
-            if (value === 0) return "0"
+            if (value === 0) return "0";
             return format(value, magnitude, decimalPlaces);
         };
     }
@@ -60,12 +67,7 @@ GOVUK.Insights = GOVUK.Insights || {};
             roundToSignificantFigures = function(num, n) {
                 return Math.round(num * magnitude(num, n)) / magnitude(num, n);
             },
-            oneThousand = 1000,
-            oneMillion = 1000000,
-            thresholds = [
-                {value: oneMillion, suffix:"m"},
-                {value: oneThousand, suffix:"k"}
-            ],
+            thresholds = [ magnitudes.million, magnitudes.thousand ],
             roundedValue = roundToSignificantFigures(value, 3),
             significantFigures = null;
 
