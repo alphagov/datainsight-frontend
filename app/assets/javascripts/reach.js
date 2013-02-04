@@ -169,9 +169,77 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         reverseBarLookUp(hour).attr('stroke-width','0');
         d3.select(this).attr('opacity',0.0);
     };
+    
+    // highlights bar for selected hour and shows callout box
+    var highlightBar = function (d, hour) {
+        
+        var that = this;
+        
+        var scaleFactor = GOVUK.Insights.svg.scaleFactor(svg, width),
+            boxWidth = 170,
+            boxHeight = 66,
+            offsetSoTheUserCantCatchTheBox = 5,
+            boxShadow = 4,
+            xPos = (xScale(hour) - offsetSoTheUserCantCatchTheBox)*scaleFactor - boxWidth,
+            yPos = (d3.mouse(this)[1] + 60)*scaleFactor,
+            actualXPos = (xPos > 0) ? xPos : xPos + boxWidth + barWidth*scaleFactor + offsetSoTheUserCantCatchTheBox + boxShadow,
+            calloutInfo = {
+                xPos: actualXPos + margin.left*scaleFactor,
+                yPos: GOVUK.Insights.clamp(yPos - boxHeight, boxShadow, height - margin.bottom*scaleFactor - boxHeight),
+                parent: '#reach',
+                title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
+                rowData: [
+                    {right:GOVUK.Insights.formatNumericLabel(d),left:'Unique visitors'},
+                    {right:GOVUK.Insights.formatNumericLabel(averageData[hour]),left:'<span class="pink">Average ' + day + '</span>'}
+                ],
+                width: boxWidth,
+                height: boxHeight,
+                closeDelay: 0,
+                callback: function () {
+                    // reset bar appearance if callout is closed
+                    resetBar.call(that, d, hour);
+                }
+            };
+        callouts[hour] = new Callout(calloutInfo);
+        
+        var barElement = reverseBarLookUp(hour);
+        barElement.attr('stroke',new GOVUK.Insights.colors(barElement.style('fill')).multiplyWithSelf().asCSS()).attr('stroke-width','3');
+        
+        var pointLocation = reverseAveragePointLookUp(d, hour);
+        
+        circleHighlights[hour] = chart.insert('svg:circle','.label-line')
+            .attr('cx',pointLocation.x)
+            .attr('cy',pointLocation.y)
+            .attr('r',3.5)
+            .attr('stroke-width','3.5')
+            .attr('fill','#fff')
+            .attr('class','pink js-temp');
+        
+        d3.select(this).attr('opacity',0.08);
+        
+        d3.event.stopPropagation();
+        d3.event.preventDefault();
+    };
+    
+    // closes existing highlight and highlights tapped bar
+    var onTouchEnd = function (d, hour) {
+        
+        // reset bar if it is already active
+        var doHighlight = !callouts[hour];
+        
+        // close all overlays / highlights
+        $.each(callouts, function (key, box) {
+            box.close();
+        })
+        
+        // highlight tapped bar
+        if (doHighlight) {
+            highlightBar.call(this, d, hour);
+        }
+    };
         
     // Add the hover panels
-    chart.selectAll('.hover-panel')
+    var panel = chart.selectAll('.hover-panel')
         .data(yesterdaysData).enter()
         .append('svg:rect')
         .attr("class", "hover-panel")
@@ -181,53 +249,14 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
         .attr('height',height)
         .attr('stroke','none')
         .attr('fill', '#000')
-        .attr('opacity',0.0)
-        .on('mouseover',function (d,hour) {
-            var that = this;
-            
-            var scaleFactor = GOVUK.Insights.svg.scaleFactor(svg, width),
-                boxWidth = 170,
-                boxHeight = 66,
-                offsetSoTheUserCantCatchTheBox = 5,
-                boxShadow = 4,
-                xPos = (xScale(hour) - offsetSoTheUserCantCatchTheBox)*scaleFactor - boxWidth,
-                yPos = (d3.mouse(this)[1] + 60)*scaleFactor,
-                actualXPos = (xPos > 0) ? xPos : xPos + boxWidth + barWidth*scaleFactor + offsetSoTheUserCantCatchTheBox + boxShadow,
-                calloutInfo = {
-                    xPos: actualXPos + margin.left*scaleFactor,
-                    yPos: GOVUK.Insights.clamp(yPos - boxHeight, boxShadow, height - margin.bottom*scaleFactor - boxHeight),
-                    parent: '#reach',
-                    title: GOVUK.Insights.convertTo12HourTime(hour) + ' to ' + GOVUK.Insights.convertTo12HourTime(hour+1),
-                    rowData: [
-                        {right:GOVUK.Insights.formatNumericLabel(d),left:'Unique visitors'},
-                        {right:GOVUK.Insights.formatNumericLabel(averageData[hour]),left:'<span class="pink">Average ' + day + '</span>'}
-                    ],
-                    width: boxWidth,
-                    height: boxHeight,
-                    closeDelay: 0,
-                    callback: function () {
-                        // reset bar appearance if callout is closed
-                        resetBar.call(that, d, hour);
-                    }
-                };
-            callouts[hour] = new Callout(calloutInfo);
-            
-            var barElement = reverseBarLookUp(hour);
-            barElement.attr('stroke',new GOVUK.Insights.colors(barElement.style('fill')).multiplyWithSelf().asCSS()).attr('stroke-width','3');
-            
-            var pointLocation = reverseAveragePointLookUp(d, hour);
-            
-            circleHighlights[hour] = chart.insert('svg:circle','.label-line')
-                .attr('cx',pointLocation.x)
-                .attr('cy',pointLocation.y)
-                .attr('r',3.5)
-                .attr('stroke-width','3.5')
-                .attr('fill','#fff')
-                .attr('class','pink js-temp');
-            
-            d3.select(this).attr('opacity',0.08);
-        })
-        .on('mouseout', resetBar);
+        .attr('opacity',0.0);
+    
+    if (window.Modernizr && Modernizr.touch) {
+        panel.on('touchend', onTouchEnd);
+    } else {
+        panel.on('mouseover', highlightBar);
+        panel.on('mouseout', resetBar);
+    }
     chart.selectAll('text').each(function () { GOVUK.Insights.svg.createTextShade(this) });
 };
 
