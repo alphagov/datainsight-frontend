@@ -2,12 +2,10 @@ require "functional/rack_test_helper"
 
 describe "Inside Government API" do
 
-  BASE_URL = Settings.api_urls['inside_government_base_url']
-
   it "should expose the format success api endpoint" do
     FakeWeb.register_uri(
       :get,
-      "#{BASE_URL}/format-success/weekly",
+      "#{find_api_url('inside_government_base_url')}/format-success/weekly",
       :body => {my: "json"}.to_json)
 
     get "/performance/dashboard/government/content-engagement.json"
@@ -26,7 +24,7 @@ describe "Inside Government API" do
 
     FakeWeb.register_uri(
       :get,
-      "#{BASE_URL}/entries/weekly/policies",
+      "#{find_api_url('inside_government_base_url')}/entries/weekly/policies",
       :body => most_entered_policies.to_json)
 
     get "/performance/dashboard/government/most-entered-policies.json"
@@ -43,7 +41,7 @@ describe "Inside Government API" do
   it "should expose visitors api endpoint" do
     FakeWeb.register_uri(
       :get,
-      "#{BASE_URL}/visitors/weekly?limit=25",
+      "#{find_api_url('inside_government_base_url')}/visitors/weekly?limit=25",
       :body => {data: "some data"}.to_json
     )
 

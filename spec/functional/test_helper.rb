@@ -2,6 +2,8 @@ require_relative "../spec_helper"
 
 require "slimmer/test"
 
+require "plek"
+
 require "capybara"
 require 'capybara/rails'
 require "capybara/dsl"
@@ -13,6 +15,10 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   Capybara.default_driver = :poltergeist
+end
+
+def find_api_url(name)
+  Plek.new.find(Settings.api_urls[name])
 end
 
 module StubApiFromFixtures
