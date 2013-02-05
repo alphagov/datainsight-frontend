@@ -8,16 +8,12 @@ module Settings
     "/performance"
   end
 
-  def self.platform
-    ENV['FACTER_govuk_platform'] || Rails.env
-  end
-
   def self.use_stub_api
     true?(ENV["USE_STUB_DATA"])
   end
 
   def self.api_urls
-    @api_urls ||= load_api_urls
+    @api_urls ||= load_yaml("api_urls.yml")
   end
 
   def self.feature_toggles
@@ -50,11 +46,6 @@ module Settings
       else
         false
     end
-  end
-
-  def self.load_api_urls
-    config = load_yaml("api_urls.yml")
-    config[platform]
   end
 
   def self.load_yaml(file_name)
