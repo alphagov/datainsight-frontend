@@ -10,6 +10,7 @@ gem "httparty", "~> 0.10.0"
 gem "airbrake", "3.1.5"
 gem "unicorn", "~> 4.4.0"
 gem "whenever", "~> 0.8.0"
+gem "plek", "~> 1.1.0"
 
 group :assets do
   gem "sass-rails", "~> 3.2.3"

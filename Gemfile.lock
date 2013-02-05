@@ -106,7 +106,7 @@ GEM
     multipart-post (1.1.5)
     nokogiri (1.5.5)
     null_logger (0.0.1)
-    plek (1.0.0)
+    plek (1.1.0)
       builder
     poltergeist (0.7.0)
       capybara (~> 1.1)
@@ -217,6 +217,7 @@ DEPENDENCIES
   httparty (~> 0.10.0)
   jasmine (~> 1.2.0)
   jasmine-phantom (~> 0.0.6)
+  plek (~> 1.1.0)
   poltergeist (~> 0.7.0)
   rails (= 3.2.11)
   router-client (= 3.1.0)
