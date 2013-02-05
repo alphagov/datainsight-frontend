@@ -9,9 +9,13 @@
 /* main page graph image */
 .datainsight .article-container {
     margin-right: 0;
-    background-image: url("<%= asset_path('performance_graphs.png') %>");
+    background-image: url("<%= asset_path('performance_graphs.svg') %>");
     background-repeat: no-repeat;
     background-position: top right;
+}
+
+.lte-ie8 .datainsight .article-container {
+    background-image: url("<%= asset_path('performance_graphs.png') %>");
 }
 
 .datainsight .beta-warning {
@@ -62,7 +66,7 @@ article p {
 @media (max-width: 960px) {
     .datainsight .article-container {
         margin-right: 0;
-        background-image: none !important;
+        background-size: 45%;
     }
 
     .datainsight .intro {
@@ -70,7 +74,7 @@ article p {
     }
 
     .datainsight article p {
-        max-width: none;
+        margin-right: 50%;
     }
 
     header hgroup {
@@ -518,7 +522,18 @@ th.index {
     width: 16.6%;
 }
 
-    /* Delicious margins + background hack - low res / mobile */
+@media (max-width: 640px) {
+    .datainsight .article-container {
+        background-image: none !important;
+    }
+
+    .datainsight article p {
+        max-width: none;
+        margin-right: auto;
+    }
+}
+
+/* Delicious margins + background hack - low res / mobile */
 @media (max-width: 480px) {
     .columns {
         padding: 13px !important;
