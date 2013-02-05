@@ -6,7 +6,7 @@ describe "Most Visited Policies" do
     most_entered_policies = JsonBuilder.most_entered_policies(policy_data)
     FakeWeb.register_uri(
         :get,
-        "#{Settings.api_urls['inside_government_base_url']}/entries/weekly/policies",
+        "#{find_api_url('inside_government_base_url')}/entries/weekly/policies",
         :body => most_entered_policies.to_json)
   end
 
@@ -112,7 +112,7 @@ describe "Most Visited Policies" do
   it "should not fail if there has been an upstream error" do
     FakeWeb.register_uri(
         :get,
-        "#{Settings.api_urls['inside_government_base_url']}/entries/weekly/policies",
+        "#{find_api_url('inside_government_base_url')}/entries/weekly/policies",
         :status => 500)
 
     visit "/performance/dashboard/government"
