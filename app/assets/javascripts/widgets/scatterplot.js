@@ -1,12 +1,17 @@
 var GOVUK = GOVUK || {};
 GOVUK.Insights = GOVUK.Insights || {};
 
+GOVUK.Insights.getDarkerColor = function (c) {
+    return new GOVUK.Insights.colors(c).multiplyWithSelf().asCSS()
+};
+
 GOVUK.Insights.scatterplotGraph = function () {
     var config = {
-        xAxisLabels:{description:"X", left:"", right:""},
+        xAxisLabels:{description:"X", left:"", right:"", squares: true},
         yAxisLabels:{description:"Y", bottom:"", top:""},
-        width:958,
+        width:956,
         height:450,
+        minRadius:2,
         maxRadius:30,
         marginTop:0,
         marginBottom:0,
@@ -27,35 +32,60 @@ GOVUK.Insights.scatterplotGraph = function () {
         circleLabel:function (d) {
             return d.label;
         },
+        showCircleLabels: true,
+        circleStrokeWidth: 1,
+        circleStrokeColor: "white",
         circleId: function(d) {
             return d.id;
+        },
+        click: function(d) {
+            return null;
         },
         xScale:d3.scale.linear(),
         yScale:d3.scale.linear(),
         rScale:d3.scale.linear(),
-        colourScale:d3.scale.linear()
+        colourScale:d3.scale.linear(),
+        xDomainBottom: 0,
+        xDomainTop: null,
+        yDomainBottom: 0,
+        yDomainTop: null,
+        rDomainBottom: 0,
+        rDomainTop: null,
+        verticalOffsetForYAxisLabel: 20,
+        margin: [20, 5, 20, 5],
+        cDomain: null,
+        cRange: null
     };
-
-    var RED = "#BF1E2D",
-        GREEN = "#74B74A",
-        GRAY = "#B3B3B3";
-
-    var verticalOffsetForYAxisLabel = 7;
-
-    var plottingAreaOffsetTop = function() {
-        return Math.max(config.maxRadius, 36);
-    };
-
-    var plottingAreaHeight = function(config) {
-        return config.height - plottingAreaOffsetTop();
-    };
+    
+    var circleStrokeWidth = 2.5;
+    
+    var plotInsetMax = config.maxRadius / 2 + circleStrokeWidth * 2;
+    var plotInsetMin = config.minRadius / 2 + circleStrokeWidth * 2;
+    var plotAreaMargin = [
+        config.margin[0] + plotInsetMax,
+        config.margin[1] + plotInsetMax,
+        config.margin[2] + plotInsetMin,
+        config.margin[3] + plotInsetMax
+    ];
 
     var getScales = function(data) {
+
+        var cDomain = config.cDomain || [0, 50, 100];
+        var cRange = config.cRange || ["#BF1E2D", "#B3B3B3", "#74B74A"];
+        var xDomain = [config.xDomainBottom, config.xDomainTop === null ? d3.max(data, config.x) : config.xDomainTop],
+            yDomain = [config.yDomainBottom, config.yDomainTop === null ? d3.max(data, config.y) : config.yDomainTop],
+            rDomain = [config.rDomainBottom, config.rDomainTop === null ? d3.max(data, config.r) : config.rDomainTop];
         return {
-            X: config.xScale.domain([0,d3.max(data, config.x)]).range([50, config.width - 50]),
-            Y: config.yScale.domain([0,100]).range([plottingAreaHeight(config) - verticalOffsetForYAxisLabel, 0]),
-            R: config.rScale.domain([0,d3.max(data, config.r)]).range([1,config.maxRadius]),
-            C: config.colourScale.domain([0, 50, 100]).range([RED, GRAY, GREEN])
+            X: config.xScale.domain(xDomain).range([
+                plotAreaMargin[3],
+                config.width - plotAreaMargin[1]
+            ]),
+            Y: config.yScale.domain(yDomain).range([
+                config.height - plotAreaMargin[2],
+                plotAreaMargin[0]
+            ]),
+            R: config.rScale.domain(rDomain).range([config.minRadius, config.maxRadius]),
+            C: config.colourScale.domain(cDomain).range(cRange)
         }
     };
 
@@ -67,24 +97,27 @@ GOVUK.Insights.scatterplotGraph = function () {
                 R = scales.R,
                 C = scales.C,
                 bottomOverflow = function (d) {
-                    var overflow = Y(config.y(d)) + R(config.r(d)) - plottingAreaHeight(config);
-                    return overflow > 0 ? overflow : 0;
-                },
-                width = (config.width + config.marginLeft + config.marginRight),
-                height = (config.height + config.marginTop + config.marginBottom + d3.max(data, bottomOverflow));
+                    var overflow = Y(config.y(d)) + R(config.r(d)) - config.height;
+                    overflow = Math.max(overflow , 0);
+                    return overflow;
+                };
+                
+            var yTop = config.margin[0];
+            var yBottom = config.height - config.margin[2];
+            var yCentre = (yTop + yBottom) / 2;
 
             var svg = d3.select(this).selectAll("svg").data([config]);
 
             svg
                 .enter().append("svg")
                 .attr("class", "scatterplot js-graph-area");
-
+            
             svg
-                .attr("viewBox", "0 0 " +  width + " " + height)
-                .attr("height", height)
-                .attr("width", width);
-
-            GOVUK.Insights.svg.resizeIfPossible(svg, width, height);
+                .attr("viewBox", function (d) {
+                    return "0 0 " +  (d.width + d.marginLeft + d.marginRight) + " " + (d.height + d.marginTop + d.marginBottom + d3.max(data, bottomOverflow));
+                })
+                .style("width","100%")
+                .style("height","100%");
 
             var plotArea = svg.selectAll("g.plot-area").data([config]);
 
@@ -101,9 +134,6 @@ GOVUK.Insights.scatterplotGraph = function () {
             graphArea
                 .enter().append("svg:g").attr("class", "graph-area");
 
-            graphArea
-                .attr("transform", "translate(0, " + plottingAreaOffsetTop() + ")");
-
             var yAxisTitle = plotArea.selectAll("text.title-y").data([config]);
 
             yAxisTitle.enter().append("svg:text");
@@ -117,54 +147,59 @@ GOVUK.Insights.scatterplotGraph = function () {
                 })
                 .attr("dy", ".35em");
 
-            var axesGroup = graphArea.append("svg:g").classed("axes", true);
-            var circlesGroup = graphArea.append("svg:g").classed("data-area", true);
-            var axesLabelsGroup = graphArea.append("svg:g").classed("axesLabels", true);
+            var doHover, endHover;
+            if (config.showCircleLabels) {
+                doHover = function (d, element, optionalCallback) {
+                    var title = config.circleLabel(d),
+                        boxWidth = 200,
+                        boxHeight = 66,
+                        topShift = 125, // a fudge factor for the box y position
+                        label = d3.select('#label-' + d3.select(element).attr('data-point-label')),
+                        labelX = parseFloat(label.attr('x')) + config.marginLeft,
+                        labelY = parseFloat(label.attr('y')) + config.marginTop + topShift,
+                        labelBoundingBox = label.node().getBBox(),
+                        xPos = (labelX > parseFloat(d3.select(element).attr('cx'))) ? labelX : labelX - (boxWidth - labelBoundingBox.width - 3),
+                        yPos = (labelY < parseFloat(d3.select(element).attr('cy'))) ? labelY - (boxHeight - labelBoundingBox.height / 2) : labelY - labelBoundingBox.height / 2,
+                        rowData = [
+                            {
+                                left: config.yAxisLabels.description,
+                                right: config.yAxisLabels.calloutValue ? config.yAxisLabels.calloutValue(d, config) : config.y(d).toFixed(0) + '%'
+                            },
+                            {
+                                left: config.xAxisLabels.description,
+                                right: config.xAxisLabels.calloutValue ? config.xAxisLabels.calloutValue(d, config) : GOVUK.Insights.formatNumericLabel(config.x(d))
+                                
+                            }
+                        ],
+                        boxInfo = {
+                            xPos:GOVUK.Insights.clamp(xPos, 0, config.width - boxWidth + 3),
+                            yPos:GOVUK.Insights.clamp(yPos, 0, config.height + config.marginTop + 20 - boxHeight + labelBoundingBox.height / 2),
+                            title:title,
+                            rowData:rowData,
+                            url: 'http://www.gov.uk/' + title,
+                            parent:"#" + selection.attr("id"),
+                            closeDelay:200,
+                            callback:(optionalCallback) ? optionalCallback : undefined,
+                            width:boxWidth,
+                            height:boxHeight
+                        };
+                        
+                    d.callout = new GOVUK.Insights.overlay.CalloutBox(boxInfo);
+                    element.parentNode.insertBefore(element, null);
 
-            drawAxes(axesGroup, axesLabelsGroup);
+                    d3.select(element).attr('stroke-width', 2.5);
+                };
 
-            var doHover = function (d, element, optionalCallback) {
-                var scaleFactor = GOVUK.Insights.svg.scaleFactor(svg, config.width),
-                    title = config.circleLabel(d),
-                    boxWidth = 170,
-                    boxHeight = 66,
-                    label = d3.select('#label-' + d3.select(element).attr('data-point-label')),
-                    labelX = parseFloat(label.attr('x')) + config.marginLeft,
-                    labelY = parseFloat(label.attr('y')) + config.marginTop + plottingAreaOffsetTop(),
-                    labelBoundingBox = label.node().getBBox(),
-                    xPos = (labelX > parseFloat(d3.select(element).attr('cx'))) ? labelX - 3 : labelX - (boxWidth - labelBoundingBox.width - 3),
-                    yPos = (labelY < parseFloat(d3.select(element).attr('cy'))) ? labelY - (boxHeight - labelBoundingBox.height / 2) : labelY - labelBoundingBox.height / 2,
-                    rowData = [
-                        {right:GOVUK.Insights.formatNumericLabel(config.x(d)), left:config.xAxisLabels.description},
-                        {right:config.y(d).toFixed(0) + '%', left:config.yAxisLabels.description}
-                    ],
-                    boxInfo = {
-                        xPos:GOVUK.Insights.clamp(xPos * scaleFactor, 0, (width + 3) * scaleFactor - boxWidth),
-                        yPos:GOVUK.Insights.clamp(yPos * scaleFactor, 0, height * scaleFactor - boxHeight) + GOVUK.Insights.geometry.gap(svg.node(), svg.node().parentNode),
-                        title:title,
-                        rowData:rowData,
-                        parent:"#" + selection.attr("id"),
-                        closeDelay:200,
-                        callback:(optionalCallback) ? optionalCallback : undefined,
-                        width:boxWidth,
-                        height:boxHeight
-                    };
-                d.callout = new GOVUK.Insights.overlay.CalloutBox(boxInfo);
-                element.parentNode.insertBefore(element, null);
+                endHover = function (d, element) {
+                    if (d.callout !== undefined) {
+                        d.callout.close();
+                    }
+                    delete d.callout;
+                    d3.select(element).attr('stroke-width', config.circleStrokeWidth);
+                };
+            }
 
-                var darkerStrokeColor = new GOVUK.Insights.colors(d3.select(element).attr('fill')).multiplyWithSelf().asCSS();
-                d3.select(element).attr("stroke", darkerStrokeColor);
-            };
-
-            var endHover = function (d, element) {
-                if (d.callout !== undefined) {
-                    d.callout.close();
-                }
-                delete d.callout;
-                d3.select(element).attr("stroke", "white");
-            };
-
-            var circles = circlesGroup.selectAll("circle").data(data);
+            var circles = graphArea.selectAll("circle").data(data);
 
             circles.enter().append("svg:circle");
 
@@ -172,7 +207,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .on('mouseover', function (d) {
                     if (d.callout !== undefined) {
                         d.callout.cancelClose();
-                    } else {
+                    } else if (d3.select(this).classed('enabled')) {
                         var self = this;
                         doHover(d, self, function () {
                             endHover(d, self);
@@ -184,10 +219,12 @@ GOVUK.Insights.scatterplotGraph = function () {
                         d.callout.close();
                     }
                 })
-                .attr("class", "data-point js-fixed")
-                .style("opacity", 0.9)
-                .attr("stroke", "white")
-                .attr("stroke-width", 2)
+                .attr("class", "data-point js-fixed enabled")
+                .attr("stroke", function (d) {
+                    var fill = C(config.colour(d));
+                    return GOVUK.Insights.getDarkerColor(fill);
+                })
+                .attr("stroke-width", config.circleStrokeWidth)
                 .attr("r", function (d) {
                     return R(config.r(d));
                 })
@@ -202,173 +239,270 @@ GOVUK.Insights.scatterplotGraph = function () {
                 })
                 .attr("data-point-label", function (d) {
                     return config.circleId(d);
-                });
-
+                })
+                .on("click", config.click);
+            
             circles.exit().remove();
 
-            var circlesLabels = circlesGroup.selectAll("text.circle-label").data(data);
+            if (config.showCircleLabels) {
+                var circlesLabels = graphArea.selectAll("text.circle-label").data(data);
 
-            circlesLabels.enter().append("svg:text")
-                .attr("class", "circle-label js-floating");
+                circlesLabels.enter().append("svg:text")
+                    .attr("class", "circle-label js-floating");
 
-            circlesLabels
-                .text(function (d) {
-                    return config.circleLabel(d);
+                circlesLabels
+                    .text(function (d) {
+                        return "";
+                        return config.circleLabel(d);
+                    })
+                    .attr("id", function (d) {
+                        return "label-" + config.circleId(d);
+                    })
+                    .attr("data-point-label", function (d) {
+                        return config.circleId(d);
+                    })
+                    .attr("text-anchor", "start")
+                    .attr("x", function (d) {
+                        return X(config.x(d));
+                    })
+                    .attr("y", function (d) {
+                        return Y(config.y(d));
+                    })
+                    .attr("dy", ".35em")
+                    .on('mouseover', function () {
+                        var circleElement = d3.select('circle[data-point-label=' + d3.select(this).attr('data-point-label') + ']'),
+                            d = circleElement.datum();
+                        
+                        if (d.callout !== undefined) {
+                            d.callout.cancelClose();
+                        } else if (circleElement.classed('enabled')) {
+                            doHover(d, circleElement.node(), function () {
+                                endHover(d, circleElement.node());
+                            });
+                        }
+                    })
+                    .on("mouseout", function (d) {
+                        if (d.callout !== undefined) {
+                            d.callout.close();
+                        }
+                    });
+
+                circlesLabels.exit().remove();                
+            }
+
+            var xAxis = graphArea.selectAll("g.x").data([config]);
+
+            xAxis.enter().append("g");
+
+            xAxis
+                .attr("class", "x axis");
+
+            var xAxisLeft = xAxis.selectAll("line.x-left").data([config]);
+
+            xAxisLeft.enter().append("line");
+
+            xAxisLeft
+                .attr("class", "domain x-left")
+                .attr("x1", function (d) {
+                    return d.width / 2;
                 })
-                .attr("id", function (d) {
-                    return "label-" + config.circleId(d);
+                .attr("x2", 0)
+                .attr("y1", function (d) {
+                    return yCentre;
                 })
-                .attr("data-point-label", function (d) {
-                    return config.circleId(d);
+                .attr("y2", function (d) {
+                    return yCentre;
                 })
-                .attr("text-anchor", "start")
+                .attr("stroke", "black")
+                // .style("stroke-dashoffset", "2px");
+
+            var xAxisRight = xAxis.selectAll("line.x-right").data([config]);
+
+            xAxisRight.enter().append("line");
+
+            xAxisRight
+                .attr("class", "domain x-right")
+                .attr("x1", function (d) {
+                    return d.width / 2;
+                })
+                .attr("x2", function (d) {
+                    return d.width;
+                })
+                .attr("y1", function (d) {
+                    return yCentre;
+                })
+                .attr("y2", function (d) {
+                    return yCentre;
+                })
+                .attr("stroke", "black")
+                // .style("stroke-dashoffset", "2px");
+
+            var yAxis = graphArea.selectAll("g.y").data([config]);
+
+            yAxis.enter().append("g");
+
+            yAxis
+                .attr("class", "y axis");
+
+            var yAxisTop = yAxis.selectAll("line.y-top").data([config]);
+
+            yAxisTop.enter().append("line");
+            
+            yAxisTop
+                .attr("class", "domain y-top")
+                .attr("x1", function (d) {
+                    return d.width / 2;
+                })
+                .attr("x2", function (d) {
+                    return d.width / 2;
+                })
+                .attr("y1", function (d) {
+                    
+                    return yCentre;
+                })
+                .attr("y2", function (d) {
+                    return yTop;
+                })
+                .attr("stroke", "black")
+                // .style("stroke-dashoffset", "2px");
+
+            var yAxisBottom = yAxis.selectAll("line.y-bottom").data([config]);
+
+            yAxisBottom.enter().append("line");
+
+            yAxisBottom
+                .attr("class", "domain y-bottom")
+                .attr("x1", function (d) {
+                    return d.width / 2;
+                })
+                .attr("x2", function (d) {
+                    return d.width / 2;
+                })
+                .attr("y1", function (d) {
+                    return yCentre;
+                })
+                .attr("y2", function (d) {
+                    return yBottom;
+                })
+                .attr("stroke", "black")
+                // .style("stroke-dashoffset", "2px");
+
+            // Place X axis tick labels
+            var leftXAxisLabel = graphArea.selectAll("text.label-x-left").data([config]);
+
+            leftXAxisLabel.enter().append("svg:text");
+
+            leftXAxisLabel.text(config.xAxisLabels.left)
+                .attr("class", "label-x-left")
+                .attr("x", 0)
+                .attr("y", function (d) {
+                    return yCentre
+                })
+                .attr("dy", "1.3em");
+
+            var rightXAxisLabel = graphArea.selectAll("text.label-x-right").data([config]);
+
+            rightXAxisLabel.enter().append("svg:text");
+
+            rightXAxisLabel.text(config.xAxisLabels.right)
+                .attr("class", "label-x-right")
                 .attr("x", function (d) {
-                    return X(config.x(d));
+                    return d.width;
                 })
                 .attr("y", function (d) {
-                    return Y(config.y(d));
+                    return yCentre;
                 })
-                .attr("dy", ".35em")
-                .on('mouseover', function () {
-                    var circleElement = d3.select('circle[data-point-label=' + d3.select(this).attr('data-point-label') + ']'),
-                        d = circleElement.datum();
+                .attr("dy", "1.3em");
+            
+            if (config.xAxisLabels.squares) {
+                var leftXAxisLabelSquare = graphArea.selectAll("rect.label-x-left").data([config]);
 
-                    if (d.callout !== undefined) {
-                        d.callout.cancelClose();
-                    } else {
-                        doHover(d, circleElement.node(), function () {
-                            endHover(d, circleElement.node());
-                        });
-                    }
+                leftXAxisLabelSquare.enter().append("rect");
+
+                leftXAxisLabelSquare
+                    .attr("fill", "#BF1E2D")
+                    .attr("class", "label-x-left")
+                    .attr("height", 12)
+                    .attr("width", 12)
+                    .attr("y", function (d) {
+                        return yCentre - 20;
+                    })
+                    .attr("x", 0);
+
+                var rightXAxisLabelSquare = graphArea.selectAll("rect.label-x-right").data([config]);
+
+                rightXAxisLabelSquare.enter().append("rect");
+
+                rightXAxisLabelSquare
+                    .style("fill", "#74B74A")
+                    .attr("class", "label-x-right")
+                    .attr("height", 12)
+                    .attr("width", 12)
+                    .attr("y", function (d) {
+                        return yCentre - 20;
+                    })
+                    .attr("x", function (d) {
+                        return d.width - 12;
+                    });
+            
+            }
+            
+            var scaleLabelDeviation = Math.ceil(100 * config.xAxisLabels.deviation);
+            
+            if (config.xAxisLabels.scaleLabels) {
+                var leftXAxisScaleLabel = graphArea.selectAll("text.label-scale-x-left").data([config]);
+                leftXAxisScaleLabel.enter().append("svg:text");
+                leftXAxisScaleLabel.text(config.xDomainBottom.toFixed(0) + '%')
+                    .attr("class", "label-scale-x-left")
+                    .attr("x", 0)
+                    .attr("y", function (d) {
+                        return yCentre
+                    })
+                    .attr("dy", "2.8em");
+
+                var rightXAxisScaleLabel = graphArea.selectAll("text.label-scale-x-right").data([config]);
+                rightXAxisScaleLabel.enter().append("svg:text");
+                rightXAxisScaleLabel.text(config.xDomainTop.toFixed(0) + '%')
+                    .attr("class", "label-scale-x-right")
+                    .attr("x", function (d) {
+                        return d.width;
+                    })
+                    .attr("y", function (d) {
+                        return yCentre
+                    })
+                    .attr("dy", "2.8em");
+            }
+
+            
+
+            // Place Y axis tick labels
+            var bottomYAxisLabel = graphArea.selectAll("text.label-y-bottom").data([config]);
+
+            bottomYAxisLabel.enter().append("svg:text");
+
+            bottomYAxisLabel
+                .text(config.yAxisLabels.bottom)
+                .attr("class", "label-y-bottom")
+                .attr("y", function (d) {
+                    return d.height;
                 })
-                .on("mouseout", function (d) {
-                    if (d.callout !== undefined) {
-                        d.callout.close();
-                    }
+                .attr("x", function (d) {
+                    return d.width / 2 - 5;
+                });
+            
+            
+            var topYAxisLabel = graphArea.selectAll("text.label-y-top").data([config]);
+
+            topYAxisLabel.enter().append("svg:text");
+            
+            topYAxisLabel
+                .text(config.yAxisLabels.top)
+                .attr("class", "label-y-top")
+                .attr("y", '1em')
+                .attr("x", function (d) {
+                    return d.width / 2 - 5;
                 });
 
-            circlesLabels.exit().remove();
-
-            function drawAxes(group, labelsGroup) {
-
-                var left    = 0,
-                    right   = config.width,
-                    top     = Y(100),
-                    bottom  = Y(0),
-                    centerX = (right - left) / 2,
-                    centerY = (bottom - top) / 2;
-
-                function drawSemiAxis(group) {
-                    return group.append("svg:line")
-                        .classed("domain", true)
-                        .attr("stroke", "black")
-                        .style("stroke-dashoffset", "-4px");
-                }
-
-                var xAxis = group.append("g")
-                    .attr("class", "x axis");
-
-                drawSemiAxis(xAxis)
-                    .classed("x-left", true)
-                    .classed("no-scale", true)
-                    .attr("x1", centerX)
-                    .attr("y1", centerY)
-                    .attr("x2", left)
-                    .attr("y2", centerY);
-
-                drawSemiAxis(xAxis)
-                    .classed("x-right", true)
-                    .classed("no-scale", true)
-                    .attr("x1", centerX)
-                    .attr("y1", centerY)
-                    .attr("x2", right)
-                    .attr("y2", centerY);
-
-                var yAxis = group.append("g")
-                    .attr("class", "y axis");
-
-                drawSemiAxis(yAxis)
-                    .classed("y-top", true)
-                    .classed("no-scale", true)
-                    .attr("x1", centerX)
-                    .attr("y1", centerY)
-                    .attr("x2", centerX)
-                    .attr("y2", top);
-
-                drawSemiAxis(yAxis)
-                    .classed("y-bottom", true)
-                    .classed("no-scale", true)
-                    .attr("x1", centerX)
-                    .attr("y1", centerY)
-                    .attr("x2", centerX)
-                    .attr("y2", bottom);
-
-                // Place X axis tick labels
-                var leftXAxisLabel = labelsGroup.selectAll("text.label-x-left").data([config]);
-
-                leftXAxisLabel.enter().append("svg:text");
-
-                leftXAxisLabel.text(config.xAxisLabels.left)
-                    .attr("class", "label-x-left")
-                    .attr("x", left)
-                    .attr("y", centerY + 9)
-                    .attr("dy", ".71em");
-
-                var rightXAxisLabel = labelsGroup.selectAll("text.label-x-right").data([config]);
-
-                rightXAxisLabel.enter().append("svg:text");
-
-                rightXAxisLabel.text(config.xAxisLabels.right)
-                    .attr("class", "label-x-right")
-                    .attr("x", right)
-                    .attr("y", centerY + 9)
-                    .attr("dy", ".71em");
-
-                // Place Y axis tick labels
-                function drawYAxisLabelSquare(parent) {
-                    return parent.append("rect")
-                        .classed("js-fixed", true)
-                        .attr("stroke", "white")
-                        .attr("stroke-width", 1)
-                        .attr("height", 12)
-                        .attr("width", 12);
-                }
-
-                drawYAxisLabelSquare(labelsGroup)
-                    .classed("label-y-bottom", true)
-                    .attr("fill", RED)
-                    .attr("y", bottom - 6)
-                    .attr("x", centerX + 7);
-
-                var bottomYAxisLabel = labelsGroup.selectAll("text.label-y-bottom").data([config]);
-
-                bottomYAxisLabel.enter().append("svg:text");
-
-                bottomYAxisLabel
-                    .text(config.yAxisLabels.bottom)
-                    .attr("class", "label-y-bottom")
-                    .attr("y", bottom)
-                    .attr("x", centerX - 5)
-                    .attr("dy", ".35em");
-
-                drawYAxisLabelSquare(labelsGroup)
-                    .classed("label-y-top", true)
-                    .attr("fill", GREEN)
-                    .attr("y", -6)
-                    .attr("x", centerX + 7);
-
-                var topYAxisLabel = labelsGroup.selectAll("text.label-y-top").data([config]);
-
-                topYAxisLabel.enter().append("svg:text");
-
-                topYAxisLabel
-                    .text(config.yAxisLabels.top)
-                    .attr("class", "label-y-top")
-                    .attr("y", top)
-                    .attr("x", centerX - 5)
-                    .attr("dy", ".35em");
-
-            }
         });
     };
 
@@ -390,7 +524,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 ];
             }
 
-            var width = 960,
+            var width = 250,
                 height = 80,
                 marginTop = 5
                 maxCircleRadius = R(dataForLegend.slice(-1)),
@@ -402,14 +536,11 @@ GOVUK.Insights.scatterplotGraph = function () {
 
             legend
                 .enter().append("svg")
-                .attr("viewBox", "0 0 " +  960 + " " + (height + marginTop))
                 .attr("width", width)
                 .attr("height", height + marginTop)
                 .attr("class", "scatterplot-legend")
                 .append("g")
                 .attr("transform", "translate(0, 3)");
-
-            GOVUK.Insights.svg.resizeIfPossible(legend, 960, height + marginTop);
 
             var legendText = legend.selectAll("text.circle-legend").data(dataForLegend);
 
@@ -443,7 +574,58 @@ GOVUK.Insights.scatterplotGraph = function () {
                     return R(d) + marginTop;
                 });
         });
+        
+        
     };
 
+    instance.filter = function (selection, term) {
+        selection.each(function(data) {
+            var scales = getScales(data);
+            
+            var svg = selection.selectAll("svg");
+            var plotArea = svg.selectAll("g.plot-area");
+            var graphArea = plotArea.selectAll("g.graph-area");
+            var circles = graphArea.selectAll("circle");
+            
+            var reset = function (selection) {
+                selection
+                    .style('fill', function (d) {
+                        return scales.C(d.colour);
+                    })
+                    .style('stroke', function (d) {
+                        return GOVUK.Insights.getDarkerColor(scales.C(d.colour));
+                    })
+                    .style('stroke-width', 1);
+            }
+            
+            var resetTransition = circles.transition().duration(0);
+            reset(resetTransition);
+            
+            if (term) {
+                // search case insensitive
+                term = term.toLowerCase();
+
+                // perform search
+                circles.classed('enabled', function (d) {
+                    return d.label.indexOf(term) != -1;
+                });
+                
+                // highlight remaining circles
+                var enabledCircles = circles.filter('.enabled');
+                
+                var highlightTransition = enabledCircles.transition()
+                    .duration(1000)
+                    .style('fill', '#44C3DF')
+                    .style('stroke', '#097F96')
+                    .style('stroke-width', 2.5);
+                
+                // reset after highlight
+                reset(highlightTransition.transition());
+            } else {
+                circles.classed('enabled', true);
+            }
+        });
+    };
+    
     return instance;
 };
