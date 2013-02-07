@@ -54,7 +54,8 @@ GOVUK.Insights.scatterplotGraph = function () {
         verticalOffsetForYAxisLabel: 20,
         margin: [20, 5, 20, 5],
         cDomain: null,
-        cRange: null
+        cRange: null,
+        overlayDistance: 5
     };
     
     var circleStrokeWidth = 2.5;
@@ -150,6 +151,18 @@ GOVUK.Insights.scatterplotGraph = function () {
             var doHover, endHover;
             if (config.showCircleLabels) {
                 doHover = function (d, element, optionalCallback) {
+                    
+                    // get circle centre
+                    var bbox = element.getBBox();
+                    var radius = bbox.width / 2;
+                    var circleX = bbox.x + radius;
+                    var circleY = bbox.y + radius;
+                    
+                    // calculate point on circle at 45 degrees
+                    var boxPivotDist = config.overlayDistance + radius * Math.cos(Math.PI / 4);
+                    var boxXPos = circleX;// + boxPivotDist;
+                    var boxYPos = circleY;// - boxPivotDist;
+                    
                     var title = config.circleLabel(d),
                         boxWidth = 200,
                         boxHeight = 66,
@@ -172,16 +185,23 @@ GOVUK.Insights.scatterplotGraph = function () {
                             }
                         ],
                         boxInfo = {
-                            xPos:GOVUK.Insights.clamp(xPos, 0, config.width - boxWidth + 3),
-                            yPos:GOVUK.Insights.clamp(yPos, 0, config.height + config.marginTop + 20 - boxHeight + labelBoundingBox.height / 2),
+                            width:boxWidth,
+                            height:boxHeight,
+                            xPos:boxXPos,
+                            yPos:boxYPos,
                             title:title,
                             rowData:rowData,
                             url: 'http://www.gov.uk/' + title,
                             parent:"#" + selection.attr("id"),
                             closeDelay:200,
                             callback:(optionalCallback) ? optionalCallback : undefined,
-                            width:boxWidth,
-                            height:boxHeight
+                            pivot: {
+                                constrainToBounds: true,
+                                horizontal: 'left',
+                                vertical: 'bottom',
+                                xOffset: boxPivotDist,
+                                yOffset: -boxPivotDist
+                            }
                         };
                         
                     d.callout = new GOVUK.Insights.overlay.CalloutBox(boxInfo);
