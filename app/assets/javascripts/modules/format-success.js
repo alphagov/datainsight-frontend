@@ -160,7 +160,8 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
             calloutValue: function (d, config) {
                 return Math.abs(d.x).toFixed(1) + '%';
             },
-            squares: true,
+            squares: false,
+            scaleLabels: true,
             deviation: successDeviation / successMean
         })
         .yAxisLabels({
