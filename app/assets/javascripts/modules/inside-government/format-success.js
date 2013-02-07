@@ -7,7 +7,8 @@ GOVUK.Insights.formatSuccessInsidegov = function () {
         detailed_guidance: "detailed guidance",
         policy: "policies"
     };
-    GOVUK.Insights.contentEngagementUrl = '/datainsight-frontend/fixtures/insidegov.json';
+    // GOVUK.Insights.contentEngagementUrl = '/datainsight-frontend/fixtures/insidegov.json';
+    GOVUK.Insights.contentEngagementUrl = '/performance/dashboard/government/content-engagement-detail.json';
     GOVUK.Insights.formatSuccess();
 };
 

@@ -130,13 +130,16 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
     
     
     artefacts = artefacts.map(function(d) {
-        successMin = Math.min(successMin, d.percentage_of_success);
-        successMax = Math.max(successMax, d.percentage_of_success);
+        
+        var percentage = d.percentage_of_success = 100 * d.successes / d.entries
+        
+        successMin = Math.min(successMin, percentage);
+        successMax = Math.max(successMax, percentage);
 
         return {
-            x: d.percentage_of_success,
+            x: percentage,
             y: d.entries,
-            colour: d.percentage_of_success,
+            colour: percentage,
             label: d.slug,
             id: d.slug
         };
