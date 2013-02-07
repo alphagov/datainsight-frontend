@@ -59,8 +59,6 @@ GOVUK.Insights.formatSuccess = function() {
         
         
         
-        var targetEl = $('#format-success');
-
         var tabs = $('#format-success-tabs li');
         tabs.on('click', function (e) {
             tabs.removeClass('active');
@@ -70,7 +68,7 @@ GOVUK.Insights.formatSuccess = function() {
 
             var format = $this.data('format');
 
-            targetEl.find('.scatterplot').empty();
+            $('#format-success').find('.scatterplot').empty();
 
             if (!format) {
                 return;
