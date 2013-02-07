@@ -56,6 +56,24 @@ describe "Inside Government API" do
     json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government"
   end
 
+  it "should expose content engagement detail api endpoint" do
+    FakeWeb.register_uri(
+      :get,
+      "#{find_api_url('inside_government_base_url')}/content-engagement-detail/weekly",
+      :body => {data: "some data"}.to_json
+    )
+
+    get "/performance/dashboard/government/content-engagement-detail.json"
+
+    last_response.status.should == 200
+    last_response.content_type.should include "application/json"
+
+    json_result = JSON.parse(last_response.body)
+    json_result["data"].should == "some data"
+    json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/content-engagement-detail.json"
+    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government"
+  end
+
   it "should expose annotations api endpoint" do
     get "/performance/dashboard/government/annotations.json"
 

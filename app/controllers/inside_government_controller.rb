@@ -46,6 +46,15 @@ class InsideGovernmentController < ApplicationController
     end
   end
 
+  def content_engagement_detail
+    serve_json do
+      json = api.inside_gov_content_engagement_detail
+      json["id"] = url_for :controller => 'inside_government', :action => 'content_engagement_detail', :format => :json
+      json["web_url"] = url_for :controller => 'inside_government', :action => 'index'
+      json
+    end
+  end
+
   def most_entered_policies
     serve_json do
       json = api.most_entered_policies
