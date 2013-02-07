@@ -41,6 +41,10 @@ class ClientAPI
     get("inside_government_base_url", "/visitors/weekly?limit=25")
   end
 
+  def inside_gov_content_engagement_detail
+    get("inside_government_base_url", "/content-engagement-detail/weekly")
+  end
+
   private
   def get(base, path)
     transport(Plek.new.find(@api_urls[base])).get(path).data
