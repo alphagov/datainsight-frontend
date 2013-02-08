@@ -158,10 +158,15 @@ GOVUK.Insights.scatterplotGraph = function () {
                     var circleX = bbox.x + radius;
                     var circleY = bbox.y + radius;
                     
+                    var scaleFactor = GOVUK.Insights.svg.scaleFactor(svg, config.width)
+                    
                     // calculate point on circle at 45 degrees
-                    var boxPivotDist = config.overlayDistance + radius * Math.cos(Math.PI / 4);
-                    var boxXPos = circleX;// + boxPivotDist;
-                    var boxYPos = circleY;// - boxPivotDist;
+                    var boxPivotDist = scaleFactor * (
+                        config.overlayDistance + radius * Math.cos(Math.PI / 4)
+                    );
+                    
+                    var boxXPos = circleX * scaleFactor;
+                    var boxYPos = circleY * scaleFactor;
                     
                     var title = config.circleLabel(d),
                         boxWidth = 200,
