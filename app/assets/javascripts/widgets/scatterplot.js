@@ -614,13 +614,13 @@ GOVUK.Insights.scatterplotGraph = function () {
             
             var reset = function (selection) {
                 selection
-                    .style('fill', function (d) {
+                    .attr('fill', function (d) {
                         return scales.C(d.colour);
                     })
-                    .style('stroke', function (d) {
+                    .attr('stroke', function (d) {
                         return GOVUK.Insights.getDarkerColor(scales.C(d.colour));
                     })
-                    .style('stroke-width', 1);
+                    .attr('stroke-width', config.circleStrokeWidth);
             }
             
             var resetTransition = circles.transition().duration(0);
