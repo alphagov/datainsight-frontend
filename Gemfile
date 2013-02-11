@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 source "https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/"
 
-gem "rails", "3.2.11"
+gem "rails", "3.2.12"
 
 gem "datainsight_logging", "~> 0.0.2"
 gem "slimmer", "~> 3.10.0"
