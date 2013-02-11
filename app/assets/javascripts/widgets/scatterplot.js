@@ -238,7 +238,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                 .on('mouseover', function (d) {
                     if (d.callout !== undefined) {
                         d.callout.cancelClose();
-                    } else if (d3.select(this).classed('enabled')) {
+                    } else {
                         var self = this;
                         doHover(d, self, function () {
                             endHover(d, self);
@@ -306,7 +306,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                         
                         if (d.callout !== undefined) {
                             d.callout.cancelClose();
-                        } else if (circleElement.classed('enabled')) {
+                        } else {
                             doHover(d, circleElement.node(), function () {
                                 endHover(d, circleElement.node());
                             });
