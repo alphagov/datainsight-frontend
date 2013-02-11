@@ -33,12 +33,14 @@
             '<span class="combobox" style="position:relative; '+
             'display:-moz-inline-box; display:inline-block;"/>'
         );
-        this.selector = new ComboboxSelector(this);
+        this.selector = new ComboboxSelector(this, options);
         this.setSelectOptions(selectOptions);
         
         if (!options.noShowSelectorButton) {
             this.addShowSelectorButton();
         }
+        
+        
         this.bindKeypress();
     };
 
@@ -113,6 +115,10 @@
         
         focus : function () {
             this.textInputElement.trigger('focus');
+        },
+        
+        blur : function () {
+            this.textInputElement.trigger('blur');
         }
         
     };
@@ -128,7 +134,13 @@
 
 
 
-    var ComboboxSelector = function (combobox) {
+    var ComboboxSelector = function (combobox, options) {
+        options = options || {};
+        
+        if (options.summaryEntry) {
+            this.summaryEntry = true;
+        }
+        
         this.combobox = combobox;
         this.optionCount = 0;
         this.selectedIndex = -1;
@@ -145,8 +157,10 @@
         this.keypressHandler = function (e) {
             if (e.keyCode == Combobox.keys.DOWNARROW) {
                 thisSelector.selectNext();
+                e.preventDefault();
             } else if (e.keyCode == Combobox.keys.UPARROW) {
                 thisSelector.selectPrevious();
+                e.preventDefault();
             } else if (e.keyCode == Combobox.keys.ESCAPE) {
                 thisSelector.hide();
                 thisSelector.combobox.focus();
@@ -154,8 +168,13 @@
                 if(thisSelector.selectedIndex !== -1){
                     e.preventDefault();
                 }
-                thisSelector.combobox.setValue(thisSelector.getSelectedValue());
-                thisSelector.combobox.focus();
+                var selectedValue = thisSelector.getSelectedValue();
+                if (selectedValue) {
+                    thisSelector.combobox.setValue(selectedValue);
+                    thisSelector.combobox.focus();
+                } else {
+                    thisSelector.combobox.blur();
+                }
                 thisSelector.hide();
             } else if(e.keyCode == Combobox.keys.TAB){
                 thisSelector.hide();
@@ -188,17 +207,30 @@
             }
             this.optionCount = selectOptions.length;
             var ulElement = jQuery('<ul></ul>').appendTo(this.selectorElement);
+            
+            if (this.summaryEntry) {
+                var summaryLi = $('<li></li>').addClass('summary');
+                summaryLi.html('Show ' + this.optionCount + ' results');
+                ulElement.append(summaryLi);
+                this.select(0);
+            }
+            
+            
             for (i = 0; i < selectOptions.length; i++) {
                 ulElement.append('<li>'+selectOptions[i]+'</li>');
             }
             var thisSelector = this;
-            this.selectorElement.find('li').click(function (e) {
+            var lis = this.selectorElement.find('li');
+            lis.click(function (e) {
                 thisSelector.hide();
-                thisSelector.combobox.setValue(this.innerHTML);
-                thisSelector.combobox.focus();
+                if (!$(this).hasClass('summary')) {
+                    thisSelector.combobox.setValue(this.innerHTML);
+                    thisSelector.combobox.focus();
+                }
             });
-            this.selectorElement.mouseover(function (e) {
-                thisSelector.unselect();
+            lis.mouseover(function (e) {
+                var index = lis.index($(this));
+                thisSelector.select(index);
             });
             this.htmlClickHandler = function () {
                 thisSelector.hide();
@@ -227,11 +259,14 @@
         },
 
         selectNext : function () {
-            var newSelectedIndex = this.selectedIndex + 1;
-            if (newSelectedIndex > this.optionCount - 1) {
-                newSelectedIndex = this.optionCount - 1;
+            var maxIndex = this.optionCount;
+            if (!this.summaryEntry) {
+                maxIndex--;
             }
-            this.select(newSelectedIndex);
+            
+            var newSelectedIndex = Math.min(this.selectedIndex + 1, maxIndex);
+            
+            this.select(newSelectedIndex, true);
         },
 
         selectPrevious : function () {
@@ -239,26 +274,45 @@
             if (newSelectedIndex < 0) {
                 newSelectedIndex = 0;
             }
-            this.select(newSelectedIndex);
+            this.select(newSelectedIndex, true);
         },
         
-        select : function (index) {
+        select : function (index, scrollToElement) {
             this.unselect();
-        	this.selectorElement.find('li:eq('+index+')').addClass('selected');
-        	this.selectedIndex = index;
+            var selected = this.selectorElement.find('li:eq('+index+')');
+            selected.addClass('selected');
+            this.selectedIndex = index;
+            
+            if (scrollToElement) {
+                // ensure selected element is visible
+                var height = this.selectorElement.innerHeight();
+                var scrollTop = this.selectorElement.scrollTop();
+                var scrollBottom = scrollTop + this.selectorElement.height();
+                var elTop = selected.position().top;
+                var elBottom = elTop + selected.outerHeight();
+                if (elTop < 0) {
+                    this.selectorElement.scrollTop(scrollTop + elTop);
+                } else if (elBottom > height) {
+                    this.selectorElement.scrollTop(scrollTop + elBottom - height);
+                }
+            }
         },
 
         unselect : function () {
-        	this.selectorElement.find('li').removeClass('selected');
-        	this.selectedIndex = -1;
+            this.selectorElement.find('li').removeClass('selected');
+            this.selectedIndex = -1;
         },
         
         getSelectedValue : function () {
             if(this.selectedIndex !== -1){
-                return this.selectorElement.find('li').get(this.selectedIndex).innerHTML;
-            } else {
-                return this.combobox.textInputElement.val();
+                var li = this.selectorElement.find('li').eq(this.selectedIndex);
+                if (!li.hasClass('summary')) {
+                    return li.html();
+                } else {
+                    return null;
+                }
             }
+            return this.combobox.textInputElement.val();
         }
 
     };

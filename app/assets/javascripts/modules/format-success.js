@@ -238,7 +238,8 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
         $.combobox.instances[0].setSelectOptions(slugs);
     } else {
         filterEl.combobox(slugs, {
-            noShowSelectorButton: true
+            noShowSelectorButton: true,
+            summaryEntry: true
         }).on('change keyup', applyFilter);
         filterEl.before(closeFilterEl);
         closeFilterEl.on('click', function (e) {
