@@ -140,6 +140,9 @@
         if (options.summaryEntry) {
             this.summaryEntry = true;
         }
+        if (options.onSelect) {
+            this.onSelect = options.onSelect;
+        }
         
         this.combobox = combobox;
         this.optionCount = 0;
@@ -296,11 +299,19 @@
                     this.selectorElement.scrollTop(scrollTop + elBottom - height);
                 }
             }
+            
+            if (typeof this.onSelect == 'function') {
+                this.onSelect(selected, index);
+            }
         },
 
         unselect : function () {
             this.selectorElement.find('li').removeClass('selected');
             this.selectedIndex = -1;
+            
+            if (typeof this.onSelect == 'function') {
+                this.onSelect(null, null);
+            }
         },
         
         getSelectedValue : function () {

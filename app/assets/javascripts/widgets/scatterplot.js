@@ -1,6 +1,12 @@
 var GOVUK = GOVUK || {};
 GOVUK.Insights = GOVUK.Insights || {};
 
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
+
 GOVUK.Insights.getDarkerColor = function (c) {
     return new GOVUK.Insights.colors(c).multiplyWithSelf().asCSS()
 };
@@ -612,7 +618,7 @@ GOVUK.Insights.scatterplotGraph = function () {
             var graphArea = plotArea.selectAll("g.graph-area");
             var circles = graphArea.selectAll("circle");
             
-            var reset = function (selection) {
+            var setEnabled = function (selection) {
                 selection
                     .attr('fill', function (d) {
                         return scales.C(d.colour);
@@ -621,35 +627,67 @@ GOVUK.Insights.scatterplotGraph = function () {
                         return GOVUK.Insights.getDarkerColor(scales.C(d.colour));
                     })
                     .attr('stroke-width', config.circleStrokeWidth);
-            }
+            };
             
-            var resetTransition = circles.transition().duration(0);
-            reset(resetTransition);
+            var setDisabled = function (selection) {
+                selection
+                    .attr('fill', '#eee')
+                    .attr('stroke', '#ddd')
+                    .attr('stroke-width', config.circleStrokeWidth);
+            };
+            
+            var setHighlight = function (selection) {
+                selection
+                    .attr('fill', '#44C3DF')
+                    .attr('stroke', '#097F96')
+                    .attr('stroke-width', config.circleStrokeWidth);
+            };
             
             if (term) {
                 // search case insensitive
                 term = term.toLowerCase();
 
-                // perform search
-                circles.classed('enabled', function (d) {
-                    return d.label.indexOf(term) != -1;
+                circles.attr('class', function (d) {
+                   return d.label.indexOf(term) == -1 ? 'disabled' : 'enabled';
                 });
+                
+                // disable circles that don't match the term
+                setDisabled(circles.filter('.disabled'));
                 
                 // highlight remaining circles
                 var enabledCircles = circles.filter('.enabled');
+                setHighlight(enabledCircles);
+                enabledCircles.moveToFront();
                 
-                var highlightTransition = enabledCircles.transition()
-                    .duration(1000)
-                    .style('fill', '#44C3DF')
-                    .style('stroke', '#097F96')
-                    .style('stroke-width', 2.5);
-                
-                // reset after highlight
-                reset(highlightTransition.transition());
             } else {
-                circles.classed('enabled', true);
+                circles.attr('class', 'enabled');
+                setEnabled(circles);
             }
         });
+    };
+    
+    instance.pulse = function (selection, el) {
+        
+        selection.each(function () {
+            var svg = selection.selectAll("svg");
+            var plotArea = svg.selectAll("g.plot-area");
+            var graphArea = plotArea.selectAll("g.graph-area");
+            var circles = graphArea.selectAll("circle");
+            
+            circles.transition().attr('stroke-width', config.circleStrokeWidth);
+            
+            if (!el) {
+                return;
+            }
+        
+            var slug = el.html();
+        
+            var selected = circles.filter(function(data) {
+                return data.id === slug;
+            });
+        
+            selected.transition().ease('quad-out').duration(300).attr('stroke-width', 3.5);
+        })
     };
     
     return instance;

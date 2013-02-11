@@ -239,7 +239,10 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
     } else {
         filterEl.combobox(slugs, {
             noShowSelectorButton: true,
-            summaryEntry: true
+            summaryEntry: true,
+            onSelect: function (el) {
+                formatSuccess.pulse(graph, el);
+            }
         }).on('change keyup', applyFilter);
         filterEl.before(closeFilterEl);
         closeFilterEl.on('click', function (e) {
