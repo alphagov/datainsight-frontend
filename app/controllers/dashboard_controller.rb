@@ -7,14 +7,14 @@ class DashboardController < ApplicationController
   def narrative
     respond_to do |format|
       format.html { @narrative = get_narrative }
-      format.json { serve_json { api.narrative.merge(uris_for_action("narrative")) } }
+      format.json { serve_json { api.narrative } }
     end
   end
 
   def visits
     respond_to do |format|
       format.html
-      format.json { serve_json { api.weekly_visits.merge(uris_for_action("visits")) } }
+      format.json { serve_json { api.weekly_visits } }
       format.png { serve_image("visits") }
     end
   end
@@ -22,7 +22,7 @@ class DashboardController < ApplicationController
   def unique_visitors
     respond_to do |format|
       format.html
-      format.json { serve_json { api.weekly_visitors.merge(uris_for_action("unique_visitors")) } }
+      format.json { serve_json { api.weekly_visitors } }
       format.png { serve_image("unique-visitors") }
     end
   end
@@ -30,7 +30,7 @@ class DashboardController < ApplicationController
   def format_success
     respond_to do |format|
       format.html
-      format.json { serve_json { api.format_success.merge(uris_for_action("format_success")) } }
+      format.json { serve_json { api.format_success } }
       format.png { serve_image("format-success") }
     end
   end
@@ -38,7 +38,7 @@ class DashboardController < ApplicationController
   def hourly_traffic
     respond_to do |format|
       format.html
-      format.json { serve_json { api.hourly_traffic.merge(uris_for_action("hourly_traffic")) } }
+      format.json { serve_json { api.hourly_traffic } }
       format.png { serve_image("hourly-traffic") }
     end
   end
@@ -67,12 +67,5 @@ class DashboardController < ApplicationController
   rescue Songkick::Transport::UpstreamError
     ""
   end
-
-  def uris_for_action(action)
-    {
-        "id" => url_for(controller: "dashboard", action: action, format: :json)
-    }
-  end
-
 
 end

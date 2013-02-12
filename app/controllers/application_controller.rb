@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   def serve_json
     json = yield
-    render json: json
+    render json: json.merge(id: json_url)
   rescue Exception => e
     Airbrake.notify(e)
     render status: 500, nothing: true
@@ -28,4 +28,7 @@ class ApplicationController < ActionController::Base
     Settings.use_stub_api ? ClientStub : ClientAPI
   end
 
+  def json_url
+    url_for(controller: params["controller"], action: params["action"], format: :json)
+  end
 end

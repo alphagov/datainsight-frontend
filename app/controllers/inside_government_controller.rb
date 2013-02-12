@@ -20,51 +20,30 @@ class InsideGovernmentController < ApplicationController
 
   def visitors_weekly
     respond_to do |format|
-      format.json do
-        serve_json do
-          json = api.inside_gov_weekly_visitors
-          json["id"] = url_for :controller => "inside_government", :action => "visitors_weekly", :format => :json
-          json
-        end
-      end
+      format.json { serve_json { api.inside_gov_weekly_visitors }}
       format.png { serve_image("insidegov-weekly-visitors") }
     end
   end
 
   def format_success
     respond_to do |format|
-      format.json do
-        serve_json do
-          json = api.inside_gov_format_success
-          json["id"] = url_for :controller => 'inside_government', :action => 'format_success', :format => :json
-          json
-        end
-      end
+      format.json { serve_json { api.inside_gov_format_success }}
       format.png { serve_image("insidegov-format-success") }
     end
   end
 
   def content_engagement_detail
-    serve_json do
-      json = api.inside_gov_content_engagement_detail
-      json["id"] = url_for :controller => 'inside_government', :action => 'content_engagement_detail', :format => :json
-      json
-    end
+    serve_json { api.inside_gov_content_engagement_detail }
   end
 
   def most_entered_policies
-    serve_json do
-      json = api.most_entered_policies
-      json["id"] = url_for :controller => 'inside_government', :action => 'most_entered_policies', :format => :json
-      json
-    end
+    serve_json { api.most_entered_policies }
   end
 
   def annotations
     serve_json do
       json = Annotations.load
       json["response_info"] = {"status" => "ok"}
-      json["id"] = url_for controller: "inside_government", action: "annotations", format: :json
       json
     end
   end

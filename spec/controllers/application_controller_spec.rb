@@ -4,8 +4,12 @@ describe ApplicationController do
   describe "serve_json" do
     controller do
       def index
-        serve_json { '{}' }
+        serve_json { {"foo" => "bar"} }
       end
+    end
+
+    before do
+      ApplicationController.any_instance.stub(:url_for).and_return("blah")
     end
 
     it "should return an upstream json resource" do
@@ -13,6 +17,14 @@ describe ApplicationController do
 
       assert_response :ok
       response.content_type.should == "application/json"
+    end
+
+    it "should contain an id field" do
+      get :index
+
+      assert_response :ok
+      response.content_type.should == "application/json"
+      JSON.parse(response.body)["id"].should == "blah"
     end
   end
 
