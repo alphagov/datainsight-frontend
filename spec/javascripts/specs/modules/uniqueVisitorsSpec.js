@@ -6,7 +6,6 @@ describe("unique visitors graph generation", function () {
         "response_info": {
             "status": "ok"
         },
-        "web_url": "http://datainsight-frontend.dev.gov.uk/performance/dashboard/unique-visitors",
         "id": "http://datainsight-frontend.dev.gov.uk/performance/dashboard/unique-visitors.json",
         "details": {
             "sources": [

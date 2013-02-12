@@ -7,7 +7,6 @@ weekly_reach_json = <<-HERE
     "status": "ok"
   },
   "id": "https://datainsight-frontend.preview.alphagov.co.uk/performance/dashboard/unique-visitors.json",
-  "web_url": "https://datainsight-frontend.preview.alphagov.co.uk/performance/dashboard/unique-visitors",
   "details": {
     "source": [
       "Google Analytics",

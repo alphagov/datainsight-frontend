@@ -3,7 +3,6 @@
         "status":"ok"
     },
     "id":"/visitors/weekly",
-    "web_url":"",
     "details":{
         "source":["Google Analytics"],
         "data":[

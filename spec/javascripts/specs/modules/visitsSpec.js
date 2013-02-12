@@ -6,7 +6,6 @@ describe("visits graph generation", function () {
         "response_info":{
             "status":"ok"
         },
-        "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/visits",
         "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/visits.json",
         "details":{
             "sources":[

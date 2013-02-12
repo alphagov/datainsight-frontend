@@ -90,6 +90,5 @@ describe "Dashboard API" do
     json_result = JSON.parse(last_response.body)
     json_result["data"].should == "some data"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic"
   end
 end

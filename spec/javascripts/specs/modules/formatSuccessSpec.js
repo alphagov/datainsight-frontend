@@ -10,7 +10,6 @@ describe("format success graph", function () {
         jsonResponse = {
             "response_info":{"status":"ok"},
             "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success.json",
-            "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/format-success",
             "details": {
                 "data": [
                     {

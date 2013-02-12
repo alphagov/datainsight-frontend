@@ -12,7 +12,6 @@ describe("hourly traffic graph generation", function () {
                 "status":"ok"
             },
             "id":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic.json",
-            "web_url":"http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic",
             "details":{
                 "source":["Google Analytics"],
                 "data":[
