@@ -18,7 +18,6 @@ describe "Dashboard API" do
     json_result = JSON.parse(last_response.body)
     json_result["data"].should == "some data"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/narrative.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/narrative"
   end
 
   it "should serve visits as json with appropriate fields" do
@@ -37,7 +36,6 @@ describe "Dashboard API" do
     json_result = JSON.parse(last_response.body)
     json_result["data"].should == "some data"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/visits.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/visits"
   end
 
   it "should serve visitors as json with appropriate fields" do
@@ -56,7 +54,6 @@ describe "Dashboard API" do
     json_result = JSON.parse(last_response.body)
     json_result["data"].should == "some data"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/unique-visitors.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/unique-visitors"
   end
 
   it "should serve format success as json with appropriate fields" do
@@ -75,7 +72,6 @@ describe "Dashboard API" do
     json_result = JSON.parse(last_response.body)
     json_result["data"].should == "some data"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/content-engagement.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/content-engagement"
   end
 
   it "should serve hourly traffic as json with appropriate fields" do

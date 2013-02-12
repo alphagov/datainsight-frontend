@@ -70,8 +70,7 @@ class DashboardController < ApplicationController
 
   def uris_for_action(action)
     {
-        "id" => url_for(controller: "dashboard", action: action, format: :json),
-        "web_url" => url_for(controller: "dashboard", action: action)
+        "id" => url_for(controller: "dashboard", action: action, format: :json)
     }
   end
 
