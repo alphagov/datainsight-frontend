@@ -16,7 +16,6 @@ describe "Inside Government API" do
     json_result = JSON.parse(last_response.body)
     json_result["my"].should == "json"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/content-engagement.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government#format-success-module"
   end
 
   it "should expose most entered policies api endpoint" do
@@ -35,7 +34,6 @@ describe "Inside Government API" do
     json_result = JSON.parse(last_response.body)
     json_result["details"].should == most_entered_policies["details"]
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/most-entered-policies.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government#most-entered-policies-module"
   end
 
   it "should expose visitors api endpoint" do
@@ -53,7 +51,6 @@ describe "Inside Government API" do
     json_result = JSON.parse(last_response.body)
     json_result["data"].should == "some data"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/visitors/weekly.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government"
   end
 
   it "should expose content engagement detail api endpoint" do
@@ -71,7 +68,6 @@ describe "Inside Government API" do
     json_result = JSON.parse(last_response.body)
     json_result["data"].should == "some data"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/content-engagement-detail.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government"
   end
 
   it "should expose annotations api endpoint" do
@@ -83,7 +79,6 @@ describe "Inside Government API" do
     json_result = JSON.parse(last_response.body)
     json_result["response_info"]["status"].should == "ok"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/annotations.json"
-    json_result["web_url"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government"
     json_result["updated_at"].should represent_a_valid DateTime
     json_result["details"].should have(2).annotations
 

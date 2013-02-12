@@ -24,7 +24,6 @@ class InsideGovernmentController < ApplicationController
         serve_json do
           json = api.inside_gov_weekly_visitors
           json["id"] = url_for :controller => "inside_government", :action => "visitors_weekly", :format => :json
-          json["web_url"] = url_for :controller => "inside_government", :action => "index"
           json
         end
       end
@@ -38,7 +37,6 @@ class InsideGovernmentController < ApplicationController
         serve_json do
           json = api.inside_gov_format_success
           json["id"] = url_for :controller => 'inside_government', :action => 'format_success', :format => :json
-          json["web_url"] = url_for :controller => 'inside_government', :action => 'index', :anchor => "format-success-module"
           json
         end
       end
@@ -50,7 +48,6 @@ class InsideGovernmentController < ApplicationController
     serve_json do
       json = api.inside_gov_content_engagement_detail
       json["id"] = url_for :controller => 'inside_government', :action => 'content_engagement_detail', :format => :json
-      json["web_url"] = url_for :controller => 'inside_government', :action => 'index'
       json
     end
   end
@@ -59,7 +56,6 @@ class InsideGovernmentController < ApplicationController
     serve_json do
       json = api.most_entered_policies
       json["id"] = url_for :controller => 'inside_government', :action => 'most_entered_policies', :format => :json
-      json["web_url"] = url_for :controller => 'inside_government', :action => 'index', :anchor => "most-entered-policies-module"
       json
     end
   end
@@ -69,7 +65,6 @@ class InsideGovernmentController < ApplicationController
       json = Annotations.load
       json["response_info"] = {"status" => "ok"}
       json["id"] = url_for controller: "inside_government", action: "annotations", format: :json
-      json["web_url"] = url_for controller: "inside_government", action: "index"
       json
     end
   end
