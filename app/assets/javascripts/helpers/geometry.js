@@ -75,6 +75,10 @@ GOVUK.Insights.point = function(x, y) {
         distanceFrom: function(otherPoint) {
             return Math.sqrt(Math.pow(_x - otherPoint.x(), 2) + Math.pow(_y - otherPoint.y(), 2));
         },
+        
+        add: function (other) {
+            return GOVUK.Insights.point(_x + other.x(), _y + other.y());
+        },
 
         toString: function() {
             return "point {" + _x + "," + _y + "}";

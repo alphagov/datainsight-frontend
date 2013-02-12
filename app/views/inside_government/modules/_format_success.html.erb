@@ -1,23 +1,54 @@
 <% content_for :footer do %>
-  <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("widgets/scatterplot", "modules/inside-government/format-success")} %>
+  <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("vendor/jquery.combobox", "widgets/scatterplot", "modules/format-success", "modules/inside-government/format-success") } %>
 <% end %>
 
-<article id="format-success-module" class="dashboard one-up">
-  <%= graph_image_tag "government/content-engagement" %>
-  <div class="datainsight-hidden">
-    <hgroup class="module-header left">
-      <h1 class="graph-info">Content engagement last week</h1>
+<article id="format-success-module" class="dashboard one-up static">
+  <hgroup class="module-header left">
+    <h1 class="graph-info">Content explorer</h1>
 
-      <h2 class="graph-heading">How many times each format was used and how well users are thought to have responded to the content.</h2>
-    </hgroup>
-    <div id="inside-gov-format-success-legend"></div>
+    <h2 class="graph-heading">Explore how different pieces of content on Inside Government were used last week.</h2>
+  </hgroup>
+  <div id="format-success-legend"></div>
 
-    <figure id="inside-gov-format-success" class="graph-container"></figure>
+  <nav><ul id="format-success-tabs" class="tabs">
+    <li class="active" data-format="news">News</li>
+    <li data-format="detailed_guidance">Detailed Guidance</li>
+    <li data-format="policy">Policies</li>
+  </ul></nav>
+  
+  <div id="format-success-wrapper">
+    <div class="graph-header">
+      <div id="scatterplot-filter-wrapper">
+        <label for="scatterplot-filter">Filter:</label>
+        <input id="scatterplot-filter" type="text" placeholder="keyword or title" value="">
+      </div>
+
+      <h3>&nbsp;</h3>
+    </div>
+    <figure id="format-success" class="placeholder graph-container"></figure>
+    <legend>
+      <p class="sizes">Size of items based on number of views</p>
+      <p class="excluded-items"><span class="num-items-excluded">435</span> items with low views not shown</p>
+      <div class="stopfloat"></div>
+    </legend>
     <figcaption>
-      <p class="graph-source">Source: GOV.UK engagement criteria measured with Google Analytics</p>
-      <p class="small-text">'Formats' are how we refer to the templates that each page of GOV.UK uses.</p>
-      <p class="small-text">'Engagement' is an estimation of how well users are responding to content. It is determined on a page-by-page
-        basis and may include how long users have been on a page, how users interact with content, and other criteria.</p>
+      <div class="left">
+        <h4>About Guides</h4>
+        <p>
+          Guides contain content and
+          instructional material for users.
+        </p>
+      </div>
+      <div class="right">
+        <h4>Guide engagement criteria</h4>
+        <p>
+          User arrives at guide item, spends at least 30 seconds
+          on the content; or clicks on a link in the body of a
+          page including related guides and also including anchor
+          links.
+        </p>
+      </div>
+      <div class="stopfloat"></div>
     </figcaption>
   </div>
 </article>

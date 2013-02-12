@@ -87,20 +87,20 @@ describe("scatterplot", function () {
             expect(d3.select(textElement).text()).toEqual("60k times used");
         });
 
-        it("should add a circle with radius 580001", function () {
+        it("should add a circle with radius 560002", function () {
             this.renderScatterplot();
 
             var circleElement = d3.selectAll("#scatterplot circle")[0][0];
             expect(circleElement).toBeTruthy();
-            expect(d3.select(circleElement).attr("r")).toEqual("580001");
+            expect(d3.select(circleElement).attr("r")).toEqual("560002");
         });
 
-        it("should add a circle with radius 1740001", function () {
+        it("should add a circle with radius 1680002", function () {
             this.renderScatterplot();
 
             var circleElement = d3.selectAll("#scatterplot circle")[0][1];
             expect(circleElement).toBeTruthy();
-            expect(d3.select(circleElement).attr("r")).toEqual("1740001");
+            expect(d3.select(circleElement).attr("r")).toEqual("1680002");
         });
     });
 });
