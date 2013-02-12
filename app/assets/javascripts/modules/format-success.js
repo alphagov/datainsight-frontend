@@ -10,6 +10,10 @@ GOVUK.Insights.pluralise = function (s, a) {
 
 GOVUK.Insights.formatSuccess = function() {
     
+    if (!GOVUK.isSvgSupported()) {
+        return;
+    };
+    
     var data = {};
     
     var onSuccess = function(data) {
@@ -64,10 +68,8 @@ GOVUK.Insights.formatSuccess = function() {
         url: GOVUK.Insights.contentEngagementUrl,
         success: function (response) {
             if (response !== null) {
-                if (GOVUK.isSvgSupported()) {
-                    $('#format-success-module .datainsight-hidden').removeClass('datainsight-hidden');
-                    onSuccess(response.details.data);
-                }
+                $("#format-success").removeClass('placeholder');
+                onSuccess(response.details.data);
             } else {
                 // show error
                 $("#format-success-module").append(GOVUK.Insights.Helpers.error_div);
