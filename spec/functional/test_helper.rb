@@ -102,11 +102,3 @@ class VisitsGraph
     get_session.find("#visits .js-graph-area")
   end
 end
-
-class FormatSuccessGraph
-  include SessionAware
-
-  def circles
-    get_session.find("#format-success").all(".data-point")
-  end
-end

@@ -1,5 +1,5 @@
 describe("format success graph", function () {
-    var stubGraphDiv = $('<div id="format-success-module"><ul id="format-success-tabs"><li data-format="answer"></li></ul><img src="https://www.google.com/images/srpr/logo3w.png" /><div class="datainsight-hidden" id="hidden-stuff"><div id="format-success"></div>I am all invisible and stuff</div></div>');
+    var stubGraphDiv = $('<div id="format-success-module"><ul id="format-success-tabs"><li data-format="answer"></li></ul><img src="https://www.google.com/images/srpr/logo3w.png" /><div id="format-success" class="placeholder"></div>I am all invisible and stuff</div>');
 
     var jsonResponse = {};
     var stubAjaxResponder = function (successFunction) {
@@ -42,7 +42,13 @@ describe("format success graph", function () {
         jQuery.ajax.reset();
     });
 
-    it("should hide image, show graph titles and generate an svg graph from json data", function () {
+    it("should remove placeholder, show graph titles and generate an svg graph from json data", function () {
+        
+        expect($('#format-success-module').find('svg').length).toBe(0);
+        
+        expect($('#format-success').hasClass('placeholder')).toBe(true);
+        
+        
         GOVUK.Insights.formatTitles = {
             Guide: 'Guide'
         };
@@ -50,23 +56,9 @@ describe("format success graph", function () {
 
         expect(jQuery.ajax).toHaveBeenCalled();
 
-        var svg = $('#format-success-module').find('svg');
-        var img = $('#format-success-module').find('img');
+        expect($('#format-success-module').find('svg').length).not.toBe(0);
         
-        expect(svg.length).not.toBe(0);
-        expect($('#hidden-stuff').hasClass('datainsight-hidden')).toBeFalsy();
-        expect(img.length).toBe(0);
-    });
-
-    it("should remove the png instead if svgs are not supported", function () {
-        spyOn(GOVUK, "isSvgSupported").andReturn(false);
-
-        GOVUK.Insights.formatSuccess();
-
-        expect(jQuery.ajax).toHaveBeenCalled();
-
-        var png = $('#format-success-module').find('img');
-        expect(png.length).not.toBe(0);
+        expect($('#format-success').hasClass('placeholder')).toBe(false);
     });
 
     it("should display an error message if there is no data to be shown", function () {
