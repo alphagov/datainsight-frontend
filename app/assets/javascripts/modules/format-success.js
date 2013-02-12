@@ -1,28 +1,6 @@
 var GOVUK = GOVUK || {};
 GOVUK.Insights = GOVUK.Insights || {};
 
-// GOVUK.Insights.applyContentActions = function () {
-//     var activeItem;
-//     var closeActiveItem = function () {
-//         $(activeItem).removeClass('active');
-//         activeItem = null;
-//         return false;
-//     };
-//     $('.content-actions li').on('touchend', function (e) {
-//         var toggle = (activeItem === this);
-//         $('body').off('touchend', closeActiveItem);
-//         closeActiveItem();
-//         if (toggle) {
-//             activeItem = null;
-//         } else {
-//             $('body').one('touchend', closeActiveItem);
-//             $(this).addClass('active');
-//             activeItem = this;
-//         }
-//         return false;
-//     });
-// }
-
 GOVUK.Insights.pluralise = function (s, a) {
     if (a && a.length !== 1 && s && s.substr(s.length - 1) != 's') {
         s += 's';
@@ -87,7 +65,6 @@ GOVUK.Insights.formatSuccess = function() {
         success: function (response) {
             if (response !== null) {
                 if (GOVUK.isSvgSupported()) {
-                    $('#format-success-module img').remove();
                     $('#format-success-module .datainsight-hidden').removeClass('datainsight-hidden');
                     onSuccess(response.details.data);
                 }
