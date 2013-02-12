@@ -17,10 +17,6 @@ RSpec.configure do |config|
   Capybara.default_driver = :poltergeist
 end
 
-def find_api_url(name)
-  Plek.new.find(Settings.api_urls[name])
-end
-
 module StubApiFromFixtures
   extend RSpec::Core::SharedContext
 

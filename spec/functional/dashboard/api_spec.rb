@@ -91,4 +91,22 @@ describe "Dashboard API" do
     json_result["data"].should == "some data"
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/hourly-traffic.json"
   end
+
+  it "should serve content engagement detail as json with appropriate fields" do
+    dummy_json = { data: "some data" }.to_json
+
+    FakeWeb.register_uri(
+      :get,
+      "#{find_api_url('format_success_base_url')}/content-engagement-detail/weekly",
+      :body => dummy_json)
+
+    get "/performance/dashboard/content-engagement-detail.json"
+
+    last_response.status.should == 200
+    last_response.content_type.should include "application/json"
+
+    json_result = JSON.parse(last_response.body)
+    json_result["data"].should == "some data"
+    json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/content-engagement-detail.json"
+  end
 end

@@ -9,6 +9,7 @@ DataInsightFrontend::Application.routes.draw do
     match "dashboard/visits" => "dashboard#visits", via: :get
     match "dashboard/unique-visitors" => "dashboard#unique_visitors", via: :get
     match "dashboard/content-engagement" => "dashboard#format_success", via: :get
+    match "dashboard/content-engagement-detail" => "dashboard#content_engagement_detail", via: :get
     match "dashboard/hourly-traffic" => "dashboard#hourly_traffic", via: :get
 
     if Settings.feature_toggles[:inside_government_dashboard]

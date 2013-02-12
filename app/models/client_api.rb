@@ -29,6 +29,10 @@ class ClientAPI
     get("format_success_base_url", "/format-success")
   end
 
+  def content_engagement_detail
+    get("format_success_base_url", "/content-engagement-detail/weekly")
+  end
+
   def most_entered_policies
     get("inside_government_base_url", "/entries/weekly/policies")
   end

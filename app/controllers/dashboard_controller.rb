@@ -35,6 +35,10 @@ class DashboardController < ApplicationController
     end
   end
 
+  def content_engagement_detail
+    serve_json { api.content_engagement_detail }
+  end
+
   def hourly_traffic
     respond_to do |format|
       format.html

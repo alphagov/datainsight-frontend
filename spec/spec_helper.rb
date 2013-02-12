@@ -36,3 +36,7 @@ def stub_env(new_env, &block)
 ensure
   Rails.instance_variable_set("@_env", ActiveSupport::StringInquirer.new(original_env))
 end
+
+def find_api_url(name)
+  Plek.new.find(Settings.api_urls[name])
+end
