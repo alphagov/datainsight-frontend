@@ -231,14 +231,17 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
     
     filterEl.trigger('change');
     
-    // update tagline
-    if (excludedItemsCount > 0) {
-        el.find('.num-items-excluded').text(excludedItemsCount);
+    GOVUK.Insights.updateExcludedItemsCount(
+        excludedItemsCount, $('#format-success-module legend')
+    );
+};
+
+GOVUK.Insights.updateExcludedItemsCount = function (count, el) {
+    if (count > 0) {
+        el.find('.num-items-excluded').text(count);
         el.find('.excluded-items').show();
     } else {
         el.find('.excluded-items').hide();
     }
-    el.find('.num-views').text(
-        GOVUK.Insights.formatNumericLabel(data.entries)
-    );
+    
 };

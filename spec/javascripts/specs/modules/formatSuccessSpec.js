@@ -77,4 +77,29 @@ describe("format success graph", function () {
         expect(actualErrorMsg).toBe(expectedErrorMsg);
 
     });
+    
+    describe("updateExcludedItemsCount", function() {
+        
+        var el;
+        beforeEach(function() {
+            el = $('<div id="excluded-items-wrapper"><p class="excluded-items"><span class="num-items-excluded"></span></p></div>');
+            el.appendTo('body');
+        });
+        
+        afterEach(function() {
+            el.remove();
+        });
+        
+        it("should hide the counter when there are no excluded items", function() {
+            GOVUK.Insights.updateExcludedItemsCount(0, el);
+            expect($('#excluded-items-wrapper excluded-items').is(':visible')).toBe(false);
+        });
+        
+        it("should update the counter with the number of excluded items", function() {
+            GOVUK.Insights.updateExcludedItemsCount(23, el);
+            expect($('#excluded-items-wrapper .excluded-items').is(':visible')).toBe(true);
+            expect($('#excluded-items-wrapper .num-items-excluded').text()).toEqual('23');
+        });
+        
+    });
 });
