@@ -8,7 +8,7 @@ GOVUK.Insights.formatSuccessGovuk = function () {
         smart_answer: 'smart answer',
         programme: 'benefit'
     };
-    GOVUK.Insights.contentEngagementUrl = '/datainsight-frontend/fixtures/govuk.json';
+    GOVUK.Insights.contentEngagementUrl = '/performance/dashboard/content-engagement-detail.json';
     GOVUK.Insights.formatSuccess();
 };
 
