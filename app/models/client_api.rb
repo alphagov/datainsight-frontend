@@ -54,7 +54,7 @@ class ClientAPI
     transport(Plek.new.find(@api_urls[base])).get(path).data
   end
 
-  def transport(host, args={})
-    Transport.new(host, :user_agent => "Data Insight Web", :timeout => args[:timeout] || 5)
+  def transport(host)
+    Transport.new(host, :user_agent => "Data Insight Web", :timeout => 30)
   end
 end
