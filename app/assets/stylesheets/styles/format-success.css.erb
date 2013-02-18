@@ -312,19 +312,41 @@
 #format-success table {
     width: 100%;
     table-layout: fixed;
+    border: solid 1px #a1acb2;
 }
 
 #format-success table thead {
     display: block;
+    background-color:#dee0e2;
+    border-bottom: solid 1px #a1acb2;
+    
 }
 
 #format-success table tbody {
     display: block;
     height:416px;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    
+}
+
+#format-success table tbody td:first-child {
+    border-left:0;
+}
+
+#format-success table tbody tr:first-child td {
+    border-top:0;
+}
+
+#format-success table tbody tr:last-child td {
+    border-bottom:0;
 }
 
 #format-success table tr {
+}
+
+#format-success table tr.placeholder td {
+    text-align:center;
 }
 
 
@@ -336,6 +358,14 @@
 #format-success table .engagement {
     width:110px;
     text-align:right;
+}
+
+#format-success table th {
+    border-top:0;
+    border-bottom:0;
+}
+#format-success table th:first-child {
+    border-left:0;
 }
 
 #format-success table th.sortable {

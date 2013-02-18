@@ -40,7 +40,7 @@ GOVUK.Insights.formatSuccess = function() {
                 artefacts: artefacts
             }
         });
-        window.data = aggregatedDataByFormat;
+        
         var currentData, currentVisualisation = 'table';
         
         var plotFormatSuccess = function () {
@@ -116,11 +116,13 @@ GOVUK.Insights.formatSuccess = function() {
 };
 
 GOVUK.Insights.plotFormatSuccessTable = function (data) {
-    // var colourRange = ["#BF1E2D", "#B3B3B3", "#74B74A"];
     var colourRange = ["#BF1E2D", "#6A6A6A", "#4A7812"];
     var colourScale = d3.scale.linear().domain([0, 50, 100]).range(colourRange);
     
-    var table = new GOVUK.Insights.Table();
+    var table = new GOVUK.Insights.Table({
+        lazyRender: true
+    });
+    
     table.columns = [
         {
             id: 'slug',

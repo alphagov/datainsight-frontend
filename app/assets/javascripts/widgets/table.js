@@ -3,10 +3,10 @@ GOVUK.Insights= GOVUK.Insights || {};
 
 GOVUK.Insights.Table = function (options) {
     // constructor
-    options = this.options = $.extend({}, options, {
+    options = this.options = $.extend({}, {
         lazyRender: false,
         preventDocumentScroll: true
-    });
+    }, options);
 };
 
 /**
@@ -18,16 +18,19 @@ GOVUK.Insights.Table.prototype.render = function () {
         throw('no columns defined for table');
     }
     
-    if (!this.el) {
-        this.el = $('<table></table>');
+    var el = this.el;
+    if (!el) {
+        el = this.el = $('<table></table>');
     }
-    this.el.empty();
+    el.empty();
     
-    var thead = this.renderHead();
-    thead.appendTo(this.el);
+    var thead = $('<thead></thead>');
+    thead.appendTo(el);
+    this.renderHead(thead);
     
-    var tbody = this.renderBody();
-    tbody.appendTo(this.el);
+    var tbody = $('<tbody></tbody>');
+    tbody.appendTo(el);
+    this.renderBody(tbody);
     
     if (this.options.preventDocumentScroll) {
         this.applyPreventDocumentScroll();
@@ -40,8 +43,7 @@ GOVUK.Insights.Table.prototype.render = function () {
  * Renders a thead element with a table row containing th elements.
  * Cell values are retrieved from `title` property of columns definition.
  */
-GOVUK.Insights.Table.prototype.renderHead = function () {
-    var thead = $('<thead></thead>');
+GOVUK.Insights.Table.prototype.renderHead = function (thead) {
     
     var titles = {};
     $.each(this.columns, function (i, column) {
@@ -59,18 +61,57 @@ GOVUK.Insights.Table.prototype.renderHead = function () {
 
 /**
  * Renders a tbody element with rows for the current data.
- * @param {Array} [data=this.data] Data to render
  */
-GOVUK.Insights.Table.prototype.renderBody = function (data) {
-    data = data || this.data;
+GOVUK.Insights.Table.prototype.renderBody = function (tbody) {
     
-    var tbody = $('<tbody></tbody>');
-    
+    var data = this.data;
     var that = this;
-    $.each(data, function (i, d) {
-        var tr = that.renderRow.call(that, d);
-        tr.appendTo(tbody);
-    });
+    
+    if (this.options.lazyRender) {
+        // render table on demand in chunks. whenever the user scrolls to the
+        // bottom, append another chunk of rows.
+        
+        var rowsPerChunk = 30;
+        var index = 0;
+        
+        var placeholderRow = $('<tr class="placeholder"><td colspan="' + this.columns.length + '">&hellip;</td></tr>');
+        // FIXME: placeholder height needs to be measured, rather than hardcoded
+        var placeholderHeight = 43;
+        
+        var renderChunk = function () {
+            placeholderRow.remove();
+            var last = Math.min(index + rowsPerChunk, data.length);
+            for (; index < last; index++) {
+                var tr = that.renderRow.call(that, data[index]);
+                tr.appendTo(tbody);
+            };
+            if (last < data.length) {
+                // more rows available, show placeholder
+                tbody.append(placeholderRow);
+            }
+        }
+
+        tbody.on('scroll', function (e) {
+            var visibleHeight = tbody.outerHeight();
+            var scrollHeight = tbody.prop('scrollHeight');
+            var scrolling = (scrollHeight > visibleHeight);
+            
+            if (tbody.scrollTop() + visibleHeight >= scrollHeight - placeholderHeight) {
+                // scrolled down to last row, show more
+                renderChunk();
+            }
+        });
+        
+        // render first chunk
+        renderChunk();
+        
+    } else {
+        // render whole table in one go
+        $.each(data, function (i, d) {
+            var tr = that.renderRow.call(that, d);
+            tr.append(tbody);
+        });
+    }
     
     return tbody;
 };
@@ -116,11 +157,16 @@ GOVUK.Insights.Table.prototype.renderRow = function (d, options) {
             if (currentSortColumn) {
                 td.addClass(that.sortDescending ? 'descending' : 'ascending');
             }
-            td.on('click', function (e) {
+            var handler = function (e) {
                 var descending = (currentSortColumn && !that.sortDescending);
                 that.sortByColumn.call(that, column.id, descending);
                 that.render.call(that);
-            });
+            };
+            if (window.Modernizr && Modernizr.touch) {
+                td.on('touchend', handler);
+            } else {
+                td.on('click', handler);
+            }
         }
         
     });
