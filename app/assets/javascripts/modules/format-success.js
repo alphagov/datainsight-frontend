@@ -10,15 +10,12 @@ GOVUK.Insights.pluralise = function (s, a) {
 
 GOVUK.Insights.formatSuccess = function() {
     
-    if (!GOVUK.isSvgSupported()) {
-        return;
-    };
-    
     var data = {};
     
     var onSuccess = function(data) {
         // convert data into required format, calculate aggregated
         var dataByFormat = {};
+        
         $.each(data, function (key, value) {
             if (!dataByFormat[value.format]) {
                 dataByFormat[value.format] = [];
@@ -28,6 +25,11 @@ GOVUK.Insights.formatSuccess = function() {
         
         var aggregatedDataByFormat = {};
         $.each(dataByFormat, function (format, artefacts) {
+            
+            $.each(artefacts, function (i, d) {
+                d.percentage_of_success = 100 * d.successes / d.entries
+            });
+
             aggregatedDataByFormat[format] = {
                 format: format,
                 title: GOVUK.Insights.formatTitles[format],
@@ -38,6 +40,38 @@ GOVUK.Insights.formatSuccess = function() {
                 artefacts: artefacts
             }
         });
+        
+        var currentData, currentVisualisation = 'table';
+        
+        var plotFormatSuccess = function () {
+            if (currentVisualisation == 'table') {
+                GOVUK.Insights.plotFormatSuccessTable(currentData);
+            } else {
+                GOVUK.Insights.plotFormatSuccessDetail(currentData);
+            }
+        };
+        
+        
+        if (GOVUK.isSvgSupported()) {
+            currentVisualisation = 'graph';
+            
+            var ul = $('<ul id="format-success-type"></ul>');
+            $('#format-success').before(ul);
+            
+            var clickHandler = function (visualisation) {
+                ul.find('li').removeClass('active');
+                $(this).addClass('active');
+                currentVisualisation = visualisation;
+                plotFormatSuccess();
+            };
+            
+            $('<li>chart</li>').addClass('active').on('click', function (e) {
+                clickHandler.call(this, 'graph');
+            }).appendTo(ul);
+            $('<li>table</li>').on('click', function (e) {
+                clickHandler.call(this, 'table');
+            }).appendTo(ul);
+        }
         
         
         
@@ -55,10 +89,10 @@ GOVUK.Insights.formatSuccess = function() {
             if (!format) {
                 return;
             }
-
-            GOVUK.Insights.plotFormatSuccessDetail(
-                aggregatedDataByFormat[format]
-            );
+            
+            currentData = aggregatedDataByFormat[format];
+            
+            plotFormatSuccess();
         });
         
         tabs.eq(0).trigger('click');
@@ -81,8 +115,54 @@ GOVUK.Insights.formatSuccess = function() {
     });
 };
 
+GOVUK.Insights.plotFormatSuccessTable = function (data) {
+    var colourRange = ["#BF1E2D", "#6A6A6A", "#4A7812"];
+    var colourScale = d3.scale.linear().domain([0, 50, 100]).range(colourRange);
+    
+    var table = new GOVUK.Insights.Table({
+        lazyRender: true
+    });
+    
+    table.columns = [
+        {
+            id: 'slug',
+            title: data.title.slice(0, 1).toUpperCase() + data.title.slice(1),
+            className: 'title',
+            sortable: true
+        },
+        {
+            id: 'entries',
+            title: 'Views',
+            className: 'entries',
+            sortable: true
+        },
+        {
+            id: 'percentage_of_success',
+            title: 'Engagement',
+            getValue: function (d, column) {
+                var v = 100 * d.successes / d.entries;
+                
+                var span = $('<span></span>');
+                span.css('color', colourScale(v));
+                span.html(v.toFixed(1) + '%');
+                return span;
+            },
+            className: 'engagement',
+            sortable: true
+        }
+    ];
+    
+    table.data = data.artefacts;
+    table.sortByColumn('slug');
+    table.render();
+    
+    var el = $('#format-success').empty();
+    el.append(table.el);
+};
+
 
 GOVUK.Insights.plotFormatSuccessDetail = function(data) {
+    $('#format-success').empty();
     
     var artefacts = data.artefacts;
     
@@ -110,15 +190,13 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
     
     artefacts = artefacts.map(function(d) {
         
-        var percentage = d.percentage_of_success = 100 * d.successes / d.entries
-        
-        successMin = Math.min(successMin, percentage);
-        successMax = Math.max(successMax, percentage);
+        successMin = Math.min(successMin, d.percentage_of_success);
+        successMax = Math.max(successMax, d.percentage_of_success);
 
         return {
-            x: percentage,
+            x: d.percentage_of_success,
             y: d.entries,
-            colour: percentage,
+            colour: d.percentage_of_success,
             label: d.slug,
             id: d.slug
         };

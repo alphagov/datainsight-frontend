@@ -274,3 +274,122 @@
 .hidden {
     display: none !important;
 }
+
+
+
+#format-success-type {
+    height:1em;
+    padding:.5em;
+}
+
+#format-success-type li {
+    font-size:.875em;
+    cursor:pointer;
+    float:left;
+    list-style:none;
+    padding:0 .5em 0 0;
+    margin-left:.5em;
+    text-decoration:underline;
+    color:#2e3191;
+    border-right: 1px solid #0b0c0c;
+}
+
+#format-success-type li:first-child {
+    margin-left:0;
+}
+#format-success-type li:last-child {
+    border:0;
+}
+
+#format-success-type li.active {
+    cursor:default;
+    text-decoration:none;
+    color:#0b0c0c;
+}
+
+
+
+#format-success table {
+    width: 100%;
+    table-layout: fixed;
+    border: solid 1px #a1acb2;
+}
+
+#format-success table thead {
+    display: block;
+    background-color:#dee0e2;
+    border-bottom: solid 1px #a1acb2;
+    
+}
+
+#format-success table tbody {
+    display: block;
+    height:416px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    
+}
+
+#format-success table tbody td:first-child {
+    border-left:0;
+}
+
+#format-success table tbody tr:first-child td {
+    border-top:0;
+}
+
+#format-success table tbody tr:last-child td {
+    border-bottom:0;
+}
+
+#format-success table tr {
+}
+
+#format-success table tr.placeholder td {
+    text-align:center;
+}
+
+
+#format-success table .title {
+    width:646px;
+}
+
+#format-success table .entries,
+#format-success table .engagement {
+    width:110px;
+    text-align:right;
+}
+
+#format-success table th {
+    border-top:0;
+    border-bottom:0;
+}
+#format-success table th:first-child {
+    border-left:0;
+}
+
+#format-success table th.sortable {
+    cursor:pointer;
+}
+
+#format-success table th span.arrow {
+    margin-left:.5em;
+    display:inline-block;
+    width: 0; 
+    height: 0; 
+}
+
+#format-success table th.ascending span.arrow {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid black;
+}
+
+#format-success table th.descending span.arrow {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+}
+
+
+
