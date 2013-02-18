@@ -109,7 +109,7 @@ GOVUK.Insights.Table.prototype.renderBody = function (tbody) {
         // render whole table in one go
         $.each(data, function (i, d) {
             var tr = that.renderRow.call(that, d);
-            tr.append(tbody);
+            tr.appendTo(tbody);
         });
     }
     

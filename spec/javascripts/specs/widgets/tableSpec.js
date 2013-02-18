@@ -53,7 +53,7 @@ describe("Table", function() {
         });
         
         it("renders table header", function() {
-            var thead = table.renderHead();
+            var thead = table.renderHead($('<thead></thead>'));
             expect(thead.prop('tagName').toLowerCase()).toEqual('thead');
             var tr = thead.find('tr');
             expect(tr.length).toEqual(1);
@@ -100,7 +100,10 @@ describe("Table", function() {
         it("renders table body", function() {
             table.data = createData(100);
             
-            var tbody = table.renderBody();
+            var el = $('<table></table>');
+            var tbody = $('<tbody></tbody>').appendTo(el);
+            table.renderBody(tbody);
+            
             expect(tbody.prop('tagName').toLowerCase()).toEqual('tbody');
             
             var tr = tbody.find('tr');
