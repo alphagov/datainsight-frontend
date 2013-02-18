@@ -38,9 +38,8 @@ describe("Table", function() {
         
         var table;
         beforeEach(function() {
-            var TestTable = function () {};
-            TestTable.prototype = new Table();
-            TestTable.prototype.columns = [
+            table = new Table();
+            table.columns = [
                 {
                     id: 'foo',
                     title: 'Foo Title',
@@ -51,8 +50,6 @@ describe("Table", function() {
                     className: 'barclass'
                 }
             ];
-            
-            table = new TestTable();
         });
         
         it("renders table header", function() {
@@ -135,82 +132,317 @@ describe("Table", function() {
         
         var renderRow = Table.prototype.renderRow;
         
-        var d, columns;
+        var d, table;
         beforeEach(function() {
             d = {
-                title: 'test title',
-                foo: 'bar'
+                bar: 'bar title',
+                foo: 'foo title'
             };
-            columns = [
+            table = new Table();
+            table.columns = [
                 {
                     id: 'foo'
                 },
                 {
-                    id: 'title',
-                    className: 'titleclass'
+                    id: 'bar',
+                    className: 'barclass'
                 }
             ];
         });
         
         it("renders a table row", function() {
-            var tr = renderRow(d, { columns: columns });
+            var tr = table.renderRow(d);
             
             expect(tr.prop('tagName').toLowerCase()).toEqual('tr');
             var cells = tr.find('td');
             expect(cells.length).toEqual(2);
-            expect(cells.eq(0).html()).toEqual('bar');
-            expect(cells.eq(1).html()).toEqual('test title');
-            expect(cells.eq(1).hasClass('titleclass')).toBe(true);
+            expect(cells.eq(0).html()).toEqual('foo title');
+            expect(cells.eq(1).html()).toEqual('bar title');
+            expect(cells.eq(1).hasClass('barclass')).toBe(true);
         });
         
-        it("renders a table row with custom cell tags", function() {
-            var tr = renderRow(d, {
-                cellElement: 'th',
-                columns: columns
+        it("renders a table header row", function() {
+            var tr = table.renderRow(d, {
+                header: true
             });
             
             expect(tr.prop('tagName').toLowerCase()).toEqual('tr');
             var cells = tr.find('th');
             expect(cells.length).toEqual(2);
-            expect(cells.eq(0).html()).toEqual('bar');
-            expect(cells.eq(1).html()).toEqual('test title');
-            expect(cells.eq(1).hasClass('titleclass')).toBe(true);
+            expect(cells.eq(0).html()).toEqual('foo title');
+            expect(cells.eq(1).html()).toEqual('bar title');
+            expect(cells.eq(1).hasClass('barclass')).toBe(true);
+        });
+        
+        it("renders a table header row for sortable columns", function() {
+            table.columns[0].sortable = true;
+            table.columns[1].sortable = true;
+            var tr = table.renderRow(d, {
+                header: true
+            });
+            
+            expect(tr.prop('tagName').toLowerCase()).toEqual('tr');
+            var cells = tr.find('th');
+            expect(cells.length).toEqual(2);
+            expect(cells.eq(0).text()).toEqual('foo title');
+            expect(cells.eq(1).text()).toEqual('bar title');
+            expect(cells.eq(0).find('span.arrow').length).toEqual(1);
+            expect(cells.eq(1).find('span.arrow').length).toEqual(1);
+            expect(cells.eq(1).hasClass('barclass')).toBe(true);
+            expect(cells.eq(0).hasClass('sortable')).toBe(true);
+            expect(cells.eq(1).hasClass('sortable')).toBe(true);
+            
+            
+            
+        });
+        
+        it("renders a table header row for sortable columns and indicates current sort column ascending", function() {
+            table.columns[0].sortable = true;
+            table.columns[1].sortable = true;
+            table.sortColumn = 'bar';
+            
+            var tr = table.renderRow(d, {
+                header: true
+            });
+            
+            expect(tr.prop('tagName').toLowerCase()).toEqual('tr');
+            var cells = tr.find('th');
+            expect(cells.length).toEqual(2);
+            expect(cells.eq(0).text()).toEqual('foo title');
+            expect(cells.eq(1).text()).toEqual('bar title');
+            expect(cells.eq(0).find('span.arrow').length).toEqual(1);
+            expect(cells.eq(1).find('span.arrow').length).toEqual(1);
+            expect(cells.eq(1).hasClass('barclass')).toBe(true);
+            expect(cells.eq(0).hasClass('sortable')).toBe(true);
+            expect(cells.eq(1).hasClass('sortable')).toBe(true);
+            expect(cells.eq(1).hasClass('ascending')).toBe(true);
+            expect(cells.eq(1).hasClass('descending')).toBe(false);
+        });
+        
+        it("renders a table header row for sortable columns and indicates current sort column descending", function() {
+            table.columns[0].sortable = true;
+            table.columns[1].sortable = true;
+            table.sortColumn = 'bar';
+            table.sortDescending = true;
+            
+            var tr = table.renderRow(d, {
+                header: true
+            });
+            
+            expect(tr.prop('tagName').toLowerCase()).toEqual('tr');
+            var cells = tr.find('th');
+            expect(cells.length).toEqual(2);
+            expect(cells.eq(0).text()).toEqual('foo title');
+            expect(cells.eq(1).text()).toEqual('bar title');
+            expect(cells.eq(0).find('span.arrow').length).toEqual(1);
+            expect(cells.eq(1).find('span.arrow').length).toEqual(1);
+            expect(cells.eq(1).hasClass('barclass')).toBe(true);
+            expect(cells.eq(0).hasClass('sortable')).toBe(true);
+            expect(cells.eq(1).hasClass('sortable')).toBe(true);
+            expect(cells.eq(1).hasClass('ascending')).toBe(false);
+            expect(cells.eq(1).hasClass('descending')).toBe(true);
         });
         
         it("renders a table row with dynamic cell content", function() {
-            columns[0].getValue = function (d, column) {
-                return d.title + ' and ' + d[column.id];
+            table.columns[0].getValue = function (d, column) {
+                return d.bar + ' and ' + d[column.id];
             };
-            var tr = renderRow(d, {
-                cellElement: 'th',
-                columns: columns
+            var tr = table.renderRow(d, {
+                header: true
             });
             
             expect(tr.prop('tagName').toLowerCase()).toEqual('tr');
             var cells = tr.find('th');
             expect(cells.length).toEqual(2);
-            expect(cells.eq(0).html()).toEqual('test title and bar');
-            expect(cells.eq(1).html()).toEqual('test title');
-            expect(cells.eq(1).hasClass('titleclass')).toBe(true);
+            expect(cells.eq(0).html()).toEqual('bar title and foo title');
+            expect(cells.eq(1).html()).toEqual('bar title');
+            expect(cells.eq(1).hasClass('barclass')).toBe(true);
         });
         
         it("renders a table row ignoring dynamic cell content when it is disallowed", function() {
-            columns[0].getValue = function (d, column) {
-                return d.title + ' and ' + d[column.id];
+            table.columns[0].getValue = function (d, column) {
+                return d.bar + ' and ' + d[column.id];
             };
-            var tr = renderRow(d, {
-                cellElement: 'th',
-                columns: columns,
+            var tr = table.renderRow(d, {
+                header: true,
                 allowGetValue: false
             });
             
             expect(tr.prop('tagName').toLowerCase()).toEqual('tr');
             var cells = tr.find('th');
             expect(cells.length).toEqual(2);
-            expect(cells.eq(0).html()).toEqual('bar');
-            expect(cells.eq(1).html()).toEqual('test title');
-            expect(cells.eq(1).hasClass('titleclass')).toBe(true);
+            expect(cells.eq(0).html()).toEqual('foo title');
+            expect(cells.eq(1).html()).toEqual('bar title');
+            expect(cells.eq(1).hasClass('barclass')).toBe(true);
         });
+    });
+    
+    describe("sortByColumn", function() {
+        
+        var table;
+        beforeEach(function() {
+            var TestTable = function () {};
+            TestTable.prototype = new Table();
+            TestTable.prototype.columns = [
+                {
+                    id: 'foo',
+                    title: 'Foo Title',
+                },
+                {
+                    id: 'bar',
+                    title: 'Bar Title'
+                }
+            ];
+            
+            table = new TestTable();
+            table.data = [
+                {
+                    foo: 'fooa',
+                    bar: 'barc',
+                    count: 0
+                },
+                {
+                    foo: 'foob',
+                    bar: 'barb',
+                    count: 2
+                },
+                {
+                    foo: 'fooc',
+                    bar: 'bara',
+                    count: 1
+                }
+            ];
+        });
+        
+        it("sorts string data by a column ascending", function() {
+            table.sortByColumn('foo');
+            expect(table.data[0].bar).toEqual('barc');
+            expect(table.data[0].foo).toEqual('fooa');
+            expect(table.data[0].count).toEqual(0);
+            expect(table.data[2].bar).toEqual('bara');
+            expect(table.data[2].foo).toEqual('fooc');
+            expect(table.data[2].count).toEqual(1);
+            
+            table.sortByColumn('bar');
+            expect(table.data[0].bar).toEqual('bara');
+            expect(table.data[0].foo).toEqual('fooc');
+            expect(table.data[0].count).toEqual(1);
+            expect(table.data[2].bar).toEqual('barc');
+            expect(table.data[2].foo).toEqual('fooa');
+            expect(table.data[2].count).toEqual(0);
+        });
+        
+        it("sorts string data by a column descending", function() {
+            table.sortByColumn('foo', true);
+            expect(table.data[0].bar).toEqual('bara');
+            expect(table.data[0].foo).toEqual('fooc');
+            expect(table.data[0].count).toEqual(1);
+            expect(table.data[2].bar).toEqual('barc');
+            expect(table.data[2].foo).toEqual('fooa');
+            expect(table.data[2].count).toEqual(0);
+        });
+        
+        it("sorts numeric data by a column ascending", function() {
+            table.sortByColumn('count');
+            expect(table.data[0].count).toEqual(0);
+            expect(table.data[0].bar).toEqual('barc');
+            expect(table.data[0].foo).toEqual('fooa');
+            expect(table.data[2].count).toEqual(2);
+            expect(table.data[2].bar).toEqual('barb');
+            expect(table.data[2].foo).toEqual('foob');
+        });
+        
+        it("sorts numeric data by a column descending", function() {
+            table.sortByColumn('count', true);
+            expect(table.data[0].count).toEqual(2);
+            expect(table.data[0].bar).toEqual('barb');
+            expect(table.data[0].foo).toEqual('foob');
+            expect(table.data[2].count).toEqual(0);
+            expect(table.data[2].bar).toEqual('barc');
+            expect(table.data[2].foo).toEqual('fooa');
+        });
+        
+    });
+    
+    describe("applyPreventDocumentScroll", function () {
+        
+        var table, tbody, handler, evt;
+        beforeEach(function() {
+            table = new Table();
+            tbody = {
+                outerHeight: jasmine.createSpy(),
+                scrollTop: jasmine.createSpy(),
+                prop: jasmine.createSpy(),
+                on: jasmine.createSpy()
+            };
+            table.el = {
+                find: jasmine.createSpy().andReturn(tbody)
+            };
+            table.applyPreventDocumentScroll();
+            handler = tbody.on.argsForCall[0][1];
+            evt = {
+                preventDefault: jasmine.createSpy()
+            };
+        });
+        
+        it("retrieves the tbody child element", function() {
+            table.applyPreventDocumentScroll();
+            expect(table.el.find).toHaveBeenCalledWith('tbody');
+            expect(tbody.on).toHaveBeenCalled();
+            expect(tbody.on.argsForCall[0][0]).toEqual('mousewheel');
+            expect(typeof tbody.on.argsForCall[0][1]).toEqual('function');
+        });
+        
+        it("prevents mousewheel default event when scrolling upwards at the top", function() {
+            tbody.scrollTop.andReturn(0);
+            tbody.outerHeight.andReturn(400);
+            tbody.prop.andReturn(600);
+            handler(evt, null, null, 1);
+            expect(evt.preventDefault).toHaveBeenCalled();
+        });
+        
+        it("prevents mousewheel default event when scrolling downwards at the bottom", function() {
+            tbody.scrollTop.andReturn(200);
+            tbody.outerHeight.andReturn(400);
+            tbody.prop.andReturn(600);
+            handler(evt, null, null, -1);
+            expect(evt.preventDefault).toHaveBeenCalled();
+        });
+        
+        it("does not prevent mousewheel default event when scrolling downwards at the top", function() {
+            tbody.scrollTop.andReturn(0);
+            tbody.outerHeight.andReturn(400);
+            tbody.prop.andReturn(600);
+            handler(evt, null, null, -1);
+            expect(evt.preventDefault).not.toHaveBeenCalled();
+        });
+        
+        it("does not prevent mousewheel default event when scrolling upwards at the bottom", function() {
+            tbody.scrollTop.andReturn(200);
+            tbody.outerHeight.andReturn(400);
+            tbody.prop.andReturn(600);
+            handler(evt, null, null, 1);
+            expect(evt.preventDefault).not.toHaveBeenCalled();
+        });
+        
+        it("does not prevent mousewheel default event when scrolling in the middle", function() {
+            tbody.scrollTop.andReturn(100);
+            tbody.outerHeight.andReturn(400);
+            tbody.prop.andReturn(600);
+            handler(evt, null, null, -1);
+            expect(evt.preventDefault).not.toHaveBeenCalled();
+            handler(evt, null, null, 1);
+            expect(evt.preventDefault).not.toHaveBeenCalled();
+        });
+        
+        it("does not prevent mousewheel default event when scrollbars are not active", function() {
+            tbody.scrollTop.andReturn(0);
+            tbody.outerHeight.andReturn(400);
+            tbody.prop.andReturn(400);
+            handler(evt, null, null, 1);
+            expect(evt.preventDefault).not.toHaveBeenCalled();
+        });
+        
     });
     
 });
