@@ -294,7 +294,11 @@ describe("Table", function() {
                 {
                     id: 'bar',
                     title: 'Bar Title'
-                }
+                },
+                {
+                    id: 'count',
+                    title: 'Count Title'
+                },
             ];
             
             table = new TestTable();
@@ -318,7 +322,7 @@ describe("Table", function() {
         });
         
         it("sorts string data by a column ascending", function() {
-            table.sortByColumn('foo');
+            table.sortByColumn(table.columns[0]);
             expect(table.data[0].bar).toEqual('barc');
             expect(table.data[0].foo).toEqual('fooa');
             expect(table.data[0].count).toEqual(0);
@@ -326,7 +330,7 @@ describe("Table", function() {
             expect(table.data[2].foo).toEqual('fooc');
             expect(table.data[2].count).toEqual(1);
             
-            table.sortByColumn('bar');
+            table.sortByColumn(table.columns[1]);
             expect(table.data[0].bar).toEqual('bara');
             expect(table.data[0].foo).toEqual('fooc');
             expect(table.data[0].count).toEqual(1);
@@ -336,7 +340,7 @@ describe("Table", function() {
         });
         
         it("sorts string data by a column descending", function() {
-            table.sortByColumn('foo', true);
+            table.sortByColumn(table.columns[0], true);
             expect(table.data[0].bar).toEqual('bara');
             expect(table.data[0].foo).toEqual('fooc');
             expect(table.data[0].count).toEqual(1);
@@ -346,7 +350,7 @@ describe("Table", function() {
         });
         
         it("sorts numeric data by a column ascending", function() {
-            table.sortByColumn('count');
+            table.sortByColumn(table.columns[2]);
             expect(table.data[0].count).toEqual(0);
             expect(table.data[0].bar).toEqual('barc');
             expect(table.data[0].foo).toEqual('fooa');
@@ -356,7 +360,7 @@ describe("Table", function() {
         });
         
         it("sorts numeric data by a column descending", function() {
-            table.sortByColumn('count', true);
+            table.sortByColumn(table.columns[2], true);
             expect(table.data[0].count).toEqual(2);
             expect(table.data[0].bar).toEqual('barb');
             expect(table.data[0].foo).toEqual('foob');
@@ -364,7 +368,6 @@ describe("Table", function() {
             expect(table.data[2].bar).toEqual('barc');
             expect(table.data[2].foo).toEqual('fooa');
         });
-        
     });
     
     describe("applyPreventDocumentScroll", function () {

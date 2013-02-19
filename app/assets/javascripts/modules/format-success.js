@@ -27,7 +27,11 @@ GOVUK.Insights.formatSuccess = function() {
         $.each(dataByFormat, function (format, artefacts) {
             
             $.each(artefacts, function (i, d) {
-                d.percentage_of_success = 100 * d.successes / d.entries
+                if (d.successes && d.entries) {
+                    d.percentage_of_success = 100 * d.successes / d.entries
+                } else {
+                    d.percentage_of_success = null;
+                }
             });
 
             aggregatedDataByFormat[format] = {
@@ -115,6 +119,52 @@ GOVUK.Insights.formatSuccess = function() {
     });
 };
 
+/**
+ * Sorts columns containing numbers and nulls in the following order:
+ * 1. Numeric values, either ascending or descending
+ * 2. Null values, sorted alphabetically ascending by slug as fallback
+ */
+GOVUK.Insights.formatSuccessTableComparator = function (a, b, columnId, descending) {
+    var aVal = a[columnId];
+    var bVal = b[columnId];
+    var aIsNumber = (typeof aVal === 'number');
+    var bIsNumber = (typeof bVal === 'number');
+    
+    var compareTitles = false;
+    if (aVal === null && bVal === null) {
+        // no point comparing two null values,
+        // sort alphabetically instead
+        aVal = a.title || a.slug;
+        bVal = b.title || b.slug;
+        compareTitles = true;
+    }
+    
+    if (aIsNumber && bIsNumber || compareTitles) {
+        // a normal sort behaviour, sorts by numbers or alphabetically
+        var res = 0;
+        if (aVal < bVal) {
+            res = -1;
+        } else if (aVal > bVal) {
+            res = 1;
+        }
+        if (descending && !compareTitles) {
+            // don't sort descending when using the title fallback
+            res *= -1;
+        }
+        return res;
+    }
+    
+    // special cases - nulls are always lower than an actual value
+    if (aIsNumber && bVal === null) {
+        return -1;
+    }
+    if (bIsNumber && aVal === null) {
+        return 1;
+    }
+    
+    return 0;
+};
+
 GOVUK.Insights.plotFormatSuccessTable = function (data) {
     var colourRange = ["#BF1E2D", "#6A6A6A", "#4A7812"];
     var colourScale = d3.scale.linear().domain([0, 50, 100]).range(colourRange);
@@ -125,22 +175,65 @@ GOVUK.Insights.plotFormatSuccessTable = function (data) {
     
     table.columns = [
         {
-            id: 'slug',
+            id: 'title',
             title: data.title.slice(0, 1).toUpperCase() + data.title.slice(1),
             className: 'title',
-            sortable: true
+            getValue: function (d, column) {
+                // display title if available, fall back to slug
+                var title = d.title || d.slug;
+                
+                // display as link if url is available
+                if (d.url) {
+                    return $('<a></a>').text(title).prop({
+                        href: d.url,
+                        rel: 'external',
+                        target: '_blank'
+                    });
+                } else {
+                    return title;
+                }
+            },
+            sortable: true,
+            comparator: function (a, b, column, descending) {
+                var aVal = a.title || a.slug;
+                var bVal = b.title || b.slug;
+                
+                var res = 0;
+                if (aVal < bVal) {
+                    res = -1;
+                } else if (aVal > bVal) {
+                    res = 1;
+                }
+                if (descending) {
+                    res *= -1;
+                }
+                return res;
+            }
         },
         {
             id: 'entries',
             title: 'Views',
             className: 'entries',
-            sortable: true
+            getValue: function (d, column) {
+                return d.entries || '&ndash;';
+            },
+            sortable: true,
+            defaultDescending: true,
+            comparator: function (a, b, column, descending) {
+                return GOVUK.Insights.formatSuccessTableComparator(
+                    a, b, 'entries', descending
+                );
+            }
         },
         {
             id: 'percentage_of_success',
             title: 'Engagement',
             getValue: function (d, column) {
-                var v = 100 * d.successes / d.entries;
+                if (!d.successes || !d.entries) {
+                    return '&ndash;';
+                }
+                
+                var v = d.percentage_of_success;
                 
                 var span = $('<span></span>');
                 span.css('color', colourScale(v));
@@ -148,12 +241,18 @@ GOVUK.Insights.plotFormatSuccessTable = function (data) {
                 return span;
             },
             className: 'engagement',
-            sortable: true
+            sortable: true,
+            defaultDescending: true,
+            comparator: function (a, b, column, descending) {
+                return GOVUK.Insights.formatSuccessTableComparator(
+                    a, b, 'percentage_of_success', descending
+                );
+            }
         }
     ];
     
     table.data = data.artefacts;
-    table.sortByColumn('slug');
+    table.sortByColumn(table.columns[2], true);
     table.render();
     
     var el = $('#format-success').empty();
