@@ -152,14 +152,20 @@ GOVUK.Insights.Table.prototype.renderRow = function (d, options) {
         if (options.header && column.sortable) {
             td.append('<span class="arrow"></span>');
             td.addClass('sortable');
+            
             var currentSortColumn = (column.id === that.sortColumn);
             
             if (currentSortColumn) {
                 td.addClass(that.sortDescending ? 'descending' : 'ascending');
             }
             var handler = function (e) {
-                var descending = (currentSortColumn && !that.sortDescending);
-                that.sortByColumn.call(that, column.id, descending);
+                var descending;
+                if (currentSortColumn) {
+                    descending = !that.sortDescending;
+                } else {
+                    descending = column.defaultDescending;
+                }
+                that.sortByColumn.call(that, column, descending);
                 that.render.call(that);
             };
             if (window.Modernizr && Modernizr.touch) {
@@ -174,33 +180,42 @@ GOVUK.Insights.Table.prototype.renderRow = function (d, options) {
     return tr;
 };
 
+GOVUK.Insights.Table.prototype.defaultComparator = function (a, b, column, descending) {
+    var aVal = a[column.id];
+    if (typeof aVal === 'string') {
+        aVal = aVal.toLowerCase();
+    }
+    var bVal = b[column.id];
+    if (typeof bVal === 'string') {
+        bVal = bVal.toLowerCase();
+    }
+    var res = 0;
+    if (aVal < bVal) {
+        res = -1;
+    } else if (aVal > bVal) {
+        res = 1;
+    }
+    if (descending) {
+        res *= -1;
+    }
 
-GOVUK.Insights.Table.prototype.sortByColumn = function (columnId, descending) {
+    return res;
+};
+
+GOVUK.Insights.Table.prototype.sortByColumn = function (column, descending) {
     
-    var comparator = function (a, b) {
-        var aVal = a[columnId];
-        if (typeof aVal === 'string') {
-            aVal = aVal.toLowerCase();
-        }
-        var bVal = b[columnId];
-        if (typeof bVal === 'string') {
-            bVal = bVal.toLowerCase();
-        }
-        var res = 0;
-        if (aVal < bVal) {
-            res = -1;
-        } else if (aVal > bVal) {
-            res = 1;
-        }
-        if (descending) {
-            res *= -1;
-        }
-        
-        return res;
-    };
+    var comparator;
+    if (typeof column.comparator === 'function') {
+        comparator = column.comparator;
+    } else {
+        comparator = this.defaultComparator;
+    }
     
-    this.data.sort(comparator);
-    this.sortColumn = columnId;
+    var that = this;
+    this.data.sort(function (a, b) {
+        return comparator.call(that, a, b, column, descending);
+    });
+    this.sortColumn = column.id;
     this.sortDescending = descending;
 };
 

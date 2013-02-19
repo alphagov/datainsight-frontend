@@ -101,4 +101,52 @@ describe("format success graph", function () {
         });
         
     });
+    
+    describe("formatSuccessTableComparator", function() {
+        
+        var comparator = GOVUK.Insights.formatSuccessTableComparator;
+        
+        var data;
+        beforeEach(function() {
+            data = [
+                { number: 3,    title: 'a', slug: 'a' },
+                { number: 2,    title: 'c', slug: 'c' },
+                { number: 0,    title: 'b', slug: 'b' },
+                { number: null, title: 'e', slug: 'ignored' },
+                { number: null, title: 'd', slug: 'ignored' },
+                { number: null, slug: 'h' },
+                { number: null, slug: 'g' },
+            ];
+        });
+        
+        it("sorts numbers ascending and uses title or slug for alphabetical ascending fallback", function() {
+            data.sort(function (a, b) {
+                return comparator(a, b, 'number', false);
+            });
+            expect(data).toEqual([
+                { number: 0,    title: 'b', slug: 'b' },
+                { number: 2,    title: 'c', slug: 'c' },
+                { number: 3,    title: 'a', slug: 'a' },
+                { number: null, title: 'd', slug: 'ignored' },
+                { number: null, title: 'e', slug: 'ignored' },
+                { number: null, slug: 'g' },
+                { number: null, slug: 'h' },
+            ]);
+        });
+        
+        it("sorts numbers descending and uses title or slug for alphabetical ascending fallback", function() {
+            data.sort(function (a, b) {
+                return comparator(a, b, 'number', true);
+            });
+            expect(data).toEqual([
+                { number: 3,    title: 'a', slug: 'a' },
+                { number: 2,    title: 'c', slug: 'c' },
+                { number: 0,    title: 'b', slug: 'b' },
+                { number: null, title: 'd', slug: 'ignored' },
+                { number: null, title: 'e', slug: 'ignored' },
+                { number: null, slug: 'g' },
+                { number: null, slug: 'h' },
+            ]);
+        });
+    });
 });
