@@ -5,6 +5,26 @@ GOVUK.Insights.overlay = function () {
     var overlays = [];
     var contentTemplate = '<div><div class="data-point-label"/><div class="details"><div class="details-left" /><div class="details-right" /></div></div>';
 
+    function applySimplePositioning(boxInfo, element) {
+        if (boxInfo.xPos !== undefined) element.css({left:boxInfo.xPos});
+        if (boxInfo.yPos !== undefined) element.css({top:boxInfo.yPos});
+        if (boxInfo.bottom !== undefined) element.css({bottom:boxInfo.bottom});
+    }
+
+    function applyPivotPositioning(boxInfo, element) {
+        var pos = GOVUK.Insights.point(
+            boxInfo.xPos || 0,
+            boxInfo.yPos || 0
+        );
+
+        pos = this.applyPivot(pos, boxInfo.pivot, $(boxInfo.parent));
+
+        element.css({
+            left:pos.x(),
+            top:pos.y()
+        });
+    }
+
     function CalloutBox(boxInfo) {
         var htmlTemplate = '<div class="callout-box"></div>',
             element = undefined,
@@ -29,21 +49,12 @@ GOVUK.Insights.overlay = function () {
 
             if (boxInfo.width !== undefined)  element.width(boxInfo.width);
             if (boxInfo.height !== undefined) element.height(boxInfo.height);
-            if (boxInfo.bottom !== undefined) element.css({bottom: boxInfo.bottom});
-            
-            var pos = GOVUK.Insights.point(
-                boxInfo.xPos || 0,
-                boxInfo.yPos || 0
-            );
-            
+
             if (boxInfo.pivot) {
-                pos = this.applyPivot(pos, boxInfo.pivot, $(boxInfo.parent));
+                applyPivotPositioning.call(this, boxInfo, element);
+            } else {
+                applySimplePositioning(boxInfo, element);
             }
-            
-            element.css({
-                left: pos.x(),
-                top: pos.y()
-            });
 
             element.on('mouseover', this.cancelClose);
             element.on('mouseout', this.close);
