@@ -6,7 +6,7 @@ module DashboardHelper
     return "" unless date.respond_to?(:to_date) and date.respond_to?(:strftime)
     return "today" if date.to_date == Date.today
     return "yesterday" if date.to_date == Date.yesterday
-    date.strftime("%d %B %Y")
+    date.strftime("%e %B %Y")
   end
 
   def narrative(text)
