@@ -202,7 +202,7 @@ describe("Table", function() {
         it("renders a table header row for sortable columns and indicates current sort column ascending", function() {
             table.columns[0].sortable = true;
             table.columns[1].sortable = true;
-            table.sortColumn = 'bar';
+            table.sortColumn = table.columns[1];
             
             var tr = table.renderRow(d, {
                 header: true
@@ -225,7 +225,7 @@ describe("Table", function() {
         it("renders a table header row for sortable columns and indicates current sort column descending", function() {
             table.columns[0].sortable = true;
             table.columns[1].sortable = true;
-            table.sortColumn = 'bar';
+            table.sortColumn = table.columns[1];
             table.sortDescending = true;
             
             var tr = table.renderRow(d, {

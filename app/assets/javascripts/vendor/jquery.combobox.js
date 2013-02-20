@@ -26,7 +26,9 @@
 
 
     var Combobox = function (textInputElement, selectOptions, options) {
-        options = options || {};
+        options = this.options = $.extend({}, {
+            minTermLength: 3
+        }, options);
         
         this.textInputElement = jQuery(textInputElement);
         this.textInputElement.wrap(
@@ -78,9 +80,15 @@
 
         bindKeypress : function () {
             var thisCombobox = this;
+            
+            var minTermLength = this.options.minTermLength;
+            
+            var keys = Combobox.keys;
+            var specialKeys = [
+                keys.TAB, keys.SHIFT, keys.ENTER, keys.DOWNARROW, keys.UPARROW
+            ];
             this.textInputElement.keyup(function (event) {
                 var keyCode = event.keyCode;
-                var keys = Combobox.keys;
                 
                 if (keyCode == keys.ESCAPE) {
                     thisCombobox.setValue('');
@@ -89,15 +97,19 @@
                     return;
                 }
                 
-                if ($.inArray(keyCode, [keys.TAB, keys.SHIFT, keys.ENTER]) != -1) {
+                if ($.inArray(keyCode, specialKeys) != -1) {
                     return;
                 }
                 
-                if ($.inArray(keyCode, [keys.DOWNARROW, keys.UPARROW]) == -1) {
-                    thisCombobox.selector.buildSelectOptionList(thisCombobox.getValue());
-                }
+                var term = thisCombobox.getValue();
                 
-                thisCombobox.selector.show()
+                if (term.length >= minTermLength) {
+                    thisCombobox.selector.buildSelectOptionList(term);
+                    thisCombobox.selector.show()
+                } else {
+                    thisCombobox.selector.buildSelectOptionList(term, true);
+                    thisCombobox.selector.hide()
+                }
             });
         },
         
@@ -105,6 +117,7 @@
             var oldValue = this.textInputElement.val();
             this.textInputElement.val(value);
             if (oldValue != value) {
+                this.textInputElement.trigger('keyup');
                 this.textInputElement.trigger('change');
             }
         },
@@ -135,7 +148,9 @@
 
 
     var ComboboxSelector = function (combobox, options) {
-        options = options || {};
+        this.options = options || {};
+        
+        this.minTermLength = options.minTermLength || 3;
         
         if (options.summaryEntry) {
             this.summaryEntry = true;
@@ -193,22 +208,36 @@
             this.allSelectOptions = selectOptions;
         },
 
-        buildSelectOptionList : function (term) {
+        buildSelectOptionList : function (term, hidden) {
             term = term || '';
             
             this.unselect();
             this.selectorElement.empty();
-            var selectOptions = [];
+            
             this.selectedIndex = -1;
-            var i;
-            for (i=0; i < this.allSelectOptions.length; i++) {
-                if (!term.length 
-                    || this.allSelectOptions[i].toLowerCase().indexOf(term.toLowerCase()) != -1)
-                {
-                    selectOptions.push(this.allSelectOptions[i]);
-                }
+            
+            var accessor = this.options.accessor || function (d) {
+                return d;
+            };
+            
+            if (!term.length) {
+                var selectOptions = this.allSelectOptions;
+            } else {
+                var selectOptions = $.map(this.allSelectOptions, function (d, i) {
+                    var value = accessor(d);
+                    if (value.toLowerCase().indexOf(term.toLowerCase()) != -1) {
+                        return d;
+                    }
+                });
             }
+            this.selectOptions = selectOptions;
+            
             this.optionCount = selectOptions.length;
+            
+            if (hidden) {
+                return;
+            }
+            
             var ulElement = jQuery('<ul></ul>').appendTo(this.selectorElement);
             
             if (this.summaryEntry) {
@@ -220,7 +249,8 @@
             
             
             for (i = 0; i < selectOptions.length; i++) {
-                ulElement.append('<li>'+selectOptions[i]+'</li>');
+                
+                ulElement.append($('<li></li>').html(accessor(selectOptions[i])));
             }
             var thisSelector = this;
             var lis = this.selectorElement.find('li');
