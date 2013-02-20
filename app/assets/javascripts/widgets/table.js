@@ -153,7 +153,7 @@ GOVUK.Insights.Table.prototype.renderRow = function (d, options) {
             td.append('<span class="arrow"></span>');
             td.addClass('sortable');
             
-            var currentSortColumn = (column.id === that.sortColumn);
+            var currentSortColumn = (column === that.sortColumn);
             
             if (currentSortColumn) {
                 td.addClass(that.sortDescending ? 'descending' : 'ascending');
@@ -215,8 +215,12 @@ GOVUK.Insights.Table.prototype.sortByColumn = function (column, descending) {
     this.data.sort(function (a, b) {
         return comparator.call(that, a, b, column, descending);
     });
-    this.sortColumn = column.id;
+    this.sortColumn = column;
     this.sortDescending = descending;
+};
+
+GOVUK.Insights.Table.prototype.resort = function () {
+    this.sortByColumn(this.sortColumn, this.sortDescending);
 };
 
 /**
