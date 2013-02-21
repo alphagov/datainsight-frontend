@@ -189,8 +189,6 @@ describe("Table", function() {
             expect(cells.length).toEqual(2);
             expect(cells.eq(0).text()).toEqual('foo title');
             expect(cells.eq(1).text()).toEqual('bar title');
-            expect(cells.eq(0).find('span.arrow').length).toEqual(1);
-            expect(cells.eq(1).find('span.arrow').length).toEqual(1);
             expect(cells.eq(1).hasClass('barclass')).toBe(true);
             expect(cells.eq(0).hasClass('sortable')).toBe(true);
             expect(cells.eq(1).hasClass('sortable')).toBe(true);
@@ -213,8 +211,6 @@ describe("Table", function() {
             expect(cells.length).toEqual(2);
             expect(cells.eq(0).text()).toEqual('foo title');
             expect(cells.eq(1).text()).toEqual('bar title');
-            expect(cells.eq(0).find('span.arrow').length).toEqual(1);
-            expect(cells.eq(1).find('span.arrow').length).toEqual(1);
             expect(cells.eq(1).hasClass('barclass')).toBe(true);
             expect(cells.eq(0).hasClass('sortable')).toBe(true);
             expect(cells.eq(1).hasClass('sortable')).toBe(true);
@@ -237,8 +233,6 @@ describe("Table", function() {
             expect(cells.length).toEqual(2);
             expect(cells.eq(0).text()).toEqual('foo title');
             expect(cells.eq(1).text()).toEqual('bar title');
-            expect(cells.eq(0).find('span.arrow').length).toEqual(1);
-            expect(cells.eq(1).find('span.arrow').length).toEqual(1);
             expect(cells.eq(1).hasClass('barclass')).toBe(true);
             expect(cells.eq(0).hasClass('sortable')).toBe(true);
             expect(cells.eq(1).hasClass('sortable')).toBe(true);
