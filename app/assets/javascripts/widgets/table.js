@@ -150,7 +150,6 @@ GOVUK.Insights.Table.prototype.renderRow = function (d, options) {
         td.appendTo(tr);
         
         if (options.header && column.sortable) {
-            td.append('<span class="arrow"></span>');
             td.addClass('sortable');
             
             var currentSortColumn = (column === that.sortColumn);

@@ -417,24 +417,20 @@
     text-decoration: underline;
 }
 
-#format-success table th span.arrow {
-    margin-left:.5em;
-    display:inline-block;
-    width: 0; 
-    height: 0; 
+#format-success table th.ascending:after {
+    display: inline-block;
+    font-size: 8px;
+    height: 8px;
+    padding-left: 5px;
+    vertical-align: top;
+    content: " \25BC";
 }
 
-#format-success table th.ascending span.arrow {
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 5px solid black;
+#format-success table th.descending:after {
+    display: inline-block;
+    font-size: 8px;
+    height: 8px;
+    padding-left: 5px;
+    vertical-align: top;
+    content: " \25B2";
 }
-
-#format-success table th.descending span.arrow {
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid black;
-}
-
-
-
