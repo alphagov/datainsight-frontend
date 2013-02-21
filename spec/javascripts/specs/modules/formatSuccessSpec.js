@@ -111,14 +111,14 @@ describe("format success graph", function () {
             selectOptions = selectOptions.slice(0, 1);
             updateHeadline(el, '', selectOptions, formatData.foo);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>1</em> foo, viewed&nbsp;<em>1.00k&nbsp;times</em>'
+                '<em>1</em> foo, viewed&nbsp;<em>1.00k&nbsp;times*</em>'
             );
         });
         
         it("updates headline for default plural case and no search term", function() {
             updateHeadline(el, '', selectOptions, formatData.foo);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>2</em> foos, viewed&nbsp;<em>5.00k&nbsp;times</em>'
+                '<em>2</em> foos, viewed&nbsp;<em>5.00k&nbsp;times*</em>'
             );
         });
         
@@ -126,14 +126,14 @@ describe("format success graph", function () {
             selectOptions = selectOptions.slice(0, 1);
             updateHeadline(el, '', selectOptions, formatData.bar);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>1</em> item of bar, viewed&nbsp;<em>1.00k&nbsp;times</em>'
+                '<em>1</em> item of bar, viewed&nbsp;<em>1.00k&nbsp;times*</em>'
             );
         });
         
         it("updates headline for custom plural case and no search term", function() {
             updateHeadline(el, '', selectOptions, formatData.bar);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>2</em> items of bar, viewed&nbsp;<em>5.00k&nbsp;times</em>'
+                '<em>2</em> items of bar, viewed&nbsp;<em>5.00k&nbsp;times*</em>'
             );
         });
         
@@ -141,14 +141,14 @@ describe("format success graph", function () {
             selectOptions = selectOptions.slice(0, 1);
             updateHeadline(el, 'term', selectOptions, formatData.foo);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>1</em> foo containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>1.00k&nbsp;times</em>'
+                '<em>1</em> foo containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>1.00k&nbsp;times*</em>'
             );
         });
         
         it("updates headline for default plural case and with search term", function() {
             updateHeadline(el, 'term', selectOptions, formatData.foo);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>2</em> foos containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>5.00k&nbsp;times</em>'
+                '<em>2</em> foos containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>5.00k&nbsp;times*</em>'
             );
         });
         
@@ -156,41 +156,16 @@ describe("format success graph", function () {
             selectOptions = selectOptions.slice(0, 1);
             updateHeadline(el, 'term', selectOptions, formatData.bar);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>1</em> item of bar containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>1.00k&nbsp;times</em>'
+                '<em>1</em> item of bar containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>1.00k&nbsp;times*</em>'
             );
         });
         
         it("updates headline for custom plural case and with search term", function() {
             updateHeadline(el, 'term', selectOptions, formatData.bar);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>2</em> items of bar containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>5.00k&nbsp;times</em>'
+                '<em>2</em> items of bar containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>5.00k&nbsp;times*</em>'
             );
         });
-    });
-    
-    describe("updateExcludedItemsCount", function() {
-        
-        var el;
-        beforeEach(function() {
-            el = $('<div id="excluded-items-wrapper"><p class="excluded-items"><span class="num-items-excluded"></span></p></div>');
-            el.appendTo('body');
-        });
-        
-        afterEach(function() {
-            el.remove();
-        });
-        
-        it("should hide the counter when there are no excluded items", function() {
-            GOVUK.Insights.updateExcludedItemsCount(0, el);
-            expect($('#excluded-items-wrapper excluded-items').is(':visible')).toBe(false);
-        });
-        
-        it("should update the counter with the number of excluded items", function() {
-            GOVUK.Insights.updateExcludedItemsCount(23, el);
-            expect($('#excluded-items-wrapper .excluded-items').is(':visible')).toBe(true);
-            expect($('#excluded-items-wrapper .num-items-excluded').text()).toEqual('23');
-        });
-        
     });
     
     describe("updateEngagementCriteria", function() {

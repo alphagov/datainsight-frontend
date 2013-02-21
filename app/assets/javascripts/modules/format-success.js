@@ -68,9 +68,12 @@ GOVUK.Insights.formatSuccess = function() {
         var plotFormatSuccess = function () {
             GOVUK.Insights.formatData = GOVUK.Insights.formats[currentData.format];
 
-            GOVUK.Insights.createFilter(currentData.artefacts, onFilterChange, onFilterSelect);
+            GOVUK.Insights.createFilter(currentData.artefacts, onFilterChange, onFilterSelect, currentData);
             
             GOVUK.Insights.updateEngagementCriteria();
+            GOVUK.Insights.updateTagline(currentVisualisation);
+            
+            $('#format-success-wrapper').prop('className', currentVisualisation);
             
             if (currentVisualisation == 'table') {
                 table = GOVUK.Insights.plotFormatSuccessTable(currentData);
@@ -88,7 +91,7 @@ GOVUK.Insights.formatSuccess = function() {
             currentVisualisation = 'graph';
             
             var ul = $('<ul id="format-success-type"></ul>');
-            $('#format-success').before(ul);
+            $('#format-success-module .tagline').before(ul);
             
             var clickHandler = function (visualisation) {
                 ul.find('li').removeClass('active');
@@ -292,6 +295,7 @@ GOVUK.Insights.plotFormatSuccessTable = function (data) {
 
 
 GOVUK.Insights.plotFormatSuccessDetail = function(data) {
+    
     $('#format-success').empty();
     
     var artefacts = data.artefacts;
@@ -386,10 +390,6 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
         .datum(artefacts)
         .call(formatSuccess);
         
-    GOVUK.Insights.updateExcludedItemsCount(
-        excludedItemsCount, $('#format-success-module legend')
-    );
-    
     return formatSuccess;
 };
 
@@ -421,10 +421,19 @@ GOVUK.Insights.updateHeadline = function (el, term, selectOptions, formatData) {
         term ? ' containing <em>&ldquo;' + term + '&rdquo;</em>' : '',
         ', viewed&nbsp;<em>',
         GOVUK.Insights.formatNumericLabel(viewCount),
-        '&nbsp;times</em>'
+        '&nbsp;times*</em>'
     ].join('');
     
     el.html(headline);
+};
+
+GOVUK.Insights.updateTagline = function (currentVisualisation) {
+    
+    var tagline = '* Items with less than 1000 views not counted';
+    if (currentVisualisation == 'graph') {
+        tagline += ' or shown in view';
+    }
+    $('#format-success-module .tagline').html(tagline);
 };
 
 GOVUK.Insights.createFilter = function (artefacts, onChange, onSelect) {
@@ -471,15 +480,5 @@ GOVUK.Insights.updateEngagementCriteria = function (formatData) {
     formatData = formatData || GOVUK.Insights.formatData;
     $('#engagement-criteria h4').html(formatData.title + ' engagement criteria');
     $('#engagement-criteria p').html(formatData.criteria);
-};
-
-GOVUK.Insights.updateExcludedItemsCount = function (count, el) {
-    if (count > 0) {
-        el.find('.num-items-excluded').text(count);
-        el.find('.excluded-items').show();
-    } else {
-        el.find('.excluded-items').hide();
-    }
-    
 };
 
