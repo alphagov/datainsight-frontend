@@ -201,7 +201,7 @@ GOVUK.Insights.overlay = function () {
     function calloutContent(title, rowData) {
         var contentElement = $(contentTemplate);
 
-        contentElement.find('.data-point-label').text(title);
+        contentElement.find('.data-point-label').html(title);
         for (var i = 0; i < rowData.length; i++) {
             contentElement.find('.details-left').append(rowData[i].left);
             contentElement.find('.details-right').append(rowData[i].right);

@@ -319,12 +319,20 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
         
         successMin = Math.min(successMin, d.percentage_of_success);
         successMax = Math.max(successMax, d.percentage_of_success);
+        var label = d.title || d.slug;
+        if (d.url) {
+            label = $('<a></a>').text(label).prop({
+                href: d.url,
+                target: '_blank',
+                rel: 'external'
+            });
+        }
 
         return {
             x: d.percentage_of_success,
             y: d.entries,
             colour: d.percentage_of_success,
-            label: d.slug,
+            label: label,
             id: d.slug
         };
     });
