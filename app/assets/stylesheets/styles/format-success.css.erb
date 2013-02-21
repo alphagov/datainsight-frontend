@@ -117,11 +117,11 @@
     margin-top:12px;
 }
 
-#format-success-wrapper legend .sizes {
+#format-success-wrapper legend {
     display:none;
 }
 
-#format-success-wrapper.graph legend .sizes {
+#format-success-wrapper.graph legend {
     display:block;
 }
 
@@ -164,11 +164,13 @@
 #format-success-module legend p.sizes {
     float:left;
     padding-left: 6em;
-    background: url("<%= asset_path('icon-circles.svg') %>") no-repeat top left;
+    background: url("<%= asset_path('icon-circles.svg') %>") no-repeat left top;
 }
 
-#format-success-module legend p.excluded-items {
+#format-success-module legend p.colour-key {
     float:right;
+    padding-right: 8.5em;
+    background: url("<%= asset_path('colour-key.svg') %>") no-repeat right .6em;
 }
 
 #format-success-wrapper figcaption {
