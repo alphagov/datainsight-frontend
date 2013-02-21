@@ -53,9 +53,11 @@ describe("format success graph", function () {
                 title: 'Guide'
             }
         };
+        spyOn(GOVUK.Insights, "updateEngagementCriteria");
         GOVUK.Insights.formatSuccess();
 
         expect(jQuery.ajax).toHaveBeenCalled();
+        expect(GOVUK.Insights.updateEngagementCriteria).toHaveBeenCalled();
 
         expect($('#format-success-module').find('svg').length).not.toBe(0);
         
@@ -187,6 +189,31 @@ describe("format success graph", function () {
             GOVUK.Insights.updateExcludedItemsCount(23, el);
             expect($('#excluded-items-wrapper .excluded-items').is(':visible')).toBe(true);
             expect($('#excluded-items-wrapper .num-items-excluded').text()).toEqual('23');
+        });
+        
+    });
+    
+    describe("updateEngagementCriteria", function() {
+        
+        var el;
+        beforeEach(function() {
+            el = $('<div id="engagement-criteria"><h4></h4><p></p></div>');
+            el.appendTo($('body'));
+        });
+        
+        afterEach(function() {
+            el.remove();
+        });
+        
+        it("updates the engagement criteria text for the current format", function() {
+            GOVUK.Insights.updateEngagementCriteria({
+                title: 'Foo',
+                criteria: 'User forgets to close browser window.'
+            });
+            expect(el.html()).toEqual([
+                '<h4>Foo engagement criteria</h4>',
+                '<p>User forgets to close browser window.</p>'
+            ].join(''));
         });
         
     });

@@ -70,6 +70,8 @@ GOVUK.Insights.formatSuccess = function() {
 
             GOVUK.Insights.createFilter(currentData.artefacts, onFilterChange, onFilterSelect);
             
+            GOVUK.Insights.updateEngagementCriteria();
+            
             if (currentVisualisation == 'table') {
                 table = GOVUK.Insights.plotFormatSuccessTable(currentData);
             } else {
@@ -463,6 +465,12 @@ GOVUK.Insights.createFilter = function (artefacts, onChange, onSelect) {
     }
     
     filterEl.trigger('change');
+};
+
+GOVUK.Insights.updateEngagementCriteria = function (formatData) {
+    formatData = formatData || GOVUK.Insights.formatData;
+    $('#engagement-criteria h4').html(formatData.title + ' engagement criteria');
+    $('#engagement-criteria p').html(formatData.criteria);
 };
 
 GOVUK.Insights.updateExcludedItemsCount = function (count, el) {
