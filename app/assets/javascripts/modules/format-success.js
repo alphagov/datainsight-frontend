@@ -321,7 +321,7 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
         successMax = Math.max(successMax, d.percentage_of_success);
         var label = d.title || d.slug;
         if (d.url) {
-            label = $('<a></a>').text(label).prop({
+            label = $('<a></a>').html($('<span></span>').text(label)).prop({
                 href: d.url,
                 target: '_blank',
                 rel: 'external'
