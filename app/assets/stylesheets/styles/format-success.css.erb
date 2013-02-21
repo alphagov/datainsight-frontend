@@ -3,7 +3,24 @@
     display:inline-block;
     width:100%;
     padding-top:47.071129707%;
+    position:relative;
+    text-align:center;
 }
+
+#format-success.placeholder p.loading {
+    margin:0;
+    position:absolute;
+    padding-left:40px;
+    background: url("<%= asset_path('spinner.gif') %>") no-repeat left .1em;
+    font-size:2em;
+    height:2em;
+    margin-top:-1em;
+    width:210px;
+    margin-left:-125px;
+    top:50%;
+    left:50%;
+}
+
 
 /* scatterplot */
 
