@@ -36,7 +36,6 @@ GOVUK.Insights.formatSuccess = function() {
 
             aggregatedDataByFormat[format] = {
                 format: format,
-                title: GOVUK.Insights.formatTitles[format],
                 count: artefacts.length,
                 entries: d3.sum(artefacts, function (d) {
                     return d.entries;
@@ -67,7 +66,7 @@ GOVUK.Insights.formatSuccess = function() {
         
         
         var plotFormatSuccess = function () {
-            GOVUK.Insights.formatTitle = currentData.title;
+            GOVUK.Insights.formatData = GOVUK.Insights.formats[currentData.format];
 
             GOVUK.Insights.createFilter(currentData.artefacts, onFilterChange, onFilterSelect);
             
@@ -204,7 +203,7 @@ GOVUK.Insights.plotFormatSuccessTable = function (data) {
     table.columns = [
         {
             id: 'title',
-            title: data.title.slice(0, 1).toUpperCase() + data.title.slice(1),
+            title: GOVUK.Insights.formatData.title,
             className: 'title',
             getValue: function (d, column) {
                 // display title if available, fall back to slug
@@ -393,10 +392,20 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
 };
 
 
-GOVUK.Insights.updateHeadline = function (el, term, selectOptions) {
-    var title = GOVUK.Insights.pluralise(
-        GOVUK.Insights.formatTitle, selectOptions
-    );
+GOVUK.Insights.updateHeadline = function (el, term, selectOptions, formatData) {
+    formatData = formatData || GOVUK.Insights.formatData;
+    
+    var title;
+    if (selectOptions.length === 1) {
+        title = formatData.headline;
+    } else if (formatData.headlinePlural) {
+        title = formatData.headlinePlural;
+    } else {
+        title = GOVUK.Insights.pluralise(
+            formatData.headline, selectOptions
+        );
+    }
+    
     var viewCount = 0;
     $.each(selectOptions, function (i, d) {
         if (d.entries > 0) {

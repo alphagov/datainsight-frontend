@@ -48,8 +48,10 @@ describe("format success graph", function () {
         expect($('#format-success').hasClass('placeholder')).toBe(true);
         
         
-        GOVUK.Insights.formatTitles = {
-            Guide: 'Guide'
+        GOVUK.Insights.formats = {
+            Guide: {
+                title: 'Guide'
+            }
         };
         GOVUK.Insights.formatSuccess();
 
@@ -75,6 +77,93 @@ describe("format success graph", function () {
 
         expect(actualErrorMsg).toBe(expectedErrorMsg);
 
+    });
+    
+    describe("updateHeadline", function() {
+        var updateHeadline = GOVUK.Insights.updateHeadline;
+        var el, selectOptions;
+        beforeEach(function() {
+            formatData = {
+                foo: {
+                    headline: 'foo'
+                },
+                bar: {
+                    headline: 'item of bar',
+                    headlinePlural: 'items of bar'
+                },
+            }
+            el = {
+                html: jasmine.createSpy()
+            };
+            selectOptions = [
+                {
+                    entries: 1000
+                },
+                {
+                    entries: 4000
+                }
+            ];
+        });
+        
+        it("updates headline for default singular case and no search term", function() {
+            selectOptions = selectOptions.slice(0, 1);
+            updateHeadline(el, '', selectOptions, formatData.foo);
+            expect(el.html).toHaveBeenCalledWith(
+                '<em>1</em> foo, viewed&nbsp;<em>1.00k&nbsp;times</em>'
+            );
+        });
+        
+        it("updates headline for default plural case and no search term", function() {
+            updateHeadline(el, '', selectOptions, formatData.foo);
+            expect(el.html).toHaveBeenCalledWith(
+                '<em>2</em> foos, viewed&nbsp;<em>5.00k&nbsp;times</em>'
+            );
+        });
+        
+        it("updates headline for custom singular case and no search term", function() {
+            selectOptions = selectOptions.slice(0, 1);
+            updateHeadline(el, '', selectOptions, formatData.bar);
+            expect(el.html).toHaveBeenCalledWith(
+                '<em>1</em> item of bar, viewed&nbsp;<em>1.00k&nbsp;times</em>'
+            );
+        });
+        
+        it("updates headline for custom plural case and no search term", function() {
+            updateHeadline(el, '', selectOptions, formatData.bar);
+            expect(el.html).toHaveBeenCalledWith(
+                '<em>2</em> items of bar, viewed&nbsp;<em>5.00k&nbsp;times</em>'
+            );
+        });
+        
+        it("updates headline for default singular case and with search term", function() {
+            selectOptions = selectOptions.slice(0, 1);
+            updateHeadline(el, 'term', selectOptions, formatData.foo);
+            expect(el.html).toHaveBeenCalledWith(
+                '<em>1</em> foo containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>1.00k&nbsp;times</em>'
+            );
+        });
+        
+        it("updates headline for default plural case and with search term", function() {
+            updateHeadline(el, 'term', selectOptions, formatData.foo);
+            expect(el.html).toHaveBeenCalledWith(
+                '<em>2</em> foos containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>5.00k&nbsp;times</em>'
+            );
+        });
+        
+        it("updates headline for custom singular case and with search term", function() {
+            selectOptions = selectOptions.slice(0, 1);
+            updateHeadline(el, 'term', selectOptions, formatData.bar);
+            expect(el.html).toHaveBeenCalledWith(
+                '<em>1</em> item of bar containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>1.00k&nbsp;times</em>'
+            );
+        });
+        
+        it("updates headline for custom plural case and with search term", function() {
+            updateHeadline(el, 'term', selectOptions, formatData.bar);
+            expect(el.html).toHaveBeenCalledWith(
+                '<em>2</em> items of bar containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>5.00k&nbsp;times</em>'
+            );
+        });
     });
     
     describe("updateExcludedItemsCount", function() {

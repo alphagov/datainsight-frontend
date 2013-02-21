@@ -648,7 +648,12 @@ GOVUK.Insights.scatterplotGraph = function () {
                 term = term.toLowerCase();
 
                 circles.attr('class', function (d) {
-                   return d.label.indexOf(term) == -1 ? 'disabled' : 'enabled';
+                    var label = d.label;
+                    if (label instanceof $) {
+                        label = label.text();
+                    }
+                    
+                    return label.indexOf(term) == -1 ? 'disabled' : 'enabled';
                 });
                 
                 // disable circles that don't match the term
