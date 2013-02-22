@@ -655,7 +655,7 @@ GOVUK.Insights.scatterplotGraph = function () {
                         label = label.text();
                     }
                     
-                    return label.indexOf(term) == -1 ? 'disabled' : 'enabled';
+                    return label.toLowerCase().indexOf(term) == -1 ? 'disabled' : 'enabled';
                 });
                 
                 // disable circles that don't match the term
