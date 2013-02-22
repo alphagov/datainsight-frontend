@@ -27,8 +27,6 @@ describe("Table", function() {
             expect(table.renderHead).toHaveBeenCalled();
             expect(table.renderBody).toHaveBeenCalled();
             
-            expect(table.el).toBe(el);
-            expect(el.prop('tagName').toLowerCase()).toEqual('table');
             expect(el.find('thead').length).toEqual(1);
             expect(el.find('tbody').length).toEqual(1);
         });
@@ -375,19 +373,15 @@ describe("Table", function() {
                 prop: jasmine.createSpy(),
                 on: jasmine.createSpy()
             };
-            table.el = {
-                find: jasmine.createSpy().andReturn(tbody)
-            };
-            table.applyPreventDocumentScroll();
+            table.applyPreventDocumentScroll(tbody);
             handler = tbody.on.argsForCall[0][1];
             evt = {
                 preventDefault: jasmine.createSpy()
             };
         });
         
-        it("retrieves the tbody child element", function() {
-            table.applyPreventDocumentScroll();
-            expect(table.el.find).toHaveBeenCalledWith('tbody');
+        it("applies mousewheel handler", function() {
+            table.applyPreventDocumentScroll(tbody);
             expect(tbody.on).toHaveBeenCalled();
             expect(tbody.on.argsForCall[0][0]).toEqual('mousewheel');
             expect(typeof tbody.on.argsForCall[0][1]).toEqual('function');

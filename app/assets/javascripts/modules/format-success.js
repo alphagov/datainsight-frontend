@@ -134,19 +134,24 @@ GOVUK.Insights.formatSuccess = function() {
         tabs.eq(0).trigger('click');
     };
     
+    var showError = function () {
+        var el = $("#format-success");
+        el.empty().removeClass('placeholder');
+        el.append(GOVUK.Insights.Helpers.error_div);
+    };
+    
     $.ajax({
         url: GOVUK.Insights.contentEngagementUrl,
         success: function (response) {
+            $("#format-success").removeClass('placeholder');
             if (response !== null) {
-                $("#format-success").removeClass('placeholder');
                 onSuccess(response.details.data);
             } else {
-                // show error
-                $("#format-success-module").append(GOVUK.Insights.Helpers.error_div);
+                showError();
             }
         },
         error: function () {
-            console.log(arguments);
+            showError();
         }
     });
 };
@@ -199,7 +204,10 @@ GOVUK.Insights.formatSuccessTableComparator = function (a, b, columnId, descendi
 
 GOVUK.Insights.plotFormatSuccessTable = function (data) {
     var colourRange = ["#BF1E2D", "#6A6A6A", "#4A7812"];
-    var colourScale = d3.scale.linear().domain([0, 50, 100]).range(colourRange);
+    var colourScale;
+    if (window.d3 && d3.scale) {
+        colourScale = d3.scale.linear().domain([0, 50, 100]).range(colourRange);
+    }
     
     var table = new GOVUK.Insights.Table({
         lazyRender: true
@@ -268,7 +276,9 @@ GOVUK.Insights.plotFormatSuccessTable = function (data) {
                 var v = d.percentage_of_success;
                 
                 var span = $('<span></span>');
-                span.css('color', colourScale(v));
+                if (colourScale) {
+                    span.css('color', colourScale(v));
+                }
                 span.html(v.toFixed(1) + '%');
                 return span;
             },
@@ -490,11 +500,13 @@ GOVUK.Insights.updateEngagementCriteria = function (formatData) {
 
 /**
  * Works around SVG rendering issue in some Webkit builds where height is
- * not calculated correctly
+ * not calculated correctly.
  * @param {jQuery} el jQuery reference of SVG element to be resized
  */
 GOVUK.Insights.svgWebkitHeightBugWorkaround = function (el) {
     var baseVal = el.prop('viewBox').baseVal;
     var aspectRatio = baseVal.width / baseVal.height;
-    el.height(el.width() / aspectRatio);
+    // read width from parent element to work around jQuery / Firefox bug
+    // where 100% width is reported as "100" rather than actual pixels
+    el.height(el.parent().width() / aspectRatio);
 };

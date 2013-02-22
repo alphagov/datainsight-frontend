@@ -19,24 +19,50 @@ GOVUK.Insights.Table.prototype.render = function () {
     }
     
     var el = this.el;
+    var wrapper;
     if (!el) {
-        el = this.el = $('<table></table>');
+        el = this.el = $('<div></div>').addClass('outer-table-wrapper');
+        var that = this;
+        $(window).on('resize', function (e) {
+            that.adjustTableLayout.call(that);
+        });
     }
     el.empty();
     
+    var tableHead = $('<table></table>').addClass('head');
+    tableHead.appendTo(el);
+    
+    wrapper = $('<div></div>').addClass('inner-table-wrapper');
+    wrapper.appendTo(el);
+    var tableBody = $('<table></table>').addClass('body');
+    tableBody.appendTo(wrapper);
+    
     var thead = $('<thead></thead>');
-    thead.appendTo(el);
+    thead.appendTo(tableHead);
     this.renderHead(thead);
     
     var tbody = $('<tbody></tbody>');
-    tbody.appendTo(el);
-    this.renderBody(tbody);
+    tbody.appendTo(tableBody);
+    this.renderBody(tbody, wrapper);
     
     if (this.options.preventDocumentScroll) {
-        this.applyPreventDocumentScroll();
+        this.applyPreventDocumentScroll(wrapper);
     }
     
+    this.adjustTableLayout();
+    
     return this.el;
+};
+
+GOVUK.Insights.Table.prototype.adjustTableLayout = function () {
+    var el = this.el;
+    
+    el.find('table.head').width(el.find('table.body').width());
+    
+    var tds = el.find('td');
+    el.find('th').each(function (i) {
+        $(this).width(tds.eq(i).width() + 1);
+    });
 };
 
 /**
@@ -61,8 +87,12 @@ GOVUK.Insights.Table.prototype.renderHead = function (thead) {
 
 /**
  * Renders a tbody element with rows for the current data.
+ * @param {jQuery} tbody tbody tag to render rows into
+ * @param {jQuery} [scrollWrapper=tbody] Scrolling element for lazy render detection, if different from tbody
  */
-GOVUK.Insights.Table.prototype.renderBody = function (tbody) {
+GOVUK.Insights.Table.prototype.renderBody = function (tbody, scrollWrapper) {
+    
+    scrollWrapper = scrollWrapper || tbody;
     
     var data = this.data;
     var that = this;
@@ -91,12 +121,13 @@ GOVUK.Insights.Table.prototype.renderBody = function (tbody) {
             }
         }
 
-        tbody.on('scroll', function (e) {
-            var visibleHeight = tbody.outerHeight();
-            var scrollHeight = tbody.prop('scrollHeight');
+        scrollWrapper.on('scroll', function (e) {
+            var visibleHeight = scrollWrapper.outerHeight();
+            var scrollHeight = scrollWrapper.prop('scrollHeight');
+            var scrollTop = scrollWrapper.scrollTop();
             var scrolling = (scrollHeight > visibleHeight);
             
-            if (tbody.scrollTop() + visibleHeight >= scrollHeight - placeholderHeight) {
+            if (scrollTop + visibleHeight >= scrollHeight - placeholderHeight) {
                 // scrolled down to last row, show more
                 renderChunk();
             }
@@ -225,8 +256,7 @@ GOVUK.Insights.Table.prototype.resort = function () {
 /**
  * Stops the page from scrolling when the user scrolls inside the table
  */
-GOVUK.Insights.Table.prototype.applyPreventDocumentScroll = function () {
-    var el = this.el.find('tbody');
+GOVUK.Insights.Table.prototype.applyPreventDocumentScroll = function (el) {
     
     el.on('mousewheel', function (e, delta, deltaX, deltaY) {
         

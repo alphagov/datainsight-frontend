@@ -82,10 +82,6 @@
     stroke: black;
 }
 
-.lte-ie8 #format-success-module {
-    display: none;
-}
-
 
 
 #format-success-module .tabs {
@@ -129,19 +125,12 @@
 
 
 
-#format-success-wrapper.graph #format-success {
+#format-success-module .graph #format-success {
     border-top:1px solid #999;
     padding-top:.5em;
     margin-top:12px;
 }
 
-#format-success-wrapper legend {
-    display:none;
-}
-
-#format-success-wrapper.graph legend {
-    display:block;
-}
 
 
 #format-success-module .graph-header {
@@ -169,23 +158,28 @@
     color: #444;
 }
 
-#format-success-module legend {
+#format-success-module div.legend {
     width: 100%;
+    display:none;
 }
 
-#format-success-module legend p {
+#format-success-module .graph .legend {
+    display:block;
+}
+
+#format-success-module .legend p {
     margin: 0;
     font-size: 0.8em;
     padding-top: 0.6em;
 }
 
-#format-success-module legend p.sizes {
+#format-success-module .legend p.sizes {
     float:left;
     padding-left: 6em;
     background: url("<%= asset_path('icon-circles.svg') %>") no-repeat left top;
 }
 
-#format-success-module legend p.colour-key {
+#format-success-module .legend p.colour-key {
     float:right;
     padding-right: 8.5em;
     background: url("<%= asset_path('colour-key.svg') %>") no-repeat right .6em;
@@ -371,25 +365,41 @@
 
 #format-success table {
     width: 100%;
-    table-layout: fixed;
-    border: solid 1px #a1acb2;
+    margin:0;
+}
+
+#format-success table.head {
+    width: 100%;
+    margin:0;
 }
 
 #format-success table thead {
-    display: block;
     background-color:#dee0e2;
     border-bottom: solid 1px #a1acb2;
+}
+
+#format-success .outer-table-wrapper {
+    border: solid 1px #a1acb2;
+    background-color:#dee0e2;
+}
+
+#format-success .inner-table-wrapper {
+    display: block;
+    height:447px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     
 }
 
-#format-success table tbody {
+/*#format-success table tbody {
     display: block;
     height:447px;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     
 }
-
+*/
 #format-success table tbody td:first-child {
     border-left:0;
 }
@@ -416,7 +426,7 @@
 
 #format-success table .entries,
 #format-success table .engagement {
-    width:110px;
+    width:120px;
     text-align:right;
 }
 
@@ -442,7 +452,7 @@
     height: 8px;
     padding-left: 5px;
     vertical-align: top;
-    content: " \25BC";
+    content: " \25B2";
 }
 
 #format-success table th.descending:after {
@@ -451,5 +461,5 @@
     height: 8px;
     padding-left: 5px;
     vertical-align: top;
-    content: " \25B2";
+    content: " \25BC";
 }
