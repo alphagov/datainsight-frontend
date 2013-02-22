@@ -1,11 +1,13 @@
 var GOVUK = GOVUK || {};
 GOVUK.Insights = GOVUK.Insights || {};
 
-d3.selection.prototype.moveToFront = function() {
-  return this.each(function(){
-    this.parentNode.appendChild(this);
-  });
-};
+if (window.d3 && d3.selection) {
+    d3.selection.prototype.moveToFront = function() {
+      return this.each(function(){
+        this.parentNode.appendChild(this);
+      });
+    };
+}
 
 GOVUK.Insights.getDarkerColor = function (c) {
     return new GOVUK.Insights.colors(c).multiplyWithSelf().asCSS()
