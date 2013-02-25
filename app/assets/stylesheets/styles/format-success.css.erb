@@ -86,19 +86,35 @@
 
 #format-success-module .tabs {
     padding-left: 0;
-    display: table;
     width: 100%;
-    table-layout: fixed;
     margin: 0;
 }
 
 #format-success-module .tabs li {
-    display: table-cell;
     font-size: 1em;
     padding: 4px 16px;
     background: #ddd;
     border: 4px solid white;
+    margin-bottom:0;
     cursor:pointer;
+    float:left;
+    list-style:none;
+       -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+#format-success-module.govuk .tabs li {
+    width:25%;
+}
+
+#format-success-module.ig .tabs li {
+    width:33%;
+}
+
+#format-success-wrapper {
+    padding-top: 0;
+    clear:left;
 }
 
 #format-success-module .tabs li:hover {
@@ -110,9 +126,8 @@
     background: white;
     border: 1px solid #999;
     border-bottom:0;
-    position: relative;
-    top: 1px;
-    padding-top: 3px;
+    padding: 7px 16px 10px 19px;
+    margin-bottom:-1px;
 }
 
 
