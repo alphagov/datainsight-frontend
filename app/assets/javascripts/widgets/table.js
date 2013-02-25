@@ -54,6 +54,16 @@ GOVUK.Insights.Table.prototype.render = function () {
     return this.el;
 };
 
+GOVUK.Insights.Table.prototype.close = function () {
+    var el = this.el;
+    el.find('.inner-table-wrapper').off('mousewheel');
+    el.find('.inner-table-wrapper').off('scroll');
+    $(window).off('resize');
+    el.find('th').off('touchend');
+    el.find('th').off('click');
+    el.empty();
+};
+
 GOVUK.Insights.Table.prototype.adjustTableLayout = function () {
     var el = this.el;
     

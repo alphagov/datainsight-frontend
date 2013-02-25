@@ -66,6 +66,11 @@ GOVUK.Insights.formatSuccess = function() {
         
         
         var plotFormatSuccess = function () {
+            if (table) {
+                table.close();
+                table = null;
+            }
+            
             GOVUK.Insights.formatData = GOVUK.Insights.formats[currentData.format];
 
             GOVUK.Insights.createFilter(currentData.artefacts, onFilterChange, onFilterSelect);

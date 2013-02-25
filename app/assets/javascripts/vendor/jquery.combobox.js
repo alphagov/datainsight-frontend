@@ -212,6 +212,8 @@
             term = term || '';
             
             this.unselect();
+            this.selectorElement.find('li').off('click');
+            this.selectorElement.find('li').off('mouseover');
             this.selectorElement.empty();
             
             this.selectedIndex = -1;
