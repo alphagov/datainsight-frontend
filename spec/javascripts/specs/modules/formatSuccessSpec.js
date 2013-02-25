@@ -111,14 +111,14 @@ describe("format success graph", function () {
             selectOptions = selectOptions.slice(0, 1);
             updateHeadline(el, '', selectOptions, formatData.foo);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>1</em> foo, viewed&nbsp;<em>1.00k&nbsp;times*</em>'
+                '<em>1</em> foo'
             );
         });
         
         it("updates headline for default plural case and no search term", function() {
             updateHeadline(el, '', selectOptions, formatData.foo);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>2</em> foos, viewed&nbsp;<em>5.00k&nbsp;times*</em>'
+                '<em>2</em> foos'
             );
         });
         
@@ -126,14 +126,14 @@ describe("format success graph", function () {
             selectOptions = selectOptions.slice(0, 1);
             updateHeadline(el, '', selectOptions, formatData.bar);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>1</em> item of bar, viewed&nbsp;<em>1.00k&nbsp;times*</em>'
+                '<em>1</em> item of bar'
             );
         });
         
         it("updates headline for custom plural case and no search term", function() {
             updateHeadline(el, '', selectOptions, formatData.bar);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>2</em> items of bar, viewed&nbsp;<em>5.00k&nbsp;times*</em>'
+                '<em>2</em> items of bar'
             );
         });
         
@@ -141,14 +141,14 @@ describe("format success graph", function () {
             selectOptions = selectOptions.slice(0, 1);
             updateHeadline(el, 'term', selectOptions, formatData.foo);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>1</em> foo containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>1.00k&nbsp;times*</em>'
+                '<em>1</em> foo contains <em>&ldquo;term&rdquo;</em>'
             );
         });
         
         it("updates headline for default plural case and with search term", function() {
             updateHeadline(el, 'term', selectOptions, formatData.foo);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>2</em> foos containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>5.00k&nbsp;times*</em>'
+                '<em>2</em> foos contain <em>&ldquo;term&rdquo;</em>'
             );
         });
         
@@ -156,14 +156,14 @@ describe("format success graph", function () {
             selectOptions = selectOptions.slice(0, 1);
             updateHeadline(el, 'term', selectOptions, formatData.bar);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>1</em> item of bar containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>1.00k&nbsp;times*</em>'
+                '<em>1</em> item of bar contains <em>&ldquo;term&rdquo;</em>'
             );
         });
         
         it("updates headline for custom plural case and with search term", function() {
             updateHeadline(el, 'term', selectOptions, formatData.bar);
             expect(el.html).toHaveBeenCalledWith(
-                '<em>2</em> items of bar containing <em>&ldquo;term&rdquo;</em>, viewed&nbsp;<em>5.00k&nbsp;times*</em>'
+                '<em>2</em> items of bar contain <em>&ldquo;term&rdquo;</em>'
             );
         });
     });

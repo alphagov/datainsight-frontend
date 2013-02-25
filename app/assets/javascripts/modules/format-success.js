@@ -68,7 +68,7 @@ GOVUK.Insights.formatSuccess = function() {
         var plotFormatSuccess = function () {
             GOVUK.Insights.formatData = GOVUK.Insights.formats[currentData.format];
 
-            GOVUK.Insights.createFilter(currentData.artefacts, onFilterChange, onFilterSelect, currentData);
+            GOVUK.Insights.createFilter(currentData.artefacts, onFilterChange, onFilterSelect);
             
             GOVUK.Insights.updateEngagementCriteria();
             GOVUK.Insights.updateTagline(currentVisualisation);
@@ -430,24 +430,47 @@ GOVUK.Insights.updateHeadline = function (el, term, selectOptions, formatData) {
             viewCount += d.entries;
         }
     });
+    var currentVisualisation = $('#format-success-wrapper').prop('className');
     
     var headline = [
         '<em>' + selectOptions.length + '</em> ',
-        title,
-        term ? ' containing <em>&ldquo;' + term + '&rdquo;</em>' : '',
-        ', viewed&nbsp;<em>',
-        GOVUK.Insights.formatNumericLabel(viewCount),
-        '&nbsp;times*</em>'
-    ].join('');
+        title
+    ];
     
-    el.html(headline);
+    if (term) {
+        headline.push(
+            ' ',
+            selectOptions.length == 1 ? 'contains' : 'contain',
+            ' <em>&ldquo;',
+            term,
+            '&rdquo;</em>'
+        );
+    }
+    
+    if (currentVisualisation == 'graph') {
+        var count;
+        if (term) {
+            count = $('#format-success circle.enabled').length;
+        } else {
+            count = $('#format-success circle').length;
+        }
+        headline.push(
+            ' (',
+            count,
+            ' in chart view)'
+        );
+    }
+    
+    el.html(headline.join(''));
 };
 
 GOVUK.Insights.updateTagline = function (currentVisualisation) {
     
-    var tagline = '* Items with less than 1000 views not counted';
+    var tagline;
     if (currentVisualisation == 'graph') {
-        tagline += ' or shown in view';
+        tagline = 'Items with under 1000 views are not shown';
+    } else if (currentVisualisation == 'table') {
+        tagline = 'Data not available for items with less than 1000 views';
     }
     $('#format-success-module .tagline').html(tagline);
 };
@@ -482,14 +505,12 @@ GOVUK.Insights.createFilter = function (artefacts, onChange, onSelect) {
             // show / hide filter 'x' button
             closeFilterEl[(term ? 'remove':'add')+'Class']('hidden');
             
-            GOVUK.Insights.updateHeadline(headlineEl, term, selectOptions);
-            
             onChange(term, selectOptions);
+            
+            GOVUK.Insights.updateHeadline(headlineEl, term, selectOptions);
         });
         filterEl.before(closeFilterEl);
     }
-    
-    filterEl.trigger('change');
 };
 
 GOVUK.Insights.updateEngagementCriteria = function (formatData) {
