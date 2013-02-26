@@ -53,6 +53,7 @@ describe("format success graph", function () {
                 title: 'Guide'
             }
         };
+        spyOn(GOVUK.Insights, "updateTagline");
         spyOn(GOVUK.Insights, "updateEngagementCriteria");
         GOVUK.Insights.formatSuccess();
 
@@ -166,6 +167,47 @@ describe("format success graph", function () {
                 '<em>2</em> items of bar contain <em>&ldquo;term&rdquo;</em>'
             );
         });
+    });
+    
+    describe("updateTagline", function() {
+        var updateTagline = GOVUK.Insights.updateTagline;
+        var el;
+        beforeEach(function() {
+            el = {
+                html: jasmine.createSpy()
+            };
+        });
+        
+        it("shows a default message when graph is active", function() {
+            updateTagline(el, 'graph');
+            expect(el.html).toHaveBeenCalledWith(
+                'Items with under 1000 views are not shown'
+            );
+        });
+        
+        it("shows a default message when table is active", function() {
+            updateTagline(el, 'table');
+            expect(el.html).toHaveBeenCalledWith(
+                'Data not available for items with less than 1000 views'
+            );
+        });
+        
+        it("shows a custom message if available when graph is active", function() {
+            updateTagline(el, 'graph', {
+                taglineGraph: 'custom graph tagline',
+                taglineTable: 'custom table tagline'
+            });
+            expect(el.html).toHaveBeenCalledWith('custom graph tagline');
+        });
+        
+        it("shows a custom message if available when table is active", function() {
+            updateTagline(el, 'table', {
+                taglineGraph: 'custom graph tagline',
+                taglineTable: 'custom table tagline'
+            });
+            expect(el.html).toHaveBeenCalledWith('custom table tagline');
+        });
+        
     });
     
     describe("updateEngagementCriteria", function() {

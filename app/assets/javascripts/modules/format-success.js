@@ -76,7 +76,11 @@ GOVUK.Insights.formatSuccess = function() {
             GOVUK.Insights.createFilter(currentData.artefacts, onFilterChange, onFilterSelect);
             
             GOVUK.Insights.updateEngagementCriteria();
-            GOVUK.Insights.updateTagline(currentVisualisation);
+            GOVUK.Insights.updateTagline(
+                $('#format-success-module .tagline'),
+                currentVisualisation,
+                GOVUK.Insights.formatData
+            );
             
             $('#format-success-wrapper').prop('className', currentVisualisation);
             
@@ -469,15 +473,23 @@ GOVUK.Insights.updateHeadline = function (el, term, selectOptions, formatData) {
     el.html(headline.join(''));
 };
 
-GOVUK.Insights.updateTagline = function (currentVisualisation) {
+GOVUK.Insights.updateTagline = function (el, currentVisualisation, formatData) {
     
     var tagline;
     if (currentVisualisation == 'graph') {
-        tagline = 'Items with under 1000 views are not shown';
+        if (formatData && formatData.taglineGraph) {
+            tagline = formatData.taglineGraph;
+        } else {
+            tagline = 'Items with under 1000 views are not shown';
+        }
     } else if (currentVisualisation == 'table') {
-        tagline = 'Data not available for items with less than 1000 views';
+        if (formatData && formatData.taglineTable) {
+            tagline = formatData.taglineTable;
+        } else {
+            tagline = 'Data not available for items with less than 1000 views';
+        }
     }
-    $('#format-success-module .tagline').html(tagline);
+    el.html(tagline);
 };
 
 GOVUK.Insights.createFilter = function (artefacts, onChange, onSelect) {
