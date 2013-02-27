@@ -8,7 +8,7 @@
 <% end %>
 
 <% content_for :footer do %>
-    <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("reach", "modules/govuk/hourly-traffic")} %>
+    <%= javascript_include_tag("reach", "modules/govuk/hourly-traffic") %>
 <% end %>
 
 <article id="hourly-traffic-module" class="dashboard one-up">

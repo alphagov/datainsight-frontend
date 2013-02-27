@@ -1,6 +1,6 @@
 <% content_for :footer do %>
-    <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("time-series")} %>
-    <%= render partial: "shared/for_svg_supported_browsers", :locals => {:content => javascript_include_tag("modules/govuk/visits")} %>
+    <%= javascript_include_tag("time-series") %>
+    <%= javascript_include_tag("modules/govuk/visits") %>
 <% end %>
 
 <article id="visits-module" class="dashboard two-up start">
