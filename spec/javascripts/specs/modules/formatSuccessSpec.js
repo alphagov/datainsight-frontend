@@ -181,7 +181,7 @@ describe("format success graph", function () {
         it("shows a default message when graph is active", function() {
             updateTagline(el, 'graph');
             expect(el.html).toHaveBeenCalledWith(
-                'Items with under 1000 views are not shown'
+                'Items with less than 1000 views are not shown'
             );
         });
         

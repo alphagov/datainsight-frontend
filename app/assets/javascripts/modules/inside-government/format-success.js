@@ -7,7 +7,7 @@ GOVUK.Insights.formatSuccessInsidegov = function () {
             title: 'News',
             headline: 'recent news item',
             criteria: 'User spends at least 30 seconds on the page, or clicks on a link within the body of the page.',
-            taglineGraph: 'News items updated in last 2 months; items with under 1000 views not shown',
+            taglineGraph: 'News items updated in last 2 months; items with less than 1000 views not shown',
             taglineTable: 'News items updated in last 2 months; data not available for items with less than 1000 views'
         },
         detailed_guidance: {

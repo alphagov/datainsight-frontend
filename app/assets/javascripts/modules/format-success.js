@@ -486,7 +486,7 @@ GOVUK.Insights.updateTagline = function (el, currentVisualisation, formatData) {
         if (formatData && formatData.taglineGraph) {
             tagline = formatData.taglineGraph;
         } else {
-            tagline = 'Items with under 1000 views are not shown';
+            tagline = 'Items with less than 1000 views are not shown';
         }
     } else if (currentVisualisation == 'table') {
         if (formatData && formatData.taglineTable) {
