@@ -156,9 +156,19 @@ GOVUK.Insights.scatterplotGraph = function () {
                 })
                 .attr("dy", ".35em");
 
-            var doHover, endHover;
+            var doHover, endHover, lastCallback;
             if (config.showCircleLabels) {
                 doHover = function (d, element, optionalCallback) {
+                    
+                    if (lastCallback) {
+                        // ensure that existing callout is closed
+                        lastCallback();
+                        lastCallback = null;
+                    }
+                    
+                    if (optionalCallback) {
+                        lastCallback = optionalCallback;
+                    }
                     
                     // get circle centre
                     var bbox = element.getBBox();
