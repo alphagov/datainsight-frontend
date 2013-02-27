@@ -11,7 +11,7 @@ GOVUK.Insights.formatSuccessGovuk = function () {
         answer: {
             title: 'Answer',
             headline: 'answer',
-            criteria: 'User spends at least 5 seconds on the page, or clicks a link within the body of the page.'
+            criteria: 'User spends at least 7 seconds on the page, or clicks a link within the body of the page.'
         },
         smart_answer: {
             title: 'Smart answer',
