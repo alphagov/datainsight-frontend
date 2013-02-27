@@ -9,21 +9,21 @@
 	 xml:space="preserve">
 <defs>
 </defs>
-<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-13892.6406" y1="4361.6367" x2="-13820.6406" y2="4361.6367" gradientTransform="matrix(1 0 0 1 13904.6406 -4354.1367)">
-	<stop  offset="0" style="stop-color:#BD1622"/>
-	<stop  offset="0.0132" style="stop-color:#BC1E29"/>
-	<stop  offset="0.0958" style="stop-color:#BA4B53"/>
-	<stop  offset="0.1788" style="stop-color:#B77176"/>
-	<stop  offset="0.2612" style="stop-color:#B58E91"/>
-	<stop  offset="0.3426" style="stop-color:#B4A2A4"/>
-	<stop  offset="0.4227" style="stop-color:#B3AFAF"/>
-	<stop  offset="0.5" style="stop-color:#B3B3B3"/>
-	<stop  offset="0.5939" style="stop-color:#B0B3AF"/>
-	<stop  offset="0.6911" style="stop-color:#A9B4A2"/>
-	<stop  offset="0.79" style="stop-color:#9DB48E"/>
-	<stop  offset="0.8899" style="stop-color:#8BB671"/>
-	<stop  offset="0.9898" style="stop-color:#75B74C"/>
-	<stop  offset="0.9937" style="stop-color:#74B74A"/>
+<linearGradient id="SVGID_1_">
+	<stop offset="0"      stop-color="#BD1622"/>
+	<stop offset="0.0132" stop-color="#BC1E29"/>
+	<stop offset="0.0958" stop-color="#BA4B53"/>
+	<stop offset="0.1788" stop-color="#B77176"/>
+	<stop offset="0.2612" stop-color="#B58E91"/>
+	<stop offset="0.3426" stop-color="#B4A2A4"/>
+	<stop offset="0.4227" stop-color="#B3AFAF"/>
+	<stop offset="0.5"    stop-color="#B3B3B3"/>
+	<stop offset="0.5939" stop-color="#B0B3AF"/>
+	<stop offset="0.6911" stop-color="#A9B4A2"/>
+	<stop offset="0.79"   stop-color="#9DB48E"/>
+	<stop offset="0.8899" stop-color="#8BB671"/>
+	<stop offset="0.9898" stop-color="#75B74C"/>
+	<stop offset="0.9937" stop-color="#74B74A"/>
 </linearGradient>
 <rect x="12" fill="url(#SVGID_1_)" width="72" height="15"/>
 <rect y="7" fill="#333333" width="7" height="1"/>
