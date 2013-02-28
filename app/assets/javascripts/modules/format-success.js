@@ -12,7 +12,7 @@ GOVUK.Insights.formatSuccess = function() {
     
     if ($('.ie6, .ie7').length) {
         // content explorer is not compatible with IE6 or IE7 at the moment
-        $('#format-success-module').remove();
+        $('#content-explorer').remove();
         return;
     }
     
