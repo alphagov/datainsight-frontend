@@ -391,7 +391,7 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
         })
         .yAxisLabels({
             description: "Views",
-            bottom: "Less views",
+            bottom: "Fewer views",
             top: "More views",
             calloutValue: function (d, config) {
                 return GOVUK.Insights.formatNumericLabel(config.y(d))
@@ -486,13 +486,13 @@ GOVUK.Insights.updateTagline = function (el, currentVisualisation, formatData) {
         if (formatData && formatData.taglineGraph) {
             tagline = formatData.taglineGraph;
         } else {
-            tagline = 'Items with less than 1000 views are not shown';
+            tagline = 'Items with fewer than 1000 views are not shown';
         }
     } else if (currentVisualisation == 'table') {
         if (formatData && formatData.taglineTable) {
             tagline = formatData.taglineTable;
         } else {
-            tagline = 'Data not available for items with less than 1000 views';
+            tagline = 'Data not available for items with fewer than 1000 views';
         }
     }
     el.html(tagline);
