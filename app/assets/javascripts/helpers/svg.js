@@ -46,45 +46,35 @@ GOVUK.Insights.svg.createShadowFilter = function(filterId, svgElement) {
 
 GOVUK.Insights.svg.translate = function(x, y) {
     return "translate(" + x + "," + y + ")";
-}
-
-GOVUK.Insights.svg.supportsResizing = function () {
-    // is there a nicer way of doing this?
-    var isSafari = (navigator.userAgent.toLowerCase().indexOf("safari") !== -1) && (navigator.userAgent.toLowerCase().indexOf("chrome") === -1),
-        isMobile = (navigator.userAgent.toLowerCase().indexOf("mobile") !== -1),
-        isDesktopSafari = isSafari && !isMobile;
-
-    if ($('#wrapper').hasClass("ie9") || isDesktopSafari) {
-        return false;
-    } else {
-        return true;
-    }
 };
 
-GOVUK.Insights.svg.resizeIfPossible = function (svg, width, height) {
-    if (GOVUK.Insights.svg.supportsResizing()) {
-            svg
-                .attr("width","100%")
-                .attr("height","100%")
-                .style("max-width",width + 'px')
-                .style("max-height",height + 'px');
-            d3.select(svg.node().parent)
-                .style("max-width",width + 'px')
-                .style("max-height",height + 'px');
-    } 
+/**
+ * Normalises to from d3 selection, native node or jQuery reference to jQuery reference
+ * @param {Object} el jQuery reference, d3 selection or native node
+ * @returns jQuery reference
+ */
+GOVUK.Insights.svg.getJQueryReference = function (el) {
+    return (typeof el.node === 'function') ? $(el.node()) : $(el);
 };
 
-GOVUK.Insights.svg.scaleFactor = function (svg, fullWidth) {
-    return GOVUK.Insights.svg.supportsResizing() ? ($(svg.node()).parent().width() / fullWidth) : 1;
+/**
+ * Calculates ratio of current display width to width defined in SVG viewbox
+ * @param {Object} svg jQuery, d3 selection or native node of SVG to be measured
+ * @returns {Number} scale factor
+ */
+GOVUK.Insights.svg.scaleFactor = function (svg) {
+    svg = GOVUK.Insights.svg.getJQueryReference(svg);
+    return svg.parent().width() / svg.prop('viewBox').baseVal.width;
 };
 
 /**
  * Resizes SVG element to parent container width, taking aspect ratio into
  * account. This works around bugs in some Webkit builds and IE10.
- * @param {jQuery} el jQuery reference of SVG element to be resized
+ * @param {Object} svg jQuery, d3 selection or native node of SVG element to be resized
  */
-GOVUK.Insights.svg.adjustToParentWidth = function (el) {
-    var baseVal = el.prop('viewBox').baseVal;
+GOVUK.Insights.svg.adjustToParentWidth = function (svg) {
+    svg = GOVUK.Insights.svg.getJQueryReference(svg);
+    var baseVal = svg.prop('viewBox').baseVal;
     var aspectRatio = baseVal.width / baseVal.height;
-    el.height(Math.ceil(el.parent().width() / aspectRatio));
+    svg.height(Math.ceil(svg.parent().width() / aspectRatio));
 };
