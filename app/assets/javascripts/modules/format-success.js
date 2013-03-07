@@ -416,9 +416,9 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
         .call(formatSuccess);
         
     var svg = $('#format-success svg');
-    GOVUK.Insights.svgWebkitHeightBugWorkaround(svg);
+    GOVUK.Insights.svg.adjustToParentWidth(svg);
     $(window).on('resize', function (e) {
-        GOVUK.Insights.svgWebkitHeightBugWorkaround(svg);
+        GOVUK.Insights.svg.adjustToParentWidth(svg);
     });
         
     return formatSuccess;
@@ -540,17 +540,4 @@ GOVUK.Insights.updateEngagementCriteria = function (formatData) {
     formatData = formatData || GOVUK.Insights.formatData;
     $('#engagement-criteria h4').html(formatData.title + ' engagement criteria');
     $('#engagement-criteria p').html(formatData.criteria);
-};
-
-/**
- * Works around SVG rendering issue in some Webkit builds where height is
- * not calculated correctly.
- * @param {jQuery} el jQuery reference of SVG element to be resized
- */
-GOVUK.Insights.svgWebkitHeightBugWorkaround = function (el) {
-    var baseVal = el.prop('viewBox').baseVal;
-    var aspectRatio = baseVal.width / baseVal.height;
-    // read width from parent element to work around jQuery / Firefox bug
-    // where 100% width is reported as "100" rather than actual pixels
-    el.height(el.parent().width() / aspectRatio);
 };

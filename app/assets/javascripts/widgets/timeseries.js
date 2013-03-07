@@ -54,11 +54,18 @@ GOVUK.Insights.timeSeriesGraph = function () {
             svg.enter().append("svg")
                 .attr("class", "time-series js-graph-area")
                 .attr("viewBox", function(d) { return "0 0 " + d.width + " " + d.height})
-                .attr("height", function(d) { return d.height; })
-                .attr("width", function(d) { return d.width; });
+                .attr("height", '100%')
+                .attr("width", '100%');
 
-            GOVUK.Insights.svg.resizeIfPossible(svg, config.width, config.height);
-
+            // ensure that graph is displayed in correct size in all browsers
+            var adjustSize = function () {
+                GOVUK.Insights.svg.adjustToParentWidth($(svg.node()));
+            };
+            // wait for reflow, ensures size is reported correctly
+            setTimeout(adjustSize, 0);
+            $(window).on('resize', adjustSize);
+        
+            
             GOVUK.Insights.svg.createShadowFilter("shadow", svg.node());
 
             var graphArea = svg.selectAll("g.graph-area")
