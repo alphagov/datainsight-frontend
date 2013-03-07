@@ -59,6 +59,7 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     var adjustSize = function () {
         GOVUK.Insights.svg.adjustToParentWidth($(svg.node()));
     };
+    // wait for reflow, ensures size is reported correctly
     setTimeout(adjustSize, 0);
     $(window).on('resize', adjustSize);
     

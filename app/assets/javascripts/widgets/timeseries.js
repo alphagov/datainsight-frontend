@@ -61,6 +61,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
             var adjustSize = function () {
                 GOVUK.Insights.svg.adjustToParentWidth($(svg.node()));
             };
+            // wait for reflow, ensures size is reported correctly
             setTimeout(adjustSize, 0);
             $(window).on('resize', adjustSize);
         
