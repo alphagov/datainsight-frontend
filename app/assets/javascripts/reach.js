@@ -52,10 +52,16 @@ GOVUK.Insights.Reach.plotTraffic = function (id, raw_data) {
     var svg = d3.select("#" + id)
         .append("svg")
         .attr("viewBox","0 0 " + width + " " + height)
-        .attr("width",width)
-        .attr("height",height);
+        .attr("width", '100%')
+        .attr("height", '100%');
 
-    GOVUK.Insights.svg.resizeIfPossible(svg, width, height);
+    // ensure that graph is displayed in correct size in all browsers
+    var adjustSize = function () {
+        GOVUK.Insights.svg.adjustToParentWidth($(svg.node()));
+    };
+    setTimeout(adjustSize, 0);
+    $(window).on('resize', adjustSize);
+    
 
     var chart = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");

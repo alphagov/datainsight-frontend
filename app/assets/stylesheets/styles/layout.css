@@ -89,6 +89,11 @@ article.dashboard {
     background-color: #74B74A;
 }
 
+#visits,
+#unique-visitors {
+    max-width: 444px;
+}
+
 @media (max-width: 700px) {
     section.content-group > h1 {
         border-bottom: 3px solid #108095;

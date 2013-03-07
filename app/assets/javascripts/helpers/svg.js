@@ -77,3 +77,14 @@ GOVUK.Insights.svg.resizeIfPossible = function (svg, width, height) {
 GOVUK.Insights.svg.scaleFactor = function (svg, fullWidth) {
     return GOVUK.Insights.svg.supportsResizing() ? ($(svg.node()).parent().width() / fullWidth) : 1;
 };
+
+/**
+ * Resizes SVG element to parent container width, taking aspect ratio into
+ * account. This works around bugs in some Webkit builds and IE10.
+ * @param {jQuery} el jQuery reference of SVG element to be resized
+ */
+GOVUK.Insights.svg.adjustToParentWidth = function (el) {
+    var baseVal = el.prop('viewBox').baseVal;
+    var aspectRatio = baseVal.width / baseVal.height;
+    el.height(Math.ceil(el.parent().width() / aspectRatio));
+};

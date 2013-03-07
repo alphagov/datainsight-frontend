@@ -139,8 +139,6 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             graph = svg.append("svg:g")
                 .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
-            GOVUK.Insights.svg.resizeIfPossible(svg, width, height);
-
             /* Set up X Axis */
             var xAxis = d3.svg.axis()
                 .scale(xScale)
@@ -308,6 +306,14 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                         resetPath();
                     }
                 });
+            
+            
+            // ensure that graph is displayed in correct size in all browsers
+            var adjustSize = function () {
+                GOVUK.Insights.svg.adjustToParentWidth($(svg.node()));
+            };
+            setTimeout(adjustSize, 0);
+            $(window).on('resize', adjustSize);
         }
     };
 };
