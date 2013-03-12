@@ -312,7 +312,8 @@ GOVUK.Insights.timeSeriesGraph = function () {
                     if (!hoveredAnnotation.empty()) {
                         calloutInfo = annotationCalloutInfo(hoveredAnnotation);
                         currentCallout = new GOVUK.Insights.overlay.CalloutBox(calloutInfo);
-                        hoveredAnnotation.classed("highlighted", true);
+                        // only highlight the first hovered annotation
+                        hoveredAnnotation[0][0].classed("highlighted", true);
                     } else {
                         var closestDataPoint = findClosestDataPoint.call(this);
                         calloutInfo = seriesCalloutInfo(closestDataPoint);
