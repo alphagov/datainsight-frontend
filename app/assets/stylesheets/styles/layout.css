@@ -89,6 +89,16 @@ article.dashboard {
     background-color: #74B74A;
 }
 
+/* fix/hack external-link icons on content explorer */
+.datainsight .data-point-label a:after {
+    background-position: right 0px; !
+}
+
+.datainsight .data-point-label a:hover:after {
+    background-position: right -388px; !
+}
+/* end fix/hack for external link icons */
+
 #visits,
 #unique-visitors {
     max-width: 444px;
