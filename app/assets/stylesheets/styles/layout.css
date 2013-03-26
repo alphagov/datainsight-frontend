@@ -91,11 +91,11 @@ article.dashboard {
 
 /* fix/hack external-link icons on content explorer */
 .datainsight .data-point-label a:after {
-    background-position: right 0px; !
+    background-position: right 0 !important;
 }
 
 .datainsight .data-point-label a:hover:after {
-    background-position: right -388px; !
+    background-position: right -388px !important;
 }
 /* end fix/hack for external link icons */
 
