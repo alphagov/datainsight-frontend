@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require 'json'
+require 'csv'
+require 'date'
+
+
+csv_file = File.expand_path "../Inside Government - initial annotations - Sheet1.csv", __FILE__
+json_file = File.expand_path "../../config/annotations/inside_government_annotations.production.json", __FILE__
+
+puts "Reading CSV file #{csv_file} ..."
+
+annotations = CSV.read(csv_file, :headers => true).map do |row|
+  {
+    "date" => Date.parse(row[0]),
+    "text" => row[1],
+    "link" => row[2]
+  }
+end
+
+data = { "details" => annotations, "updated_at" => DateTime.now }
+
+puts "Writing JSON file #{json_file} ..."
+
+File.write(json_file, JSON.pretty_generate(data))
+
+puts
+puts "Done! Please review the changes before checking in the new annotations!"
+puts
