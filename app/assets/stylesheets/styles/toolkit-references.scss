@@ -1,0 +1,12 @@
+@import '_conditionals';
+@import '_typography';
+
+a[rel="external"] {
+  @include external-link-default;
+  @include external-link-19;
+}
+
+.callout-box .link a[rel="external"]{
+    @include external-link-14;
+}
+
