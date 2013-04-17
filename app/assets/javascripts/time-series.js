@@ -68,6 +68,52 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
         return a
     }
 
+    function sixMonthDateRange(now) {
+        var lastDate = now.startOf("day").day(0);
+        var firstDate = lastDate.clone().subtract("months", 6);
+        return [firstDate.toDate(), lastDate.toDate()];
+    }
+
+    function createDatum(datum, site) {
+        return {
+            "endDate": datum.end_at,
+            "value": datum.value[site],
+            "site": site,
+            "startDate": datum.start_at
+        };
+    }
+
+    function isWithinExtent(datum, extent) {
+        var startDate = moment(datum.start_at),
+            endDate = moment(datum.end_at);
+
+        return startDate >= extent[0] && endDate <= extent[1];
+    }
+
+    function extractData(inputData) {
+        var data = {
+                "govuk":[],
+                "directgov":[],
+                "businesslink":[]
+            },
+            govukExtent = sixMonthDateRange(moment()),
+            nonGovukExtent = extentForPreviousYear(govukExtent),
+            extents = {
+                "govuk":govukExtent,
+                "directgov":nonGovukExtent,
+                "businesslink":nonGovukExtent
+            };
+
+        inputData.forEach(function(datum) {
+            for (var site in datum.value) {
+                if (isWithinExtent(datum, extents[site])) {
+                    data[site].push(createDatum(datum, site));
+                }
+            }
+        });
+        return data;
+    }
+
     function extractKeys(hash) {
         var keys = [];
         for (var key in hash) if (hash.hasOwnProperty(key)) {
@@ -85,27 +131,27 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
         dateFormat = d3.time.format("%Y-%m-%d");
 
+    function lineGenerator(xScale, yScale) {
+        return d3.svg.line()
+            .x(function (d) {
+                return xScale(dateFormat.parse(d.endDate));
+            })
+            .y(function (d) {
+                return yScale(d.value);
+            });
+    }
+
+    function extentForPreviousYear(xExtent) {
+        return xExtent.map(function (date) {
+            return moment(date).clone().subtract('years', 1).toDate();
+        });
+    }
+
     return {
-        dateRange:function (now) {
-            var lastDate = now.startOf("day").day(0);
-            var firstDate = lastDate.clone().subtract("months", 6);
-            return [firstDate.toDate(), lastDate.toDate()];
-        },
+        dateRange: sixMonthDateRange,
         render:function (rawData) {
-            var data = {
-                "govuk":[],
-                "directgov":[],
-                "businesslink":[]
-            };
-            for (var i = 0; i < rawData.length; i++) {
-                for (var k in rawData[i].value) {
-                    data[k].push({
-                        "endDate":rawData[i].end_at, 
-                        "value":rawData[i].value[k], 
-                        "startDate": rawData[i].start_at
-                    });
-                }
-            }
+            var data = extractData(rawData);
+
             if (data == null) {
                 throw "No data!";
             }
@@ -114,21 +160,20 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 throw "No data!";
             }
 
+
             var xExtent = this.dateRange(moment()),
+            nonGovukXExtent = extentForPreviousYear(xExtent),
+
             xScale = d3.time.scale().domain(xExtent).range([0, width - margins.right - margins.left]),
+            nonGovukXScale = d3.time.scale().domain(nonGovukXExtent).range([0, width - margins.right - margins.left]),
 
 
             yMax = d3.max(alldata, function(d) { return d.value}),
             yTicks = GOVUK.Insights.calculateLinearTicks([0, yMax], 4),
             yScale = d3.scale.linear().domain(yTicks.extent).range([height - margins.top - margins.bottom, 0]),
 
-            line = d3.svg.line()
-                .x(function (d) {
-                    return xScale(dateFormat.parse(d.endDate));
-                })
-                .y(function (d) {
-                    return yScale(d.value);
-                }),
+            line = lineGenerator(xScale, yScale),
+            nonGovUkLine = lineGenerator(nonGovukXScale, yScale),
 
             svg = d3.select(container)
                 .append("svg:svg")
@@ -169,17 +214,19 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
 
             /* Add The Graph Lines */
-            $(series).each(function (i, name) {
-                var path = plottingArea.append("svg:path")
+            function appendLine(name, line) {
+                plottingArea.append("svg:path")
                     .attr("d", line(data[name]))
                     .classed(params.series[name].lineClass, true)
                     .classed(name, true)
                     .classed("no-scale", true);
-            });
-
+            }
+            appendLine('govuk', line);
+            appendLine('directgov', nonGovUkLine);
+            appendLine('businesslink', nonGovUkLine);
 
             /* Label Placement */
-            seriesLastValue =
+            var seriesLastValue =
                 $(series)
                     .filter(function (i, name) {
                         return data[name].length != 0;
@@ -202,7 +249,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 return 0;
             }
 
-            function createTextLabel(item) {
+            function createTextLabel(item, xScale) {
                 var x = xScale(dateFormat.parse(item.legend.anchor)) + (item.legend.xOffset || 0);
                 var y = ypos(item.name, item.legend.anchor) + (item.legend.yOffset || 0);
                 plottingArea.append("svg:text")
@@ -214,7 +261,8 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             }
 
             for (var i = 0; i < seriesLastValue.length; ++i) {
-                createTextLabel(seriesLastValue[i]);
+                var scale = seriesLastValue[i].name === 'govuk' ? xScale : nonGovukXScale;
+                createTextLabel(seriesLastValue[i], scale);
             }
             plottingArea.selectAll('text').each(function () { GOVUK.Insights.svg.createTextShade(this) });
 
@@ -241,7 +289,8 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     var mousePoint = GOVUK.Insights.point(d3.mouse(this));
 
                     var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, function(d) {
-                        return GOVUK.Insights.point(xScale(dateFormat.parse(d.endDate)), yScale(d.value));
+                        var scale = d.site === 'govuk' ? xScale : nonGovukXScale;
+                        return GOVUK.Insights.point(scale(dateFormat.parse(d.endDate)), yScale(d.value));
                     }, currentSelectedSeries);
                     
                     currentSelectedSeries = closest.seriesName;
@@ -279,7 +328,9 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                             width: boxWidth,
                             height: boxHeight,
                             parent: container,
-                            title: GOVUK.Insights.shortDateFormat(dateFormat.parse(closest.datum.startDate)) + " - " + GOVUK.Insights.shortDateFormat(dateFormat.parse(closest.datum.endDate)),
+                            title: GOVUK.Insights.shortDateFormat(dateFormat.parse(closest.datum.startDate)) + " - " +
+                                   GOVUK.Insights.shortDateFormat(dateFormat.parse(closest.datum.endDate)) + " " +
+                                   dateFormat.parse(closest.datum.endDate).getFullYear(),
                             rowData: [
                                 {
                                     right: GOVUK.Insights.formatNumericLabel(closest.datum.value),
