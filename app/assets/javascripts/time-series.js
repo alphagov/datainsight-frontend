@@ -104,18 +104,11 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 "govuk":[],
                 "directgov":[],
                 "businesslink":[]
-            },
-            govukExtent = sixMonthDateRange(moment()),
-            nonGovukExtent = extentForPreviousYear(govukExtent),
-            extents = {
-                "govuk":govukExtent,
-                "directgov":nonGovukExtent,
-                "businesslink":nonGovukExtent
             };
 
         inputData.forEach(function(datum) {
             for (var site in datum.value) {
-                if (isWithinExtent(datum, extents[site])) {
+                if (isWithinExtent(datum, xExtent(site))) {
                     data[site].push(createDatum(datum, site));
                 }
             }
@@ -147,6 +140,26 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
         });
     }
 
+    function xExtent(site) {
+        if (xExtent.cache === undefined) {
+            var currentExtent = sixMonthDateRange(moment()),
+                previousExtent = extentForPreviousYear(currentExtent);
+            xExtent.cache = {
+                "govuk":        currentExtent,
+                "businesslink": previousExtent,
+                "directgov":    previousExtent
+            };
+        }
+        return xExtent.cache[site];
+    }
+
+    function xScale(site) {
+        return d3.time
+            .scale()
+            .domain(xExtent(site))
+            .range([0, width - margins.right - margins.left]);
+    }
+
     return {
         dateRange: sixMonthDateRange,
         render:function (rawData) {
@@ -161,19 +174,11 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             }
 
 
-            var xExtent = this.dateRange(moment()),
-            nonGovukXExtent = extentForPreviousYear(xExtent),
-
-            xScale = d3.time.scale().domain(xExtent).range([0, width - margins.right - margins.left]),
-            nonGovukXScale = d3.time.scale().domain(nonGovukXExtent).range([0, width - margins.right - margins.left]),
-
+            var defaultXScale = xScale("govuk"),
 
             yMax = d3.max(alldata, function(d) { return d.value}),
             yTicks = GOVUK.Insights.calculateLinearTicks([0, yMax], 4),
             yScale = d3.scale.linear().domain(yTicks.extent).range([height - margins.top - margins.bottom, 0]),
-
-            line = lineGenerator(xScale, yScale),
-            nonGovUkLine = lineGenerator(nonGovukXScale, yScale),
 
             svg = d3.select(container)
                 .append("svg:svg")
@@ -186,7 +191,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
             /* Set up X Axis */
             var xAxis = d3.svg.axis()
-                .scale(xScale)
+                .scale(defaultXScale)
                 .ticks(GOVUK.Insights.months_range, 2)
                 .tickPadding(4)
                 .tickFormat(GOVUK.Insights.shortDateFormat);
@@ -214,16 +219,14 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
 
             /* Add The Graph Lines */
-            function appendLine(name, line) {
+            series.forEach(function(site) {
+                var line = lineGenerator(xScale(site), yScale);
                 plottingArea.append("svg:path")
-                    .attr("d", line(data[name]))
-                    .classed(params.series[name].lineClass, true)
-                    .classed(name, true)
+                    .attr("d", line(data[site]))
+                    .classed(params.series[site].lineClass, true)
+                    .classed(site, true)
                     .classed("no-scale", true);
-            }
-            appendLine('govuk', line);
-            appendLine('directgov', nonGovUkLine);
-            appendLine('businesslink', nonGovUkLine);
+            });
 
             /* Label Placement */
             var seriesLastValue =
@@ -249,8 +252,8 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 return 0;
             }
 
-            function createTextLabel(item, xScale) {
-                var x = xScale(dateFormat.parse(item.legend.anchor)) + (item.legend.xOffset || 0);
+            function createTextLabel(item) {
+                var x = xScale(item.name)(dateFormat.parse(item.legend.anchor)) + (item.legend.xOffset || 0);
                 var y = ypos(item.name, item.legend.anchor) + (item.legend.yOffset || 0);
                 plottingArea.append("svg:text")
                     .attr("text-anchor", "middle")
@@ -261,8 +264,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             }
 
             for (var i = 0; i < seriesLastValue.length; ++i) {
-                var scale = seriesLastValue[i].name === 'govuk' ? xScale : nonGovukXScale;
-                createTextLabel(seriesLastValue[i], scale);
+                createTextLabel(seriesLastValue[i]);
             }
             plottingArea.selectAll('text').each(function () { GOVUK.Insights.svg.createTextShade(this) });
 
@@ -289,8 +291,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                     var mousePoint = GOVUK.Insights.point(d3.mouse(this));
 
                     var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, function(d) {
-                        var scale = d.site === 'govuk' ? xScale : nonGovukXScale;
-                        return GOVUK.Insights.point(scale(d.endDate), yScale(d.value));
+                        return GOVUK.Insights.point(xScale(d.site)(d.endDate), yScale(d.value));
                     }, currentSelectedSeries);
                     
                     currentSelectedSeries = closest.seriesName;
