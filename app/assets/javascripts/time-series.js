@@ -43,12 +43,12 @@ GOVUK.Insights.findClosestDataPoint = function(mousePoint, data, getDataPoint, p
             datum: closestPointInSeries,
         };
     });
-    
+
     var weightedDistanceOf = function(aThing) {
         if (!preferredSeries) return mousePoint.distanceFrom(aThing.dataPoint);
         return mousePoint.distanceFrom(aThing.dataPoint) * (aThing.seriesName === preferredSeries ? 1 : 3);
     };
-    
+
     return things.reduce(function(aThing, anotherThing) {
         return weightedDistanceOf(aThing) < weightedDistanceOf(anotherThing) ? aThing : anotherThing;
     });
@@ -59,6 +59,15 @@ GOVUK.Insights.findClosestDataPoint = function(mousePoint, data, getDataPoint, p
 
 
 GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
+    var series = extractKeys(params.series),
+        margins = {top:22, right:27, bottom:27, left:40},
+        width = params.width || 462,
+        height = params.height || (236 + 22),
+        plottingAreaWidth = 378,
+        plottingAreaHeight = 214,
+
+        dateFormat = d3.time.format("%Y-%m-%d");
+
     function concat(data, keys) {
         var a = [];
         // TODO: improve this
@@ -76,10 +85,10 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
     function createDatum(datum, site) {
         return {
-            "endDate": datum.end_at,
+            "endDate": dateFormat.parse(datum.end_at),
             "value": datum.value[site],
             "site": site,
-            "startDate": datum.start_at
+            "startDate": dateFormat.parse(datum.start_at)
         };
     }
 
@@ -122,19 +131,10 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
         return keys
     }
 
-    var series = extractKeys(params.series),
-        margins = {top:22, right:27, bottom:27, left:40},
-        width = params.width || 462,
-        height = params.height || (236 + 22),
-        plottingAreaWidth = 378,
-        plottingAreaHeight = 214,
-
-        dateFormat = d3.time.format("%Y-%m-%d");
-
     function lineGenerator(xScale, yScale) {
         return d3.svg.line()
             .x(function (d) {
-                return xScale(dateFormat.parse(d.endDate));
+                return xScale(d.endDate);
             })
             .y(function (d) {
                 return yScale(d.value);
@@ -239,10 +239,10 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                         };
                     });
 
-            function ypos(seriesName, date) {
+            function ypos(seriesName, dateString) {
                 var series = data[seriesName];
                 for (var i = 0; i < series.length; ++i) {
-                    if (series[i].endDate === date) {
+                    if (series[i].endDate.getTime() == dateFormat.parse(dateString).getTime()) {
                         return yScale(series[i].value);
                     }
                 }
@@ -290,7 +290,7 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
 
                     var closest = GOVUK.Insights.findClosestDataPoint(mousePoint, data, function(d) {
                         var scale = d.site === 'govuk' ? xScale : nonGovukXScale;
-                        return GOVUK.Insights.point(scale(dateFormat.parse(d.endDate)), yScale(d.value));
+                        return GOVUK.Insights.point(scale(d.endDate), yScale(d.value));
                     }, currentSelectedSeries);
                     
                     currentSelectedSeries = closest.seriesName;
@@ -328,9 +328,9 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                             width: boxWidth,
                             height: boxHeight,
                             parent: container,
-                            title: GOVUK.Insights.shortDateFormat(dateFormat.parse(closest.datum.startDate)) + " - " +
-                                   GOVUK.Insights.shortDateFormat(dateFormat.parse(closest.datum.endDate)) + " " +
-                                   dateFormat.parse(closest.datum.endDate).getFullYear(),
+                            title: GOVUK.Insights.shortDateFormat(closest.datum.startDate) + " - " +
+                                   GOVUK.Insights.shortDateFormat(closest.datum.endDate) + " " +
+                                   closest.datum.endDate.getFullYear(),
                             rowData: [
                                 {
                                     right: GOVUK.Insights.formatNumericLabel(closest.datum.value),
