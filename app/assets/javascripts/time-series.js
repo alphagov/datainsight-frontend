@@ -262,7 +262,6 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
                 var x = scale(dateFormat.parse(item.legend.anchor)) + (item.legend.xOffset || 0);
                 var y = ypos(item.name, item.legend.anchor) + (item.legend.yOffset || 0);
                 var text = plottingArea.append("svg:text")
-                    .attr("text-anchor", "middle")
                     .classed(item.name + "-label", true)
                     .classed("line-label", true)
                     .attr("x", x)
