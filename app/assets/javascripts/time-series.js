@@ -134,16 +134,18 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             });
     }
 
-    function extentForPreviousYear(xExtent) {
-        return xExtent.map(function (date) {
+    function extentForLastYear(xExtent) {
+        var extent = xExtent.map(function (date) {
             return moment(date).clone().subtract('years', 1).toDate();
         });
+        extent.lastYear = true;
+        return extent;
     }
 
     function xExtent(site) {
         if (xExtent.cache === undefined) {
             var currentExtent = sixMonthDateRange(moment()),
-                previousExtent = extentForPreviousYear(currentExtent);
+                previousExtent = extentForLastYear(currentExtent);
             xExtent.cache = {
                 "govuk":        currentExtent,
                 "businesslink": previousExtent,
@@ -154,10 +156,13 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
     }
 
     function xScale(site) {
-        return d3.time
+        var extent = xExtent(site);
+        var range = d3.time
             .scale()
-            .domain(xExtent(site))
+            .domain(extent)
             .range([0, width - margins.right - margins.left]);
+        range.lastYear = extent.lastYear;
+        return range;
     }
 
     return {
@@ -253,14 +258,21 @@ GOVUK.Insights.sixMonthTimeSeries = function (container, params) {
             }
 
             function createTextLabel(item) {
-                var x = xScale(item.name)(dateFormat.parse(item.legend.anchor)) + (item.legend.xOffset || 0);
+                var scale = xScale(item.name);
+                var x = scale(dateFormat.parse(item.legend.anchor)) + (item.legend.xOffset || 0);
                 var y = ypos(item.name, item.legend.anchor) + (item.legend.yOffset || 0);
-                plottingArea.append("svg:text")
+                var text = plottingArea.append("svg:text")
                     .attr("text-anchor", "middle")
-                    .attr("class", item.name + "-label " + item.legend.class)
+                    .classed(item.name + "-label", true)
+                    .classed("line-label", true)
                     .attr("x", x)
                     .attr("y", y)
                     .text(item.legend.text);
+
+                if (scale.lastYear) {
+                    text.append("svg:tspan")
+                        .text(' (last year)');
+                }
             }
 
             for (var i = 0; i < seriesLastValue.length; ++i) {
