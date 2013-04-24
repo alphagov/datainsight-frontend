@@ -120,12 +120,119 @@ describe("Table", function() {
             expect(tds99.eq(1).hasClass('barclass')).toBe(true);
         });
         
-        it("renders full table body for small number of rows when lazy render is active", function() {
-            
-        });
-        
-        it("renders partial table body for large number of rows when lazy render is active and initialises lazy rendering", function() {
-            
+        describe("lazy rendering", function () {
+
+          var el, tbody;
+          beforeEach(function() {
+            table.options.lazyRender = true;
+            el = $('<table></table>').appendTo($('body'));
+            tbody = $('<tbody></tbody>').appendTo(el);
+          });
+
+          afterEach(function() {
+            el.remove();
+          });
+
+          it("renders full table body for small number of rows when lazy render is active", function() {
+            table.data = createData(30);
+            table.renderBody(tbody);
+            expect(tbody.find('tr').length).toEqual(30);
+          });
+
+          it("renders partial table body for large number of rows when lazy render is active and renders a placeholder row", function() {
+            table.data = createData(100);
+            table.renderBody(tbody);
+            expect(tbody.find('tr').length).toEqual(31);
+            var loadMoreLink = tbody.find('tr:last-child td a');
+            expect(loadMoreLink.text()).toEqual('Show more rows…');
+          });
+
+          it("renders additional rows when user clicks on link in placeholder row", function() {
+            table.data = createData(100);
+            table.renderBody(tbody);
+            expect(tbody.find('tr').length).toEqual(31);
+            expect(tbody.find('tr:eq(0) td:eq(0)').text()).toEqual('foo0');
+            expect(tbody.find('tr:eq(29) td:eq(0)').text()).toEqual('foo29');
+
+            var loadMoreLink = tbody.find('tr:last-child td a');
+            loadMoreLink.click();
+
+            expect(tbody.find('tr').length).toEqual(61);
+            expect(tbody.find('tr:eq(30) td:eq(0)').text()).toEqual('foo30');
+            expect(tbody.find('tr:eq(59) td:eq(0)').text()).toEqual('foo59');
+
+            var loadMoreLink = tbody.find('tr:last-child td a');
+            loadMoreLink.click();
+
+            expect(tbody.find('tr').length).toEqual(91);
+            expect(tbody.find('tr:eq(60) td:eq(0)').text()).toEqual('foo60');
+            expect(tbody.find('tr:eq(89) td:eq(0)').text()).toEqual('foo89');
+
+            var loadMoreLink = tbody.find('tr:last-child td a');
+            loadMoreLink.click();
+
+            expect(tbody.find('tr').length).toEqual(100);
+            expect(tbody.find('tr:eq(90) td:eq(0)').text()).toEqual('foo90');
+            expect(tbody.find('tr:eq(99) td:eq(0)').text()).toEqual('foo99');
+
+            expect(tbody.find('tr:last-child td a').length).toEqual(0);
+          });
+
+          it("renders additional rows when user scrolls to placeholder row", function() {
+            table.data = createData(100);
+            var scrollHeight = 500;
+            var scrollTop = 0;
+            var scrollHeightSpy = jasmine.createSpy();
+            scrollHeightSpy.plan = function (prop) {
+              if (prop === 'scrollHeight') {
+                return scrollHeight;
+              }
+            };
+            var scrollTopSpy = jasmine.createSpy();
+            scrollTopSpy.plan = function () {
+              return scrollTop;
+            };
+
+            var scrollWrapper = {
+              outerHeight: jasmine.createSpy().andReturn(200),
+              prop: scrollHeightSpy,
+              scrollTop: scrollTopSpy,
+              on: jasmine.createSpy()
+            };
+
+            table.renderBody(tbody, scrollWrapper);
+            expect(scrollWrapper.on.argsForCall[0][0]).toEqual('scroll');
+            var scrollListener = scrollWrapper.on.argsForCall[0][1];
+
+            expect(tbody.find('tr').length).toEqual(31);
+            expect(tbody.find('tr:eq(0) td:eq(0)').text()).toEqual('foo0');
+            expect(tbody.find('tr:eq(29) td:eq(0)').text()).toEqual('foo29');
+
+            scrollTop = 300;
+            scrollListener();
+
+            expect(tbody.find('tr').length).toEqual(61);
+            expect(tbody.find('tr:eq(30) td:eq(0)').text()).toEqual('foo30');
+            expect(tbody.find('tr:eq(59) td:eq(0)').text()).toEqual('foo59');
+
+            scrollHeight = 800;
+            scrollTop = 600;
+            scrollListener();
+
+            expect(tbody.find('tr').length).toEqual(91);
+            expect(tbody.find('tr:eq(60) td:eq(0)').text()).toEqual('foo60');
+            expect(tbody.find('tr:eq(89) td:eq(0)').text()).toEqual('foo89');
+
+            scrollHeight = 1100;
+            scrollTop = 900;
+            scrollListener();
+
+            expect(tbody.find('tr').length).toEqual(100);
+            expect(tbody.find('tr:eq(90) td:eq(0)').text()).toEqual('foo90');
+            expect(tbody.find('tr:eq(99) td:eq(0)').text()).toEqual('foo99');
+
+            expect(tbody.find('tr:last-child td a').length).toEqual(0);
+          });
         });
     });
     
