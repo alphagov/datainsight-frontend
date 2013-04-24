@@ -143,8 +143,7 @@ describe("Table", function() {
             table.data = createData(100);
             table.renderBody(tbody);
             expect(tbody.find('tr').length).toEqual(31);
-            var loadMoreLink = tbody.find('tr:last-child td a');
-            expect(loadMoreLink.text()).toEqual('Show more rows…');
+            expect(tbody.find('tr:last-child td a.js-load-more').length).toEqual(1);
           });
 
           it("renders additional rows when user clicks on link in placeholder row", function() {
