@@ -15,14 +15,14 @@ nav.performance-nav #menu-toggle.open:after {
     content: " \25B2";
 }
 
-nav span.beta-tag {
+nav span.alpha-tag {
     padding: 2px 5px 2px 5px;
     margin-left: 5px;
-    background-color: #FF5A27;
+    background-color: #d53880;
     color: white;
 }
 
-nav a:hover .beta-tag {
+nav a:hover .alpha-tag {
     text-decoration: none;
 }
 
