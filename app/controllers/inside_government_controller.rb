@@ -78,7 +78,7 @@ class InsideGovernmentController < ApplicationController
   end
 
   def get_annotations
-    Annotations.load["details"]
+    Annotations.load["data"]
   end
 
   def get_policies

@@ -6,8 +6,8 @@ describe "Annotation files:" do
     describe File.basename(path) do
       it "should have the expected structure" do
         json = JSON.parse(File.read(path), symbolize_names: true)
-        json[:details].should be_an(Array)
-        json[:details].each { |annotation|
+        json[:data].should be_an(Array)
+        json[:data].each { |annotation|
           annotation[:date].should match /^\d{4}-\d{2}-\d{2}$/
           annotation[:date].should represent_a_valid Date
           annotation[:text].should_not be_nil
