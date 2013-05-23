@@ -70,17 +70,4 @@ describe "Inside Government API" do
     json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/content-engagement-detail.json"
   end
 
-  it "should expose annotations api endpoint" do
-    get "/performance/dashboard/government/annotations.json"
-
-    last_response.status.should == 200
-    last_response.content_type.should include "application/json"
-
-    json_result = JSON.parse(last_response.body)
-    json_result["response_info"]["status"].should == "ok"
-    json_result["id"].should == "http://datainsight-frontend.dev.gov.uk/performance/dashboard/government/annotations.json"
-    json_result["updated_at"].should represent_a_valid DateTime
-    json_result["details"].should have(2).annotations
-
-  end
 end

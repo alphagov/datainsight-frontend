@@ -7,6 +7,11 @@ describe "Inside Government Annotations" do
         "#{find_api_url('inside_government_base_url')}/visitors/weekly?limit=25",
         :body => JsonBuilder.inside_gov_weekly_visitors(start_date: "2012-12-02", end_date: "2013-01-19").to_json
     )
+    FakeWeb.register_uri(
+      :get,
+      Settings.annotation_url,
+      :body => File.read("config/annotations/inside_government_annotations.test.json")
+    )
   end
 
   it "should serve up the annotations json" do
