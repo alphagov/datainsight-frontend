@@ -51,4 +51,12 @@ module Settings
   def self.load_yaml(file_name)
     YAML.load(File.read(Rails.root.join("config", "environments", file_name)))
   end
+
+  def self.annotation_url
+    if Settings.feature_toggles[:annotations_from_backdrop]
+      "#{Rails.application.config.backdrop_url}/performance/government/api/annotations"
+    else
+      "/performance/dashboard/government/annotations.json"
+    end
+  end
 end

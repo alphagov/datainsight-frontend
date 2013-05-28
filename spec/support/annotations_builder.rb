@@ -9,6 +9,6 @@ class AnnotationsBuilder
   end
 
   def build
-    { "details" => @annotations, "updated_at" => "2013-01-09T12:00:00+00:00" }
+    { "data" => @annotations, "updated_at" => "2013-01-09T12:00:00+00:00" }
   end
 end
