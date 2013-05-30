@@ -1,4 +1,7 @@
+require "songkick/transport"
+
 module Annotations
+  Transport = Songkick::Transport::HttParty
 
   def self.load
     if Settings.feature_toggles[:annotations_from_backdrop]
