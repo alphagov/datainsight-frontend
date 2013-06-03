@@ -14,11 +14,6 @@ describe "Inside Government Annotations" do
     )
   end
 
-  it "should serve up the annotations json" do
-    visit "/performance/dashboard/government/annotations"
-    page.status_code.should == 200
-  end
-
   it "should render table of annotations" do
     visit "/performance/dashboard/government"
 
