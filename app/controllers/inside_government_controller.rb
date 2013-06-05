@@ -41,11 +41,7 @@ class InsideGovernmentController < ApplicationController
   end
 
   def annotations
-    serve_json do
-      json = Annotations.load
-      json["response_info"] = {"status" => "ok"}
-      json
-    end
+    redirect_to Settings.annotation_url, :status => :moved_permanently
   end
 
 
