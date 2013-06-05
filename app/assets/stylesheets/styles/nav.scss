@@ -29,13 +29,11 @@ a:hover .alpha-tag {
     width:100%;
     a {
         &.active {
-            color: lighten($primary-colour, 15%);
+            color: $white;
             border-bottom:1px solid $primary-colour;
         }
         &:hover {
             border-bottom:1px solid $primary-colour;
-        }
-        &:hover {
             text-decoration:none;
         }
     }
