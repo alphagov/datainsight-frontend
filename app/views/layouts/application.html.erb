@@ -7,6 +7,20 @@
 </head>
 
 <body>
+
+<nav id="proposition-menu">
+  <a href="/performance" id="proposition-name">
+    Performance Platform
+    <span class="alpha-tag">Alpha</span>
+  </a>
+  <ul id="proposition-links">
+    <li><a href="/performance/services" class="">Services</a></li>
+    <li><%= nav_link_to "GOV.UK dashboard", {controller: 'dashboard', action: 'index'} %></li>
+    <li><%= nav_link_to "Inside Government dashboard", {controller: 'inside_government', action: 'index'} %></li>
+  </ul>
+</nav>
+
+
 <!--[if lte IE 5]>
 <div id="wrapper" class="wrapper datainsight"><![endif]-->
 <!--[if IE 6]>
@@ -21,20 +35,6 @@
 <div id="wrapper" class="wrapper ie9 datainsight"><![endif]-->
 <!--[if !IE] -->
 <div id="wrapper" class="wrapper datainsight"><!-- [endif]-->
-
-
-  <nav class="performance-nav">
-    <%= link_to({controller: 'root', action: 'index'}, class: "top-level") do %>
-        <span class="top-level-link">Performance Platform</span>
-        <span class="beta-tag">BETA</span>
-    <% end %><a id="menu-toggle" href="#" data-hide-or-show="sub-level">menu</a>
-    <div class="inner-nav">
-      <ul id="navigation">
-        <li class="sub-level"><%= nav_link_to "Inside Government dashboard", {controller: 'inside_government', action: 'index'} %></li>
-        <li class="sub-level"><%= nav_link_to "GOV.UK dashboard", {controller: 'dashboard', action: 'index'} %></li>
-      </ul>
-    </div>
-  </nav>
 
   <section id="content" class="group category-page" role="main">
     <%= yield %>
