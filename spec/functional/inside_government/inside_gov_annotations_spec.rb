@@ -3,15 +3,22 @@ require "functional/test_helper"
 describe "Inside Government Annotations" do
   before do
     FakeWeb.register_uri(
-        :get,
-        "#{find_api_url('inside_government_base_url')}/visitors/weekly?limit=25",
-        :body => JsonBuilder.inside_gov_weekly_visitors(start_date: "2012-12-02", end_date: "2013-01-19").to_json
+      :get,
+      "#{find_api_url('inside_government_base_url')}/visitors/weekly?limit=25",
+      :body => JsonBuilder.inside_gov_weekly_visitors(start_date: "2012-12-02", end_date: "2013-01-19").to_json
     )
     FakeWeb.register_uri(
       :get,
       Settings.annotation_url,
       :body => File.read("config/annotations/inside_government_annotations.test.json")
     )
+  end
+
+  unless Settings.feature_toggles[:annotations_from_backdrop]
+    it "should serve up the annotations json" do
+      visit "/performance/dashboard/government/annotations"
+      page.status_code.should == 200
+    end
   end
 
   it "should render table of annotations" do
@@ -34,8 +41,8 @@ describe "Inside Government Annotations" do
 
     annotations = page.all("#inside-gov-annotations tbody tr").map do |tr|
       {
-          date: tr.find("td:nth-child(1)"),
-          comment: tr.find("td:nth-child(2)"),
+        date: tr.find("td:nth-child(1)"),
+        comment: tr.find("td:nth-child(2)"),
       }
     end
 
