@@ -12,10 +12,15 @@
     background-image: url("<%= asset_path('performance_graphs.svg') %>");
     background-repeat: no-repeat;
     background-position: 88% 0%;
+    max-width: none;
 }
 
 .lte-ie8 .datainsight .article-container {
     background-image: url("<%= asset_path('performance_graphs.png') %>");
+}
+
+#unique-visitors-module, #visits-module {
+    display: inline-block;
 }
 
 .datainsight .beta-warning {
