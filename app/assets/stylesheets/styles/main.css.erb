@@ -12,10 +12,15 @@
     background-image: url("<%= asset_path('performance_graphs.svg') %>");
     background-repeat: no-repeat;
     background-position: 88% 0%;
+    max-width: none;
 }
 
 .lte-ie8 .datainsight .article-container {
     background-image: url("<%= asset_path('performance_graphs.png') %>");
+}
+
+#unique-visitors-module, #visits-module {
+    display: inline-block;
 }
 
 .datainsight .beta-warning {
@@ -360,7 +365,6 @@ span.pink {
 .datainsight #content {
     background-color: #FFFFFF;
     padding-top: 1px;
-    padding-bottom: 40px;
     margin: 0 auto;
     border-top: 10px solid #097f96;
 }

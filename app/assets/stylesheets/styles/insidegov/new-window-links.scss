@@ -1,0 +1,19 @@
+a[target] {
+  &:after {
+    content: "\A0\A0\A0\A0\A0";
+    background: image-url("icon-newwindow.gif");
+    background-repeat: no-repeat;
+    background-position: right 4px;
+    text-decoration: none;
+    .callout-box & {
+      background-position: right 2px;
+    }
+  }
+
+  &:hover:after {
+    background-position: right -788px;
+    .callout-box & {
+      background-position: right -790px;
+    }
+  }
+}

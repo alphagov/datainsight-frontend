@@ -68,4 +68,16 @@ describe InsideGovernmentController do
 
   end
 
+  if Settings.feature_toggles[:annotations_from_backdrop]
+    describe "annotations" do
+      it "should redirect to backdrop URL" do
+        Settings.stub(:annotation_url).and_return('http://my.annotation.target')
+
+        get :annotations
+
+        response.code.should eq("302")
+        response.location.should eq("http://my.annotation.target")
+      end
+    end
+  end
 end

@@ -31,7 +31,7 @@ GOVUK.Insights.InsideGovernment.weeklyVisitors = function (weeklyVisitorsData, a
         .y(function (d) {
             return d.value;
         })
-        .annotations(annotations.details || [])
+        .annotations(annotations.data || [])
         .callout({
             content:calloutContent
         });
@@ -60,7 +60,7 @@ $(function () {
 
         $.when(
             $.ajax("/performance/dashboard/government/visitors/weekly.json"),
-            $.ajax("/performance/dashboard/government/annotations.json")
+            $.ajax("<%= Settings.annotation_url %>")
         )
         .done(function(r1, r2) {renderGraph(r1[0], r2[0]);})
         .fail(renderError);

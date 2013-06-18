@@ -1,5 +1,5 @@
 {
-  "details": [
+  "data": [
     {
       "date": "2012-10-17",
       "text": "GOV.UK website launched, including Inside Government holding page",
@@ -74,7 +74,22 @@
       "date": "2013-04-23",
       "text": "DfE transitions to Inside Government",
       "link": "https://www.gov.uk/government/news/the-new-home-on-the-web-for-the-department-for-education--2"
+    },
+    {
+      "date": "2013-04-25",
+      "text": "HM Treasury transitions to Inside Government",
+      "link": "http://digital.cabinetoffice.gov.uk/2013/04/25/welcome-dfe-and-hmt-to-govuk/"
+    },
+    {
+      "date": "2013-04-26",
+      "text": "UK Export Finance transitions to Inside Government",
+      "link": "https://www.gov.uk/government/news/welcome-to-the-new-home-on-the-web-for-uk-export-finance"
+    },
+    {
+      "date": "2013-04-30",
+      "text": "No 10 and the DPM move to GOV.UK",
+      "link": "http://digital.cabinetoffice.gov.uk/2013/04/30/no10-dpm-move-to-govuk/"
     }
   ],
-  "updated_at": "2013-04-23T13:46:08+00:00"
+  "updated_at": "2013-05-09T14:23:34+00:00"
 }

@@ -20,14 +20,14 @@ class InsideGovernmentController < ApplicationController
 
   def visitors_weekly
     respond_to do |format|
-      format.json { serve_json { api.inside_gov_weekly_visitors }}
+      format.json { serve_json { api.inside_gov_weekly_visitors } }
       format.png { serve_image("insidegov-weekly-visitors") }
     end
   end
 
   def format_success
     respond_to do |format|
-      format.json { serve_json { api.inside_gov_format_success }}
+      format.json { serve_json { api.inside_gov_format_success } }
       format.png { serve_image("insidegov-format-success") }
     end
   end
@@ -41,11 +41,16 @@ class InsideGovernmentController < ApplicationController
   end
 
   def annotations
-    serve_json do
-      json = Annotations.load
-      json["response_info"] = {"status" => "ok"}
-      json
+    if Settings.feature_toggles[:annotations_from_backdrop]
+      redirect_to Settings.annotation_url, :status => 302
+    else
+      serve_json do
+        json = Annotations.load
+        json["response_info"] = {"status" => "ok"}
+        json
+      end
     end
+
   end
 
 
@@ -78,7 +83,7 @@ class InsideGovernmentController < ApplicationController
   end
 
   def get_annotations
-    Annotations.load["details"]
+    Annotations.load["data"]
   end
 
   def get_policies
