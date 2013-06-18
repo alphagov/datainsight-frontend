@@ -2,7 +2,7 @@
 module ApplicationHelper
 
   def nav_link_to(text, options)
-    link_to text, options, class: (current_page?(options) ? 'current' : '')
+    link_to text, options, class: (current_page?(options) ? 'active' : '')
   end
 
   def allow_line_break_after_slash(text)
