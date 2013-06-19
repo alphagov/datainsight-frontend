@@ -58,7 +58,6 @@ article p {
     font-family: nta, arial, sans-serif;
     font-weight: lighter;
 }
-
 <% if Settings.feature_toggles[:use_tabular_numbers] %>
 #content #datainsight-dashboard * {
     font-family: ntatabularnumbers, nta, arial, sans-serif;
@@ -367,6 +366,7 @@ span.pink {
     background-color: #FFFFFF;
     padding-top: 1px;
     margin: 0 auto;
+    border-top: 10px solid #097f96;
 }
 
 .error {
@@ -471,12 +471,6 @@ td.number {
 
     /* hide home link */
 .header-context {
-    display: none;
-    visibility: hidden;
-}
-
-    /* hide help link and search box */
-header nav, header .search-help {
     display: none;
     visibility: hidden;
 }

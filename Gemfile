@@ -4,7 +4,7 @@ source "https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/"
 gem "rails", "3.2.13"
 
 gem "datainsight_logging", "~> 0.0.3"
-gem "slimmer", "~> 3.10.0"
+gem "slimmer", "~> 3.15.0"
 gem "songkick-transport", "~> 0.1.6", :git => "git://github.com/songkick/transport.git"
 gem "httparty", "~> 0.10.0"
 gem "airbrake", "3.1.5"
