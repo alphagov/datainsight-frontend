@@ -26,7 +26,7 @@ a:hover .alpha-tag {
 }
 
 #global-header .header-proposition #proposition-links li {
-    width:100%;
+    width:auto;
     a {
         &.active {
             color: $white;
@@ -39,9 +39,9 @@ a:hover .alpha-tag {
     }
 }
 
-@media (min-width: 769px) {
+@media (max-width: 768px) {
     #global-header .header-proposition #proposition-links li {
-        width:auto;
+        width:100%;
     }
 }
 
