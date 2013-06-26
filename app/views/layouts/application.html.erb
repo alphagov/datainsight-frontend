@@ -38,6 +38,11 @@
 
   <section id="content" class="group category-page" role="main">
     <%= yield %>
+    <script>
+        $(function () {
+            GOVUK.performance.stageprompt.setupForGoogleAnalytics();
+        });
+    </script>
     <div id="report-a-problem"></div>
   </section>
 </div>
@@ -46,6 +51,7 @@
 <footer>
   <%= javascript_include_tag 'vendor', 'helpers', 'widgets/toggle' %>
   <%= javascript_include_tag("vendor/d3.v2", "vendor/modernizr", "widgets/overlay") %>
+  <%= javascript_include_tag("analyticsCallbacks", "stageprompt") %>
   <%= yield :footer %>
 </footer>
 </html>

@@ -11,10 +11,11 @@
   <div id="format-success-legend"></div>
 
   <nav><ul id="format-success-tabs" class="tabs">
-    <li class="active" data-format="guide"><span>Guides</span></li>
-    <li data-format="answer"><span>Answers</span></li>
-    <li data-format="smart_answer"><span>Smart Answers</span></li>
-    <li data-format="programme"><span>Benefits</span></li>
+    <% dashboard = 'govuk' %>
+    <li data-journey-helper="contentExplorer:<%= dashboard %>:guidesTab" class="active" data-format="guide"><span>Guides</span></li>
+    <li data-journey-helper="contentExplorer:<%= dashboard %>:answerTab" data-format="answer"><span>Answers</span></li>
+    <li data-journey-helper="contentExplorer:<%= dashboard %>:smartAnswerTab" data-format="smart_answer"><span>Smart Answers</span></li>
+    <li data-journey-helper="contentExplorer:<%= dashboard %>:programmeTab" data-format="programme"><span>Benefits</span></li>
   </ul></nav>
   
   <div id="format-success-wrapper">
