@@ -1,3 +1,38 @@
+@import '_conditionals';
+@import '_typography';
+
+a[rel="external"] {
+    @include external-link-default;
+    @include external-link-19;
+
+    article td &,
+    article th & {
+        @include external-link-16;
+    }
+
+    .callout-box .link & {
+        @include external-link-14;
+    }
+
+    #format-success-module .callout-box .data-point-label & {
+        @include external-link-14;
+    }
+}
+
+a[rel="external"][target="_blank"]:after {
+
+    // hidden as it's not displayed correctly in IE8 due to browser bug
+    .lte-ie8 & {
+        display:none;
+    }
+
+    background-image: image-url("icon-newwindow.gif");
+    
+    @include device-pixel-ratio() {
+        background-image: image-url("icon-newwindow@2x.gif");
+    }
+}
+
 #narrative, #narrative span {
     font-size: 48px;
     font-size: 4.8rem;
