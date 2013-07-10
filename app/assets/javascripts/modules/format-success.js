@@ -241,6 +241,7 @@ GOVUK.Insights.plotFormatSuccessTable = function (data) {
                 if (d.url) {
                     return $('<a></a>').text(title).prop({
                         href: d.url,
+                        rel: 'external',
                         target: '_blank'
                     });
                 } else {
@@ -352,7 +353,8 @@ GOVUK.Insights.plotFormatSuccessDetail = function(data) {
         if (d.url) {
             label = $('<a></a>').html($('<span></span>').text(label)).prop({
                 href: d.url,
-                target: '_blank'
+                target: '_blank',
+                rel: 'external'
             });
         }
 

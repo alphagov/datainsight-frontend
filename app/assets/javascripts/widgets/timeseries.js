@@ -198,7 +198,7 @@ GOVUK.Insights.timeSeriesGraph = function () {
                 var annotation = hoveredAnnotation.datum();
 
                 var content = function(annotation, tailX) {
-                    var template = '<div><div class="data-point-label"></div><div class="details"><div class="text"></div><div class="link"><a>More info</a></div></div><div class="tail"><div></div></div></div></div>';
+                    var template = '<div><div class="data-point-label"></div><div class="details"><div class="text"></div><div class="link"><a rel="external">More info</a></div></div><div class="tail"><div></div></div></div></div>';
                     var displayFormat = d3.time.format("%d %B %Y");
                     var parseFormat = d3.time.format("%Y-%m-%d");
 
