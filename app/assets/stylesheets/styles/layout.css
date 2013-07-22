@@ -42,11 +42,11 @@ article.dashboard {
     max-width: 100%;
 }
 
-section .intro p {
+section.intro p {
     max-width: 19em;
 }
 
-section .more p {
+section.more p {
     max-width: 24em;
 }
 
