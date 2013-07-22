@@ -42,7 +42,11 @@ article.dashboard {
     max-width: 100%;
 }
 
-#about-performance-platform p {
+section .intro p {
+    max-width: 20em;
+}
+
+section .more p {
     max-width: 24em;
 }
 
