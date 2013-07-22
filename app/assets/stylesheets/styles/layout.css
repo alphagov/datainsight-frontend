@@ -42,8 +42,17 @@ article.dashboard {
     max-width: 100%;
 }
 
-#about-performance-platform p {
+section.intro p {
+    max-width: 19em;
+}
+
+section.more p {
     max-width: 24em;
+    margin-top: 0;
+}
+
+section.more h3 {
+    margin-bottom: 0;
 }
 
 #reach-legend {
