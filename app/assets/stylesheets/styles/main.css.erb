@@ -1,5 +1,11 @@
 .datainsight .page-header hgroup {
     margin-right: 7em;
+    padding: 1em 0 2em 2em;
+}
+
+.datainsight .page-header h1 {
+    font-size: 48px;
+    font-weight: 700;
 }
 
 .datainsight article p {
@@ -56,6 +62,10 @@ article p {
 
 #content * {
     font-family: nta, arial, sans-serif;
+}
+
+#datainsight-dashboard * {
+    font-weight: lighter;
 }
 
 <% if Settings.feature_toggles[:use_tabular_numbers] %>
@@ -364,9 +374,18 @@ span.pink {
 
 .datainsight #content {
     background-color: #FFFFFF;
-    padding-top: 1px;
     margin: 0 auto;
+}
+
+.header-bar {
+    padding-top: 1px;
+    max-width: 960px;
+    margin: 0 30px;
     border-top: 10px solid #097f96;
+}
+
+#wrapper {
+    border-bottom-color: #097f96;
 }
 
 .error {
