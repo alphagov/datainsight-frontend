@@ -15,12 +15,12 @@ bowl datainsight
 To run the `datainsight-frontend` project on it's own run the following from the `datainsight-frontend` project.
 
 ```
-bundle exec rake unicorn -p 3027
+bundle exec rackup -p 3027
 ```
 
 To run the `datainsight-frontend` project on it's own with stub data.
 
 ```
-USE_STUB_DATA=1 bundle exec rake unicorn -p 3027
+USE_STUB_DATA=1 bundle exec rackup -p 3027
 ```
 
