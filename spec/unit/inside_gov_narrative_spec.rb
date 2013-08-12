@@ -10,22 +10,22 @@ describe InsideGovNarrative do
 
   it "should create a narrative from weekly visitors" do
     narrative = InsideGovNarrative.new(build_narrative(week_before:3945072, last_week:3505337))
-    narrative.content.should == 'Inside Government had 3.51 million visitors last week, <red>a decrease of 11%</red> from the week before'
+    narrative.content.should == 'Departments and policy content had 3.51 million visitors last week, <red>a decrease of 11%</red> from the week before'
   end
 
   it "should mark up the content correctly for a percentage increase" do
     narrative = InsideGovNarrative.new(build_narrative(week_before:3000000, last_week:3300000))
-    narrative.content.should == "Inside Government had 3.30 million visitors last week, <green>an increase of 10%</green> from the week before"
+    narrative.content.should == "Departments and policy content had 3.30 million visitors last week, <green>an increase of 10%</green> from the week before"
   end
 
   it "should not mark up the content when the increase is less than 1%" do
     narrative_for_increase_below_1 = InsideGovNarrative.new(build_narrative(week_before:3000000, last_week:3014900))
-    narrative_for_increase_below_1.content.should == "Inside Government had 3.01 million visitors last week, about the same as the week before"
+    narrative_for_increase_below_1.content.should == "Departments and policy content had 3.01 million visitors last week, about the same as the week before"
   end
 
   it "should not mark up the content when the decrease is less than 1%" do
     narrative_for_decrease_below_1 = InsideGovNarrative.new(build_narrative(week_before:3000000, last_week:2985001))
-    narrative_for_decrease_below_1.content.should == "Inside Government had 2.99 million visitors last week, about the same as the week before"
+    narrative_for_decrease_below_1.content.should == "Departments and policy content had 2.99 million visitors last week, about the same as the week before"
   end
 
   it "should be empty when data is nil" do
