@@ -1,6 +1,6 @@
 class InsideGovNarrative < Narrative
   def site_name
-    "Inside Government"
+    "Departments and policy content"
   end
 
   def extract_values(data)

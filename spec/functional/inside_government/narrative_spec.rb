@@ -8,6 +8,6 @@ describe "The narrative" do
     visit "/performance/dashboard/government"
 
     page.status_code.should == 200
-    page.find("#narrative").text.should == "Inside Government had 204k visitors last week, an increase of 81% from the week before"
+    page.find("#narrative").text.should == "Departments and policy content had 204k visitors last week, an increase of 81% from the week before"
   end
 end

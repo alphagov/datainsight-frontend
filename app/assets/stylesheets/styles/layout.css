@@ -21,7 +21,7 @@ section.content-group article {
 }
 
 section.content-group > h1 {
-    border-bottom: 5px solid #108095;
+    border-bottom: 2px solid #108095;
     padding: 16px 0 8px 0;
     margin: 16px 0 16px 0;
 }
