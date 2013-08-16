@@ -47,12 +47,14 @@
     <div class="header-bar"></div>
 
     <% if ['dashboard', 'inside_government'].include? controller.controller_name %>
-    <nav class="performance-nav">
-      <ul>
-        <li><%= nav_link_to "GOV.UK overview", {controller: 'dashboard', action: 'index'} %></li>
-        <li><%= nav_link_to "Departments and policy", {controller: 'inside_government', action: 'index'} %></li>
-      </ul>
-    </nav>
+    <div class="performance-nav">
+      <nav>
+        <ul>
+          <li><%= nav_link_to "GOV.UK overview", {controller: 'dashboard', action: 'index'} %></li>
+          <li><%= nav_link_to "Departments and policy", {controller: 'inside_government', action: 'index'} %></li>
+        </ul>
+      </nav>
+    </div>
     <% end %>
 
     <%= yield %>
