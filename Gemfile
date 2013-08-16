@@ -9,7 +9,7 @@ gem "songkick-transport", "~> 0.1.6", :git => "git://github.com/songkick/transpo
 gem "httparty", "~> 0.10.0"
 gem "airbrake", "3.1.5"
 gem "unicorn", "~> 4.4.0"
-gem "whenever", "~> 0.8.0"
+gem "whenever", "~> 0.8.4"
 gem "plek", "~> 1.1.0"
 gem "govuk_frontend_toolkit", "~> 0.33.0"
 
