@@ -53,10 +53,10 @@ module Settings
   end
 
   def self.annotation_url
-    if Settings.feature_toggles[:annotations_from_backdrop]
-      "#{Rails.application.config.backdrop_url}/performance/government/api/annotations"
-    else
-      "/performance/dashboard/government/annotations.json"
-    end
+    "#{Rails.application.config.backdrop_url}/performance/government/api/annotations"
+  end
+
+  def self.annotation_url_external
+    "#{Rails.application.config.backdrop_url_external}/performance/government/api/annotations"
   end
 end
