@@ -60,7 +60,7 @@ $(function () {
 
         $.when(
             $.ajax("/performance/dashboard/government/visitors/weekly.json"),
-            $.ajax("<%= Settings.annotation_url %>")
+            $.ajax("<%= Settings.annotation_url_external %>")
         )
         .done(function(r1, r2) {renderGraph(r1[0], r2[0]);})
         .fail(renderError);

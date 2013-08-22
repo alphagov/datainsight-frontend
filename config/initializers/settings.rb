@@ -55,4 +55,8 @@ module Settings
   def self.annotation_url
     "#{Rails.application.config.backdrop_url}/performance/government/api/annotations"
   end
+
+  def self.annotation_url_external
+    "#{Rails.application.config.backdrop_url_external}/performance/government/api/annotations"
+  end
 end
