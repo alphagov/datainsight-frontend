@@ -41,16 +41,7 @@ class InsideGovernmentController < ApplicationController
   end
 
   def annotations
-    if Settings.feature_toggles[:annotations_from_backdrop]
-      redirect_to Settings.annotation_url, :status => 302
-    else
-      serve_json do
-        json = Annotations.load
-        json["response_info"] = {"status" => "ok"}
-        json
-      end
-    end
-
+    redirect_to Settings.annotation_url, :status => 302
   end
 
 
