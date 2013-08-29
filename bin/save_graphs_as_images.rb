@@ -4,11 +4,11 @@ require "airbrake"
 require_relative "../config/initializers/errbit"
 
 LOGGER = Logger.new(STDOUT)
-PORT = ARGV[0]
+BASE_URL = ARGV[0]
 OUTPUT_DIR = ARGV[1] || "/var/tmp/graphs"
 
 def save_as_image(route, output_filename, div_selector)
-  url = "http://localhost:#{PORT}/#{route}"
+  url = "#{BASE_URL}/#{route}"
   output_location = "#{OUTPUT_DIR}/#{output_filename}.png"
   LOGGER.info("Generating image for #{url}")
   phantomjs_bin = "/usr/local/bin/phantomjs"
