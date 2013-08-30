@@ -20,7 +20,7 @@ GOVUK.Insights.visits = function () {
                             "lineClass":"dashed-line brown",
                             "legend": {
                                 "text": "Directgov",
-                                "anchor": "2012-04-01",
+                                "anchor": "2012-07-01",
                                 "xOffset": 10,
                                 "yOffset": 30
                             }
@@ -29,7 +29,7 @@ GOVUK.Insights.visits = function () {
                             "lineClass":"dashed-line purple",
                             "legend": {
                                 "text": "Business Link",
-                                "anchor": "2012-04-01",
+                                "anchor": "2012-07-01",
                                 "xOffset": 10,
                                 "yOffset": -10
                             }
@@ -38,7 +38,7 @@ GOVUK.Insights.visits = function () {
                             "lineClass":"main-line",
                             "legend": {
                                 "text":"GOV.UK",
-                                "anchor": "2013-04-6",
+                                "anchor": "2013-07-6",
                                 "xOffset": 0,
                                 "yOffset": 25
                             }
