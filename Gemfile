@@ -4,14 +4,14 @@ source "https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/"
 gem "rails", "3.2.13"
 
 gem "datainsight_logging", "~> 0.0.3"
-gem "slimmer", "~> 3.15.0"
+gem "slimmer", "3.20.0"
 gem "songkick-transport", "~> 0.1.6", :git => "git://github.com/songkick/transport.git"
 gem "httparty", "~> 0.10.0"
 gem "airbrake", "3.1.5"
 gem "unicorn", "~> 4.4.0"
 gem "whenever", "~> 0.8.4"
 gem "plek", "~> 1.1.0"
-gem "govuk_frontend_toolkit", "~> 0.33.0"
+gem "govuk_frontend_toolkit", "0.35.0"
 
 group :assets do
   gem "sass-rails", "~> 3.2.3"
