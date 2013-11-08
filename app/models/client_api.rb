@@ -42,7 +42,7 @@ class ClientAPI
   end
 
   def inside_gov_weekly_visitors
-    get("inside_government_base_url", "/visitors/weekly?limit=25")
+    get_backdrop("/performance/test/api/test?period=week&collect=visitors")
   end
 
   def inside_gov_content_engagement_detail
@@ -52,6 +52,18 @@ class ClientAPI
   private
   def get(base, path)
     transport(Plek.new.find(@api_urls[base])).get(path).data
+  end
+
+  def get_backdrop(path)
+    backdrop_data = transport("http://publicapi.dev.gov.uk").get(path).data
+    datainsight_data = backdrop_data["data"].map do |entry|
+      {
+          "start_at" => Date.iso8601(entry["_start_at"]).to_s,
+          "end_at" => Date.iso8601(entry["_end_at"]).to_s,
+          "value" => entry["visitors"].first
+      }
+    end
+    return { "response_info" => { "status" => "ok" }, "details" => { "data" => datainsight_data} }
   end
 
   def transport(host)
