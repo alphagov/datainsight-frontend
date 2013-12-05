@@ -20,8 +20,8 @@ GOVUK.Insights.visits = function () {
                             "lineClass":"dashed-line brown",
                             "legend": {
                                 "text": "Directgov",
-                                "anchor": "2012-10-01",
-                                "xOffset": 10,
+                                "anchor": "2012-07-01",
+                                "xOffset": 160,
                                 "yOffset": 30
                             }
                         },
@@ -29,8 +29,8 @@ GOVUK.Insights.visits = function () {
                             "lineClass":"dashed-line purple",
                             "legend": {
                                 "text": "Business Link",
-                                "anchor": "2012-10-01",
-                                "xOffset": 10,
+                                "anchor": "2012-07-01",
+                                "xOffset": 160,
                                 "yOffset": -10
                             }
                         },
@@ -40,7 +40,7 @@ GOVUK.Insights.visits = function () {
                                 "text":"GOV.UK",
                                 "anchor": "2013-10-06",
                                 "xOffset": 0,
-                                "yOffset": 25
+                                "yOffset": 50
                             }
                         }
                     },
