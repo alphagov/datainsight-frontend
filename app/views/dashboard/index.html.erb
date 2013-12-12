@@ -1,12 +1,22 @@
 <% content_for :title do %>GOV.UK performance - GOV.UK<% end %>
 
+<div class="" id="global-breadcrumb">
+  <ol class="group" role="breadcrumbs">
+    <li><a href="/performance">Performance</a></li>
+  </ol>
+</div>
+
 <article id="datainsight-dashboard">
   <section class="content-group">
     <header>
       <h1 class='page-title'>
           <span class="strapline">GOV.UK performance</span>
-          GOV.UK overview
+          Activity on GOV.UK
       </h1>
+      <p class="explanatory">Web traffic on our site, including a look at how our content is being used.
+        You can also see activity on the  <%= nav_link_to "departments and policy", {controller: 'inside_government',
+                                                                                     action: 'index'} %>
+        section of GOV.UK.</p>
     </header>
   </section>
 

@@ -13,16 +13,6 @@
     Performance
     <span class="alpha-tag">Alpha</span>
   </a>
-  <ul id="proposition-links">
-    <li><a href="/performance/services" class="">Services</a></li>
-    <li>
-      <% navClassName = 'active' if ['dashboard', 'inside_government'].include? controller.controller_name %>
-      <%= link_to({controller: 'dashboard', action: 'index'}, class: navClassName ) do %>
-        GOV.UK performance
-      <% end %>
-    </li>
-    <li><a href="/performance/transactions-explorer" class="">Transactions Explorer</a></li>
-  </ul>
 </nav>
 
 
@@ -42,18 +32,6 @@
 <div id="wrapper" class="wrapper datainsight"><!-- [endif]-->
 
   <section id="content" class="group category-page" role="main">
-    <div class="header-bar"></div>
-
-    <% if ['dashboard', 'inside_government'].include? controller.controller_name %>
-    <div class="performance-nav">
-      <nav>
-        <ul>
-          <li><%= nav_link_to "GOV.UK overview", {controller: 'dashboard', action: 'index'} %></li>
-          <li><%= nav_link_to "Departments and policy", {controller: 'inside_government', action: 'index'} %></li>
-        </ul>
-      </nav>
-    </div>
-    <% end %>
 
     <%= yield %>
 

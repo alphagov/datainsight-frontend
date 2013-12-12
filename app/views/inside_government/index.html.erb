@@ -2,6 +2,13 @@
 
 <%= javascript_include_tag("widgets/inside-government-presenter") %>
 
+<div class="" id="global-breadcrumb">
+  <ol class="group" role="breadcrumbs">
+    <li><a href="/performance">Performance</a></li>
+    <li><%= nav_link_to "Activity on GOV.UK", {controller: 'dashboard', action: 'index'} %></li>
+  </ol>
+</div>
+
 <article id="datainsight-dashboard">
   <section class="content-group">
     <header>
@@ -9,6 +16,8 @@
           <span class="strapline">GOV.UK performance</span>
           Departments and policy
       </h1>
+      <p class="explanatory">Showing activity on the departments and policy section of GOV.UK.
+        You can also see all <%= nav_link_to "activity on GOV.UK", {controller: 'dashboard', action: 'index'} %>.</p>
     </header>
   </section>
 
