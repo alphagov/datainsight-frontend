@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.org/alphagov/datainsight-frontend.png?branch=master)](https://travis-ci.org/alphagov/datainsight-frontend)
+
 # Data Insights Web
 
 This is the web front end for the data insights platform. It serves up graphs and data from the data insights platform.
