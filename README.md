@@ -1,4 +1,4 @@
-![Build Status](https://travis-ci.org/alphagov/datainsight-frontend.png?branch=master)
+[![Build Status](https://travis-ci.org/alphagov/datainsight-frontend.png?branch=master)](https://travis-ci.org/alphagov/datainsight-frontend)
 
 # Data Insights Web
 
