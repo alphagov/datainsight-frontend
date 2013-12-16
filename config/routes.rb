@@ -1,6 +1,6 @@
 DataInsightFrontend::Application.routes.draw do
 
-  root :to => redirect("/performance")
+  root :to => redirect("/performance/dashboard")
 
   scope "/performance" do
     match "/" => "root#index", via: :get, as: 'root'
