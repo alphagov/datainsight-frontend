@@ -21,18 +21,12 @@
   </section>
 
   <section class="content-group">
-    <%= render partial: "dashboard/modules/narrative" %>
-  </section>
-
-  <section class="content-group">
-    <h1>Web traffic</h1>
     <%= render partial: "dashboard/modules/hourly_traffic" %>
     <%= render partial: "dashboard/modules/visits" %>
     <%= render partial: "dashboard/modules/unique_visitors" %>
   </section>
 
   <section id="content-explorer" class="content-group">
-    <h1 class="one-up">Content</h1>
     <%= render partial: "dashboard/modules/format_success" %>
   </section>
 </article>
