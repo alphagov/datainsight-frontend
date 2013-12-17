@@ -22,20 +22,11 @@ span.alpha-tag {
 }
 
 a:hover .alpha-tag {
-    text-decoration: none;
+  text-decoration: none;
 }
 
-#global-header .header-proposition #proposition-links li {
-    a {
-        &.active {
-            color: $white;
-            border-bottom:1px solid $primary-colour;
-        }
-        &:hover {
-            border-bottom:1px solid $primary-colour;
-            text-decoration:none;
-        }
-    }
+#global-header .header-proposition a.menu {
+  display: none;
 }
 
 .performance-nav {
@@ -93,7 +84,7 @@ a:hover .alpha-tag {
   #global-header span.alpha-tag {
     display:none;
   }
-  
+
   nav.performance-nav {
     ul {
       li {
