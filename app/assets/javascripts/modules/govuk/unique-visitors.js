@@ -21,8 +21,8 @@ GOVUK.Insights.uniqueVisitors = function () {
                             "legend": {
                                 "text": "Directgov",
                                 "anchor": "2012-07-01",
-                                "xOffset": 140,
-                                "yOffset": 40
+                                "xOffset": 160,
+                                "yOffset": 100
                             }
                         },
                         "businesslink":{
@@ -30,8 +30,8 @@ GOVUK.Insights.uniqueVisitors = function () {
                             "legend": {
                                 "text": "Business Link",
                                 "anchor": "2012-07-01",
-                                "xOffset": 140,
-                                "yOffset": -10
+                                "xOffset": 180,
+                                "yOffset": 180
                             }
                         },
                         "govuk":{

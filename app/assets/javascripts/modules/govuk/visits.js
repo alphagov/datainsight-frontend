@@ -22,7 +22,7 @@ GOVUK.Insights.visits = function () {
                                 "text": "Directgov",
                                 "anchor": "2012-07-01",
                                 "xOffset": 160,
-                                "yOffset": 30
+                                "yOffset": 125
                             }
                         },
                         "businesslink":{
@@ -30,8 +30,8 @@ GOVUK.Insights.visits = function () {
                             "legend": {
                                 "text": "Business Link",
                                 "anchor": "2012-07-01",
-                                "xOffset": 160,
-                                "yOffset": -10
+                                "xOffset": 180,
+                                "yOffset": 190
                             }
                         },
                         "govuk":{
